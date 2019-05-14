@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class User::SessionsController < Devise::SessionsController
+  
+  before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:create]
+  skip_before_action :verify_authenticity_token, only: [:create]
+
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -15,12 +20,24 @@ class User::SessionsController < Devise::SessionsController
 
     if resource.valid_password?(params[:user][:password])
       sign_in :user, resource
-      return render nothing: true
+      return render json: { success: "sucesso" }, status: 200
     end
-
+    
     invalid_login_attempt
   end
 
+  def logged
+    unless current_user.nil?
+      render json:  true  , status: 200
+    else
+      render json: false  , status: 404
+    end
+  end
+
+  #def current_user
+  #  render json: current_user , status: 200
+  #end
+  
   # DELETE /resource/sign_out
   # def destroy
   #   super
@@ -36,6 +53,6 @@ class User::SessionsController < Devise::SessionsController
   protected
   def invalid_login_attempt
     set_flash_message(:alert, :invalid)
-    render json: flash[:alert], status: 401
+    render json: {error: "Usuário ou senha estão errados"}, status: 401
   end
 end

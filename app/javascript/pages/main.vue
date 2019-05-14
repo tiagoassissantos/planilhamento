@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <navbar/>
+    <div v-if="!isLogged"> 
+      <navbar/>
+    </div>
+
+    <div v-if="isLogged">
+      <nav-bar-user></nav-bar-user>
+    </div>
     <router-view></router-view>
     <footer/>
   </div>
@@ -8,14 +14,22 @@
 
 <script>
   import navbar from "../components/navbar.vue";
+  import navBarUser from '../components/navBarUser.vue'
   import footer from "../components/footer.vue";
 
   export default {
-    components: { navbar, footer },
+    components: { navbar, footer, navBarUser },
+
+    computed: {
+      isLogged() {
+        return this.$store.state.logged
+      }
+    },
 
     mounted() {
-      //this.$store.dispatch('isLogged');
-    },
+      this.$store.dispatch('isLogged');
+    }
+    
   };
 </script>
 

@@ -1,7 +1,8 @@
 <template>
   <div id="app" class="main-page background-system">
     <div class="login-page">
-
+      
+      <div class="header-form"></div>
       <form class="" action="/users/sign_in" method="POST" @submit.prevent="submit">
 
         <div class="container">
@@ -12,7 +13,7 @@
           <b-alert v-if="error" show dismissible variant="danger"> Verifique seu Login e Senha.</b-alert>
 
           <div class="form-group">
-            <label class="sr-only" for="inlineFormInputGroup">Email</label>
+            <label class="sr-only" for="inlineFormInputGroup"> Email </label>
             <div class="input-group">
               <div class="input-group-prepend ">
                 <div class="input-group-text icon-input">
@@ -25,6 +26,7 @@
                 class="form-control input-color"
                 id="inlineFormInputGroup"
                 placeholder="E-mail"
+                v-model="email"
               >
             </div>
           </div>
@@ -43,15 +45,10 @@
                 class="form-control input-color"
                 id="inlineFormInputGroup"
                 placeholder="Senha"
+                v-model="password"
               >
             </div>
           </div>
-          <br>
-
-          <div v-show='error' class="alert alert-danger" role="alert">
-            {{error_text}}
-          </div>
-
           <center>
             <button type="submit" class="btn btn-primary submit-form ">Entrar</button>
           </center>
@@ -80,11 +77,7 @@
       };
     },
 
-    computed: {
-      logged() {
-        return this.$store.state.logged
-      }
-    },
+    computed: { },
 
     mounted() {
       /*if ( this.$route.params.error) {
@@ -103,6 +96,7 @@
     },
 
     methods: {
+
       sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       },
@@ -128,6 +122,9 @@
 
         let response = null;
         let data = {user: {email: this.email, password: this.password}}
+
+
+        console.log( data )
         await this.$http
           .post("/users/sign_in", JSON.stringify(data))
           .then(resp => { response = resp })
@@ -138,7 +135,7 @@
         if (response.status == 200) {
           this.$router.push('dashboard');
 
-        } else if (response.status == 404) {
+        } else if (response.status == 401) {
           this.error_text = 'Usuário ou senha estão errados';
           this.error = true;
 

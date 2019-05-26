@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class User::SessionsController < Devise::SessionsController
-  
+
   before_action :authenticate_user!
   skip_before_action :authenticate_user!, only: [:create]
-  skip_before_action :verify_authenticity_token, only: [:create]
+  skip_before_action :verify_authenticity_token, only: [:create, :destroy]
 
   # before_action :configure_sign_in_params, only: [:create]
 
@@ -22,7 +22,7 @@ class User::SessionsController < Devise::SessionsController
       sign_in :user, resource
       return render json: { success: "sucesso" }, status: 200
     end
-    
+
     invalid_login_attempt
   end
 
@@ -37,7 +37,7 @@ class User::SessionsController < Devise::SessionsController
   #def current_user
   #  render json: current_user , status: 200
   #end
-  
+
   # DELETE /resource/sign_out
   # def destroy
   #   super

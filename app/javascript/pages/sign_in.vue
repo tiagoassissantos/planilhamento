@@ -1,7 +1,9 @@
 <template>
   <div id="app" class="main-page background-system">
+    <navbar/>
+
     <div class="login-page">
-      
+
       <div class="header-form"></div>
       <form class="" action="/users/sign_in" method="POST" @submit.prevent="submit">
 
@@ -67,7 +69,11 @@
 </template>
 
 <script>
+  import navbar from "../components/navbar.vue";
+
   export default {
+    components: { navbar},
+
     data: () => {
       return {
         email: '',
@@ -133,7 +139,7 @@
         console.log(response);
 
         if (response.status == 200) {
-          this.$router.push('dashboard');
+          location.href = "/user-area";
 
         } else if (response.status == 401) {
           this.error_text = 'Usuário ou senha estão errados';
@@ -155,11 +161,12 @@
 
 <style scoped>
   .main-page {
-    margin-top: 35px;
+    /**/
   }
 
   .login-page {
-    max-width: 500px;
     margin: 0 auto;
+    margin-top: 35px;
+    max-width: 500px;
   }
 </style>

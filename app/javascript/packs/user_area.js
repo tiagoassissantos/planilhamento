@@ -4,21 +4,26 @@ import VueResource from "vue-resource/dist/vue-resource";
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
 
+import 'bootstrap';
+
 //css
 import 'bootstrap/dist/css/bootstrap.css';
 //import '../../../app/javascript/assets/stylesheets/standarts.scss'
 
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-library.add(faEnvelope, faKey, faUser);
+library.add(faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 //pages
-import App from '../pages/main';
-import sign_in from '../pages/sign_in';
-//import forgot_password from '../components/landing_pages/forgot_password.vue'
+import App from '../pages/UserArea';
+import dashboard from '../pages/dashboard';
+import ListLots from '../components/lots/List.vue';
+import NewLot from '../components/lots/New.vue';
+import NewLotItem from '../components/lots/NewItem.vue';
+import ShowLot from '../components/lots/ShowLot.vue';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -26,11 +31,11 @@ Vue.use(BootstrapVue);
 
 const router = new VueRouter({
   routes: [
-    {
-      path: "/",
-      component: sign_in,
-      props: true
-    }
+    { path: "/", component: dashboard, props: true },
+    { path: "/lots", component: ListLots, props: true },
+    { path: "/lots/new", component: NewLot, props: true },
+    { path: "/lots/:lot_id/new-item", component: NewLotItem, props: true },
+    { path: "/lots/:lot_id", component: ShowLot, props: true }
   ]
 })
 

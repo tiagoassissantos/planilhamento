@@ -1,11 +1,9 @@
 import Vue from 'vue/dist/vue';
 import Vuex from 'vuex';
 import VueResource from "vue-resource/dist/vue-resource";
-import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(Vuex);
 Vue.use(VueResource);
-Vue.use(BootstrapVue)
 
 //styles
 import '../../styles/global.scss'

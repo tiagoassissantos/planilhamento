@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class='container'>
     <h1>Dashboard</h1>
     {{ isLogged }}
   </div>
@@ -7,10 +7,15 @@
 
 <script>
   import navbar from "../components/navBarUser.vue";
-  import footer from "../components/footer.vue";
 
   export default {
-    components: { navbar, footer },
+    components: { navbar },
+
+    computed: {
+      isLogged() {
+        return this.$store.state.logged
+      }
+    },
 
     mounted() {
       this.$store.dispatch('isLogged');
@@ -21,5 +26,5 @@
   };
 </script>
 
-<style>
+<style scoped>
 </style>

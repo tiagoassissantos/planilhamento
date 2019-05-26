@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: localhost
+
+development:
+  <<: *default
+  database: gag_development
+  user: "postgres"
+  password: "root"
+
+test:
+  <<: *default
+  database: gag_test
+  user: "postgres"
+  password: "root"
+
+production:
+  <<: *default
+  database: mescladora-gag_production
+  username: mescladora-gag
+  password: <%= ENV['MESCLADORA-GAG_DATABASE_PASSWORD'] %>

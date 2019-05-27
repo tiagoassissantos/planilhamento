@@ -17,7 +17,7 @@
           <div class='row'>
             <div class="col-sm-8">
               <div class="form-group">
-                <input class="form-control" type="text" v-model='hardware_type.name' placeholder="Tipo de Hardware" />
+                <input class="form-control" type="text" v-model='manufacturer.name' placeholder="Nome do Processador" />
               </div>
             </div>
 
@@ -39,12 +39,12 @@
 
     data() {
       return {
-        hardware_type: {
+        processor: {
           name: ''
         },
         loader: null,
         edit: false,
-        hardware_id: null,
+        manufacturer_id: null,
         error: false,
         messageClass: '',
         message: '',
@@ -63,14 +63,14 @@
     mounted() {
       this.$store.dispatch('isLogged');
       
-      this.hardware_id = this.$route.params.hardware_id
-      if( this.hardware_id != null){
+      this.manufacturer_id = this.$route.params.manufacturer_id
+      if( this.manufacturer_id != null){
         this.edit = true
-        this.getHardwareType()
-        this.header_text = 'Editar dados do Hardware'
+        this.getManufacturer()
+        this.header_text = 'Editar Processador'
         this.button_text = 'Editar'
       }else{
-        this.header_text = 'Novo Tipo de Hardware'
+        this.header_text = 'Novo Processador'
         this.button_text = 'Cadastrar'
       }
     },
@@ -83,7 +83,8 @@
         
         if(this.edit){
           console.log("++++")
-          await this.$http.put(`/hardware_types/${this.hardware_id}`, JSON.stringify({hardware_type: this.hardware_type}))
+          await this.$http.put(`/manufacturer/${this.manufacturer_id}`, 
+          JSON.stringify({manufacturer: this.manufacturer}))
           .then((result) => {
             response = result;  
           }).catch((err) => {
@@ -92,7 +93,7 @@
 
         }else{
                   
-          await this.$http.post("/hardware_types", this.hardware_type)
+          await this.$http.post("/processors", this.processor)
             .then(resp => {
               response = resp;
             })
@@ -105,7 +106,7 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.$router.push('/hardware-types')
+          this.$router.push('/processorss')
 
         } else {
           this.messageClass = "danger";
@@ -125,13 +126,12 @@
         });
       },
 
-      async getHardwareType(){
+      async getManufacturer(){
         let response = null;
         
-        await this.$http.get(`/hardware_types/${this.hardware_id}`)
+        await this.$http.get(`/manufacturer/${this.manufacturer_id}`)
         .then((result) => {
-          this.hardware_type =  result.body
-          console.log( this.hardware_type )
+          this.manufacturer =  result.body
         }).catch((err) => {
           response = err.body
         });

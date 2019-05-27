@@ -19,7 +19,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/lots" class="nav-link active text-light">
+            <router-link to="/manufacturers" class="nav-link active text-light">
               Fabricante
             </router-link>
           </li>
@@ -39,7 +39,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/lots" class="nav-link active text-light">
+            <router-link to="/processors" class="nav-link active text-light">
               Processadores
             </router-link>
           </li>

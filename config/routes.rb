@@ -12,4 +12,10 @@ Rails.application.routes.draw do
   get 'hardware_types' => 'hardware_types#index'
   post 'hardware_types' => 'hardware_types#create'
   get 'hardware_types/:id' => 'hardware_types#show'
+  put 'hardware_types/:id' => 'hardware_types#update'
+  delete 'hardware_types/:id' => 'hardware_types#destroy'
+
+  resources :manufacturer, only: [:index, :create, :destroy, :show, :update]
+  resources :processors, only: [:index, :create, :destroy, :show, :update]
+  
 end

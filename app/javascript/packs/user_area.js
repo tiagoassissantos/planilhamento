@@ -30,6 +30,12 @@ import ShowLot from '../components/lots/ShowLot.vue';
 import HardwareTypeList from '../components/registrations/HardwareTypeList.vue'
 import HardwareTypeNew from '../components/registrations/HardwareTypeNew.vue'
 
+import ManufacturerList from '../components/registrations/ManufacturerList.vue'
+import ManufacturerNew from '../components/registrations/ManufacturerNew.vue'
+
+import ProcessorsList from '../components/registrations/ProcessorsList.vue'
+import ProcessorsNew from '../components/registrations/ProcessorsNew.vue'
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
@@ -43,7 +49,15 @@ const router = new VueRouter({
     { path: "/lots/:lot_id/new-item", component: NewLotItem, props: true },
     { path: "/lots/:lot_id", component: ShowLot, props: true },
     { path: "/hardware-types", component: HardwareTypeList, props: true },
-    { path: "/hardware-types/new", component: HardwareTypeNew, props: true }
+    { path: "/hardware-types/new", component: HardwareTypeNew, props: true },
+    { path: "/hardware-types/:hardware_id", component: HardwareTypeNew, props: true, name: 'hardware-type' },
+    { path: "/manufacturers", component: ManufacturerList, props: true },
+    { path: "/manufacturer/new", component: ManufacturerNew, props: true },
+    { path: "/manufacturer/:manufacturer_id", component: ManufacturerNew, props: true, name: 'manufacturer' },
+    { path: "/processors", component: ProcessorsList, props: true },
+    { path: "/processor/new", component: ProcessorsNew, props: true },
+
+    
   ]
 })
 

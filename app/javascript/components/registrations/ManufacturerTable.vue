@@ -11,22 +11,22 @@
       <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">Tipo</th>
+          <th scope="col">Nome</th>
           <th scope="col">Editar</th>
           <th scope="col">Excluir</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for='(h_type, index) in hardware_types' :key="index">
-          <td>{{h_type.id}}</td>
-          <td>{{h_type.name}}</td>
+        <tr v-for='(manufacturer, index) in manufacturers' :key="index">
+          <td>{{manufacturer.id}}</td>
+          <td>{{manufacturer.name}}</td>
           <td>
-            <router-link :to="{ name: 'hardware-type', params: {hardware_id: h_type.id}}">
+            <router-link :to="{ name: 'manufacturer', params: {manufacturer_id: manufacturer.id}}">
               <img src='../../../assets/images/editar.png'/>
             </router-link>
           </td>
           <td>
-            <img @click="deleteHardWare(h_type.id)" src='../../../assets/images/excluir.png'/>
+            <img @click="deleteManufacturer(manufacturer.id)" src='../../../assets/images/excluir.png'/>
           </td>
         </tr>
       </tbody>
@@ -40,7 +40,7 @@
 
     data() {
       return {
-        hardware_types: [],
+        manufacturers: [],
         showAlert: false,
         message: '',
         messageClass: ''
@@ -55,13 +55,13 @@
     },
 
     mounted() {
-      this.getHardwareTypes();
+      this.getManufacturers();
     },
 
     methods: {
-      async getHardwareTypes() {
+      async getManufacturers() {
         let response = null;
-        await this.$http.get('/hardware_types')
+        await this.$http.get('/manufacturer')
           .then((resp) => {
             response = resp;
           })
@@ -70,7 +70,7 @@
           })
 
         if (response.status == 200) {
-          this.hardware_types = response.body;
+          this.manufacturers = response.body;
 
         } else {
           this.showAlert = true
@@ -81,10 +81,10 @@
         this.loading = false
       },
 
-      async deleteHardWare(h_type_id){
+      async deleteManufacturer(manufacturer_id){
         let response = null;
 
-        await this.$http.delete(`/hardware_types/${h_type_id}`)
+        await this.$http.delete(`/manufacturer/${manufacturer_id}`)
         .then((result) => {
           response = result  
         }).catch((err) => {
@@ -92,10 +92,10 @@
         });
 
         if( response.status == 200 ){
-          this.getHardwareTypes(),
+          this.getManufacturers(),
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Item excluido com sucesso."
+          this.message = "Fabricante excluido com sucesso."
         }else {
           this.showAlert = true
           this.messageClass = "danger"

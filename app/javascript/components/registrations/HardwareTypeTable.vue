@@ -19,7 +19,9 @@
             </router-link>
           </td>
           <td>
-            <button type='button' class='btn btn-link'>  </button>
+            <button type='button' class='btn btn-link'>
+
+            </button>
           </td>
         </tr>
       </tbody>

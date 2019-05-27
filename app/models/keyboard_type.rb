@@ -1,0 +1,2 @@
+class KeyboardType < ApplicationRecord
+end

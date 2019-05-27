@@ -3,12 +3,14 @@ import Vue from 'vue/dist/vue';
 import VueResource from "vue-resource/dist/vue-resource";
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
+import Loading from 'vue-loading-overlay';
 
 import 'bootstrap';
 
 //css
 import 'bootstrap/dist/css/bootstrap.css';
 //import '../../../app/javascript/assets/stylesheets/standarts.scss'
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -25,9 +27,13 @@ import NewLot from '../components/lots/New.vue';
 import NewLotItem from '../components/lots/NewItem.vue';
 import ShowLot from '../components/lots/ShowLot.vue';
 
+import HardwareTypeList from '../components/registrations/HardwareTypeList.vue'
+import HardwareTypeNew from '../components/registrations/HardwareTypeNew.vue'
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
+Vue.use(Loading);
 
 const router = new VueRouter({
   routes: [
@@ -35,7 +41,9 @@ const router = new VueRouter({
     { path: "/lots", component: ListLots, props: true },
     { path: "/lots/new", component: NewLot, props: true },
     { path: "/lots/:lot_id/new-item", component: NewLotItem, props: true },
-    { path: "/lots/:lot_id", component: ShowLot, props: true }
+    { path: "/lots/:lot_id", component: ShowLot, props: true },
+    { path: "/hardware-types", component: HardwareTypeList, props: true },
+    { path: "/hardware-types/new", component: HardwareTypeNew, props: true }
   ]
 })
 

@@ -8,4 +8,8 @@ Rails.application.routes.draw do
   end
 
   get 'user-area' => 'user_area#index'
+
+  get 'hardware_types' => 'hardware_types#index'
+  post 'hardware_types' => 'hardware_types#create'
+  get 'hardware_types/:id' => 'hardware_types#show'
 end

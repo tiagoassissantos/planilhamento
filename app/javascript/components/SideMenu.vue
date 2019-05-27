@@ -14,7 +14,7 @@
 
         <ul class="nav nav-list collapse submenu" id="registers">
           <li class="nav-item">
-            <router-link to="/lots" class="nav-link active text-light">
+            <router-link to="/hardware-types" class="nav-link active text-light">
               Tipo de Hardware
             </router-link>
           </li>

@@ -14,7 +14,7 @@
           <th scope="col">Nome</th>
           <th scope="col">E-mail</th>
           <th scope="col">Editar</th>
-          <th scope="col">Excluir</th>
+          <!--th scope="col">Excluir</th-->
         </tr>
       </thead>
       <tbody>
@@ -27,9 +27,9 @@
               <img src='../../../../assets/images/editar.png'/>
             </router-link>
           </td>
-          <td>
+          <!--td>
             <img @click="deleteUser(user.id)" src='../../../../assets/images/excluir.png'/>
-          </td>
+          </td-->
         </tr>
       </tbody>
     </table>

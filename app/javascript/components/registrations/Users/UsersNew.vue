@@ -38,7 +38,7 @@
 
             <div class="col-sm-4">
               <div class="form-group">
-                <input class="form-control" type="repeat_password" v-model='user.repeat_password' placeholder="Repita a senha" />
+                <input class="form-control" type="repeat_password" v-model='user.password_confirmation' placeholder="Repita a senha" />
               </div>
             </div>
 
@@ -102,7 +102,14 @@
 
         let response = null;
 
-        if(this.edit){
+        let data = {
+          email: this.user.email,
+          password: this.user.password,
+          password_confirmation: this.user.password_confirmation,
+          name: this.user.name
+        }
+
+        if (this.edit) {
           console.log("++++")
           await this.$http.put(`/users/${this.user_id}`,
           JSON.stringify({user: this.user}))
@@ -112,9 +119,9 @@
             response = err
           });
 
-        }else{
+        } else {
 
-          await this.$http.post("/users", this.user)
+          await this.$http.post("/users", {user: this.user })
             .then(resp => {
               response = resp;
             })
@@ -127,7 +134,7 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.$router.push('/users')
+          //this.$router.push('/users')
 
         } else {
           this.messageClass = "danger";

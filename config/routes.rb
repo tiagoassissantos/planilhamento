@@ -1,11 +1,17 @@
 Rails.application.routes.draw do
   root to: 'main#index'
-  devise_for :users, controllers: { sessions: 'user/sessions' }
+  devise_for :users,
+    controllers: {
+      sessions: 'user/sessions',
+      registrations: 'user/registrations'
+    }
 
   devise_scope :user do
     get 'logged', to: 'user/sessions#logged'
+    get 'users', to: 'user/registrations#index'
     #get 'current_user', to: 'user/sessions#current_user'
   end
+
 
   get 'user-area' => 'user_area#index'
 

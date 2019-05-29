@@ -2,8 +2,6 @@
 
 one:
   name: MyString
-  hardware_type: one
 
 two:
   name: MyString
-  hardware_type: two

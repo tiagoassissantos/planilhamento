@@ -14,6 +14,11 @@
 
         <ul class="nav nav-list collapse submenu" id="registers">
           <li class="nav-item">
+            <router-link to="/users" class="nav-link active text-light">
+              Usuários
+            </router-link>
+          </li>
+          <li class="nav-item">
             <router-link to="/hardware-types" class="nav-link active text-light">
               Tipo de Hardware
             </router-link>
@@ -24,17 +29,17 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/lots" class="nav-link active text-light">
+            <router-link to="/models" class="nav-link active text-light">
               Modelo
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/lots" class="nav-link active text-light">
+            <router-link to="/categories" class="nav-link active text-light">
               Categoria
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/lots" class="nav-link active text-light">
+            <router-link to="/damage-types" class="nav-link active text-light">
               Tipo de Avaria
             </router-link>
           </li>
@@ -44,18 +49,23 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/lots" class="nav-link active text-light">
-              Tamanho
+            <router-link to="/disk-types" class="nav-link active text-light">
+              Tipo do Disco
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/lots" class="nav-link active text-light">
-              Tipo
+            <router-link to="/disk-sizes" class="nav-link active text-light">
+              Tamanho do Disco
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/lots" class="nav-link active text-light">
+            <router-link to="/keyboard-types" class="nav-link active text-light">
               Tipo Teclado
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/destinations" class="nav-link active text-light">
+              Destino
             </router-link>
           </li>
         </ul>

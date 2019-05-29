@@ -1,0 +1,2 @@
+class DiskType < ApplicationRecord
+end

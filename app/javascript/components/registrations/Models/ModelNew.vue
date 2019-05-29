@@ -1,0 +1,198 @@
+<template>
+  <div class='container'>
+
+    <div class="margin-alert">
+      <b-alert show dismissible v-if="error" :variant="messageClass">
+        {{ message }}
+      </b-alert>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        {{ header_text }}
+      </div>
+
+      <div class="card-body">
+        <form @submit.prevent="submit">
+          <div class='row'>
+
+            <div class="col-md-5">
+              <div class="form-group">
+                <select class="form-control" type="text" v-model='model.manufacturer_id' required>
+                  <option value='0'>Selecione o Fabricante</option>
+                  <option v-for='manufacturer in manufacturers' :value='manufacturer.id'>
+                    {{manufacturer.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <div class="form-group">
+                <input class="form-control" type="text" v-model='model.name' placeholder="Nome do Modelo" />
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <button type='submit' class="btn btn-primary">
+                {{button_text}}
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </div> <!-- card body -->
+    </div> <!-- card -->
+  </div> <!-- app -->
+</template>
+
+<script>
+  export default {
+    components: {  },
+
+    data() {
+      return {
+        model: {
+          name: '',
+          manufacturer_id: 0,
+        },
+        model_id: null,
+        manufacturers: [],
+        loader: null,
+        edit: false,
+        error: false,
+        messageClass: '',
+        message: '',
+        header_text: '',
+        button_text: ''
+      }
+    },
+
+    computed: {
+      isLogged() {
+        return this.$store.state.logged
+      }
+    },
+
+    mounted() {
+      this.getManufacturers();
+
+      this.model_id = this.$route.params.model_id
+      if ( this.model_id != null) {
+        this.edit = true
+        this.getModel()
+        this.header_text = 'Editar Modelo'
+        this.button_text = 'Editar'
+
+      } else {
+        this.header_text = 'Novo Modelo'
+        this.button_text = 'Cadastrar'
+      }
+    },
+
+    methods: {
+      async getManufacturers() {
+        let response = null;
+        await this.$http.get('/manufacturers')
+          .then((resp) => {
+            response = resp;
+          })
+          .catch((resp) => {
+            response = resp;
+          })
+
+        if (response.status == 200) {
+          this.manufacturers = response.body;
+
+        } else {
+          this.showAlert = true
+          this.messageClass = "danger"
+          this.message = "Erro ao carregar os dados."
+        }
+
+        this.loading = false
+      },
+
+
+      async getModel(){
+        let response = null;
+
+        await this.$http.get(`/models/${this.model_id}`)
+        .then((result) => {
+          this.model.name = result.body.name
+          this.model.manufacturer_id = result.body.manufacturer.id
+
+        }).catch((err) => {
+          response = err.body
+        });
+      },
+
+
+      async submit() {
+        this.showLoading()
+
+        let response = null;
+
+        if (this.edit) {
+          console.log("++++")
+          await this.$http.put(`/models/${this.model_id}`,
+            this.model)
+            .then((result) => {
+              response = result;
+            }).catch((err) => {
+              response = err
+            });
+
+        } else {
+          await this.$http.post("/models", this.model)
+            .then(resp => {
+              response = resp;
+            })
+            .catch(resp => {
+              console.log(response);
+              response = resp;
+            });
+        }
+
+        if (response.status == 200) {
+          this.messageClass = "success";
+          this.$router.push('/models')
+
+        } else {
+          this.messageClass = "danger";
+          this.error = true;
+          this.message = response.body.message;
+        }
+
+        this.loader.hide()
+      },
+
+      showLoading() {
+        this.loader = this.$loading.show({
+          container: this.fullPage ? null : this.$refs.formContainer,
+          canCancel: false,
+          backgroundColor: '#000',
+          opacity: 0.75
+        });
+      },
+
+      async getManufacturer(){
+        let response = null;
+
+        await this.$http.get(`/manufacturers/${this.manufacturer_id}`)
+        .then((result) => {
+          this.manufacturer =  result.body
+        }).catch((err) => {
+          response = err.body
+        });
+      }
+
+    }
+  };
+</script>
+
+<style scoped>
+  .card {
+    margin-top: 50px;
+  }
+</style>

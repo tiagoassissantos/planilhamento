@@ -1,2 +1,0 @@
-class HdSize < ApplicationRecord
-end

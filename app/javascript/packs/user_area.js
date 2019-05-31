@@ -4,7 +4,6 @@ import VueResource from "vue-resource/dist/vue-resource";
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
 import Loading from 'vue-loading-overlay';
-
 import 'bootstrap';
 
 //css
@@ -71,7 +70,7 @@ const router = new VueRouter({
     { path: "/lots", component: ListLots, props: true },
     { path: "/lots/new", component: NewLot, props: true },
     { path: "/lots/:lot_id/new-item", component: NewLotItem, props: true },
-    { path: "/lots/:lot_id", component: ShowLot, props: true },
+    { path: "/lots/:lot_id", component: ShowLot, props: true, name: 'lot' },
 
     { path: "/users", component: UsersList, props: true },
     { path: "/users/new", component: UsersNew, props: true },

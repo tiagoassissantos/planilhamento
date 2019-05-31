@@ -29,6 +29,27 @@
             </div>
           </div>
 
+
+          <div class='row'>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <input class="form-control" type="text" v-model='user.cpf' placeholder="CPF do Usuário" />
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="form-group">
+                <select class="form-control" type="text" v-model='user.role' required>
+                  <option value=''>Selecione o Perfil do Usuário</option>
+                  <option value='admin'>Administrador</option>
+                  <option value='leading_operator'>Operador Líder</option>
+                  <option value='operator'>Operador</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+
           <div class='row'>
             <div class="col-sm-4">
               <div class="form-group">
@@ -38,16 +59,19 @@
 
             <div class="col-sm-4">
               <div class="form-group">
-                <input class="form-control" type="repeat_password" v-model='user.password_confirmation' placeholder="Repita a senha" />
+                <input class="form-control" type="password" v-model='user.password_confirmation' placeholder="Repita a senha" />
               </div>
             </div>
+          </div>
 
+          <div class='row'>
             <div class="col-sm-2">
               <button type='submit' class="btn btn-primary">
                 {{button_text}}
               </button>
             </div>
           </div>
+
         </form>
       </div> <!-- card body -->
     </div> <!-- card -->
@@ -61,7 +85,12 @@
     data() {
       return {
         user: {
-          name: ''
+          name: '',
+          email: '',
+          cpf: '',
+          role: '',
+          password: '',
+          password_confirmation: ''
         },
         loader: null,
         edit: false,
@@ -111,8 +140,7 @@
 
         if (this.edit) {
           console.log("++++")
-          await this.$http.put(`/users/${this.user_id}`,
-          JSON.stringify({user: this.user}))
+          await this.$http.put(`/users/${this.user_id}`, {user: this.user})
           .then((result) => {
             response = result;
           }).catch((err) => {
@@ -134,7 +162,7 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          //this.$router.push('/users')
+          this.$router.push('/users')
 
         } else {
           this.messageClass = "danger";

@@ -38,10 +38,15 @@ class ModelsController < ApplicationController
 
   def show
     return unless user_logged?
-
     model = Model.find( params[:id] )
-
     render json: model, status: :ok
+  end
+
+
+  def by_manufacturer
+    return unless user_logged?
+    models = Model.where( manufacturer_id: params[:manufacturer_id] )
+    render json: models, status: :ok
   end
 
 

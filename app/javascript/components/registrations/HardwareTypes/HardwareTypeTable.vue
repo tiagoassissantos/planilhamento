@@ -26,7 +26,7 @@
             </router-link>
           </td>
           <td>
-            <img @click="deleteHardWare(h_type.id)" src='../../../../assets/images/excluir.png'/>
+            <img v-if='h_type.can_delete' @click="deleteHardWare(h_type.id)" src='../../../../assets/images/excluir.png'/>
           </td>
         </tr>
       </tbody>

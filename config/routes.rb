@@ -22,13 +22,21 @@ Rails.application.routes.draw do
   delete 'hardware_types/:id' => 'hardware_types#destroy'
 
   resources :manufacturers, only: [:index, :create, :destroy, :show, :update]
+
   resources :models, only: [:index, :create, :destroy, :show, :update]
+  get 'models/by-manufacturer/:manufacturer_id' => 'models#by_manufacturer'
+
   resources :categories, only: [:index, :create, :destroy, :show, :update]
   resources :processors, only: [:index, :create, :destroy, :show, :update]
+
   resources :damage_types, only: [:index, :create, :destroy, :show, :update]
+  get 'damage_types/by-hardware-type/:hardware_type_id' => 'damage_types#by_hardware_type'
+
   resources :keyboard_types, only: [:index, :create, :destroy, :show, :update]
   resources :destinations, only: [:index, :create, :destroy, :show, :update]
   resources :disk_types, only: [:index, :create, :destroy, :show, :update]
   resources :disk_sizes, only: [:index, :create, :destroy, :show, :update]
+
+  resources :lots, only: [:index, :create, :destroy, :show, :update]
 
 end

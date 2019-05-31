@@ -32,7 +32,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-      t.integer :role, null: false
+      t.integer :role, null: false, default: 2
       t.string :name, null: false
       t.string :cpf, null: true
 

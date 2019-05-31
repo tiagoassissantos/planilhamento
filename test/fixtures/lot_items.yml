@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hardware_type: one
+  model: one
+  ram_memory: MyString
+
+two:
+  hardware_type: two
+  model: two
+  ram_memory: MyString

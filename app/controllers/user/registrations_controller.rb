@@ -21,10 +21,11 @@ class User::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    p '-------------+++++++++++++++++++++++----------------------'
     build_resource(sign_up_params)
 
     resource.name = params[:user][:name]
+    resource.cpf = params[:user][:cpf]
+    resource.role = params[:user][:role]
 
     resource.save
     yield resource if block_given?

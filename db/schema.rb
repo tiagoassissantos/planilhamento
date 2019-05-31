@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_28_214510) do
+ActiveRecord::Schema.define(version: 2019_05_31_150507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2019_05_28_214510) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "can_delete", default: true
   end
 
   create_table "hd_sizes", force: :cascade do |t|
@@ -68,6 +69,50 @@ ActiveRecord::Schema.define(version: 2019_05_28_214510) do
 
   create_table "keyboard_types", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "lot_items", force: :cascade do |t|
+    t.bigint "hardware_type_id"
+    t.bigint "model_id"
+    t.string "ram_memory"
+    t.string "serial_number"
+    t.string "asset_tag"
+    t.bigint "category_id"
+    t.string "comments"
+    t.bigint "damage_type_id"
+    t.bigint "processor_id"
+    t.bigint "disk_type_id"
+    t.bigint "disk_size_id"
+    t.string "parent_id"
+    t.string "screen"
+    t.string "webcam"
+    t.bigint "keyboard_type_id"
+    t.string "wirelles"
+    t.string "bluethooth"
+    t.string "mini_display_port"
+    t.string "hdmi"
+    t.string "vga"
+    t.string "esata"
+    t.string "bright_keyboard"
+    t.bigint "destination_id"
+    t.string "bar_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_lot_items_on_category_id"
+    t.index ["damage_type_id"], name: "index_lot_items_on_damage_type_id"
+    t.index ["destination_id"], name: "index_lot_items_on_destination_id"
+    t.index ["disk_size_id"], name: "index_lot_items_on_disk_size_id"
+    t.index ["disk_type_id"], name: "index_lot_items_on_disk_type_id"
+    t.index ["hardware_type_id"], name: "index_lot_items_on_hardware_type_id"
+    t.index ["keyboard_type_id"], name: "index_lot_items_on_keyboard_type_id"
+    t.index ["model_id"], name: "index_lot_items_on_model_id"
+    t.index ["processor_id"], name: "index_lot_items_on_processor_id"
+  end
+
+  create_table "lots", force: :cascade do |t|
+    t.string "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -98,7 +143,7 @@ ActiveRecord::Schema.define(version: 2019_05_28_214510) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "role", null: false
+    t.integer "role", default: 2, null: false
     t.string "name", null: false
     t.string "cpf"
     t.datetime "created_at", null: false
@@ -108,5 +153,14 @@ ActiveRecord::Schema.define(version: 2019_05_28_214510) do
   end
 
   add_foreign_key "damage_types", "hardware_types"
+  add_foreign_key "lot_items", "categories"
+  add_foreign_key "lot_items", "damage_types"
+  add_foreign_key "lot_items", "destinations"
+  add_foreign_key "lot_items", "disk_sizes"
+  add_foreign_key "lot_items", "disk_types"
+  add_foreign_key "lot_items", "hardware_types"
+  add_foreign_key "lot_items", "keyboard_types"
+  add_foreign_key "lot_items", "models"
+  add_foreign_key "lot_items", "processors"
   add_foreign_key "models", "manufacturers"
 end

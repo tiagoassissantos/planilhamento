@@ -83,7 +83,7 @@
         this.loading = false
       },
 
-      async deleteDamageType(damageType_id){
+      async deleteDamageTypes(damageType_id){
         let response = null;
 
         await this.$http.delete(`/damage_types/${damageType_id}`)
@@ -94,7 +94,7 @@
         });
 
         if( response.status == 200 ){
-          this.getdamageTypes(),
+          this.getDamageTypes(),
           this.showAlert = true
           this.messageClass = "success"
           this.message = "Tipo de Avaria excluido com sucesso."

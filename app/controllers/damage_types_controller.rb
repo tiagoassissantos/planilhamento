@@ -38,10 +38,14 @@ class DamageTypesController < ApplicationController
 
   def show
     return unless user_logged?
-
     damage_type = DamageType.find( params[:id] )
-
     render json: damage_type, status: :ok
+  end
+
+  def by_hardware_type
+    return unless user_logged?
+    damage_types = DamageType.where( hardware_type_id: params[:hardware_type_id] )
+    render json: damage_types, status: :ok
   end
 
 

@@ -4,44 +4,26 @@
       <thead>
         <tr>
           <th scope="col">Editar</th>
+          <th scope="col">Código</th>
           <th scope="col">Núm. Lote</th>
-          <th scope="col">Cliente</th>
-          <th scope="col">Transportadora</th>
-          <th scope="col">Nota Fiscal</th>
-          <th scope="col">Recebimento</th>
-          <th scope="col">Responsável</th>
-          <th scope="col">Peso Liquido (Kg)</th>
+          <th scope="col">Data</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+
+        <tr v-for='(lot, index) in lots' :key="index">
           <td>
-            <router-link to="/lots/1" class="nav-link active text-light">
+            <router-link :to="{ name: 'lot', params: {lot_id: lot.id}}">
+            <!--router-link to="/lots/" class="nav-link active text-light"-->
               <img src='../../../assets/images/editar.png'/>
             </router-link>
           </td>
-          <td>1233</td>
-          <td>CONDOMINIO DO EDIFICIO LINNEO DE PAULA MACHADO</td>
-          <td>DIGGO</td>
-          <td>456321</td>
-          <td>17/05/2019</td>
-          <td>Marcus Rocha</td>
-          <td>254,000</td>
+
+          <td>{{lot.id}}</td>
+          <td>{{lot.order_number}}</td>
+          <td>{{lot.created_at}}</td>
         </tr>
-        <tr>
-          <td>
-            <router-link to="/lots/2" class="nav-link active text-light">
-              <img src='../../../assets/images/editar.png'/>
-            </router-link>
-          </td>
-          <td>1233</td>
-          <td>CONDOMINIO DO EDIFICIO LINNEO DE PAULA MACHADO</td>
-          <td>DIGGO</td>
-          <td>456321</td>
-          <td>17/05/2019</td>
-          <td>Marcus Rocha</td>
-          <td>254,000</td>
-        </tr>
+
       </tbody>
     </table>
   </div>
@@ -51,6 +33,12 @@
   export default {
     components: { },
 
+    data() {
+      return {
+        lots: []
+      }
+    },
+
     computed: {
       isLogged() {
         return this.$store.state.logged
@@ -58,10 +46,31 @@
     },
 
     mounted() {
-      this.$store.dispatch('isLogged');
+      this.getLots();
     },
 
     methods: {
+      async getLots() {
+        let response = null;
+        await this.$http.get('/lots')
+          .then((resp) => {
+            response = resp;
+          })
+          .catch((resp) => {
+            response = resp;
+          })
+
+        if (response.status == 200) {
+          this.lots = response.body;
+
+        } else {
+          this.showAlert = true
+          this.messageClass = "danger"
+          this.message = "Erro ao carregar os dados."
+        }
+
+        this.loading = false
+      }
     }
   };
 </script>

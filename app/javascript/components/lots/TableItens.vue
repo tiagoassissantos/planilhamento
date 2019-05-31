@@ -51,6 +51,12 @@
   export default {
     components: { },
 
+    data() {
+      return {
+        lots: []
+      }
+    },
+
     computed: {
       isLogged() {
         return this.$store.state.logged
@@ -62,6 +68,27 @@
     },
 
     methods: {
+      async getLots() {
+        let response = null;
+        await this.$http.get('/lots')
+          .then((resp) => {
+            response = resp;
+          })
+          .catch((resp) => {
+            response = resp;
+          })
+
+        if (response.status == 200) {
+          this.lots = response.body;
+
+        } else {
+          this.showAlert = true
+          this.messageClass = "danger"
+          this.message = "Erro ao carregar os dados."
+        }
+
+        this.loading = false
+      }
     }
   };
 </script>

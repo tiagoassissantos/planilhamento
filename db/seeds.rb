@@ -1,8 +1,9 @@
 # Administrator User
-#User.create email: 'admin@ct.com', name: 'Administrador', cpf: '', role: 'admin', :password => '1234zxcv', :password_confirmation => '1234zxcv'
+User.create email: 'admin@ct.com', name: 'Administrador', cpf: '', role: 'admin', :password => '1234zxcv', :password_confirmation => '1234zxcv'
 
 
 ####### Hardware Types #######
+=begin 
 monitor =  HardwareType.find_or_create_by id: 1, name: 'Monitor', can_delete: false
 desktop =  HardwareType.find_or_create_by id: 2, name: 'Desktop', can_delete: false
 server =   HardwareType.find_or_create_by id: 3, name: 'Servidor', can_delete: false
@@ -96,3 +97,4 @@ DamageType.create name: 'SSD - ERRO DE LEITURA', hardware_type: ssd
 DamageType.create name: 'SSD - BAIXO DESEMPENHO', hardware_type: ssd
 DamageType.create name: 'SSD - SETORES COM PROBLEMAS', hardware_type: ssd
 DamageType.create name: 'OUTROS', hardware_type: ssd
+=end

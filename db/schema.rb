@@ -55,18 +55,6 @@ ActiveRecord::Schema.define(version: 2019_05_31_150507) do
     t.boolean "can_delete", default: true
   end
 
-  create_table "hd_sizes", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "hd_types", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "keyboard_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false

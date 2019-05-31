@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'logged', to: 'user/sessions#logged'
     get 'users', to: 'user/registrations#index'
+    get 'users/:id', to: 'user/registrations#edit'
+    put 'users/:id', to: 'user/registrations#update'
+
     #get 'current_user', to: 'user/sessions#current_user'
   end
 

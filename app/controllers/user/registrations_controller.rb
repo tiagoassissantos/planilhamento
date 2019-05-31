@@ -4,8 +4,8 @@ class User::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
-  skip_before_action :verify_authenticity_token, only: [:index, :create]
-  skip_before_action :require_no_authentication, only: [:index, :create]
+  skip_before_action :verify_authenticity_token, only: [:index, :create, :update]
+  skip_before_action :require_no_authentication, only: [:index, :create, :update]
 
 
   def index
@@ -27,34 +27,51 @@ class User::RegistrationsController < Devise::RegistrationsController
     resource.cpf = params[:user][:cpf]
     resource.role = params[:user][:role]
 
+    user = User.find_by(name: params[:user][:name])
+
+    unless user.nil?
+      render json: {"status": "error", "message": "Já existe um Usuário com o email informado."}, status: 409
+    end
+
     resource.save
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
-        respond_with resource, location: after_sign_up_path_for(resource)
+        render json: {"status": "success", "message": "Usuário cadastrado com sucesso."}, status: 200
       else
         set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
         expire_data_after_sign_in!
-        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+        #respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
     else
       clean_up_passwords resource
       set_minimum_password_length
-      respond_with resource
+      #respond_with resource
     end
   end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    user = User.find_by(id: params[:id])
+    render json: user, status: 200
+  end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    build_resource(sign_up_params)
+
+    user = User.find_by(id: params[:id])
+    user.update( user_params )
+    user.password = params[:user][:password]
+
+    if user.save
+      render json: {"status": "success", "message": "Usuário cadastrado com sucesso."}, status: 200
+    else
+      render json: {"status": "error", "message": "Não foi possível atualizar dados."}, status: 400
+    end
+  end
 
   # DELETE /resource
   # def destroy
@@ -91,4 +108,9 @@ class User::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+  private
+  def user_params
+    params.require(:user).permit(:id, :name, :cpf, :email, :role )
+  end
 end

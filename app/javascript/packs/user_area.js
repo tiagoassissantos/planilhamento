@@ -64,6 +64,7 @@ Vue.use(VueResource);
 Vue.use(BootstrapVue);
 Vue.use(Loading);
 
+
 const router = new VueRouter({
   routes: [
     { path: "/", component: dashboard, props: true },

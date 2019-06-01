@@ -4,8 +4,8 @@ class User::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
-  skip_before_action :verify_authenticity_token, only: [:index, :create, :update]
-  skip_before_action :require_no_authentication, only: [:index, :create, :update]
+  skip_before_action :verify_authenticity_token, only: [:index, :create, :update, :update_password]
+  skip_before_action :require_no_authentication, only: [:index, :create, :update, :update_password]
 
 
   def index
@@ -73,6 +73,20 @@ class User::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def update_password
+    params = password_params
+    user = User.find_by(id: current_user.id)
+
+    unless user.valid_password?(params[:current_password])
+      render json: {"status": "error", "message": "Não foi possível alterar sua senha, digite corretamente sua senha atual.", status: 403}
+    else
+      if user.update_attributes(:password => params[:password])
+        render json: {"status": "success", "message": "Senha alterada com sucesso."}, status: 200
+      end
+    end
+  end
+
+
   # DELETE /resource
   # def destroy
   #   super
@@ -112,5 +126,9 @@ class User::RegistrationsController < Devise::RegistrationsController
   private
   def user_params
     params.require(:user).permit(:id, :name, :cpf, :email, :role )
+  end
+
+  def password_params
+    params.require(:user).permit(:current_password, :password, :password_confirm )
   end
 end

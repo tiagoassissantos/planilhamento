@@ -61,6 +61,8 @@ import DiskTypesNew from '../components/registrations/DiskTypes/DiskTypesNew.vue
 import DiskSizesList from '../components/registrations/DiskSizes/DiskSizesList.vue'
 import DiskSizesNew from '../components/registrations/DiskSizes/DiskSizesNew.vue'
 
+import changePassword from '../components/change_password.vue'
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
@@ -118,6 +120,10 @@ const router = new VueRouter({
     { path: "/disk-sizes", component: DiskSizesList, props: true },
     { path: "/disk-sizes/new", component: DiskSizesNew, props: true },
     { path: "/disk-sizes/:disk_size_id", component: DiskSizesNew, props: true, name: 'disk_size' },
+
+    { path: "/change-password", component: changePassword, props: true, name: 'change_password' },
+
+    
   ]
 })
 

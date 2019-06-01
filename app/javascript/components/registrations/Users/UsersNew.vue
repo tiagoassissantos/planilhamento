@@ -1,8 +1,6 @@
 <template>
   <div class='container'>
     
-    
-
     <div class="margin-alert">
       <b-alert show dismissible v-if="error" :variant="messageClass">
         {{ message }}
@@ -189,6 +187,7 @@
             }.bind(this), 2000);    
 
           } else {
+            console.log( response )
             this.messageClass = "danger";
             this.error = true;
             this.message = "Erro ao cadastrar novo usuário.";

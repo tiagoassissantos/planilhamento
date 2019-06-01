@@ -13,9 +13,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
+         faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-library.add(faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit);
+library.add(faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit, 
+            faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 //pages

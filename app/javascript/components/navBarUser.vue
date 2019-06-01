@@ -1,12 +1,113 @@
 <template>
-  <div id="navBarUser">
-    <ul class="nav justify-content-end nav-header">
+  <nav class="navbar navbar-light bg-light nav">
+    <ul>
+      <li>
+        <a href="#"> 
+          <font-awesome-icon icon="list"/>
+          Cadastros 
+        </a>
+        <ul>
+          <li>
+            <router-link to="/users" class="nav-link active text-light">
+              <font-awesome-icon icon="user" class="sub-icon"/> Usuários
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/hardware-types" class="nav-link active text-light">
+              <font-awesome-icon icon="microchip" class="sub-icon"/> Tipo de Hardware
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/manufacturers" class="nav-link active text-light">
+              <font-awesome-icon icon="user-cog" class="sub-icon"/> Fabricante
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/models" class="nav-link active text-light">
+              <font-awesome-icon icon="info-circle" class="sub-icon"/> Modelo
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/categories" class="nav-link active text-light">
+              <font-awesome-icon icon="indent" class="sub-icon"/> Categoria
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/damage-types" class="nav-link active text-light">
+              <font-awesome-icon icon="unlink" class="sub-icon"/> Tipo de Avaria
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/processors" class="nav-link active text-light">
+              <font-awesome-icon icon="sim-card" class="sub-icon"/> Processadores
+            </router-link>            
+          </li>
+          <li>
+            <router-link to="/disk-types" class="nav-link active text-light">
+              <font-awesome-icon icon="memory" class="sub-icon"/> Tipo do Disco
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/disk-sizes" class="nav-link active text-light">
+              <font-awesome-icon icon="server" class="sub-icon"/> Tamanho do Disco
+            </router-link>            
+          </li>
+          <li>
+            <router-link to="/keyboard-types" class="nav-link active text-light">
+              <font-awesome-icon icon="keyboard" class="sub-icon"/> Tipo Teclado
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/destinations" class="nav-link active text-light">
+              <font-awesome-icon icon="plane" class="sub-icon"/> Destino
+            </router-link>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#"> 
+          <font-awesome-icon icon="laptop"/>
+          Recebimento 
+        </a>
+        <ul>
+          <li>
+            <router-link to="/lots" class="nav-link active text-light">
+              <font-awesome-icon icon="box" class="sub-icon"/> Lote
+            </router-link>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">          
+          <font-awesome-icon icon="copy"/>
+          Inventário 
+        </a>
+        <ul>
+          <li><a href="#">Subnav Item</a></li>
+          <li><a href="#">Subnav Item</a></li>
+          <li><a href="#">Subnav Item</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <font-awesome-icon icon="columns"/>   
+           Movimentações 
+        </a>
+
+        <ul>
+          <li><a href="#">Subnav Item</a></li>
+          <li><a href="#">Subnav Item</a></li>
+          <li><a href="#">Subnav Item</a></li>
+        </ul>
+      </li>
+    </ul>
+
+     <ul class="nav justify-content-end nav-header">
       <li class="nav-item style-item">
         <span class="nav-link" href="#">
           0.0.19
         </span>
       </li>
-
       <li class="nav-item style-item">
         <div class="dropdown">
           <div class="row">
@@ -27,7 +128,8 @@
         </div>
       </li>
     </ul>
-  </div>
+
+  </nav>
 </template>
 
 <script>
@@ -68,6 +170,17 @@ export default {
         .catch(err => {
           //window.location.href = "/";
         });
+    },
+
+    toggleNavPanel(x){
+      var panel = document.getElementById(x), navarrow = document.getElementById("navarrow"), maxH="300px";
+      if(panel.style.height == maxH){
+        panel.style.height = "0px";
+        navarrow.innerHTML = "&#9662;";
+      } else {
+        panel.style.height = maxH;
+        navarrow.innerHTML = "&#9652;";
+      }
     }
 
   }
@@ -77,8 +190,6 @@ export default {
 
 <style scoped lang="scss">
   .nav-header {
-    /*border-bottom: 1px solid #E9E9E6;
-    border-top: 3px solid #EDEDED;*/
     height: 75px;
   }
 
@@ -149,4 +260,85 @@ export default {
     padding-left: 20px;
     margin-right: 18px;
   }
+  
+
+  .nav ul {
+    *zoom: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav ul:before,
+  .nav ul:after {
+    content: "";
+    display: table;
+  }
+
+  .nav ul:after {
+    clear: both;
+  }
+
+  .nav ul > li {
+    float: left;
+    position: relative;
+  }
+
+  .nav a {
+    display: block;
+    padding: 10px 20px;
+    line-height: 1.2em;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+  }
+
+  .nav a:hover {
+    text-decoration: none;
+    background: #171717;
+    color: white !important;
+  }
+
+  .nav li ul {
+    background: #171717;
+  }
+
+  .nav li ul li {
+    width: 200px;
+  }
+
+  .nav li ul a {
+    border: none;
+  }
+
+  .nav li ul a:hover {
+    background: rgba(0, 0, 0, 0.19999999999999996);
+  }
+
+  .nav ul > li:hover ul li {
+    max-height: 150px;
+  }
+
+  .nav li ul {
+    position: absolute;
+    left: 0;
+    top: 36px;
+    z-index: 1;
+  }
+  
+  .nav li ul li {
+    overflow: hidden;
+    max-height: 0;
+    -webkit-transition: max-height 500ms ease;
+    -moz-transition: max-height 500ms ease;
+    -o-transition: max-height 500ms ease;
+    transition: max-height 500ms ease;
+  }
+
+  .sub-icon{
+    margin-right: 5px;
+    margin-top: -51px !important;
+  }
+
 </style>

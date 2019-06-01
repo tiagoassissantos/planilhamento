@@ -51,7 +51,6 @@
             </div>
           </div>
 
-
           <div class='row'>
             <div class="col-sm-4">
               <div class="form-group">
@@ -72,8 +71,8 @@
               </button>
             </div>
           </div>
-  
-          <b-modal v-model="showModal" v-if="showModal" hide-footer>
+
+          <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
             <center>
               <img  class="size-img-modal" src="../../../../assets/images/checked.png"/>
             </center>

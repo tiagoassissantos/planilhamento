@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   resources :disk_types, only: [:index, :create, :destroy, :show, :update]
   resources :disk_sizes, only: [:index, :create, :destroy, :show, :update]
 
-  resources :lots, only: [:index, :create, :destroy, :show, :update]
-
+  resources :lots, only: [:index, :create, :destroy, :show, :update] do
+    resources :lot_items, only: [:index, :create, :destroy, :show, :update]
+  end
 end

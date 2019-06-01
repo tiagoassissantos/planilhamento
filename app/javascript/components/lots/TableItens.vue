@@ -5,43 +5,31 @@
         <tr>
           <th scope="col">Código</th>
           <th scope="col">Produto</th>
-          <th scope="col">IMEI</th>
-          <th scope="col">Patrimônio</th>
           <th scope="col">Num. Série</th>
+          <th scope="col">Asset Tag</th>
+          <th scope="col">Categoria</th>
           <th scope="col">Destino</th>
-          <th scope="col">Etiqueta</th>
+          <th scope="col">Código de Barras</th>
           <th scope="col">Excluir</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Desk92</td>
-          <td>Desk, DELL, mod.: OPTIPLEX 790, proc.: I5 com processador(es), mem.: DDR 3, HD:</td>
-          <td>321564987</td>
-          <td>3242</td>
-          <td>5MS09S1</td>
-          <td>Processo</td>
-          <td>32165498</td>
+
+        <tr v-for='(lotItem, index) in lotItems' :key="index">
+          <td>{{ lotItem.id }}</td>
+          <td>{{ lotItem.hardware_type }}</td>
+          <td>{{ lotItem.serial_number }}</td>
+          <td>{{ lotItem.asset_tag }}</td>
+          <td>{{ lotItem.category }}</td>
+          <td>{{ lotItem.destination }}</td>
+          <td>{{ lotItem.bar_code }}</td>
           <td>
             <button class='btn btn-light'>
               <img src='../../../assets/images/excluir.png'/>
             </button>
           </td>
         </tr>
-        <tr>
-          <td>Desk92</td>
-          <td>Desk, DELL, mod.: OPTIPLEX 790, proc.: I5 com processador(es), mem.: DDR 3, HD:</td>
-          <td>321564987</td>
-          <td>3242</td>
-          <td>5MS09S1</td>
-          <td>Processo</td>
-          <td>32165498</td>
-          <td>
-            <button class='btn btn-light'>
-              <img src='../../../assets/images/excluir.png'/>
-            </button>
-          </td>
-        </tr>
+
       </tbody>
     </table>
   </div>
@@ -53,7 +41,11 @@
 
     data() {
       return {
-        lots: []
+        lotItems: null,
+        lotId: 0,
+        showAlert: '',
+        messageClass: '',
+        message: ''
       }
     },
 
@@ -64,13 +56,14 @@
     },
 
     mounted() {
-      this.$store.dispatch('isLogged');
+      this.lotId = this.$route.params.lot_id;
+      this.getLotItems();
     },
 
     methods: {
-      async getLots() {
+      async getLotItems() {
         let response = null;
-        await this.$http.get('/lots')
+        await this.$http.get(`/lots/${this.lotId}/lot_items`)
           .then((resp) => {
             response = resp;
           })
@@ -79,7 +72,7 @@
           })
 
         if (response.status == 200) {
-          this.lots = response.body;
+          this.lotItems = response.body;
 
         } else {
           this.showAlert = true

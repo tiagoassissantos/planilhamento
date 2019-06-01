@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_31_150507) do
+ActiveRecord::Schema.define(version: 2019_06_01_163507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2019_05_31_150507) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "can_delete", default: true
   end
 
   create_table "disk_sizes", force: :cascade do |t|
@@ -53,18 +54,6 @@ ActiveRecord::Schema.define(version: 2019_05_31_150507) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "can_delete", default: true
-  end
-
-  create_table "hd_sizes", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "hd_types", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "keyboard_types", force: :cascade do |t|
@@ -89,8 +78,8 @@ ActiveRecord::Schema.define(version: 2019_05_31_150507) do
     t.string "screen"
     t.string "webcam"
     t.bigint "keyboard_type_id"
-    t.string "wirelles"
-    t.string "bluethooth"
+    t.string "wireless"
+    t.string "bluetooth"
     t.string "mini_display_port"
     t.string "hdmi"
     t.string "vga"
@@ -100,6 +89,9 @@ ActiveRecord::Schema.define(version: 2019_05_31_150507) do
     t.string "bar_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "biometric_reader"
+    t.string "vga_card"
+    t.integer "lot_id"
     t.index ["category_id"], name: "index_lot_items_on_category_id"
     t.index ["damage_type_id"], name: "index_lot_items_on_damage_type_id"
     t.index ["destination_id"], name: "index_lot_items_on_destination_id"

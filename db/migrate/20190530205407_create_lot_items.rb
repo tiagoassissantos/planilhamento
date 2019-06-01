@@ -16,8 +16,8 @@ class CreateLotItems < ActiveRecord::Migration[5.2]
       t.string :screen
       t.string :webcam
       t.references :keyboard_type, foreign_key: true
-      t.string :wirelles
-      t.string :bluethooth
+      t.string :wireless
+      t.string :bluetooth
       t.string :mini_display_port
       t.string :hdmi
       t.string :vga

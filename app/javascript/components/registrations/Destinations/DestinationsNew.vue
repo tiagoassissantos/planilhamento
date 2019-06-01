@@ -27,6 +27,14 @@
               </button>
             </div>
           </div>
+
+          <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
+            <center>
+              <img  class="size-img-modal" src="../../../../assets/images/checked.png"/>
+            </center>
+            <p class="my-1"> {{ messageModal }} </p>
+          </b-modal>
+
         </form>
       </div> <!-- card body -->
     </div> <!-- card -->
@@ -50,7 +58,10 @@
         message: '',
 
         header_text: '',
-        button_text: ''
+        button_text: '',
+
+        showModal: false,
+        messageModal: '',
       }
     },
 
@@ -86,6 +97,8 @@
           JSON.stringify({destination: this.destination}))
           .then((result) => {
             response = result;
+            this.messageModal = 'Destino editado com sucesso'
+
           }).catch((err) => {
             response = err
           });
@@ -94,6 +107,7 @@
           await this.$http.post("/destinations", this.destination)
             .then(resp => {
               response = resp;
+              this.messageModal = 'Destino cadastrado com sucesso'
             })
             .catch(resp => {
               console.log(response);
@@ -104,7 +118,12 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.$router.push('/destinations')
+          this.showModal = true     
+
+          setTimeout(function(){ 
+            this.showModal = false     
+            this.$router.push('/destinations');
+          }.bind(this), 2000);   
 
         } else {
           this.messageClass = "danger";

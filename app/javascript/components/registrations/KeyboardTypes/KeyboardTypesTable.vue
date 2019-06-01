@@ -95,7 +95,7 @@
           this.getKeyboardTypes(),
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Fabricante excluido com sucesso."
+          this.message = "Tipo de teclado excluído com sucesso."
         }else {
           this.showAlert = true
           this.messageClass = "danger"

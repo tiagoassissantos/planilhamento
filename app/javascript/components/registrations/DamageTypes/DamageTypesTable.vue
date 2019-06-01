@@ -97,7 +97,7 @@
           this.getDamageTypes(),
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Tipo de Avaria excluido com sucesso."
+          this.message = "Tipo de Avaria excluído com sucesso."
         }else {
           this.showAlert = true
           this.messageClass = "danger"

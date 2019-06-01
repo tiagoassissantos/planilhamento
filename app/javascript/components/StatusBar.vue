@@ -1,11 +1,14 @@
 <template>
   <div id="navBarUser">
     <div class="header-side">
-      <ul class="nav justify-content-left">
-        <li class="nav-item">
-          <label id="label" class="nav-link active"> Mescladora GAG </label>
-        </li>
-      </ul>
+      <div class="container">
+        <ul class="nav justify-content-start">
+          <li class="nav-item">
+            <label id="label" class="nav-link active"> Mescladora GAG </label>
+          </li>
+        </ul>
+      </div>
+     
     </div>
   </div>
 </template>

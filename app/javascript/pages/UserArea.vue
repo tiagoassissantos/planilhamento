@@ -3,20 +3,11 @@
     <div v-if="isLogged">
       <navbar-user/>
     </div>
-
-    <div class='left-panel'>
+    <!-- <div class='left-panel'>
       <side-menu/>
-    </div>
-
-    <div class='right-panel'>
-      <div class="status-panel">
-        <status-bar/>
-      </div>
-
-      <div class="">
-        <router-view></router-view>
-      </div>
-    </div>
+    </div> -->
+    <status-bar/>
+    <router-view></router-view>  
   </div>
 </template>
 
@@ -57,11 +48,7 @@
   }
 
   .container {
-    padding-left: 100px;
-    margin-right: 30px;
+  
   }
 
-  .status-panel {
-    padding-left: 200px;
-  }
 </style>

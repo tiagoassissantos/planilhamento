@@ -95,7 +95,7 @@
           this.getDestinations(),
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Fabricante excluido com sucesso."
+          this.message = "Destino excluído com sucesso."
         }else {
           this.showAlert = true
           this.messageClass = "danger"

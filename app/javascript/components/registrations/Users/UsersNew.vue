@@ -1,5 +1,7 @@
 <template>
   <div class='container'>
+    
+    
 
     <div class="margin-alert">
       <b-alert show dismissible v-if="error" :variant="messageClass">
@@ -18,13 +20,13 @@
 
             <div class="col-sm-4">
               <div class="form-group">
-                <input class="form-control" type="text" v-model='user.name' placeholder="Nome do Usuário" />
+                <input class="form-control" type="text" v-model='user.name' placeholder="Nome do Usuário" required/>
               </div>
             </div>
 
             <div class="col-sm-4">
               <div class="form-group">
-                <input class="form-control" type="text" v-model='user.email' placeholder="E-mail do Usuário" />
+                <input class="form-control" type="text" v-model='user.email' placeholder="E-mail do Usuário" required/>
               </div>
             </div>
           </div>
@@ -49,21 +51,19 @@
             </div>
           </div>
 
-
           <div class='row'>
             <div class="col-sm-4">
               <div class="form-group">
-                <input class="form-control" type="password" v-model='user.password' placeholder="Senha" />
+                <input class="form-control" type="password" v-model='user.password' placeholder="Senha" required/>
               </div>
             </div>
 
             <div class="col-sm-4">
               <div class="form-group">
-                <input class="form-control" type="password" v-model='user.password_confirmation' placeholder="Repita a senha" />
+                <input class="form-control" type="password" v-model='user.password_confirmation' placeholder="Repita a senha" required/>
               </div>
             </div>
           </div>
-
           <div class='row'>
             <div class="col-sm-2">
               <button type='submit' class="btn btn-primary">
@@ -71,6 +71,13 @@
               </button>
             </div>
           </div>
+
+          <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
+            <center>
+              <img  class="size-img-modal" src="../../../../assets/images/checked.png"/>
+            </center>
+            <p class="my-1"> {{ messageModal }} </p>
+          </b-modal>
 
         </form>
       </div> <!-- card body -->
@@ -100,7 +107,10 @@
         message: '',
 
         header_text: '',
-        button_text: ''
+        button_text: '',
+
+        showModal: false,
+        messageModal: '',
       }
     },
 
@@ -138,38 +148,54 @@
           name: this.user.name
         }
 
-        if (this.edit) {
-          console.log("++++")
-          await this.$http.put(`/users/${this.user_id}`, {user: this.user})
-          .then((result) => {
-            response = result;
-          }).catch((err) => {
-            response = err
-          });
-
-        } else {
-
-          await this.$http.post("/users", {user: this.user })
-            .then(resp => {
-              response = resp;
-            })
-            .catch(resp => {
-              console.log(response);
-              response = resp;
-            });
-        }
-
-
-        if (response.status == 200) {
-          this.messageClass = "success";
-          this.$router.push('/users')
-
-        } else {
+        if( this.user.password != this.user.password_confirmation){
           this.messageClass = "danger";
           this.error = true;
-          this.message = response.body.message;
-        }
+          this.message = "Erro, as senhas devem ser iguais.";
 
+        }else {
+          if (this.edit) {
+            console.log("++++")
+            await this.$http.put(`/users/${this.user_id}`, {user: this.user})
+            .then((result) => {
+              response = result;
+              this.messageModal = 'Usuário editado com sucesso'
+            }).catch((err) => {
+              response = err
+            });
+
+          } else {
+
+            await this.$http.post("/users", {user: this.user })
+              .then(resp => {
+                response = resp;
+                this.messageModal = 'Usuário cadastrado com sucesso'
+                
+              })
+              .catch(resp => {
+                console.log(response);
+                response = resp;
+              });
+          }
+
+
+          if (response.status == 200) {
+            this.error = false
+            this.showModal = true     
+
+            setTimeout(function(){ 
+              this.showModal = false     
+              this.$router.push('/users')
+            }.bind(this), 2000);    
+
+          } else {
+            this.messageClass = "danger";
+            this.error = true;
+            this.message = "Erro ao cadastrar novo usuário.";
+          }
+
+        }
+        
         this.loader.hide()
       },
 
@@ -183,22 +209,26 @@
       },
 
       async getUser(){
+        console.log('++++++++++++++++++++')
         let response = null;
 
         await this.$http.get(`/users/${this.user_id}`)
         .then((result) => {
           this.user = result.body
+          console.log( this.user )
         }).catch((err) => {
           response = err.body
         });
-      }
-
+      },
     }
   };
+
 </script>
 
 <style scoped>
   .card {
     margin-top: 50px;
   }
+
+  
 </style>

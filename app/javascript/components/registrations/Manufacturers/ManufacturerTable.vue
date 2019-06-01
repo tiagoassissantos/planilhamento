@@ -95,7 +95,7 @@
           this.getManufacturers(),
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Fabricante excluido com sucesso."
+          this.message = "Fabricante excluído com sucesso."
         }else {
           this.showAlert = true
           this.messageClass = "danger"

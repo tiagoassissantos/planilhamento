@@ -27,6 +27,14 @@
               </button>
             </div>
           </div>
+
+          <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
+            <center>
+              <img  class="size-img-modal" src="../../../../assets/images/checked.png"/>
+            </center>
+            <p class="my-1"> {{ messageModal }} </p>
+          </b-modal>
+
         </form>
       </div> <!-- card body -->
     </div> <!-- card -->
@@ -50,7 +58,10 @@
         message: '',
 
         header_text: '',
-        button_text: ''
+        button_text: '',
+
+        showModal: false,
+        messageModal: '',
       }
     },
 
@@ -87,6 +98,7 @@
           JSON.stringify({processor: this.processor}))
           .then((result) => {
             response = result;
+            this.messageModal = 'Processador editado com sucesso'
           }).catch((err) => {
             response = err
           });
@@ -96,6 +108,8 @@
           await this.$http.post("/processors", this.processor)
             .then(resp => {
               response = resp;
+              this.messageModal = 'Processador cadastrado com sucesso'
+
             })
             .catch(resp => {
               console.log(response);
@@ -106,7 +120,13 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.$router.push('/processors')
+          this.showModal = true     
+
+          setTimeout(function(){ 
+            this.showModal = false     
+            this.$router.push('/processors');
+          
+          }.bind(this), 2000);    
 
         } else {
           this.messageClass = "danger";

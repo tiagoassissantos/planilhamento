@@ -73,13 +73,13 @@
             </div>
           </div>
   
-
-          <b-modal v-model="showModal" v-if="showModal">
+          <b-modal v-model="showModal" v-if="showModal" hide-footer>
             <center>
               <img  class="size-img-modal" src="../../../../assets/images/checked.png"/>
             </center>
-            <p class="my-1"> Usuário cadastrado com sucesso </p>
+            <p class="my-1"> {{ messageModal }} </p>
           </b-modal>
+
         </form>
       </div> <!-- card body -->
     </div> <!-- card -->
@@ -110,7 +110,8 @@
         header_text: '',
         button_text: '',
 
-        showModal: false
+        showModal: false,
+        messageModal: '',
       }
     },
 
@@ -159,6 +160,7 @@
             await this.$http.put(`/users/${this.user_id}`, {user: this.user})
             .then((result) => {
               response = result;
+              this.messageModal = 'Usuário editado com sucesso'
             }).catch((err) => {
               response = err
             });
@@ -168,6 +170,7 @@
             await this.$http.post("/users", {user: this.user })
               .then(resp => {
                 response = resp;
+                this.messageModal = 'Usuário cadastrado com sucesso'
                 
               })
               .catch(resp => {

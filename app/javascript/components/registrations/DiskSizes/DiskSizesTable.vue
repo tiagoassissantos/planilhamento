@@ -95,7 +95,7 @@
           this.getDiskSizes(),
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Fabricante excluido com sucesso."
+          this.message = "Tamanho de disco excluído com sucesso."
         }else {
           this.showAlert = true
           this.messageClass = "danger"

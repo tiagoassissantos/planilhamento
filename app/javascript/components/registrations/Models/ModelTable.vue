@@ -97,7 +97,7 @@
           this.getModels(),
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Modelo excluido com sucesso."
+          this.message = "Modelo excluído com sucesso."
         }else {
           this.showAlert = true
           this.messageClass = "danger"

@@ -95,7 +95,7 @@
           this.getDiskTypes(),
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Fabricante excluido com sucesso."
+          this.message = "Disco excluído com sucesso."
         }else {
           this.showAlert = true
           this.messageClass = "danger"

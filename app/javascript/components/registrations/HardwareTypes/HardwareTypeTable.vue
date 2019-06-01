@@ -95,7 +95,7 @@
           this.getHardwareTypes(),
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Item excluido com sucesso."
+          this.message = "Item excluído com sucesso."
         }else {
           this.showAlert = true
           this.messageClass = "danger"

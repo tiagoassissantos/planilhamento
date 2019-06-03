@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_01_163507) do
+ActiveRecord::Schema.define(version: 2019_06_01_203009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 2019_06_01_163507) do
     t.string "biometric_reader"
     t.string "vga_card"
     t.integer "lot_id"
+    t.integer "sku_id"
     t.index ["category_id"], name: "index_lot_items_on_category_id"
     t.index ["damage_type_id"], name: "index_lot_items_on_damage_type_id"
     t.index ["destination_id"], name: "index_lot_items_on_destination_id"
@@ -129,6 +130,41 @@ ActiveRecord::Schema.define(version: 2019_06_01_163507) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "skus", force: :cascade do |t|
+    t.string "code"
+    t.string "screen"
+    t.string "webcam"
+    t.string "wireless"
+    t.string "bluetooth"
+    t.string "mini_display_port"
+    t.string "hdmi"
+    t.string "vga"
+    t.string "esata"
+    t.string "luminous_keyboard"
+    t.string "biometric_reader"
+    t.string "vga_card"
+    t.bigint "hardware_type_id"
+    t.bigint "manufacturer_id"
+    t.bigint "model_id"
+    t.bigint "category_id"
+    t.bigint "damage_type_id"
+    t.bigint "processor_id"
+    t.bigint "disk_size_id"
+    t.bigint "disk_type_id"
+    t.bigint "keyboard_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_skus_on_category_id"
+    t.index ["damage_type_id"], name: "index_skus_on_damage_type_id"
+    t.index ["disk_size_id"], name: "index_skus_on_disk_size_id"
+    t.index ["disk_type_id"], name: "index_skus_on_disk_type_id"
+    t.index ["hardware_type_id"], name: "index_skus_on_hardware_type_id"
+    t.index ["keyboard_type_id"], name: "index_skus_on_keyboard_type_id"
+    t.index ["manufacturer_id"], name: "index_skus_on_manufacturer_id"
+    t.index ["model_id"], name: "index_skus_on_model_id"
+    t.index ["processor_id"], name: "index_skus_on_processor_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -155,4 +191,13 @@ ActiveRecord::Schema.define(version: 2019_06_01_163507) do
   add_foreign_key "lot_items", "models"
   add_foreign_key "lot_items", "processors"
   add_foreign_key "models", "manufacturers"
+  add_foreign_key "skus", "categories"
+  add_foreign_key "skus", "damage_types"
+  add_foreign_key "skus", "disk_sizes"
+  add_foreign_key "skus", "disk_types"
+  add_foreign_key "skus", "hardware_types"
+  add_foreign_key "skus", "keyboard_types"
+  add_foreign_key "skus", "manufacturers"
+  add_foreign_key "skus", "models"
+  add_foreign_key "skus", "processors"
 end

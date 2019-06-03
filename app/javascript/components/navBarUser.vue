@@ -122,7 +122,7 @@
             </div>
           </div>
           <div class="dropdown-content">
-            <a href="#">Trocar senha</a>
+            <router-link to="/change-password">Trocar senha</router-link>
             <a href="javascript:void(0)" v-on:click='logoff()'>Sair</a>
           </div>
         </div>

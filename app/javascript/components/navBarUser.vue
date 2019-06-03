@@ -82,23 +82,12 @@
           <font-awesome-icon icon="copy"/>
           Inventário 
         </a>
-        <ul>
-          <li><a href="#">Subnav Item</a></li>
-          <li><a href="#">Subnav Item</a></li>
-          <li><a href="#">Subnav Item</a></li>
-        </ul>
       </li>
       <li>
         <a href="#">
           <font-awesome-icon icon="columns"/>   
            Movimentações 
         </a>
-
-        <ul>
-          <li><a href="#">Subnav Item</a></li>
-          <li><a href="#">Subnav Item</a></li>
-          <li><a href="#">Subnav Item</a></li>
-        </ul>
       </li>
     </ul>
 

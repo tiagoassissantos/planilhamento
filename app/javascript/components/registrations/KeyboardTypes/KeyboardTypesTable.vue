@@ -1,5 +1,23 @@
 <template>
   <div id="app">
+    
+    <div class='row'>
+      <div class="col-sm-8">
+        <div class="input-group">
+          <input type="text" class="form-control" aria-describedby="button-addon4" v-model="input">
+          <div class="input-group-append" id="button-addon4">
+            <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
+            <button class="btn btn-danger" type="button" @click="input = null">Limpar pesquisa</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-2 offset-sm-2">
+        <router-link to="/keyboard-types/new" class="btn btn-primary float-right">
+          Novo
+        </router-link>
+      </div>
+    </div>
 
     <div class="margin-alert">
       <b-alert show dismissible v-if="showAlert" :variant="messageClass">
@@ -17,7 +35,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for='(type, index) in keyboardTypes' :key="index">
+        <tr v-for='(type, index) in keyboardTypes' :key="index" v-if="regExp( type )">
           <td>{{type.id}}</td>
           <td>{{type.name}}</td>
           <td>
@@ -43,7 +61,8 @@
         keyboardTypes: [],
         showAlert: false,
         message: '',
-        messageClass: ''
+        messageClass: '',
+        input: null
 
       }
     },
@@ -100,6 +119,22 @@
           this.showAlert = true
           this.messageClass = "danger"
           this.message = "Erro ao carregar os dados."
+        }
+      },
+
+      regExp( type ) {
+        var id = type.id.toString()
+        var name = type.name.toLowerCase()
+
+        if( this.input === null){
+          return true
+        }else{
+          this.input = this.input.toLowerCase()
+          if( id.match(this.input) || name.match(this.input) ){
+            return true
+          }else{
+            return false
+          }
         }
       }
 

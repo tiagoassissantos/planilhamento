@@ -187,17 +187,17 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-if='showWireless'>
+                    <div class="col-sm-6 col-md-4 col-lg-3" v-if='showWirelles'>
                       <div class="form-group">
                         <label>Wireless</label>
-                        <input type="text" class="form-control" v-model='lot_item.wireless'/>
+                        <input type="text" class="form-control" v-model='lot_item.wirelles'/>
                       </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-if='showBluetooth'>
+                    <div class="col-sm-6 col-md-4 col-lg-3" v-if='showBluethooth'>
                       <div class="form-group">
                         <label>Bluetooth</label>
-                        <select class="form-control" v-model='lot_item.bluetooth'>
+                        <select class="form-control" v-model='lot_item.bluethooth'>
                           <option value="undefined" selected>Selecione</option>
                           <option value="1">Sim</option>
                           <option value="0">Não</option>
@@ -323,8 +323,8 @@
           screen_size: '',
           webcam: '',
           //keyboard_type_id: 0,
-          wireless: '',
-          bluetooth: '',
+          wirelles: '',
+          bluethooth: '',
           mini_display_port: '',
           hdmi: '',
           vga: '',
@@ -641,6 +641,8 @@
           })
 
         if (response.status == 200) {
+          console.log('+++++++++++++++++++++++++++++++')
+          console.log(this.models )
           this.models = response.body;
 
         } else {

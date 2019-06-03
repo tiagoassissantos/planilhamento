@@ -47,11 +47,17 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
+    code += damage_type.id.to_s
+    code += screen
+    code += hdmi[0,1]
+    code += vga[0,1]
+    code += esata[0,1]
 
     code
   end
 
   def generate_desktop_sku
+
   end
 
   def generate_server_sku

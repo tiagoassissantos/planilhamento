@@ -4,11 +4,11 @@
       <div class="container">
         <ul class="nav justify-content-start">
           <li class="nav-item">
-            <label id="label" class="nav-link active"> Mescladora GAG </label>
+            <label id="label" class="nav-link active"> Recicladora GAG </label>
           </li>
         </ul>
       </div>
-     
+
     </div>
   </div>
 </template>

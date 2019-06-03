@@ -25,30 +25,33 @@
       </b-alert>
     </div>
 
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for='(processor, index) in processors' :key="index" v-if="regExp( processor )">
-          <td>{{processor.id}}</td>
-          <td>{{processor.name}}</td>
-          <td>
-            <router-link :to="{ name: 'processor', params: {processor_id: processor.id}}">
-              <img src='../../../../assets/images/editar.png'/>
-            </router-link>
-          </td>
-          <td>
-            <img @click="deleteProcessor(processor.id)" src='../../../../assets/images/excluir.png'/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-scroll">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for='(processor, index) in processors' :key="index" v-if="regExp( processor )">
+            <td>{{processor.id}}</td>
+            <td>{{processor.name}}</td>
+            <td>
+              <router-link :to="{ name: 'processor', params: {processor_id: processor.id}}">
+                <img src='../../../../assets/images/editar.png'/>
+              </router-link>
+            </td>
+            <td>
+              <img @click="deleteProcessor(processor.id)" src='../../../../assets/images/excluir.png'/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
   </div>
 </template>
 

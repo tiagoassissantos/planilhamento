@@ -25,30 +25,32 @@
       </b-alert>
     </div>
 
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for='(disk_size, index) in disk_sizes' :key="index" v-if="regExp( disk_size )">
-          <td>{{disk_size.id}}</td>
-          <td>{{disk_size.name}}</td>
-          <td>
-            <router-link :to="{ name: 'disk_size', params: {disk_size_id: disk_size.id}}">
-              <img src='../../../../assets/images/editar.png'/>
-            </router-link>
-          </td>
-          <td>
-            <img @click="deleteDiskSize(disk_size.id)" src='../../../../assets/images/excluir.png'/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-scroll">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for='(disk_size, index) in disk_sizes' :key="index" v-if="regExp( disk_size )">
+            <td>{{disk_size.id}}</td>
+            <td>{{disk_size.name}}</td>
+            <td>
+              <router-link :to="{ name: 'disk_size', params: {disk_size_id: disk_size.id}}">
+                <img src='../../../../assets/images/editar.png'/>
+              </router-link>
+            </td>
+            <td>
+              <img @click="deleteDiskSize(disk_size.id)" src='../../../../assets/images/excluir.png'/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 

@@ -24,33 +24,35 @@
         {{ message }}
       </b-alert>
     </div>
-
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Hardware</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for='(damageType, index) in damageTypes' :key="index" v-if="regExp( damageType )">
-          <td>{{damageType.id}}</td>
-          <td>{{damageType.name}}</td>
-          <td>{{damageType.hardware_type.name}}</td>
-          <td>
-            <router-link :to="{ name: 'damage', params: {damage_id: damageType.id}}">
-              <img src='../../../../assets/images/editar.png'/>
-            </router-link>
-          </td>
-          <td>
-            <img @click="deleteDamageTypes(damageType.id)" src='../../../../assets/images/excluir.png'/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-scroll">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Hardware</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for='(damageType, index) in damageTypes' :key="index" v-if="regExp( damageType )">
+            <td>{{damageType.id}}</td>
+            <td>{{damageType.name}}</td>
+            <td>{{damageType.hardware_type.name}}</td>
+            <td>
+              <router-link :to="{ name: 'damage', params: {damage_id: damageType.id}}">
+                <img src='../../../../assets/images/editar.png'/>
+              </router-link>
+            </td>
+            <td>
+              <img @click="deleteDamageTypes(damageType.id)" src='../../../../assets/images/excluir.png'/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
   </div>
 </template>
 

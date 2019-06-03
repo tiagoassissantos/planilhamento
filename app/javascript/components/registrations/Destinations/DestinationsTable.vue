@@ -25,30 +25,33 @@
       </b-alert>
     </div>
 
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for='(destination, index) in destinations' :key="index" v-if="regExp( destination )">
-          <td>{{destination.id}}</td>
-          <td>{{destination.name}}</td>
-          <td>
-            <router-link :to="{ name: 'destination', params: {destination_id: destination.id}}">
-              <img src='../../../../assets/images/editar.png'/>
-            </router-link>
-          </td>
-          <td>
-            <img @click="deleteDestination(destination.id)" src='../../../../assets/images/excluir.png'/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-scroll">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for='(destination, index) in destinations' :key="index" v-if="regExp( destination )">
+            <td>{{destination.id}}</td>
+            <td>{{destination.name}}</td>
+            <td>
+              <router-link :to="{ name: 'destination', params: {destination_id: destination.id}}">
+                <img src='../../../../assets/images/editar.png'/>
+              </router-link>
+            </td>
+            <td>
+              <img @click="deleteDestination(destination.id)" src='../../../../assets/images/excluir.png'/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
   </div>
 </template>
 

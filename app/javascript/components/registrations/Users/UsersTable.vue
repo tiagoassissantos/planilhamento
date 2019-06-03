@@ -24,36 +24,39 @@
       </b-alert>
     </div>
 
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Nome</th>
-          <th scope="col">E-mail</th>
-          <th scope="col">CPF</th>
-          <th scope="col">Perfil de Acesso</th>
-          <th scope="col">Editar</th>
-          <!--th scope="col">Excluir</th-->
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for='(user, index) in users' :key="index" v-if="regExp( user )">
-          <td>{{user.id}}</td>
-          <td>{{user.name}}</td>
-          <td>{{user.email}}</td>
-          <td>{{user.cpf}}</td>
-          <td>{{user.role}}</td>
-          <td>
-            <router-link :to="{ name: 'user', params: {user_id: user.id}}">
-              <img src='../../../../assets/images/editar.png'/>
-            </router-link>
-          </td>
-          <!--td>
-            <img @click="deleteUser(user.id)" src='../../../../assets/images/excluir.png'/>
-          </td-->
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-scroll">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Perfil de Acesso</th>
+            <th scope="col">Editar</th>
+            <!--th scope="col">Excluir</th-->
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for='(user, index) in users' :key="index" v-if="regExp( user )">
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.cpf}}</td>
+            <td>{{user.role}}</td>
+            <td>
+              <router-link :to="{ name: 'user', params: {user_id: user.id}}">
+                <img src='../../../../assets/images/editar.png'/>
+              </router-link>
+            </td>
+            <!--td>
+              <img @click="deleteUser(user.id)" src='../../../../assets/images/excluir.png'/>
+            </td-->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
   </div>
 </template>
 

@@ -25,33 +25,35 @@
         {{ message }}
       </b-alert>
     </div>
-
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Fabricante</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for='(model, index) in models' :key="index" v-if="regExp( model )">
-          <td>{{model.id}}</td>
-          <td>{{model.name}}</td>
-          <td>{{model.manufacturer.name}}</td>
-          <td>
-            <router-link :to="{ name: 'model', params: {model_id: model.id}}">
-              <img src='../../../../assets/images/editar.png'/>
-            </router-link>
-          </td>
-          <td>
-            <img @click="deleteModel(model.id)" src='../../../../assets/images/excluir.png'/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-scroll">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Fabricante</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for='(model, index) in models' :key="index" v-if="regExp( model )">
+            <td>{{model.id}}</td>
+            <td>{{model.name}}</td>
+            <td>{{model.manufacturer.name}}</td>
+            <td>
+              <router-link :to="{ name: 'model', params: {model_id: model.id}}">
+                <img src='../../../../assets/images/editar.png'/>
+              </router-link>
+            </td>
+            <td>
+              <img @click="deleteModel(model.id)" src='../../../../assets/images/excluir.png'/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
   </div>
 </template>
 

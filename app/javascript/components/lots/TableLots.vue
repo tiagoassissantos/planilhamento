@@ -18,31 +18,34 @@
       </div>
     </div>
     <div class="row">
-      <table class="table table-hover table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">Editar</th>
-            <th scope="col">Código</th>
-            <th scope="col">Núm. Lote</th>
-            <th scope="col">Data</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for='(lot, index) in lots' :key="index" v-if="regExp( lot )">
-            <td>
-              <router-link :to="{ name: 'lot', params: {lot_id: lot.id}}">
-              <!--router-link to="/lots/" class="nav-link active text-light"-->
-                <img src='../../../assets/images/editar.png'/>
-              </router-link>
-            </td>
+      <div class="table-scroll">
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Editar</th>
+              <th scope="col">Código</th>
+              <th scope="col">Núm. Lote</th>
+              <th scope="col">Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for='(lot, index) in lots' :key="index" v-if="regExp( lot )">
+              <td>
+                <router-link :to="{ name: 'lot', params: {lot_id: lot.id}}">
+                  <!--router-link to="/lots/" class="nav-link active text-light"-->
+                  <img src='../../../assets/images/editar.png'/>
+                </router-link>
+              </td>
 
-            <td>{{lot.id}}</td>
-            <td>{{lot.order_number}}</td>
-            <td>{{lot.created_at}}</td>
-          </tr>
+              <td>{{lot.id}}</td>
+              <td>{{lot.order_number}}</td>
+              <td>{{lot.created_at}}</td>
+            </tr>
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
+      
     </div>
     
   </div>

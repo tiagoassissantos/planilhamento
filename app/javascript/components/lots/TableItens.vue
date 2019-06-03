@@ -1,20 +1,20 @@
 <template>
   <div id="app">
-    <table class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">Código</th>
-          <th scope="col">Produto</th>
-          <th scope="col">Num. Série</th>
-          <th scope="col">SKU</th>
-          <th scope="col">Categoria</th>
-          <th scope="col">Destino</th>
-          <th scope="col">Código de Barras</th>
-          <th scope="col">Excluir</th>
-        </tr>
-      </thead>
+    <div class="table-scroll">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Produto</th>
+            <th scope="col">Num. Série</th>
+            <th scope="col">SKU</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Destino</th>
+            <th scope="col">Código de Barras</th>
+            <th scope="col">Excluir</th>
+          </tr>
+        </thead>
       <tbody>
-
         <tr v-for='(lotItem, index) in lotItems' :key="index">
           <td>{{ lotItem.id }}</td>
           <td>{{ lotItem.hardware_type }}</td>
@@ -29,9 +29,10 @@
             </button>
           </td>
         </tr>
-
       </tbody>
     </table>
+    </div>
+    
   </div>
 </template>
 

@@ -1,8 +1,8 @@
 class LotItemSerializer < ActiveModel::Serializer
   attributes :id, :hardware_type, :model, :ram_memory, :serial_number, :asset_tag,
       :category, :comments, :damage_type, :processor, :disk_type,
-      :disk_size, :parent_id, :screen, :webcam, :keyboard_type, :wireless,
-      :bluetooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
+      :disk_size, :parent_id, :screen, :webcam, :keyboard_type, :wirelles,
+      :bluethooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
       :destination, :bar_code, :biometric_reader, :vga_card
 
 

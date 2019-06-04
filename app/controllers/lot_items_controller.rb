@@ -69,8 +69,8 @@ class LotItemsController < ApplicationController
     params.require(:lot_item).permit(
       :hardware_type_id, :model_id, :ram_memory, :serial_number, :asset_tag,
       :category_id, :comments, :damage_type_id, :processor_id, :disk_type_id,
-      :disk_size_id, :parent_id, :screen, :webcam, :keyboard_type_id, :wireless,
-      :bluetooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
+      :disk_size_id, :parent_id, :screen, :webcam, :keyboard_type_id, :wirelles,
+      :bluethooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
       :destination_id, :bar_code, :biometric_reader, :vga_card
     )
   end

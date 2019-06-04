@@ -2,7 +2,7 @@
   <div id="app" class='container'>
     <div class="card">
       <div class="card-header">
-        Lista de Lotes
+        Lotes Abertos
       </div>
       <div class="card-body">
 

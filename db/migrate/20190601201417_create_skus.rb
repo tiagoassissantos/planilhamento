@@ -10,7 +10,7 @@ class CreateSkus < ActiveRecord::Migration[5.2]
       t.string :hdmi
       t.string :vga
       t.string :esata
-      t.string :luminous_keyboard
+      t.string :bright_keyboard
       t.string :biometric_reader
       t.string :vga_card
 

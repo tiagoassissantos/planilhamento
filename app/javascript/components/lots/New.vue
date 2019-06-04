@@ -84,7 +84,7 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.$router.push(`/lots/${response.body.id}`)
+          this.$router.push(`/lots`)
 
         } else {
           this.messageClass = "danger";

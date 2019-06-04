@@ -99,6 +99,7 @@ DamageType.find_or_create_by name: 'OUTROS', hardware_type: ssd
 
 
 ####### Destinations #######
-Destination.find_or_create_by name: 'Vendas'
+Destination.find_or_create_by name: 'Disponível Vendas'
+Destination.find_or_create_by name: 'Vendido'
 Destination.find_or_create_by name: 'Manutenção'
 Destination.find_or_create_by name: 'Reciclagem'

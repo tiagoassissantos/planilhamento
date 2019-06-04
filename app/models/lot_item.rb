@@ -11,33 +11,35 @@ class LotItem < ApplicationRecord
   belongs_to :damage_type, optional: true
   belongs_to :sku, optional: true
 
-  after_save :generate_sku
-
+  before_save :generate_sku
 
   def generate_sku
-    return unless this.sku.nil?
+    p '===================================================================================================================================================================='
+    return unless self.sku.nil?
+
+    sku = nil
 
     case hardware_type.id
     when 1
-      generate_monitor_sku()
+      sku = generate_monitor_sku()
     when 2
-      generate_desktop_Sku()
+      sku = generate_desktop_Sku()
     when 3
-      generate_server_sku()
+      sku = generate_server_sku()
     when 4
-      generate_notebook_sku()
+      sku = generate_notebook_sku()
     when 5
-      generate_celular_sku()
+      sku = generate_celular_sku()
     when 6
-      generate_tablet_sku()
+      sku = generate_tablet_sku()
     when 7
-      generate_switch_sku()
+      sku = generate_switch_sku()
     when 8
-      generate_hd_sku()
+      sku = generate_hd_sku()
     when 9
-      generate_ssd_sku()
+      sku = generate_ssd_sku()
     when 10
-      generate_others_sku()
+      sku = generate_others_sku()
     end
   end
 
@@ -53,34 +55,176 @@ class LotItem < ApplicationRecord
     code += vga[0,1]
     code += esata[0,1]
 
-    code
+    self.sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer,
+      model: model, category: category, damage_type: damage_type, screen: screen,
+      hdmi: hdmi, vga: vga, esata: esata
+    )
+
+    p '----------------------------------------------------------------------'
+    p sku.errors.full_messages
   end
 
   def generate_desktop_sku
+    code = ''
+    code += hardware_type.name[0,3]
+    code += model.manufacturer.id.to_s
+    code += model.id.to_s
+    code += category.id.to_s
+    code += damage_type.id.to_s
+    code += processor.id.to_s
+    code += mini_display_port[0,1]
+    code += hdmi[0,1]
+    code += vga[0,1]
+    code += esata[0,1]
+    code += vga_card[0,1]
 
+    self.sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      category: category, damage_type: damage_type, processor: processor,
+      mini_display_port: mini_display_port, hdmi: hdmi, vga: vga, esata: esata, vga_card: vga_card
+    )
   end
 
   def generate_server_sku
+    code = ''
+    code += hardware_type.name[0,3]
+    code += model.manufacturer.id.to_s
+    code += model.id.to_s
+    code += category.id.to_s
+    #code += damage_type.id.to_s
+    code += processor.id.to_s
+    code += hdmi[0,1]
+    code += vga[0,1]
+
+    self.sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      category: category, processor: processor, hdmi: hdmi, vga: vga
+    )
   end
 
   def generate_notebook_sku
+    code = ''
+    code += hardware_type.name[0,3]
+    code += model.manufacturer.id.to_s
+    code += model.id.to_s
+    code += category.id.to_s
+    code += damage_type.id.to_s
+    code += processor.id.to_s
+    code += screen
+    code += webcam[0,1]
+    code += keyboard_type.id.to_s
+    code += wireless[0,1]
+    code += bluetooth[0,1]
+    code += mini_display_port[0,1]
+    code += hdmi[0,1]
+    code += vga[0,1]
+    code += esata[0,1]
+    code += bright_keyboard.id.to_s
+    code += biometric_reader[0,1]
+    code += vga_card[0,1]
+
+    sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      category: category, damage_type: damage_type, processor: processor, screen: screen,
+      webcam: webcam, keyboard_type: keyboard_type, wireless: wireless, bluetooth: bluetooth,
+      mini_display_port: mini_display_port, hdmi: hdmi, vga: vga, esata: esata,
+      bright_keyboard: bright_keyboard, biometric_reader: biometric_reader, vga_card: vga_card
+    )
+
+    self.sku = sku
   end
 
   def generate_celular_sku
+    code = ''
+    code += hardware_type.name[0,3]
+    code += model.manufacturer.id.to_s
+    code += model.id.to_s
+    code += category.id.to_s
+    code += damage_type.id.to_s
+    code += screen
+    code += webcam[0,1]
+
+    sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      category: category, damage_type: damage_type, screen: screen, webcam: webcam
+    )
+
+    self.sku = sku
   end
 
   def generate_tablet_sku
+    code = ''
+    code += hardware_type.name[0,3]
+    code += model.manufacturer.id.to_s
+    code += model.id.to_s
+    code += category.id.to_s
+    code += damage_type.id.to_s
+    code += screen
+    code += webcam[0,1]
+
+    sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      category: category, damage_type: damage_type, screen: screen, webcam: webcam
+    )
+
+    self.sku = sku
   end
 
   def generate_switch_sku
+    code = ''
+    code += hardware_type.name[0,3]
+    code += model.manufacturer.id.to_s
+    code += model.id.to_s
+    code += category.id.to_s
+    code += damage_type.id.to_s
+
+    sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      category: category, damage_type: damage_type
+    )
+
+    self.sku = sku
   end
 
   def generate_hd_sku
+    code = ''
+    code += hardware_type.name[0,3]
+    code += disk_type.id.to_s
+    code += disk_size.id.to_s
+
+    sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type,
+      disk_type: disk_type, disk_size: disk_size
+    )
+
+    self.sku = sku
   end
 
   def generate_ssd_sku
+    code = ''
+    code += hardware_type.name[0,3]
+    code += disk_type.id.to_s
+    code += disk_size.id.to_s
+
+    sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type,
+      disk_type: disk_type, disk_size: disk_size
+    )
+
+    self.sku = sku
   end
 
   def generate_others_sku
+    code = ''
+    code += hardware_type.name[0,3]
+    code += model.manufacturer.id.to_s
+    code += model.id.to_s
+
+    sku = Sku.find_or_create_by(
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model
+    )
+
+    self.sku = sku
   end
 end

@@ -2,9 +2,9 @@
   <nav class="navbar navbar-light bg-light nav">
     <ul>
       <li>
-        <a href="#"> 
+        <a href="#">
           <font-awesome-icon icon="list"/>
-          Cadastros 
+          Cadastros
         </a>
         <ul>
           <li>
@@ -40,7 +40,7 @@
           <li>
             <router-link to="/processors" class="nav-link active text-light">
               <font-awesome-icon icon="sim-card" class="sub-icon"/> Processadores
-            </router-link>            
+            </router-link>
           </li>
           <li>
             <router-link to="/disk-types" class="nav-link active text-light">
@@ -50,7 +50,7 @@
           <li>
             <router-link to="/disk-sizes" class="nav-link active text-light">
               <font-awesome-icon icon="server" class="sub-icon"/> Tamanho do Disco
-            </router-link>            
+            </router-link>
           </li>
           <li>
             <router-link to="/keyboard-types" class="nav-link active text-light">
@@ -65,9 +65,9 @@
         </ul>
       </li>
       <li>
-        <a href="#"> 
+        <a href="#">
           <font-awesome-icon icon="laptop"/>
-          Recebimento 
+          Recebimento
         </a>
         <ul>
           <li>
@@ -78,20 +78,36 @@
         </ul>
       </li>
       <li>
-        <a href="#">          
+        <a href="#">
           <font-awesome-icon icon="copy"/>
-          Inventário 
+          Inventário
+
+          <ul>
+            <li>
+              <router-link to="/lots" class="nav-link active text-light">
+                <font-awesome-icon icon="box" class="sub-icon"/> Todos os Lotes
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/lots" class="nav-link active text-light">
+                <font-awesome-icon icon="box" class="sub-icon"/> Lotes Abertos
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/lots" class="nav-link active text-light">
+                <font-awesome-icon icon="box" class="sub-icon"/> Lotes Fechados
+              </router-link>
+            </li>
+          </ul>
+
+
+
         </a>
-        <ul>
-          <li><a href="#">Subnav Item</a></li>
-          <li><a href="#">Subnav Item</a></li>
-          <li><a href="#">Subnav Item</a></li>
-        </ul>
       </li>
       <li>
         <a href="#">
-          <font-awesome-icon icon="columns"/>   
-           Movimentações 
+          <font-awesome-icon icon="columns"/>
+          Movimentações
         </a>
 
         <ul>
@@ -102,7 +118,7 @@
       </li>
     </ul>
 
-     <ul class="nav justify-content-end nav-header">
+    <ul class="nav justify-content-end nav-header">
       <li class="nav-item style-item">
         <span class="nav-link" href="#">
           0.0.19
@@ -260,7 +276,7 @@ export default {
     padding-left: 20px;
     margin-right: 18px;
   }
-  
+
 
   .nav ul {
     *zoom: 1;
@@ -326,7 +342,7 @@ export default {
     top: 36px;
     z-index: 1;
   }
-  
+
   .nav li ul li {
     overflow: hidden;
     max-height: 0;

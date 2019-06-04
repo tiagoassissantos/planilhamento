@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 2019_06_01_203009) do
     t.string "hdmi"
     t.string "vga"
     t.string "esata"
-    t.string "luminous_keyboard"
+    t.string "bright_keyboard"
     t.string "biometric_reader"
     t.string "vga_card"
     t.bigint "hardware_type_id"

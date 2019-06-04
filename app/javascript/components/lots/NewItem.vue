@@ -190,7 +190,11 @@
                     <div class="col-sm-6 col-md-4 col-lg-3" v-if='showWireless'>
                       <div class="form-group">
                         <label>Wireless</label>
-                        <input type="text" class="form-control" v-model='lot_item.wireless'/>
+                        <select class="form-control" v-model='lot_item.wireless'>
+                          <option value="undefined" selected>Selecione</option>
+                          <option value="12">Sim</option>
+                          <option value="13">Não</option>
+                        </select>
                       </div>
                     </div>
 
@@ -208,21 +212,33 @@
                     <div class="col-sm-6 col-md-4 col-lg-3"  v-if='showMiniDisplayPort'>
                       <div class="form-group">
                         <label>Mini Display Port</label>
-                        <input type="text" class="form-control" v-model='lot_item.mini_display_port'/>
+                        <select class="form-control" v-model='lot_item.mini_display_port'>
+                          <option value="undefined" selected>Selecione</option>
+                          <option value="12">Sim</option>
+                          <option value="13">Não</option>
+                        </select>
                       </div>
                     </div>
 
                     <div class="col-sm-6 col-md-4 col-lg-3" v-if='showHdmihVgaEsata'>
                       <div class="form-group">
                         <label>HDMI</label>
-                        <input type="text" class="form-control" v-model='lot_item.hdmi'/>
+                        <select class="form-control" v-model='lot_item.hdmi'>
+                          <option value="undefined" selected>Selecione</option>
+                          <option value="12">Sim</option>
+                          <option value="13">Não</option>
+                        </select>
                       </div>
                     </div>
 
                     <div class="col-sm-6 col-md-4 col-lg-3" v-if='showHdmihVgaEsata'>
                       <div class="form-group">
                         <label>VGA</label>
-                        <input type="text" class="form-control" v-model='lot_item.vga'/>
+                        <select class="form-control" v-model='lot_item.vga'>
+                          <option value="undefined" selected>Selecione</option>
+                          <option value="12">Sim</option>
+                          <option value="13">Não</option>
+                        </select>
                       </div>
                     </div>
 
@@ -247,7 +263,11 @@
                     <div class="col-sm-6 col-md-4 col-lg-3" v-if='showBiometricReader'>
                       <div class="form-group">
                         <label>Leitor Biométrico</label>
-                        <input type="text" class="form-control" v-model='lot_item.biometric_reader'/>
+                        <select class="form-control" v-model='lot_item.biometric_reader'>
+                          <option value="undefined" selected>Selecione</option>
+                          <option value="12">Sim</option>
+                          <option value="13">Não</option>
+                        </select>
                       </div>
                     </div>
 
@@ -317,10 +337,10 @@
           comments: '',
           //damage_type_id: 0,
           //processor_id: 0,
-          size: '',
-          type: '',
+          disk_size_id: '',
+          disk_type_id: '',
           parent_id: '',
-          screen_size: '',
+          screen: '',
           webcam: '',
           //keyboard_type_id: 0,
           wireless: '',
@@ -329,7 +349,7 @@
           hdmi: '',
           vga: '',
           esata: '',
-          luminous_keyboard: '',
+          bright_keyboard: '',
           destination_id: 0,
           bar_code: ''
         },
@@ -564,7 +584,7 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.$router.push(`/lots/${this.lotId}`)
+          //this.$router.push(`/lots/${this.lotId}`)
 
         } else {
           this.messageClass = "danger";

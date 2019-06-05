@@ -124,15 +124,13 @@ class LotItem < ApplicationRecord
     code += biometric_reader[0,1]
     code += vga_card[0,1]
 
-    sku = Sku.find_or_create_by(
+    self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, damage_type: damage_type, processor: processor, screen: screen,
       webcam: webcam, keyboard_type: keyboard_type, wireless: wireless, bluetooth: bluetooth,
       mini_display_port: mini_display_port, hdmi: hdmi, vga: vga, esata: esata,
       bright_keyboard: bright_keyboard, biometric_reader: biometric_reader, vga_card: vga_card
     )
-
-    self.sku = sku
   end
 
   def generate_celular_sku
@@ -145,12 +143,10 @@ class LotItem < ApplicationRecord
     code += screen
     code += webcam[0,1]
 
-    sku = Sku.find_or_create_by(
+    self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, damage_type: damage_type, screen: screen, webcam: webcam
     )
-
-    self.sku = sku
   end
 
   def generate_tablet_sku
@@ -163,12 +159,10 @@ class LotItem < ApplicationRecord
     code += screen
     code += webcam[0,1]
 
-    sku = Sku.find_or_create_by(
+    self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, damage_type: damage_type, screen: screen, webcam: webcam
     )
-
-    self.sku = sku
   end
 
   def generate_switch_sku
@@ -179,12 +173,10 @@ class LotItem < ApplicationRecord
     code += category.id.to_s
     code += damage_type.id.to_s
 
-    sku = Sku.find_or_create_by(
+    self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, damage_type: damage_type
     )
-
-    self.sku = sku
   end
 
   def generate_hd_sku
@@ -193,12 +185,10 @@ class LotItem < ApplicationRecord
     code += disk_type.id.to_s
     code += disk_size.id.to_s
 
-    sku = Sku.find_or_create_by(
+    self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type,
       disk_type: disk_type, disk_size: disk_size
     )
-
-    self.sku = sku
   end
 
   def generate_ssd_sku
@@ -207,12 +197,10 @@ class LotItem < ApplicationRecord
     code += disk_type.id.to_s
     code += disk_size.id.to_s
 
-    sku = Sku.find_or_create_by(
+    self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type,
       disk_type: disk_type, disk_size: disk_size
     )
-
-    self.sku = sku
   end
 
   def generate_others_sku
@@ -221,10 +209,8 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
 
-    sku = Sku.find_or_create_by(
+    self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model
     )
-
-    self.sku = sku
   end
 end

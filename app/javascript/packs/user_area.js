@@ -14,20 +14,23 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
-         faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
+  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-library.add(faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit, 
-            faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox );
+library.add(faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
+  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 //pages
 import App from '../pages/UserArea';
 import dashboard from '../pages/dashboard';
-import ListLots from '../components/lots/List.vue';
-import NewLot from '../components/lots/New.vue';
+import ListLots from '../components/lots/ListLots.vue';
+import NewLot from '../components/lots/NewLot.vue';
 import NewLotItem from '../components/lots/NewItem.vue';
 import ShowLot from '../components/lots/ShowLot.vue';
+import Inventory from '../components/lots/Inventory.vue';
 
 import UsersList from '../components/registrations/Users/UsersList.vue'
 import UsersNew from '../components/registrations/Users/UsersNew.vue'
@@ -76,8 +79,11 @@ const router = new VueRouter({
     { path: "/", component: dashboard, props: true },
     { path: "/lots", component: ListLots, props: true },
     { path: "/lots/new", component: NewLot, props: true },
+    { path: "/lots/:lot_id/edit", component: NewLot, props: true, name: 'edit-lot' },
     { path: "/lots/:lot_id/new-item", component: NewLotItem, props: true },
     { path: "/lots/:lot_id", component: ShowLot, props: true, name: 'lot' },
+
+    { path: "/inventory/:status", component: Inventory, props: true, name: 'inventory' },
 
     { path: "/users", component: UsersList, props: true },
     { path: "/users/new", component: UsersNew, props: true },
@@ -123,9 +129,7 @@ const router = new VueRouter({
     { path: "/disk-sizes/new", component: DiskSizesNew, props: true },
     { path: "/disk-sizes/:disk_size_id", component: DiskSizesNew, props: true, name: 'disk_size' },
 
-    { path: "/change-password", component: changePassword, props: true, name: 'change_password' },
-
-    
+    { path: "/change-password", component: changePassword, props: true, name: 'change_password' }
   ]
 })
 

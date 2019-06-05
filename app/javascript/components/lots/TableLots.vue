@@ -13,10 +13,12 @@
 
       <div class="col-sm-2 offset-sm-2">
         <router-link to="/lots/new" class="btn btn-primary float-right">
-            Novo
+            Novo Lote
         </router-link>
       </div>
     </div>
+
+
     <div class="row">
       <div class="table-scroll">
         <table class="table table-hover table-bordered">
@@ -28,6 +30,7 @@
               <th scope="col">Data</th>
             </tr>
           </thead>
+
           <tbody>
             <tr v-for='(lot, index) in lots' :key="index" v-if="regExp( lot )">
               <td>
@@ -41,13 +44,11 @@
               <td>{{lot.order_number}}</td>
               <td>{{lot.created_at}}</td>
             </tr>
-
           </tbody>
         </table>
       </div>
-      
     </div>
-    
+
   </div>
 </template>
 

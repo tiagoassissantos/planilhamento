@@ -1,6 +1,6 @@
 <template>
   <div id="app" class='container'>
-    <div class="row">
+    <div class="row mt-4">
       <div class="col-sm-5">
         <h2>Lote Número: {{lotId}}</h2>
       </div>

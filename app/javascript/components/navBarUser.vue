@@ -64,6 +64,7 @@
           </li>
         </ul>
       </li>
+
       <li>
         <a href="#">
           <font-awesome-icon icon="laptop"/>
@@ -77,6 +78,7 @@
           </li>
         </ul>
       </li>
+
       <li>
         <a href="#">
           <font-awesome-icon icon="copy"/>
@@ -84,26 +86,24 @@
 
           <ul>
             <li>
-              <router-link to="/lots" class="nav-link active text-light">
+              <router-link class="nav-link active text-light" :to="{ name: 'inventory', params: {status: 'all'}}">
                 <font-awesome-icon icon="box" class="sub-icon"/> Todos os Lotes
               </router-link>
             </li>
             <li>
-              <router-link to="/lots" class="nav-link active text-light">
+              <router-link class="nav-link active text-light" :to="{ name: 'inventory', params: {status: 'open'}}">
                 <font-awesome-icon icon="box" class="sub-icon"/> Lotes Abertos
               </router-link>
             </li>
             <li>
-              <router-link to="/lots" class="nav-link active text-light">
+              <router-link class="nav-link active text-light" :to="{ name: 'inventory', params: {status: 'closed'}}">
                 <font-awesome-icon icon="box" class="sub-icon"/> Lotes Fechados
               </router-link>
             </li>
           </ul>
-
-
-
         </a>
       </li>
+
       <li>
         <a href="#">
           <font-awesome-icon icon="columns"/>

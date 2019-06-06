@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_01_203009) do
+ActiveRecord::Schema.define(version: 2019_06_06_152022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 2019_06_01_203009) do
     t.string "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status"
   end
 
   create_table "manufacturers", force: :cascade do |t|
@@ -140,7 +141,7 @@ ActiveRecord::Schema.define(version: 2019_06_01_203009) do
     t.string "hdmi"
     t.string "vga"
     t.string "esata"
-    t.string "bright_keyboard"
+    t.string "luminous_keyboard"
     t.string "biometric_reader"
     t.string "vga_card"
     t.bigint "hardware_type_id"

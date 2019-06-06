@@ -34,9 +34,13 @@ class User::SessionsController < Devise::SessionsController
     end
   end
 
-  #def current_user
-  #  render json: current_user , status: 200
-  #end
+  def get_user_admin
+    unless current_user.admin?
+      render json: false  , status: 404
+    else
+      render json: true  , status: 200
+    end
+  end
 
   # DELETE /resource/sign_out
   # def destroy

@@ -9,10 +9,10 @@
         <div class='row'>
           <div class="col-sm-8">
             <div class="input-group">
-              <input type="text" class="form-control" aria-describedby="button-addon4">
+              <input type="text" class="form-control" aria-describedby="button-addon4"  v-model="input">
               <div class="input-group-append" id="button-addon4">
                 <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
-                <button class="btn btn-danger" type="button">Limpar pesquisa</button>
+                <button class="btn btn-danger" type="button" @click="input = null">Limpar pesquisa</button>
               </div>
             </div>
           </div>
@@ -24,11 +24,11 @@
               <table class="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th scope="col">Editar</th>
-                    <th scope="col">Código</th>
-                    <th scope="col">Núm. Lote</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Data</th>
+                    <th scope="col"> Editar</th>
+                    <th scope="col"> Código</th>
+                    <th scope="col"> Núm. Lote</th>
+                    <th scope="col"> Status</th>
+                    <th scope="col"> Data</th>
                   </tr>
                 </thead>
 
@@ -43,7 +43,7 @@
 
                     <td>{{lot.id}}</td>
                     <td>{{lot.order_number}}</td>
-                    <td>Aberto</td>
+                    <td>{{lot.status}}</td>
                     <td>{{lot.created_at}}</td>
                   </tr>
                 </tbody>
@@ -82,10 +82,17 @@
       this.getLots();
     },
 
+    watch: {
+      '$route.params.status': function (id) {
+        this.lots = []
+        this.getLots()
+      }
+    },
+
     methods: {
       async getLots() {
         let response = null;
-        await this.$http.get('/lots')
+        await this.$http.get(`/lots?status=${this.$route.params.status}`)
           .then((resp) => {
             response = resp;
           })
@@ -96,9 +103,17 @@
         if (response.status == 200) {
 
           response.body.forEach(lot => {
+
+            let status = ''
+
+            if( lot.status === 'open') { status = 'Aberto'}
+            if( lot.status === 'closed') { status = 'Fechado' }
+            if( lot.status === 'reopened') { status = 'Reaberto' }
+
             this.lots.push({
               id: lot.id,
               order_number: lot.order_number,
+              status: status,
               created_at: moment(lot.created_at).format('DD/MM HH:mm'),
             })
           });
@@ -116,12 +131,13 @@
         var lot_id = lot.id.toString()
         var order_number = lot.order_number.toLowerCase()
         var created_at = lot.created_at.toLowerCase()
+        var status = lot.status.toLowerCase()
 
         if( this.input === null){
           return true
         }else{
           this.input = this.input.toLowerCase()
-          if( lot_id.match(this.input) || order_number.match(this.input) || created_at.match(this.input)){
+          if( lot_id.match(this.input) || order_number.match(this.input) || created_at.match(this.input) || status.match(this.input)){
             return true
           }else{
             return false

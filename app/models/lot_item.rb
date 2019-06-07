@@ -14,7 +14,7 @@ class LotItem < ApplicationRecord
   before_save :generate_sku
 
   def generate_sku
-    p '===================================================================================================================================================================='
+
     return unless self.sku.nil?
 
     sku = nil

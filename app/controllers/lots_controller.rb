@@ -70,7 +70,6 @@ class LotsController < ApplicationController
     end
   end
 
-
   private
 
   def lot_params

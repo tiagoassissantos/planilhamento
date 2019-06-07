@@ -11,10 +11,11 @@
 
       <div class="card-body"> <!-- =================== -->
         <div class="input-group">
-          <input type="text" class="form-control" placeholder='Informe o SKU' aria-describedby="button-addon4">
+          <vue-bootstrap-typeahead  class="width-complete" v-model="query"  
+          :data="skus" :serializer="s => s.code"  :minMatchingChars="0" 
+          placeholder="Insira o SKU"  @hit="selectedSku($event)"/> 
           <div class="input-group-append" id="button-addon4">
             <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
-            <button class="btn btn-danger" type="button">Limpar pesquisa</button>
           </div>
 
 
@@ -29,7 +30,7 @@
                         <label>Tipo de Hardware</label>
                         <select class="form-control" type="text" v-model='lot_item.hardware_type_id' @change='getDamageTypes()' required>
                           <option value='0'>Selecione o Tipo de Hardware</option>
-                          <option v-for='hardwareType in hardwareTypes' :value='hardwareType.id'>
+                          <option v-for='(hardwareType,index) in hardwareTypes' :key="index" :value='hardwareType.id'>
                             {{hardwareType.name}}
                           </option>
                         </select>
@@ -43,7 +44,7 @@
                         <label>Fabicante</label>
                         <select class="form-control" v-model='manufacturerId' @change='getModels()'>
                           <option value='0'>Selecione o Fabricante</option>
-                          <option v-for='manufacturer in manufacturers' :value='manufacturer.id'>
+                          <option v-for=' (manufacturer, index) in manufacturers' :key="index" :value='manufacturer.id'>
                             {{manufacturer.name}}
                           </option>
                         </select>
@@ -55,7 +56,7 @@
                         <label>Modelo</label>
                         <select class="form-control" type="text" v-model='lot_item.model_id' required>
                           <option value='0'>Selecione o Modelo</option>
-                          <option v-for='model in models' :value='model.id'>
+                          <option v-for='(model, index) in models' :key="index" :value='model.id'>
                             {{model.name}}
                           </option>
                         </select>
@@ -88,7 +89,7 @@
                         <label>Categoria</label>
                         <select class="form-control" type="text" v-model='lot_item.category_id' required>
                           <option value='0'>Selecione a Categoria</option>
-                          <option v-for='category in categories' :value='category.id'>
+                          <option v-for='(category, index) in categories' :key="index" :value='category.id'>
                             {{category.name}}
                           </option>
                         </select>
@@ -107,7 +108,7 @@
                         <label>Local / Tipo Avaria</label>
                         <select class="form-control" type="text" v-model='lot_item.damage_type_id' required>
                           <option value='0'>Selecione o Tipo de Avaria</option>
-                          <option v-for='damageType in damageTypes' :value='damageType.id'>
+                          <option v-for='(damageType, index) in damageTypes' :key="index" :value='damageType.id'>
                             {{damageType.name}}
                           </option>
                         </select>
@@ -119,7 +120,7 @@
                         <label>Processador</label>
                         <select class="form-control" type="text" v-model='lot_item.processor_id' required>
                           <option value='0'>Selecione o Processador</option>
-                          <option v-for='processor in processors' :value='processor.id'>
+                          <option v-for='(processor, index) in processors' :key="index" :value='processor.id'>
                             {{processor.name}}
                           </option>
                         </select>
@@ -131,7 +132,7 @@
                         <label>Tamanho do HD</label>
                         <select class="form-control" type="text" v-model='lot_item.disk_size_id' required>
                           <option value='0'>Selecione o Tamanho do HD</option>
-                          <option v-for='diskSize in diskSizes' :value='diskSize.id'>
+                          <option v-for='(diskSize, index) in diskSizes' :key="index" :value='diskSize.id'>
                             {{diskSize.name}}
                           </option>
                         </select>
@@ -143,7 +144,7 @@
                         <label>Tipo</label>
                         <select class="form-control" type="text" v-model='lot_item.disk_type_id' required>
                           <option value='0'>Selecione o Tipo do HD</option>
-                          <option v-for='diskType in diskTypes' :value='diskType.id'>
+                          <option v-for='(diskType, index) in diskTypes' :key="index" :value='diskType.id'>
                             {{diskType.name}}
                           </option>
                         </select>
@@ -180,7 +181,7 @@
                         <label>Tipo Teclado</label>
                         <select class="form-control" type="text" v-model='lot_item.keyboard_type_id' required>
                           <option value='0'>Selecione o Tipo de Teclado</option>
-                          <option v-for='keyboardType in keyboardTypes' :value='keyboardType.id'>
+                          <option v-for='(keyboardType, index) in keyboardTypes' :key="index" :value='keyboardType.id'>
                             {{keyboardType.name}}
                           </option>
                         </select>
@@ -287,7 +288,7 @@
                         <label>Destino</label>
                         <select class="form-control" type="text" v-model='lot_item.destination_id' required>
                           <option value='0'>Selecione o Destino</option>
-                          <option v-for='destination in destinations' :value='destination.id'>
+                          <option v-for='(destination, index) in destinations'  :key="index" :value='destination.id'>
                             {{destination.name}}
                           </option>
                         </select>
@@ -310,6 +311,14 @@
                       Cancelar
                     </button>
                   </div>
+
+                  <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
+                    <center>
+                      <img  class="size-img-modal" src="../../../assets/images/checked.png"/>
+                    </center>
+                    <p class="my-1"> {{ messageModal }} </p>
+                  </b-modal>
+
                 </form>
               </div> <!-- === FIM CONTAINER === -->
             </div>
@@ -322,8 +331,10 @@
 </template>
 
 <script>
+  import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
+
   export default {
-    components: {  },
+    components: { VueBootstrapTypeahead },
 
     data() {
       return {
@@ -371,7 +382,15 @@
         message: '',
 
         header_text: '',
-        button_text: ''
+        button_text: '',
+
+        query: null,
+        skus: [],
+
+        showModal: false,
+        messageModal: '',
+
+        
       }
     },
 
@@ -550,6 +569,7 @@
       this.getDiskSizes();
       this.getKeyboardTypes();
       this.getDestinations();
+      this.getSkus()
     },
 
     methods: {
@@ -566,6 +586,7 @@
           console.log("++++")
           await this.$http.put(`/lots/${this.lotId}/lot_items`, {lot_item: this.lot_item})
           .then((result) => {
+            this.messageModal = 'Item editado com sucesso'
             response = result;
           }).catch((err) => {
             response = err
@@ -574,6 +595,7 @@
         } else {
           await this.$http.post(`/lots/${this.lotId}/lot_items`, {lot_item: this.lot_item})
             .then(resp => {
+              this.messageModal = 'Item adicionado com sucesso.'
               response = resp;
             })
             .catch(resp => {
@@ -584,7 +606,14 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.$router.push(`/lots/${this.lotId}`)
+          this.showModal = true     
+
+          setTimeout(function(){ 
+            this.showModal = false     
+            this.$router.push(`/lots/${this.lotId}`)
+          }.bind(this), 2000);    
+
+          
 
         } else {
           this.messageClass = "danger";
@@ -827,7 +856,26 @@
         }
 
         this.loading = false
-      }
+      },
+
+      getSkus() {
+
+        this.$http.get(`/lots/${this.lotId}/get_all_skus`)
+        .then((result) => {
+          this.skus = result.body
+        })
+      },
+
+      selectedSku( sku ) {
+       this.$http.get(`/lots/${this.lotId}/get_sku/${sku.id}`)
+       .then((result) => {
+         this.lot_item = result.body
+         this.manufacturerId = this.lot_item.manufacturer_id
+         this.getModels()
+         this.getDamageTypes()
+         
+       })
+      },
     }
   };
 </script>
@@ -840,4 +888,9 @@
   .cancel-btn {
     margin-left: 15px;
   }
+
+  .width-complete{
+    width: 400px;
+  }
+
 </style>

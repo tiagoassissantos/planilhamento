@@ -6,7 +6,7 @@
           <input type="text" class="form-control" aria-describedby="button-addon4" v-model="input">
           <div class="input-group-append" id="button-addon4">
             <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
-            <button class="btn btn-danger" type="button">Limpar pesquisa</button>
+            <button class="btn btn-danger" type="button" @click="input = null">Limpar pesquisa</button>
           </div>
         </div>
       </div>
@@ -38,7 +38,10 @@
           <td>{{ lotItem.hardware_type }}</td>
           <td>{{ lotItem.serial_number }}</td>
           <td>{{ lotItem.asset_tag }}</td>
-          <td>{{ lotItem.category }}</td>
+          <td >
+            <span v-if="lotItem.category != null" > {{ lotItem.category }} </span>
+            <span v-else> </span>
+          </td>
           <td>{{ lotItem.destination }}</td>
           <td>{{ lotItem.bar_code }}</td>
           <td v-if="lot.status != 'closed'" @click="deleteItem( lotItem.id )">
@@ -55,8 +58,10 @@
 </template>
 
 <script>
+
+
   export default {
-    components: { },
+    components: {  },
 
     data() {
       return {
@@ -152,7 +157,7 @@
         var lotItem_id = lotItem.id.toString()
         var hardware_type = lotItem.hardware_type.toLowerCase()
         var serial_number = lotItem.serial_number.toLowerCase()
-        var category = lotItem.category.toLowerCase()
+
         var destination = lotItem.destination.toLowerCase()
         var bar_code = lotItem.bar_code.toLowerCase()
 
@@ -162,7 +167,7 @@
         }else{
           this.input = this.input.toLowerCase()
           if( lotItem_id.match(this.input) || hardware_type.match(this.input) || serial_number.match(this.input)
-              || category.match(this.input) || destination.match(this.input) || bar_code.match(this.input) ){
+             || destination.match(this.input) || bar_code.match(this.input) ){
             return true
           }else{
             return false

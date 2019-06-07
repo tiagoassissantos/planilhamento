@@ -62,6 +62,19 @@ class LotItemsController < ApplicationController
     end
   end
 
+  def get_all_skus
+    skus = Sku.select('code', 'id').all
+    render json: skus, status: 200
+  end
+
+  def get_sku
+    sku = Sku.find_by(id: params[:sku_id])
+    Rails.logger.info('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+    Rails.logger.info( sku.to_json )
+    Rails.logger.info('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+    render json: sku, status: 200
+  end
+
 
   private
 

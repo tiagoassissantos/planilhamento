@@ -70,8 +70,11 @@
                     <div class="col-sm-6 col-md-4 col-lg-3" v-show='showMemory'>
                       <div class="form-group">
                         <label>Memória RAM</label>
-                        <input type="text" class="form-control" v-model='lot_item.ram_memory' 
+                        <input type="text" class="form-control" v-model='lot_item.ram_memory'  name="ram_memory" v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('ram_memory') }"
                         />
+                      <span class="error-text" v-show="errors.first('ram_memory')"> {{ required_text }} </span>
+
                       </div>
                     </div>
 

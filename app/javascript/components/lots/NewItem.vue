@@ -44,7 +44,7 @@
                         <label>Fabicante</label>
                         <select class="form-control" v-model='manufacturerId' name="manufacturer" @change='getModels()' v-validate.disabled="'required'"
                         :class="{'input': true, 'is-danger': errors.has('manufacturer') }">
-                          <option value='0'>Selecione o Fabricante</option>
+                          <option value='0' @click="newManufacturer()">Cadastre um novo Fabricante</option>
                           <option v-for=' (manufacturer, index) in manufacturers' :key="index" :value='manufacturer.id'>
                             {{manufacturer.name}}
                           </option>
@@ -373,6 +373,13 @@
                     <p class="my-1"> {{ messageModal }} </p>
                   </b-modal>
 
+                  <b-modal ref="my-modal" hide-footer title="Cadastro de Fabricante">
+                    <div class="d-block text-center">
+                      <new-manufacturer></new-manufacturer>
+                    </div>
+                    <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>
+                  </b-modal>
+
                 </form>
               </div> <!-- === FIM CONTAINER === -->
             </div>
@@ -386,9 +393,10 @@
 
 <script>
   import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
+  import newManufacturer from '../registrations/Manufacturers/ManufacturerNew.vue'
 
   export default {
-    components: { VueBootstrapTypeahead },
+    components: { VueBootstrapTypeahead, newManufacturer },
 
     data() {
       return {
@@ -952,6 +960,14 @@
 
       resetVee() {
         this.$validator.reset();
+      },
+
+      newManufacturer() {
+        this.$refs['my-modal'].show()
+      },
+
+      hideModal() {
+        this.$refs['my-modal'].hide()
       },
 
     }

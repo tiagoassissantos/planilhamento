@@ -139,7 +139,7 @@
           this.getLotItems();
           this.showAlert = true
           this.messageClass = "success"
-          this.message = "Lote excluído com sucesso."
+          this.message = "Item do lote excluído com sucesso."
           
           setTimeout(function(){ 
             this.showAlert = false     

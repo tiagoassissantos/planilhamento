@@ -20,7 +20,7 @@
               <div class="form-group">
                 <select class="form-control" type="text" v-model='model.manufacturer_id' required>
                   <option value='0'>Selecione o Fabricante</option>
-                  <option v-for='manufacturer in manufacturers' :value='manufacturer.id'>
+                  <option v-for='(manufacturer,index) in manufacturers' :key="index" :value='manufacturer.id'>
                     {{manufacturer.name}}
                   </option>
                 </select>
@@ -35,7 +35,7 @@
 
             <div class="col-md-2">
               <button type='submit' class="btn btn-primary">
-                {{button_text}}
+                {{button_text}} {{modal_params}}
               </button>
             </div>
           </div>
@@ -204,7 +204,10 @@
           response = err.body
         });
       }
+    },
 
+    props: {
+      modal_params: String
     }
   };
 </script>

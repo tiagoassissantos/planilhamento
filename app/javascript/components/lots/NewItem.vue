@@ -28,12 +28,14 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                       <div class="form-group">
                         <label>Tipo de Hardware</label>
-                        <select @click="resetVee()" class="form-control" type="text" v-model='lot_item.hardware_type_id' @change='getDamageTypes()' >
-                          <option value='0'>Selecione o Tipo de Hardware</option>
+                        <select @click="resetVee(), text_h_type = 'Cadastre novo Tipo de Hardware'" class="form-control" type="text" v-model='lot_item.hardware_type_id' @change='getDamageTypes()' v-validate.disabled="'required'" name="h_type"
+                        :class="{'input': true, 'is-danger': errors.has('h_type') }">
+                          <option value='0' @click="openModal(9)"> {{ text_h_type }} </option>
                           <option v-for='(hardwareType,index) in hardwareTypes' :key="index" :value='hardwareType.id'>
                             {{hardwareType.name}}
                           </option>
                         </select>
+                        <span class="error-text" v-show="errors.first('h_type')"> {{ required_text }} </span>
                       </div>
                     </div>
                   </div>
@@ -43,8 +45,8 @@
                       <div class="form-group">
                         <label>Fabicante</label>
                         <select class="form-control" v-model='manufacturerId' name="manufacturer" @change='getModels()' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('manufacturer') }">
-                          <option value='0' @click="newManufacturer()">Cadastre um novo Fabricante</option>
+                        :class="{'input': true, 'is-danger': errors.has('manufacturer') }" @click="text_manufacturer = 'Cadastre novo fabricante'">
+                          <option value='0' selected @click="openModal(0)"> {{ text_manufacturer }} </option>
                           <option v-for=' (manufacturer, index) in manufacturers' :key="index" :value='manufacturer.id'>
                             {{manufacturer.name}}
                           </option>
@@ -57,8 +59,8 @@
                       <div class="form-group">
                         <label>Modelo</label>
                         <select class="form-control" name="models" type="text" v-model='lot_item.model_id' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('models') }">
-                          <option value='0'>Selecione o Modelo</option>
+                        :class="{'input': true, 'is-danger': errors.has('models') }" @click="text_model = 'Cadastre novo modelo'">
+                          <option value='0' @click="openModal(1)">{{ text_model }}</option>
                           <option v-for='(model, index) in models' :key="index" :value='model.id'>
                             {{model.name}}
                           </option>
@@ -99,9 +101,9 @@
                     <div class="col-sm-6 col-md-4 col-lg-3" v-show='showCategory'>
                       <div class="form-group">
                         <label>Categoria</label>
-                        <select class="form-control" name="category" type="text" v-model='lot_item.category_id' v-validate.disabled="'required'"  
-                        :class="{'input': true, 'is-danger': errors.has('category') }">
-                          <option value='0'>Selecione a Categoria</option>
+                        <select class="form-control" name="category" type="text" v-model='lot_item.category_id' v-validate.disabled="'required'"  :class="{'input': true, 'is-danger': errors.has('category') }"
+                        @click="text_category = 'Cadastre uma categoria'">
+                          <option value='0' @click="openModal(4)">{{ text_category}}</option>
                           <option v-for='(category, index) in categories' :key="index" :value='category.id'>
                             {{category.name}}
                           </option>
@@ -123,10 +125,10 @@
                       <div class="form-group">
                         <label>Local / Tipo Avaria</label>
                         <select class="form-control" name="damge_type" type="text" v-model='lot_item.damage_type_id' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('damge_type') }">
-                          <option value='0'>Selecione o Tipo de Avaria</option>
+                        :class="{'input': true, 'is-danger': errors.has('damge_type') }" @click="text_damage_type = 'Cadastre nova avaria'">
+                          <option value='0' @click="openModal(2)">{{text_damage_type}}</option>
                           <option v-for='(damageType, index) in damageTypes' :key="index" :value='damageType.id'>
-                            {{damageType.name}}
+                            {{ damageType.name }}
                           </option>
                         </select>
                         <span class="error-text" v-show="errors.first('damge_type')"> {{ required_text }} </span>
@@ -137,8 +139,8 @@
                       <div class="form-group">
                         <label>Processador</label>
                         <select class="form-control" name="processor" type="text" v-model='lot_item.processor_id' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('processor') }">
-                          <option value='0'>Selecione o Processador</option>
+                        :class="{'input': true, 'is-danger': errors.has('processor') }" @click="text_processors = 'Cadastre um processador'">
+                          <option value='0' @click="openModal(5)">{{ text_processors }}</option>
                           <option v-for='(processor, index) in processors' :key="index" :value='processor.id'>
                             {{processor.name}}
                           </option>
@@ -151,8 +153,8 @@
                       <div class="form-group">
                         <label>Tamanho do HD</label>
                         <select class="form-control" name="disk_size" type="text" v-model='lot_item.disk_size_id' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('disk_size') }">
-                          <option value='0'>Selecione o Tamanho do HD</option>
+                        :class="{'input': true, 'is-danger': errors.has('disk_size') }" @click="text_size_hd = 'Cadastre um novo tamanho de HD'">
+                          <option value='0' @click="openModal(7)">{{text_size_hd}}</option>
                           <option v-for='(diskSize, index) in diskSizes' :key="index" :value='diskSize.id'>
                             {{diskSize.name}}
                           </option>
@@ -165,8 +167,8 @@
                       <div class="form-group">
                         <label>Tipo</label>
                         <select class="form-control" name="disk_type" type="text" v-model='lot_item.disk_type_id' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('disk_type') }">
-                          <option value='0'>Selecione o Tipo do HD</option>
+                        :class="{'input': true, 'is-danger': errors.has('disk_type') }" @click="text_type_hd = 'Cadastre um tipo novo'">
+                          <option value='0' @click="openModal(8)">{{text_type_hd}}</option>
                           <option v-for='(diskType, index) in diskTypes' :key="index" :value='diskType.id'>
                             {{diskType.name}}
                           </option>
@@ -209,8 +211,8 @@
                     <div class="col-sm-6 col-md-4 col-lg-3" v-show='showKeyboardType'> 
                       <div class="form-group">
                         <label>Tipo Teclado</label>
-                        <select class="form-control" name="keyboard-type"  type="text" v-model='lot_item.keyboard_type_id'  v-validate.disabled="'required'" :class="{'input': true, 'is-danger': errors.has('keyboard-type') }" >
-                          <option value='0'>Selecione o Tipo de Teclado</option>
+                        <select class="form-control" name="keyboard-type"  type="text" v-model='lot_item.keyboard_type_id'  v-validate.disabled="'required'" :class="{'input': true, 'is-danger': errors.has('keyboard-type') }" @click="text_keyboard = 'Cadastre um tipo de teclado'">
+                          <option value='0' @click="openModal(6)">{{ text_keyboard }}</option>
                           <option v-for='(keyboardType, index) in keyboardTypes' :key="index" :value='keyboardType.id'>
                             {{keyboardType.name}}
                           </option>
@@ -264,8 +266,8 @@
                       <div class="form-group">
                         <label>HDMI</label>
                         <select class="form-control" name="hdmi" v-model='lot_item.hdmi' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('hdmi') }">
-                          <option value="undefined" selected>Selecione</option>
+                        :class="{'input': true, 'is-danger': errors.has('hdmi') }" >
+                          <option value="0"> Selecione </option>
                           <option value="12">Sim</option>
                           <option value="13">Não</option>
                         </select>
@@ -278,7 +280,7 @@
                         <label>VGA</label>
                         <select class="form-control" name="vga" v-model='lot_item.vga' v-validate.disabled="'required'"
                         :class="{'input': true, 'is-danger': errors.has('vga') }">
-                          <option value="undefined" selected>Selecione</option>
+                          <option value="0" selected> Cadastre VGA</option>
                           <option value="12">Sim</option>
                           <option value="13">Não</option>
                         </select>
@@ -290,8 +292,8 @@
                       <div class="form-group">
                         <label>eSata</label>
                         <select class="form-control" name="esata" v-model='lot_item.esata'  v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('esata') }">
-                          <option value="undefined" selected>Selecione</option>
+                        :class="{'input': true, 'is-danger': errors.has('esata') }" >
+                          <option value="0" selected> Selectione </option>
                           <option value="1">Sim</option>
                           <option value="0">Não</option>
                         </select>
@@ -326,7 +328,7 @@
                         <label>Tipo Placa Vídeo</label>
                         <select class="form-control" name="vga-card" v-model='lot_item.vga_card' v-validate.disabled="'required'"
                         :class="{'input': true, 'is-danger': errors.has('vga-card') }">
-                          <option value="" >Selecione</option>
+                          <option value="" >Selecione </option>
                           <option value="1">Integrada</option>
                           <option value="0">Dedicada</option>
                         </select>
@@ -339,8 +341,8 @@
                       <div class="form-group">
                         <label>Destino</label>
                         <select class="form-control" name="destinations" type="text" v-model='lot_item.destination_id' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('destinations') }">
-                          <option value='0'>Selecione o Destino</option>
+                        :class="{'input': true, 'is-danger': errors.has('destinations') }" @click="text_destination = 'Cadastre novo destino'">
+                          <option value='0' @click="openModal(3)">{{ text_destination }}</option>
                           <option v-for='(destination, index) in destinations'  :key="index" :value='destination.id'>
                             {{destination.name}}
                           </option>
@@ -366,18 +368,29 @@
                     </button>
                   </div>
 
-                  <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
+                  <!-- modal Alert-->
+                  <b-modal v-model="showModal" v-if="showModal" hide-footer> 
                     <center>
                       <img  class="size-img-modal" src="../../../assets/images/checked.png"/>
                     </center>
                     <p class="my-1"> {{ messageModal }} </p>
                   </b-modal>
-
-                  <b-modal ref="my-modal" hide-footer title="Cadastro de Fabricante">
+                  
+                  <!-- modal de componentes -->
+                  <b-modal ref="my-modal" hide-footer title="Cadastre..." size="lg"> 
                     <div class="d-block text-center">
-                      <new-manufacturer></new-manufacturer>
+                      <new-manufacturer v-if="id_modal === 0" modal_params="Cadastre"></new-manufacturer>
+                      <new-model v-if="id_modal === 1" modal_params="Cadastre" />
+                      <new-damage-type v-if="id_modal === 2" modal_params="Cadastre"/>
+                      <new-destinations v-if="id_modal === 3" modal_params="Cadastre"/>
+                      <new-categories v-if="id_modal === 4" modal_params="Cadastre"/>
+                      <new-processors v-if="id_modal === 5" modal_params="Cadastre"/>
+                      <new-keyboard-types v-if="id_modal === 6" modal_params="Cadastre"/>
+                      <disk-sizes v-if="id_modal === 7" modal_params="Cadastre"/>
+                      <disk-types v-if="id_modal === 8" modal_params="Cadastre"/>
+                      <new-hardware v-if="id_modal === 9" modal_params="Cadastre"/>
                     </div>
-                    <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>
+                    <b-button class="mt-3" variant="outline-danger" block @click="hideModal"> Fechar </b-button>
                   </b-modal>
 
                 </form>
@@ -394,43 +407,55 @@
 <script>
   import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
   import newManufacturer from '../registrations/Manufacturers/ManufacturerNew.vue'
+  import newModel from '../registrations/Models/ModelNew.vue'
+  import newDamageType from '../registrations/DamageTypes/DamageTypesNew.vue'
+  import newDestinations from '../registrations/Destinations/DestinationsNew.vue'
+  import newCategories from '../registrations/Categories/CategoriesNew.vue'
+  import newProcessors from '../registrations/Processors/ProcessorsNew.vue'
+  import newKeyboardTypes from '../registrations/KeyboardTypes/KeyboardTypesNew.vue'
+  import DiskSizes from '../registrations/DiskSizes/DiskSizesNew.vue'
+  import DiskTypes from '../registrations/DiskTypes/DiskTypesNew.vue'
+  import newHardware from '../registrations/HardwareTypes/HardwareTypeNew.vue'
 
   export default {
-    components: { VueBootstrapTypeahead, newManufacturer },
+    components: { 
+      VueBootstrapTypeahead, newManufacturer, newModel, newDamageType, newDestinations, newCategories,
+      newProcessors, newKeyboardTypes, DiskSizes, DiskTypes, newHardware
+      },
 
     data() {
       return {
         lot_item: {
           hardware_type_id: 0,
-          model_id: '',
+          model_id: 0,
           ram_memory: '',
           serial_number: '',
           asset_tag: '',
-          //category_id: 0,
+          category_id: 0,
           comments: '',
-          //damage_type_id: 0,
-          //processor_id: 0,
-          disk_size_id: '',
-          disk_type_id: '',
+          damage_type_id: 0,
+          processor_id: 0,
+          disk_size_id: 0,
+          disk_type_id: 0,
           parent_id: '',
           screen: '',
           webcam: '',
-          //keyboard_type_id: 0,
+          keyboard_type_id: 0,
           wireless: '',
           bluetooth: '',
           mini_display_port: '',
-          hdmi: '',
+          hdmi: 0,
           vga: '',
-          esata: '',
+          esata: 0,
           bright_keyboard: '',
-          destination_id: '',
+          destination_id: 0,
           bar_code: '',
-          vga_card: ''
+          vga_card: 2
         },
 
         hardwareTypes: [],
         manufacturers: [],
-        manufacturerId: '',
+        manufacturerId: 0,
         models: [],
         categories: [],
         damageTypes: [],
@@ -453,9 +478,18 @@
         showModal: false,
         messageModal: '',
 
+        id_modal: '',
         required_text: 'Este campo é obrigatório.',
-
-        
+        text_manufacturer: 'Selecione um Fabricante',
+        text_model: 'Selecione um modelo',
+        text_damage_type: 'Selecione o Tipo de Avaria',
+        text_destination: 'Selecione o Destino',
+        text_category: 'Selecione a Categoria',
+        text_processors: 'Selecione o Processador',
+        text_keyboard: 'Selecione o Tipo de Teclado',
+        text_size_hd: 'Selecione o tamanho do hd',
+        text_type_hd: 'Selecione o tipo de hd',
+        text_h_type: 'Selecione o tipo de Hardware'
       }
     },
 
@@ -644,19 +678,20 @@
       this.getDiskSizes();
       this.getKeyboardTypes();
       this.getDestinations();
-      this.getSkus()
+      this.getSkus();
+
     },
 
     methods: {
+
       cancelItem() {
         this.$router.go(-1)
       },
 
       async submit() {
-
-        this.$validator.validate().then(valid => {
-          if( valid ){ this.showLoading(), this.registrationOrEdit() }
-        });
+        this.verifyStatus()
+        this.$validator.validate().then(valid => {});
+        this.registrationOrEdit()
       },
       
       async registrationOrEdit() {
@@ -687,7 +722,6 @@
         if (response.status == 200) {
           this.messageClass = "success";
           this.showModal = true     
-
           setTimeout(function(){ 
             this.showModal = false     
             this.$router.push(`/lots/${this.lotId}`)
@@ -701,7 +735,7 @@
           this.message = response.body.message;
         }
 
-        this.loader.hide()
+        
       },
 
       showLoading() {
@@ -711,6 +745,21 @@
           backgroundColor: '#000',
           opacity: 0.75
         });
+      },
+
+      verifyStatus () {
+        if( this.manufacturerId === 0 ) { this.manufacturerId = '' }
+        if( this.lot_item.model_id === 0 ) { this.lot_item.model_id = '' }
+        if( this.lot_item.damage_type_id === 0 ) { this.lot_item.damage_type_id = '' }
+        if( this.lot_item.destination_id === 0 ) { this.lot_item.destination_id = '' }
+        if( this.lot_item.category_id === 0 ) { this.lot_item.category_id = '' }
+        if( this.lot_item.hdmi === 0 ) { this.lot_item.hdmi = '' }
+        if( this.lot_item.esata === 0 ) { this.lot_item.esata = '' }
+        if( this.lot_item.processor_id ===  0 ) { this.lot_item.processor_id = '' }
+        if( this.lot_item.disk_size_id === 0 ) { this.lot_item.disk_size_id = '' }
+        if( this.lot_item.disk_type_id === 0 ) { this.lot_item.disk_type_id = '' }
+        if( this.lot_item.keyboard_type_id === 0 ) { this.lot_item.keyboard_type_id = '' }
+        if( this.lot_item.hardware_type_id === 0 ) { this.lot_item.hardware_type_id = '' }
       },
 
       async getHardwareTypes() {
@@ -962,15 +1011,62 @@
         this.$validator.reset();
       },
 
-      newManufacturer() {
+      openModal( id ) {
+        console.log('+++')
+        this.id_modal = id
+        console.log(this.id_modal)
         this.$refs['my-modal'].show()
+
       },
 
       hideModal() {
+        console.log( this.id_modal )
+        if( this.id_modal === 0 ) {
+          this.manufacturers = []
+          this.getManufacturers();
+        }
+        if( this.id_modal === 1) {
+          this.models = []
+          this.getModels()
+        }
+        if( this.id_modal === 2) {
+          this.damageTypes = []
+          this.getDamageTypes()
+        }
+        if( this.id_modal === 3) {
+          this.destinations = []
+          this.getDestinations();
+        }
+        if( this.id_modal === 4) {
+          this.categories = []
+          this.getCategories();
+        }
+        if( this.id_modal === 5) {
+          this.processors = []
+          this.getProcessors();
+        }
+        if( this.id_modal === 6) {
+          this.keyboardTypes = []
+          this.getKeyboardTypes();
+        }
+        if( this.id_modal === 7) {
+          this.diskSizes = []
+          this.getDiskSizes();
+        }
+        if( this.id_modal === 8) {
+          this.diskTypes = []
+          this.getDiskTypes();
+        }
+        if( this.id_modal === 9) {
+          this.hardwareTypes = []
+          this.getHardwareTypes();
+        }
         this.$refs['my-modal'].hide()
       },
+      
+      
+    },
 
-    }
   };
 </script>
 

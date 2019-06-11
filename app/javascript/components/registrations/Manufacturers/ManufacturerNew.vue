@@ -15,16 +15,19 @@
       <div class="card-body">
         <form @submit.prevent="submit">
           <div class='row'>
-            <div class="col-sm-8">
+            <div class="col-sm-12 col-md-8">
               <div class="form-group">
                 <input class="form-control" type="text" v-model='manufacturer.name' placeholder="Nome do Fabricante" />
               </div>
             </div>
 
-            <div class="col-sm-2">
-              <button type='submit' class="btn btn-primary">
-                {{button_text}}
+            <div class="col-sm-12 col-md-2">
+              <button type='submit' class="btn btn-primary display-button">
+                {{ button_text }} 
+                {{modal_params}} 
               </button>
+
+
             </div>
           </div>
 
@@ -156,9 +159,15 @@
         }).catch((err) => {
           response = err.body
         });
-      }
+      },
 
+
+    },
+
+    props: {
+      modal_params: String
     }
+
   };
 </script>
 
@@ -166,4 +175,11 @@
   .card {
     margin-top: 50px;
   }
+
+  @media only screen and (max-width: 600px ){
+    .display-button{
+      background-color: red !important;
+    }
+  }
+  
 </style>

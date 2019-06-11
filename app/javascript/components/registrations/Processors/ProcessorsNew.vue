@@ -23,7 +23,7 @@
 
             <div class="col-sm-2">
               <button type='submit' class="btn btn-primary">
-                {{button_text}}
+                {{button_text}} {{ modal_params }}
               </button>
             </div>
           </div>
@@ -157,6 +157,10 @@
         });
       }
 
+    },
+    
+    props: {
+      modal_params: String
     }
   };
 </script>

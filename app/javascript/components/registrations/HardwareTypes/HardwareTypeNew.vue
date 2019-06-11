@@ -3,7 +3,7 @@
     
     <div class="margin-alert">
       <b-alert show dismissible v-if="error" :variant="messageClass">
-        {{ message }}
+        {{ message }} 
       </b-alert>
     </div>
 
@@ -23,7 +23,7 @@
 
             <div class="col-sm-2">
               <button type='submit' class="btn btn-primary">
-                {{button_text}}
+                {{button_text}} {{modal_params}}
               </button>
             </div>
           </div>
@@ -155,7 +155,10 @@
           response = err.body
         });
       }
-      
+    },
+
+    props: {
+      modal_params: String
     }
   };
 </script>

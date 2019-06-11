@@ -35,7 +35,7 @@
 
             <div class="col-md-2">
               <button type='submit' class="btn btn-primary">
-                {{button_text}}
+                {{button_text}} {{modal_params}}
               </button>
             </div>
 
@@ -195,6 +195,10 @@
           opacity: 0.75
         });
       }
+    },
+    
+    props: {
+      modal_params: String
     }
   };
 </script>

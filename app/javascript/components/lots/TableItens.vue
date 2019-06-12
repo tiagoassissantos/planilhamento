@@ -35,14 +35,35 @@
       <tbody>
         <tr v-for='(lotItem, index) in lotItems' :key="index" v-if="regExp( lotItem )">
           <td>{{ lotItem.id }}</td>
-          <td>{{ lotItem.hardware_type }}</td>
-          <td>{{ lotItem.serial_number }}</td>
-          <td>{{ lotItem.asset_tag }}</td>
-          <td >
-            <span v-if="lotItem.category != null" > {{ lotItem.category }} </span>
+          <td>
+            <span v-if="lotItem.hardware_type != null" >
+              {{ lotItem.hardware_type }}
+            </span>
             <span v-else> </span>
           </td>
-          <td>{{ lotItem.destination }}</td>
+          <td>
+            <span v-if="lotItem.serial_number != null" >
+              {{ lotItem.serial_number }}
+            </span>
+            <span v-else> </span>
+          </td>
+          <td>
+            <span v-if="lotItem.asset_tag != null" >
+              {{ lotItem.asset_tag }}
+            </span>
+            <span v-else> </span>
+          </td>
+          <td >
+            <span v-if="lotItem.category != null" >
+              {{ lotItem.category }}
+            </span>
+            <span v-else> </span>
+          </td>
+          <td>
+            <span v-if="lotItem.destination != null" >
+              {{ lotItem.destination }}
+            </span>
+          </td>
           <td>{{ lotItem.bar_code }}</td>
           <td v-if="lot.status != 'closed'" @click="deleteItem( lotItem.id )">
             <button class='btn btn-light'>
@@ -53,7 +74,7 @@
       </tbody>
     </table>
     </div>
-    
+
   </div>
 </template>
 
@@ -130,7 +151,7 @@
         let response = null
         await this.$http.delete(`/lots/${this.lot.id}/lot_items/${itemId}`)
         .then((result) => {
-          response = result;  
+          response = result;
         }).catch((err) => {
           response = err;
         });
@@ -140,10 +161,10 @@
           this.showAlert = true
           this.messageClass = "success"
           this.message = "Item do lote excluído com sucesso."
-          
-          setTimeout(function(){ 
-            this.showAlert = false     
-          }.bind(this), 4000);    
+
+          setTimeout(function(){
+            this.showAlert = false
+          }.bind(this), 4000);
 
         } else {
           this.showAlert = true
@@ -156,7 +177,7 @@
       regExp( lotItem ) {
         var lotItem_id = lotItem.id.toString()
         var hardware_type = lotItem.hardware_type.toLowerCase()
-        var serial_number = lotItem.serial_number.toLowerCase()
+        //var serial_number = lotItem.serial_number.toLowerCase()
 
         var destination = lotItem.destination.toLowerCase()
         var bar_code = lotItem.bar_code.toLowerCase()

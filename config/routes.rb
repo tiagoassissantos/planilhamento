@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     get 'users/:id', to: 'user/registrations#edit'
     put 'users/:id', to: 'user/registrations#update'
     patch 'update_password', to: 'user/registrations#update_password'
-    get 'get_user_admin', to: 'user/sessions#get_user_admin'
+    get 'get_user', to: 'user/sessions#get_user'
   end
 
 
@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
   resources :lots, only: [:index, :create, :destroy, :show, :update] do
     resources :lot_items, only: [:index, :create, :destroy, :show, :update] do
-      
+
     end
 
     get 'get_all_skus' => 'lot_items#get_all_skus'

@@ -101,7 +101,7 @@
         this.header_text = 'Editar Lote'
         this.button_text = ' Salvar edição de lote'
         this.getCurrentUser()
-        
+
       } else {
         this.header_text = 'Novo Lote'
         this.button_text = 'Cadastrar'
@@ -139,13 +139,13 @@
         }
 
         if (response.status == 200) {
-          
-          this.showModal = true     
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          this.showModal = true
+
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/lots')
-          }.bind(this), 2000);    
+          }.bind(this), 2000);
 
         } else {
           this.messageClass = "danger";
@@ -197,9 +197,10 @@
       },
 
       getCurrentUser(){
-        this.$http.get('/get_user_admin')
+        this.$http.get('/get_user')
         .then((result) => {
           this.user_admin = result.body
+          console.log('+++++++++++++++++==')
           console.log( this.user_admin )
         })
       }

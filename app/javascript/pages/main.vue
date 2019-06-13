@@ -15,6 +15,10 @@
     computed: {
       isLogged() {
         return this.$store.state.logged
+      },
+
+      getCurrentUser() {
+        return this.$store.state.logged
       }
     },
 
@@ -25,10 +29,14 @@
         if (mutation.type == 'SET_LOGGED') {
           if (this.isLogged) window.location.href = '/user-area';
         }
-      })
+      }),
+
+      this.$store.dispatch('getCurrentUser');
+      //this.$store.subscribe((mutation, state) => { })
+
     }
 
-  };
+  }
 </script>
 
 <style scoped>

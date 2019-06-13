@@ -10,11 +10,6 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navcol-1">
-        <!--ul class="nav navbar-nav">
-          <li role="presentation" class="nav-item"><a class="nav-link active" href="#">First Item</a></li>
-          <li role="presentation" class="nav-item"><a class="nav-link" href="#">Second Item</a></li>
-          <li role="presentation" class="nav-item"><a class="nav-link" href="#">Third Item</a></li>
-        </ul-->
       </div>
 
       <a class="float-right" href="/">
@@ -45,12 +40,9 @@
       }
     },
 
-    mounted() {
-    },
+    mounted() {},
 
-    methods: {
-
-    }
+    methods: { }
   };
 </script>
 

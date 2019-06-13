@@ -15,16 +15,19 @@
       <div class="card-body">
         <form @submit.prevent="submit">
           <div class='row'>
-            <div class="col-sm-8">
+            <div class="col-sm-12 col-md-8">
               <div class="form-group">
                 <input class="form-control" type="text" v-model='manufacturer.name' placeholder="Nome do Fabricante" />
               </div>
             </div>
 
-            <div class="col-sm-2">
-              <button type='submit' class="btn btn-primary">
-                {{button_text}}
+            <div class="col-sm-12 col-md-2">
+              <button type='submit' class="btn btn-primary display-button">
+                {{ button_text }}
+                {{modal_params}}
               </button>
+
+
             </div>
           </div>
 
@@ -33,7 +36,7 @@
               <img  class="size-img-modal" src="../../../../assets/images/checked.png"/>
             </center>
             <p class="my-1"> {{ messageModal }} </p>
-          </b-modal>    
+          </b-modal>
 
         </form>
       </div> <!-- card body -->
@@ -94,7 +97,6 @@
         let response = null;
 
         if (this.edit) {
-          console.log("++++")
           await this.$http.put(`/manufacturers/${this.manufacturer_id}`,
           JSON.stringify({manufacturer: this.manufacturer}))
           .then((result) => {
@@ -113,7 +115,6 @@
               this.messageModal = 'Fabricante cadastrado com sucesso'
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
             });
         }
@@ -121,13 +122,13 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.showModal = true     
+          this.showModal = true
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/manufacturers')
-            
-          }.bind(this), 2000);    
+
+          }.bind(this), 2000);
 
         } else {
           this.messageClass = "danger";
@@ -156,9 +157,15 @@
         }).catch((err) => {
           response = err.body
         });
-      }
+      },
 
+
+    },
+
+    props: {
+      modal_params: String
     }
+
   };
 </script>
 
@@ -166,4 +173,11 @@
   .card {
     margin-top: 50px;
   }
+
+  @media only screen and (max-width: 600px ){
+    .display-button{
+      background-color: red !important;
+    }
+  }
+
 </style>

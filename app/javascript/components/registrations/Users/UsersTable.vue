@@ -12,7 +12,7 @@
       </div>
 
       <div class="col-sm-2 offset-sm-2">
-        <router-link to="/users/new" class="btn btn-primary float-right">
+        <router-link to="/users/new" class="btn btn-primary float-right" v-if="getCurrentUser.role === 'Administrador'">
             Novo
         </router-link>
       </div>
@@ -56,7 +56,7 @@
         </tbody>
       </table>
     </div>
-    
+
   </div>
 </template>
 
@@ -72,14 +72,18 @@
         messageClass: '',
 
         input: null
-
       }
     },
 
     computed: {
       isLogged() {
         return this.$store.state.logged
+      },
+
+      getCurrentUser() {
+        return this.$store.state.currentUser
       }
+
     },
 
     mounted() {
@@ -99,7 +103,6 @@
 
         if (response.status == 200) {
           this.users = response.body;
-
         } else {
           this.showAlert = true
           this.messageClass = "danger"

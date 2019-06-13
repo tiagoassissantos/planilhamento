@@ -35,7 +35,7 @@
 
             <div class="col-md-2">
               <button type='submit' class="btn btn-primary">
-                {{button_text}}
+                {{button_text}} {{modal_params}}
               </button>
             </div>
 
@@ -146,7 +146,6 @@
         let response = null;
 
         if (this.edit) {
-          console.log("++++")
           await this.$http.put(`/damage_types/${this.damageType_id}`,
             this.damageType)
             .then((result) => {
@@ -164,19 +163,18 @@
               this.messageModal = 'Tipo de avaria cadastrada com sucesso'
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
             });
         }
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.showModal = true     
+          this.showModal = true
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/damage-types')
-          }.bind(this), 2000);    
+          }.bind(this), 2000);
 
         } else {
           this.messageClass = "danger";
@@ -195,6 +193,10 @@
           opacity: 0.75
         });
       }
+    },
+
+    props: {
+      modal_params: String
     }
   };
 </script>

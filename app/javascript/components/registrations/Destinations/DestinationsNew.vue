@@ -23,7 +23,7 @@
 
             <div class="col-sm-2">
               <button type='submit' class="btn btn-primary">
-                {{button_text}}
+                {{button_text}} {{ modal_params }}
               </button>
             </div>
           </div>
@@ -92,7 +92,6 @@
         let response = null;
 
         if (this.edit) {
-          console.log("++++")
           await this.$http.put(`/destinations/${this.destination_id}`,
           JSON.stringify({destination: this.destination}))
           .then((result) => {
@@ -110,7 +109,6 @@
               this.messageModal = 'Destino cadastrado com sucesso'
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
             });
         }
@@ -118,12 +116,12 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.showModal = true     
+          this.showModal = true
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/destinations');
-          }.bind(this), 2000);   
+          }.bind(this), 2000);
 
         } else {
           this.messageClass = "danger";
@@ -152,8 +150,11 @@
         }).catch((err) => {
           response = err.body
         });
-      }
+      },
+    },
 
+    props: {
+      modal_params: String
     }
   };
 </script>

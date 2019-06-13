@@ -65,7 +65,7 @@
         </ul>
       </li>
 
-      <li>
+      <li v-if="getCurrentUser.role != 'Operador N2'">
         <a href="#">
           <font-awesome-icon icon="laptop"/>
           Recebimento
@@ -150,6 +150,13 @@ export default {
       sideActive: false
     }
   },
+
+  computed: {
+    getCurrentUser() {
+        return this.$store.state.currentUser
+    }
+  },
+
 
   methods: {
 

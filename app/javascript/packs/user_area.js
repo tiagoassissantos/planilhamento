@@ -6,6 +6,7 @@ import BootstrapVue from 'bootstrap-vue';
 import Loading from 'vue-loading-overlay';
 import 'bootstrap';
 import VeeValidate from 'vee-validate';
+import Vuelidate from 'vuelidate';
 
 //css
 import 'bootstrap/dist/css/bootstrap.css';
@@ -72,6 +73,7 @@ Vue.use(VueResource);
 Vue.use(BootstrapVue);
 Vue.use(Loading);
 Vue.use(VeeValidate);
+Vue.use(Vuelidate);
 
 
 const router = new VueRouter({

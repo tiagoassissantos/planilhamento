@@ -12,8 +12,7 @@ Rails.application.routes.draw do
     get 'users/:id', to: 'user/registrations#edit'
     put 'users/:id', to: 'user/registrations#update'
     patch 'update_password', to: 'user/registrations#update_password'
-
-    #get 'current_user', to: 'user/sessions#current_user'
+    get 'get_user', to: 'user/sessions#get_user'
   end
 
 
@@ -42,6 +41,11 @@ Rails.application.routes.draw do
   resources :disk_sizes, only: [:index, :create, :destroy, :show, :update]
 
   resources :lots, only: [:index, :create, :destroy, :show, :update] do
-    resources :lot_items, only: [:index, :create, :destroy, :show, :update]
+    resources :lot_items, only: [:index, :create, :destroy, :show, :update] do
+
+    end
+
+    get 'get_all_skus' => 'lot_items#get_all_skus'
+    get 'get_sku/:sku_id' => 'lot_items#get_sku'
   end
 end

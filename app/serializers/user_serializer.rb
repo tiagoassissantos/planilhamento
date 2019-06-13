@@ -3,7 +3,8 @@ class UserSerializer < ActiveModel::Serializer
 
   def role
     return 'Administrador' if object.role.eql? 'admin'
-    return 'Operador Líder' if object.role.eql? 'leading_operator'
-    return 'Operador' if object.role.eql? 'operator'
+    return 'Operador N1' if object.role.eql? 'operator_n1'
+    return 'Operador N2' if object.role.eql? 'operator_n2'
+    return 'Operador Comercial' if object.role.eql? 'operator_comercial'
   end
 end

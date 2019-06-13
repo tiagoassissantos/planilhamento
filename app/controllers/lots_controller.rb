@@ -4,9 +4,22 @@ class LotsController < ApplicationController
   def index
     return unless user_logged?
 
-    lots = Lot.all
+    status = params[:status]
+    Rails.logger.info('##################')
+    Rails.logger.info( params[:status] )
 
-    render json: lots, status: :ok
+    if status == 'all' or status == nil
+      lots = Lot.all
+      render json: lots, status: :ok
+    end  
+    if status == 'closed'
+      lots = Lot.where(:status => 'closed')
+      render json: lots, status: :ok
+    end
+    if status == 'open'
+      lots = Lot.where("(status = '0') or status = 2")
+      render json: lots, status: :ok
+    end
   end
 
 
@@ -57,10 +70,9 @@ class LotsController < ApplicationController
     end
   end
 
-
   private
 
   def lot_params
-    params.require(:lot).permit(:order_number)
+    params.require(:lot).permit(:order_number, :status)
   end
 end

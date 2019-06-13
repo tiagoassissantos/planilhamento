@@ -23,7 +23,7 @@
 
             <div class="col-sm-2">
               <button type='submit' class="btn btn-primary">
-                {{button_text}}
+                {{button_text}} {{modal_params}}
               </button>
             </div>
           </div>
@@ -92,12 +92,10 @@
         let response = null;
 
         if (this.edit) {
-          console.log("++++")
           await this.$http.put(`/disk_types/${this.diskTypeId}`, this.disk_type)
           .then((result) => {
             response = result;
             this.messageModal = 'Tipo de disco editado com sucesso.'
-
           }).catch((err) => {
             response = err
           });
@@ -110,21 +108,19 @@
 
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
             });
         }
 
-
         if (response.status == 200) {
           this.messageClass = "success";
-          this.showModal = true     
+          this.showModal = true
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/disk-types')
-          }.bind(this), 2000);   
-          
+          }.bind(this), 2000);
+
 
         } else {
           this.messageClass = "danger";
@@ -146,7 +142,6 @@
 
       async getDiskType(){
         let response = null;
-
         await this.$http.get(`/disk_types/${this.diskTypeId}`)
         .then((result) => {
           this.disk_type = result.body
@@ -154,7 +149,10 @@
           response = err.body
         });
       }
+    },
 
+    props: {
+      modal_params: String
     }
   };
 </script>

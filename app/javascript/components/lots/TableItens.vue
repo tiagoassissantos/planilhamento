@@ -1,5 +1,23 @@
 <template>
   <div id="app">
+    <div class='row'>
+      <div class="col-sm-8">
+        <div class="input-group">
+          <input type="text" class="form-control" aria-describedby="button-addon4" v-model="input">
+          <div class="input-group-append" id="button-addon4">
+            <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
+            <button class="btn btn-danger" type="button" @click="input = null">Limpar pesquisa</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <b-alert show dismissible class="mt-4" v-if="showAlert" :variant="messageClass">
+        {{ message }}
+      </b-alert>
+    </div>
+
     <div class="table-scroll">
       <table class="table table-hover table-bordered">
         <thead>
@@ -11,19 +29,43 @@
             <th scope="col">Categoria</th>
             <th scope="col">Destino</th>
             <th scope="col">Código de Barras</th>
-            <th scope="col">Excluir</th>
+            <th scope="col" v-if="lot.status != 'closed'">Excluir</th>
           </tr>
         </thead>
       <tbody>
-        <tr v-for='(lotItem, index) in lotItems' :key="index">
+        <tr v-for='(lotItem, index) in lotItems' :key="index" v-if="regExp( lotItem )">
           <td>{{ lotItem.id }}</td>
-          <td>{{ lotItem.hardware_type }}</td>
-          <td>{{ lotItem.serial_number }}</td>
-          <td>{{ lotItem.asset_tag }}</td>
-          <td>{{ lotItem.category }}</td>
-          <td>{{ lotItem.destination }}</td>
-          <td>{{ lotItem.bar_code }}</td>
           <td>
+            <span v-if="lotItem.hardware_type != null" >
+              {{ lotItem.hardware_type }}
+            </span>
+            <span v-else> </span>
+          </td>
+          <td>
+            <span v-if="lotItem.serial_number != null" >
+              {{ lotItem.serial_number }}
+            </span>
+            <span v-else> </span>
+          </td>
+          <td>
+            <span v-if="lotItem.asset_tag != null" >
+              {{ lotItem.asset_tag }}
+            </span>
+            <span v-else> </span>
+          </td>
+          <td >
+            <span v-if="lotItem.category != null" >
+              {{ lotItem.category }}
+            </span>
+            <span v-else> </span>
+          </td>
+          <td>
+            <span v-if="lotItem.destination != null" >
+              {{ lotItem.destination }}
+            </span>
+          </td>
+          <td>{{ lotItem.bar_code }}</td>
+          <td v-if="lot.status != 'closed'" @click="deleteItem( lotItem.id )">
             <button class='btn btn-light'>
               <img src='../../../assets/images/excluir.png'/>
             </button>
@@ -32,21 +74,26 @@
       </tbody>
     </table>
     </div>
-    
+
   </div>
 </template>
 
 <script>
+
+
   export default {
-    components: { },
+    components: {  },
 
     data() {
       return {
         lotItems: null,
         lotId: 0,
-        showAlert: '',
+        showAlert: false,
         messageClass: '',
-        message: ''
+        message: '',
+        lot: null,
+
+        input: null
       }
     },
 
@@ -59,6 +106,7 @@
     mounted() {
       this.lotId = this.$route.params.lot_id;
       this.getLotItems();
+      this.getLot();
     },
 
     methods: {
@@ -82,8 +130,75 @@
         }
 
         this.loading = false
+      },
+
+      async getLot() {
+        let response = null;
+        await this.$http.get(`lots/${this.lotId}`)
+          .then((resp) => {
+            response = resp;
+          })
+          .catch((resp) => {
+            response = resp;
+          })
+
+        if (response.status == 200) {
+          this.lot = response.body;
+        }
+      },
+
+      async deleteItem( itemId) {
+        let response = null
+        await this.$http.delete(`/lots/${this.lot.id}/lot_items/${itemId}`)
+        .then((result) => {
+          response = result;
+        }).catch((err) => {
+          response = err;
+        });
+
+        if (response.status == 200){
+          this.getLotItems();
+          this.showAlert = true
+          this.messageClass = "success"
+          this.message = "Item do lote excluído com sucesso."
+
+          setTimeout(function(){
+            this.showAlert = false
+          }.bind(this), 4000);
+
+        } else {
+          this.showAlert = true
+          this.messageClass = "danger"
+          this.message = "Erro ao excluir "
+        }
+      },
+
+
+      regExp( lotItem ) {
+        var lotItem_id = lotItem.id.toString()
+        var hardware_type = lotItem.hardware_type.toLowerCase()
+        //var serial_number = lotItem.serial_number.toLowerCase()
+
+        var destination = lotItem.destination.toLowerCase()
+        var bar_code = lotItem.bar_code.toLowerCase()
+
+
+        if( this.input === null){
+          return true
+        }else{
+          this.input = this.input.toLowerCase()
+          if( lotItem_id.match(this.input) || hardware_type.match(this.input) || serial_number.match(this.input)
+             || destination.match(this.input) || bar_code.match(this.input) ){
+            return true
+          }else{
+            return false
+          }
+        }
       }
-    }
+
+    },
+
+
   };
 </script>
 

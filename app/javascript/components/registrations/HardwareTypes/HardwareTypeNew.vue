@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    
+
     <div class="margin-alert">
       <b-alert show dismissible v-if="error" :variant="messageClass">
         {{ message }}
@@ -23,7 +23,7 @@
 
             <div class="col-sm-2">
               <button type='submit' class="btn btn-primary">
-                {{button_text}}
+                {{button_text}} {{modal_params}}
               </button>
             </div>
           </div>
@@ -73,7 +73,7 @@
 
     mounted() {
       this.$store.dispatch('isLogged');
-      
+
       this.hardware_id = this.$route.params.hardware_id
       if( this.hardware_id != null){
         this.edit = true
@@ -91,12 +91,11 @@
         this.showLoading()
 
         let response = null;
-        
+
         if(this.edit){
-          console.log("++++")
           await this.$http.put(`/hardware_types/${this.hardware_id}`, JSON.stringify({hardware_type: this.hardware_type}))
           .then((result) => {
-            response = result;  
+            response = result;
             this.messageModal = 'Tipo de hardware editado com sucesso.'
 
           }).catch((err) => {
@@ -104,27 +103,26 @@
           });
 
         }else{
-                  
+
           await this.$http.post("/hardware_types", this.hardware_type)
             .then(resp => {
               response = resp;
               this.messageModal = 'Tipo de hardware cadastrado com sucesso.'
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
-            });          
+            });
         }
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.showModal = true     
+          this.showModal = true
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/hardware-types')
-          }.bind(this), 2000);    
-          
+          }.bind(this), 2000);
+
 
         } else {
           this.messageClass = "danger";
@@ -146,16 +144,18 @@
 
       async getHardwareType(){
         let response = null;
-        
+
         await this.$http.get(`/hardware_types/${this.hardware_id}`)
         .then((result) => {
           this.hardware_type =  result.body
-          console.log( this.hardware_type )
         }).catch((err) => {
           response = err.body
         });
       }
-      
+    },
+
+    props: {
+      modal_params: String
     }
   };
 </script>

@@ -184,12 +184,10 @@ export default {
         .then(result => {
           window.location.href = "/";
         })
-        .catch(err => {
-          //window.location.href = "/";
-        });
+        .catch(err => {});
     },
 
-    toggleNavPanel(x){
+    toggleNavPanel(x) {
       var panel = document.getElementById(x), navarrow = document.getElementById("navarrow"), maxH="300px";
       if(panel.style.height == maxH){
         panel.style.height = "0px";

@@ -32,8 +32,6 @@
       }),
 
       this.$store.dispatch('getCurrentUser');
-      //this.$store.subscribe((mutation, state) => { })
-
     }
 
   }

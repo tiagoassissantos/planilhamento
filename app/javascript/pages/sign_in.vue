@@ -85,21 +85,7 @@
 
     computed: { },
 
-    mounted() {
-      /*if ( this.$route.params.error) {
-        this.error = true;
-      } else {
-
-      }
-
-      this.$store.subscribe((mutation, state) => {
-        if (mutation.type == 'SET_LOGGED') {
-          if (this.logged) {
-            location.href = "/user_area";
-          }
-        }
-      })*/
-    },
+    mounted() {},
 
     methods: {
 

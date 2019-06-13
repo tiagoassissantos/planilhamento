@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    
+
     <div class='row'>
       <div class="col-sm-8">
         <div class="input-group">
@@ -51,7 +51,7 @@
         </tbody>
       </table>
     </div>
-    
+
   </div>
 </template>
 
@@ -66,7 +66,6 @@
         message: '',
         messageClass: '',
         input: null,
-
       }
     },
 
@@ -103,7 +102,7 @@
         this.loading = false
       },
 
-      async deleteManufacturer(manufacturer_id){
+      async deleteManufacturer(manufacturer_id) {
         let response = null;
 
         await this.$http.delete(`/manufacturers/${manufacturer_id}`)
@@ -113,7 +112,7 @@
           response = err
         });
 
-        if( response.status == 200 ){
+        if( response.status == 200 ) {
           this.getManufacturers(),
           this.showAlert = true
           this.messageClass = "success"

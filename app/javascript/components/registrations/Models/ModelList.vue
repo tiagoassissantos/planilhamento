@@ -25,13 +25,9 @@
       }
     },
 
-    mounted() {
-      this.$store.dispatch('isLogged');
-    },
+    mounted() { this.$store.dispatch('isLogged'); },
 
-    methods: {
-
-    }
+    methods: { }
   };
 </script>
 

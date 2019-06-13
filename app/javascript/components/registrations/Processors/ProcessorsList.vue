@@ -5,7 +5,7 @@
         Processadores
       </div>
       <div class="card-body">
-        
+
         <processors-table/>
 
       </div> <!-- card body -->
@@ -29,9 +29,7 @@
       this.$store.dispatch('isLogged');
     },
 
-    methods: {
-
-    }
+    methods: { }
   };
 </script>
 

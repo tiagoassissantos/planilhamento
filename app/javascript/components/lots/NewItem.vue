@@ -1182,7 +1182,6 @@
           default:
             break
         }
-
         this.$refs['my-modal'].hide()
       },
     },

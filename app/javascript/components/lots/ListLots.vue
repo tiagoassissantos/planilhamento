@@ -92,12 +92,11 @@
       this.$store.dispatch('getCurrentUser');
       this.$store.subscribe((mutation, state) => {
         if (mutation.type == 'SET_CURRENT_USER') {
-          if( this.getCurrentUser.role == "Operador N2"){
+          if( this.getCurrentUser.role == "Operador N2") {
             this.$router.push('/')
           }
         }
       }),
-
       this.getLots();
     },
 
@@ -149,7 +148,12 @@
           return true
         }else{
           this.input = this.input.toLowerCase()
-          if( lot_id.match(this.input) || order_number.match(this.input) || created_at.match(this.input) || status.match(this.input)){
+          if(
+              lot_id.match(this.input)        ||
+              order_number.match(this.input)  ||
+              created_at.match(this.input)    ||
+              status.match(this.input)
+            ) {
             return true
           }else{
             return false

@@ -53,7 +53,7 @@
         </tbody>
       </table>
     </div>
-    
+
   </div>
 </template>
 
@@ -68,7 +68,6 @@
         message: '',
         messageClass: '',
         input: null
-
       }
     },
 
@@ -131,7 +130,7 @@
         var id = model.id.toString()
         var name = model.name.toLowerCase()
         var manufacturer_name = model.manufacturer.name.toLowerCase()
-        
+
 
         if( this.input === null){
           return true
@@ -144,7 +143,6 @@
           }
         }
       }
-
     }
   };
 </script>

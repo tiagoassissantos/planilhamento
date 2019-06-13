@@ -843,13 +843,7 @@
       },
 
       async submit() {
-        console.log('aaaaa')
-        console.log( this.lot_item.serial_number )
-        console.log('aaaaa')
-        this.$validator.validate().then((result) => {
-
-
-        });
+        this.$validator.validate().then((result) => {});
         this.registrationOrEdit()
       },
 
@@ -872,7 +866,6 @@
               response = resp;
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
             });
         }
@@ -1140,11 +1133,8 @@
       },
 
       openModal( id ) {
-        console.log('+++')
         this.id_modal = id
-        console.log(this.id_modal)
         this.$refs['my-modal'].show()
-
       },
 
       hideModal() {

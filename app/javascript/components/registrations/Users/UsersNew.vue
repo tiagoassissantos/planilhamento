@@ -41,8 +41,9 @@
                 <select class="form-control" type="text" v-model='user.role' required>
                   <option value=''>Selecione o Perfil do Usuário</option>
                   <option value='admin'>Administrador</option>
-                  <option value='operator_n1'>Operador Líder</option>
-                  <option value='operator_n2'>Operador</option>
+                  <option value='operator_n1'>Operador N1</option>
+                  <option value='operator_n2'>Operador N2</option>
+                  <option value='operator_comercial'>Operador Comercial</option>
                 </select>
               </div>
             </div>
@@ -164,7 +165,6 @@
 
         }else {
           if (this.edit) {
-            console.log("++++")
             await this.$http.put(`/users/${this.user_id}`, {user: this.user})
             .then((result) => {
               response = result;
@@ -182,7 +182,6 @@
 
               })
               .catch(resp => {
-                console.log(response);
                 response = resp;
               });
           }
@@ -197,7 +196,6 @@
             }.bind(this), 2000);
 
           } else {
-            console.log( response )
             this.messageClass = "danger";
             this.error = true;
             this.message = "Erro ao cadastrar novo usuário.";
@@ -220,7 +218,6 @@
         await this.$http.get(`/users/${this.user_id}`)
         .then((result) => {
           this.user = result.body
-          console.log( this.user )
         }).catch((err) => {
           response = err.body
         });

@@ -93,7 +93,7 @@
       this.$store.dispatch('getCurrentUser');
       this.$store.subscribe((mutation, state) => {
         if (mutation.type == 'SET_CURRENT_USER') {
-          if( this.getCurrentUser.role != "Administrador" || this.getCurrentUser.role != "Operador Líder"){
+          if( this.getCurrentUser.role == "Operador N2"){
             this.$router.push('/')
           }
         }
@@ -138,7 +138,6 @@
               this.messageModal = 'Lote cadastrado com sucesso'
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
             });
         }

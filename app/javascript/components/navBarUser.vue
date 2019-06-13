@@ -65,7 +65,7 @@
         </ul>
       </li>
 
-      <li v-if="getCurrentUser.role != 'Operador'">
+      <li v-if="getCurrentUser.role != 'Operador N2'">
         <a href="#">
           <font-awesome-icon icon="laptop"/>
           Recebimento

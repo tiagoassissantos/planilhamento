@@ -93,7 +93,6 @@
         let response = null;
 
         if(this.edit){
-          console.log("++++")
           await this.$http.put(`/processors/${this.processor_id}`,
           JSON.stringify({processor: this.processor}))
           .then((result) => {
@@ -109,10 +108,8 @@
             .then(resp => {
               response = resp;
               this.messageModal = 'Processador cadastrado com sucesso'
-
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
             });
         }
@@ -120,13 +117,13 @@
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.showModal = true     
+          this.showModal = true
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/processors');
-          
-          }.bind(this), 2000);    
+
+          }.bind(this), 2000);
 
         } else {
           this.messageClass = "danger";
@@ -158,7 +155,7 @@
       }
 
     },
-    
+
     props: {
       modal_params: String
     }

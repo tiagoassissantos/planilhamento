@@ -92,7 +92,6 @@
         let response = null;
 
         if (this.edit) {
-          console.log("++++")
           await this.$http.put(`/categories/${this.category_id}`,
           JSON.stringify({category: this.category}))
           .then((result) => {
@@ -110,20 +109,18 @@
               this.messageModal = 'Categoria cadastrada com sucesso'
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
             });
         }
 
-
         if (response.status == 200) {
           this.messageClass = "success";
-          this.showModal = true     
+          this.showModal = true
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/categories')
-          }.bind(this), 2000);    
+          }.bind(this), 2000);
 
         } else {
           this.messageClass = "danger";
@@ -154,7 +151,7 @@
         });
       }
     },
-    
+
     props: {
       modal_params: String
     }

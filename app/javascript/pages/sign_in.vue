@@ -111,14 +111,11 @@
         this.$http
           .get("/member/islogged")
           .then(response => {
-            console.log(response);
             if (response.status == 200) {
-              console.log(response.body);
               this.logged = response.body.logged;
             }
           })
           .catch(response => {
-            console.log(response);
             this.error = true;
           });
       },
@@ -130,14 +127,10 @@
         let data = {user: {email: this.email, password: this.password}}
 
 
-        console.log( data )
         await this.$http
           .post("/users/sign_in", JSON.stringify(data))
           .then(resp => { response = resp })
           .catch(resp => { response = resp });
-
-        console.log(response);
-
         if (response.status == 200) {
           location.href = "/user-area";
 
@@ -148,8 +141,6 @@
         } else {
           if (this.user.password != this.user.passwordConfirmation) {
             this.error_pwd = true
-            console.log('teste')
-
           } else {
             this.error = true;
           }

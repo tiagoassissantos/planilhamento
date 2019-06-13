@@ -83,7 +83,6 @@
           }.bind(this), 2000);
 
         } else {
-          console.log( response.body.status )
           this.error = !this.error;
           this.messageText = response.body.message;
          }

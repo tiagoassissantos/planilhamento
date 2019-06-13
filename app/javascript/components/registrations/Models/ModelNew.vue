@@ -144,7 +144,6 @@
         let response = null;
 
         if (this.edit) {
-          console.log("++++")
           await this.$http.put(`/models/${this.model_id}`,
             this.model)
             .then((result) => {
@@ -162,19 +161,18 @@
               this.messageModal = 'Modelo cadastrado com sucesso'
             })
             .catch(resp => {
-              console.log(response);
               response = resp;
             });
         }
 
         if (response.status == 200) {
           this.messageClass = "success";
-          this.showModal = true     
+          this.showModal = true
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/models')
-          }.bind(this), 2000);  
+          }.bind(this), 2000);
 
         } else {
           this.messageClass = "danger";

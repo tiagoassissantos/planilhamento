@@ -13,8 +13,13 @@ class ModelsController < ApplicationController
   def create
     return unless user_logged?
 
-    model = Model.new( model_params )
+    verify_model = Model.find_by(manufacturer_id: model_params[:manufacturer_id], name: model_params[:name])
+    unless verify_model.nil?
+      render json: {'message': 'Nome de modelo já utilizado'}, status: :internal_server_error
+      return
+    end
 
+    model = Model.new( model_params )
     if model.save
       render json: model, status: :ok
     else

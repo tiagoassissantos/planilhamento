@@ -13,8 +13,13 @@ class KeyboardTypesController < ApplicationController
   def create
     return unless user_logged?
 
-    keyboard_type = KeyboardType.new( keyboard_type_params )
+    verify_keyboard_type = KeyboardType.find_by(name: keyboard_type_params[:name])
+    unless verify_keyboard_type.nil?
+      render json: {'message': 'Tipo de teclado já utilizado'}, status: :internal_server_error
+      return
+    end
 
+    keyboard_type = KeyboardType.new( keyboard_type_params )
     if keyboard_type.save
       render json: keyboard_type, status: :ok
     else

@@ -9,12 +9,16 @@ class DiskTypesController < ApplicationController
     render json: disk_types, status: :ok
   end
 
-
   def create
     return unless user_logged?
 
-    disk_type = DiskType.new( disk_type_params )
+    verify_disk_type = DiskType.find_by(name: disk_type_params[:name])
+    unless verify_disk_type.nil?
+      render json: {'message': 'Tipo de disco já utilizado'}, status: :internal_server_error
+      return
+    end
 
+    disk_type = DiskType.new( disk_type_params )
     if disk_type.save
       render json: disk_type, status: :ok
     else

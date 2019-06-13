@@ -12,13 +12,10 @@ class ManufacturersController < ApplicationController
 
   def create
     return unless user_logged?
-    Rails.logger.info('xxxxxxxxxxxxxxxxxxxxxx')
-    Rails.logger.info(manufacturer_params[:name])
-    Rails.logger.info('xxxxxxxxxxxxxxxxxxxxxx')
-    
+
     manufacturer_verify = Manufacturer.find_by(name: manufacturer_params[:name])
     unless manufacturer_verify.nil?
-      render json: {'message': 'Nome de fabricante já utilizado'}, status: 409
+      render json: {'message': 'Nome de fabricante já utilizado'}, status: :internal_server_error
       return
     end
 

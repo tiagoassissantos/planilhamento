@@ -13,8 +13,13 @@ class DestinationsController < ApplicationController
   def create
     return unless user_logged?
 
-    destination = Destination.new( destination_params )
+    verify_destination = Destination.find_by(name: destination_params[:name])
+    unless verify_destination.nil?
+      render json: {'message': 'Destino já cadastrado'}, status: :internal_server_error
+      return
+    end
 
+    destination = Destination.new( destination_params )
     if destination.save
       render json: destination, status: :ok
     else

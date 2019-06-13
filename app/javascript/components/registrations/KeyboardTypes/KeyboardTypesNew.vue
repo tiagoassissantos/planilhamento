@@ -77,10 +77,10 @@
       if ( this.keyboardTypeId != null) {
         this.edit = true
         this.getCategory()
-        this.header_text = 'Editar Categoria'
+        this.header_text = 'Editar Tipo de Teclado'
         this.button_text = 'Editar'
       } else {
-        this.header_text = 'Novo Categoria'
+        this.header_text = 'Novo Tipo de Teclado'
         this.button_text = 'Cadastrar'
       }
     },

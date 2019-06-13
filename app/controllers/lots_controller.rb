@@ -5,13 +5,11 @@ class LotsController < ApplicationController
     return unless user_logged?
 
     status = params[:status]
-    Rails.logger.info('##################')
-    Rails.logger.info( params[:status] )
 
     if status == 'all' or status == nil
       lots = Lot.all
       render json: lots, status: :ok
-    end  
+    end
     if status == 'closed'
       lots = Lot.where(:status => 'closed')
       render json: lots, status: :ok
@@ -26,8 +24,13 @@ class LotsController < ApplicationController
   def create
     return unless user_logged?
 
-    lot = Lot.new( lot_params )
+    verify_lot = Lot.find_by(order_number: lot_params[:order_number])
+    unless verify_lot.nil?
+      render json: {'message': 'Nome de lote já utilizado'}, status: :internal_server_error
+      return
+    end
 
+    lot = Lot.new( lot_params )
     if lot.save
       render json: lot, status: :ok
     else

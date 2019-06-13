@@ -80,7 +80,7 @@
         this.header_text = 'Editar Categoria'
         this.button_text = 'Editar'
       } else {
-        this.header_text = 'Novo Categoria'
+        this.header_text = 'Nova Categoria'
         this.button_text = 'Cadastrar'
       }
     },

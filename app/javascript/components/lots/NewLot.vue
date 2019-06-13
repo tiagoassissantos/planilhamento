@@ -1,7 +1,13 @@
 <template>
   <div class='container'>
-    <div class="card">
 
+    <div class="margin-alert">
+      <b-alert show dismissible v-if="error" :variant="messageClass">
+        {{message}}
+      </b-alert>
+    </div>
+
+    <div class="card">
       <div class="card-header">
         {{ header_text }}
       </div>
@@ -143,7 +149,7 @@
         }
 
         if (response.status == 200) {
-
+          this.error = false
           this.showModal = true
 
           setTimeout(function(){
@@ -156,7 +162,6 @@
           this.error = true;
           this.message = response.body.message;
         }
-
         this.loader.hide()
       },
 

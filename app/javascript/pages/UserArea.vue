@@ -7,7 +7,7 @@
       <side-menu/>
     </div> -->
     <status-bar/>
-    <router-view></router-view>  
+    <router-view></router-view>
   </div>
 </template>
 
@@ -22,11 +22,17 @@
     computed: {
       isLogged() {
         return this.$store.state.logged
+      },
+
+      getCurrentUser() {
+        return this.$store.state.logged
       }
     },
 
     mounted() {
       this.$store.dispatch('isLogged');
+      this.$store.dispatch('getCurrentUser');
+
     },
 
     methods: {
@@ -48,7 +54,7 @@
   }
 
   .container {
-  
+
   }
 
 </style>

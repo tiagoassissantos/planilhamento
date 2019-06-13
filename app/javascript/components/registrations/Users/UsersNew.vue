@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    
+
     <div class="margin-alert">
       <b-alert show dismissible v-if="error" :variant="messageClass">
         {{ message }}
@@ -29,7 +29,6 @@
             </div>
           </div>
 
-
           <div class='row'>
             <div class="col-sm-4">
               <div class="form-group">
@@ -42,8 +41,8 @@
                 <select class="form-control" type="text" v-model='user.role' required>
                   <option value=''>Selecione o Perfil do Usuário</option>
                   <option value='admin'>Administrador</option>
-                  <option value='leading_operator'>Operador Líder</option>
-                  <option value='operator'>Operador</option>
+                  <option value='operator_n1'>Operador Líder</option>
+                  <option value='operator_n2'>Operador</option>
                 </select>
               </div>
             </div>
@@ -97,6 +96,7 @@
           password: '',
           password_confirmation: ''
         },
+
         loader: null,
         edit: false,
         user_id: null,
@@ -115,11 +115,22 @@
     computed: {
       isLogged() {
         return this.$store.state.logged
+      },
+
+      getCurrentUser() {
+        return this.$store.state.currentUser
       }
     },
 
     mounted() {
-      this.$store.dispatch('isLogged');
+      this.$store.dispatch('getCurrentUser');
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == 'SET_CURRENT_USER') {
+          if(this.getCurrentUser.role != "Administrador"){
+            this.$router.push('/users')
+          }
+        }
+      }),
 
       this.user_id = this.$route.params.user_id
       if( this.user_id != null){
@@ -168,7 +179,7 @@
               .then(resp => {
                 response = resp;
                 this.messageModal = 'Usuário cadastrado com sucesso'
-                
+
               })
               .catch(resp => {
                 console.log(response);
@@ -176,15 +187,14 @@
               });
           }
 
-
           if (response.status == 200) {
             this.error = false
-            this.showModal = true     
+            this.showModal = true
 
-            setTimeout(function(){ 
-              this.showModal = false     
+            setTimeout(function(){
+              this.showModal = false
               this.$router.push('/users')
-            }.bind(this), 2000);    
+            }.bind(this), 2000);
 
           } else {
             console.log( response )
@@ -192,9 +202,7 @@
             this.error = true;
             this.message = "Erro ao cadastrar novo usuário.";
           }
-
         }
-        
         this.loader.hide()
       },
 
@@ -208,9 +216,7 @@
       },
 
       async getUser(){
-        console.log('++++++++++++++++++++')
         let response = null;
-
         await this.$http.get(`/users/${this.user_id}`)
         .then((result) => {
           this.user = result.body
@@ -229,5 +235,5 @@
     margin-top: 50px;
   }
 
-  
+
 </style>

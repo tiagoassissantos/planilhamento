@@ -81,10 +81,23 @@
     computed: {
       isLogged() {
         return this.$store.state.logged
+      },
+
+      getCurrentUser() {
+        return this.$store.state.currentUser
       }
     },
 
     mounted() {
+      this.$store.dispatch('getCurrentUser');
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == 'SET_CURRENT_USER') {
+          if( this.getCurrentUser.role != "Administrador" || this.getCurrentUser.role != "Operador Líder"){
+            this.$router.push('/')
+          }
+        }
+      }),
+
       this.getLots();
     },
 
@@ -102,13 +115,13 @@
         if (response.status == 200) {
 
           response.body.forEach(lot => {
-            
+
             let status = ''
 
             if( lot.status === 'open') { status = 'Aberto'}
             if( lot.status === 'closed') { status = 'Fechado' }
             if( lot.status === 'reopened') { status = 'Reaberto' }
-            
+
             this.lots.push({
               id: lot.id,
               order_number: lot.order_number,

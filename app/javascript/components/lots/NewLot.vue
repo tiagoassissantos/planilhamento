@@ -15,7 +15,6 @@
 
         <div class='row'>
           <div class="col-sm-12">
-
             <form @submit.prevent="submit">
               <div class="form-group row">
                 <label class='col-sm-2 col-form-label'>Número do Pedido:</label>
@@ -30,14 +29,12 @@
                   <input class="form-control ml-3" disabled  type="text" v-model='lot.status' placeholder="Número do Pedido" />
                 </div>
                 <div class="col-sm-4">
-                  <span class="btn btn-danger ml-3" @click="updateStatus(lot.status)" v-if="lot.status == 'Fechado' && user_admin ">
+                  <span class="btn btn-danger ml-3" @click="updateStatus(lot.status)">
                     {{ button_text_status }}
                   </span>
-
                   <span class="btn btn-danger ml-3" @click="updateStatus(lot.status)" v-if="lot.status != 'Fechado' || lot.status != 'Fechado' ">
                     {{ button_text_status }}
                   </span>
-
                 </div>
               </div>
 
@@ -87,12 +84,21 @@
     },
 
     computed: {
-      isLogged() {
-        return this.$store.state.logged
+      getCurrentUser() {
+        return this.$store.state.currentUser
       }
     },
 
     mounted() {
+      this.$store.dispatch('getCurrentUser');
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == 'SET_CURRENT_USER') {
+          if( this.getCurrentUser.role != "Administrador" || this.getCurrentUser.role != "Operador Líder"){
+            this.$router.push('/')
+          }
+        }
+      }),
+
       this.lotId = this.$route.params.lot_id;
 
       if ( this.lotId != null) {
@@ -100,7 +106,6 @@
         this.getLot()
         this.header_text = 'Editar Lote'
         this.button_text = ' Salvar edição de lote'
-        this.getCurrentUser()
 
       } else {
         this.header_text = 'Novo Lote'
@@ -196,14 +201,7 @@
         if( status === 'Reaberto') { this.lot.status = 'Fechado', this.button_text_status = 'Fechar lote' }
       },
 
-      getCurrentUser(){
-        this.$http.get('/get_user')
-        .then((result) => {
-          this.user_admin = result.body
-          console.log('+++++++++++++++++==')
-          console.log( this.user_admin )
-        })
-      }
+
     }
   };
 </script>

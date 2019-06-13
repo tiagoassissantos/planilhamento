@@ -35,11 +35,7 @@ class User::SessionsController < Devise::SessionsController
   end
 
   def get_user
-    unless current_user.admin?
-      render json: false  , status: 404
-    else
-      render json: current_user, status: 200
-    end
+    render json: current_user, status: 200
   end
 
 

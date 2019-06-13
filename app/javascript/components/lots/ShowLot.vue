@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      
+
 
       <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
         <center>
@@ -74,10 +74,23 @@
 
       newItemUrl() {
         return `/lots/${this.lotId}/new-item`
+      },
+
+      getCurrentUser() {
+        return this.$store.state.currentUser
       }
     },
 
     mounted() {
+      this.$store.dispatch('getCurrentUser');
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == 'SET_CURRENT_USER') {
+          if( this.getCurrentUser.role != "Administrador" || this.getCurrentUser.role != "Operador Líder"){
+            this.$router.push('/')
+          }
+        }
+      }),
+
       this.lotId = this.$route.params.lot_id;
       this.getLot();
     },
@@ -105,7 +118,7 @@
       },
 
       async closeLot(lotId) {
-        this.lot.status = 1 
+        this.lot.status = 1
         let response = null;
 
         await this.$http.put(`/lots/${this.lotId}`, {lot: this.lot})
@@ -118,14 +131,14 @@
 
         if (response.status == 200) {
           this.messageModal = 'Lote fechado com sucesso'
-          this.showModal = true     
+          this.showModal = true
 
-          setTimeout(function(){ 
-            this.showModal = false     
+          setTimeout(function(){
+            this.showModal = false
             this.$router.push('/inventory/closed')
-          }.bind(this), 2000);    
+          }.bind(this), 2000);
 
-        } 
+        }
 
       }
     }

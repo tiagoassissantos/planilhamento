@@ -22,10 +22,10 @@ export default new Vuex.Store({
       commit('SET_LOGGED', logged)
     },
 
-    //setCurrentUser: async ({ commit }) => {
-    //  const user = (await Vue.http.get("/current_user")).body
-    //  commit('SET_CURRENT_USER', user)
-    //}
+    getCurrentUser: async ({ commit }) => {
+      const currentUser = (await Vue.http.get("/get_user")).body
+      commit('SET_CURRENT_USER', currentUser)
+    }
   },
 
   mutations: {
@@ -35,6 +35,7 @@ export default new Vuex.Store({
 
     SET_CURRENT_USER(store, obj) {
       store.currentUser = obj
+      console.log( store.currentUser )
     }
   }
 })

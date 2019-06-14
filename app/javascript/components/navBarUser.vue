@@ -108,6 +108,13 @@
         <a href="#">
           <font-awesome-icon icon="columns"/>
           Movimentações
+          <ul>
+            <li>
+              <router-link class="nav-link active text-light" to="/lots-transfer">
+                <font-awesome-icon icon="box" class="sub-icon"/> Transferências
+              </router-link>
+            </li>
+          </ul>
         </a>
       </li>
     </ul>

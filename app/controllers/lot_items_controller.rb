@@ -69,12 +69,40 @@ class LotItemsController < ApplicationController
 
   def get_sku
     sku = Sku.find_by(id: params[:sku_id])
-    Rails.logger.info('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-    Rails.logger.info( sku.to_json )
-    Rails.logger.info('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
     render json: sku, status: 200
   end
 
+  def search_lot
+    if params[:bar_code] != "undefined"
+      bar_code = params[:bar_code]
+      lot_items = search_with_bar_code( bar_code )
+      render json: lot_items, status: :ok
+      return
+    end
+
+    if params[:lot_number] != "undefined"
+      lot_number = params[:lot_number]
+      lot_items = search_with_lot_number( lot_number )
+      render json: lot_items, status: :ok
+      return
+    end
+
+    if params[:serial_number] != "undefined"
+      serial_number = params[:serial_number]
+      lot_items = search_with_serial_number( serial_number )
+      render json: lot_items, status: :ok
+      return
+    end
+  end
+
+  def change_destination
+    lot_item = LotItem.find_by(id: params[:lot_item_destination][:id])
+    if lot_item.update_attributes(:destination_id => params[:lot_item_destination][:destination])
+      render json: {'message': 'Destino do item atualizado com sucesso.'}
+    else
+      render json: {'message': lot_item.errors.full_message}, status: :internal_server_error
+    end
+  end
 
   private
 
@@ -87,4 +115,20 @@ class LotItemsController < ApplicationController
       :destination_id, :bar_code, :biometric_reader, :vga_card
     )
   end
+
+  def search_with_bar_code( bar_code )
+    lot_items = LotItem.where(bar_code: bar_code)
+    lot_items
+  end
+
+  def search_with_lot_number( lot_number )
+    lot_items = LotItem.where(lot_id: lot_number)
+    lot_items
+  end
+
+  def search_with_serial_number( serial_number )
+    lot_items = LotItem.where(serial_number: serial_number)
+    lot_items
+  end
+
 end

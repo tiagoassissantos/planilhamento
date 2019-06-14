@@ -74,8 +74,8 @@ class LotsController < ApplicationController
   end
 
   private
-
   def lot_params
     params.require(:lot).permit(:order_number, :status)
   end
+
 end

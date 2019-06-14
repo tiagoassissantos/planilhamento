@@ -44,8 +44,9 @@ Rails.application.routes.draw do
     resources :lot_items, only: [:index, :create, :destroy, :show, :update] do
 
     end
-
     get 'get_all_skus' => 'lot_items#get_all_skus'
     get 'get_sku/:sku_id' => 'lot_items#get_sku'
   end
+  get 'search_lot/:bar_code/:lot_number/:serial_number' => 'lot_items#search_lot'
+  post 'change_destination' => 'lot_items#change_destination'
 end

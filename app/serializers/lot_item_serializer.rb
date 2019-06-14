@@ -5,14 +5,15 @@ class LotItemSerializer < ActiveModel::Serializer
       :bluetooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
       :destination, :bar_code, :biometric_reader, :vga_card
 
+  has_one :model
 
   def hardware_type
     return object.hardware_type.name
   end
 
-  def model
-    return object.model.name
-  end
+  #def model
+  #  return object.model.name
+  #end
 
   def category
     return object.category.name unless object.category.nil?

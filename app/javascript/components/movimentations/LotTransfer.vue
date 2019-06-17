@@ -86,8 +86,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(lot_item,index) in lot_items" :key="index" @click="selectItem( lot_item.destination , lot_item.id )" class="style-select">
-                <td> {{lot_item.hardware_type}}</td>
+              <tr
+                v-for="(lot_item,index) in lot_items"
+                :key="index" @click="selectItem( lot_item.destination , lot_item.id, index )"
+                class="style-select"
+                :class="{active: filterItem( index ) }"
+              >
+                <td> {{lot_item.hardware_type}} </td>
                 <td v-if="lot_item.model != null"> {{lot_item.model.manufacturer.name}} </td>
                 <td v-if="lot_item.model != null"> {{lot_item.model.name}}</td>
                 <td> {{lot_item.serial_number}}</td>
@@ -130,6 +135,7 @@
 
         showModal: false,
         messageModal: '',
+        index: null
       }
     },
 
@@ -143,6 +149,7 @@
 
       async searchLot() {
         this.lot_items = []
+        this.index = null
         let response = null;
         if ( this.search_lot.bar_code == '') { this.search_lot.bar_code = undefined }
         if ( this.search_lot.lot_number == '') { this.search_lot.lot_number = undefined }
@@ -186,7 +193,6 @@
           this.messageClass = "danger"
           this.message = "Erro ao carregar os dados."
         }
-
         this.loading = false
       },
 
@@ -234,9 +240,18 @@
         }
       },
 
-      selectItem( lot_item_destination , lot_item_id ) {
+      selectItem( lot_item_destination , lot_item_id, index ) {
         this.lot_destionation = lot_item_destination
         this.lot_item_id = lot_item_id
+        this.index = index
+      },
+
+      filterItem( id ) {
+        if( this.index  === id ) {
+          return true
+        } else {
+          return false
+        }
       }
     }
   };
@@ -263,7 +278,11 @@
     color: red;
   }
 
-  .style-select{
+  .style-select {
     cursor: pointer;
+  }
+
+  .active {
+    background-color: rgba(172, 238, 178, 0.959);
   }
 </style>

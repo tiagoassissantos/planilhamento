@@ -42,11 +42,16 @@ Rails.application.routes.draw do
 
   resources :lots, only: [:index, :create, :destroy, :show, :update] do
     resources :lot_items, only: [:index, :create, :destroy, :show, :update] do
-
     end
     get 'get_all_skus' => 'lot_items#get_all_skus'
     get 'get_sku/:sku_id' => 'lot_items#get_sku'
   end
-  get 'search_lot/:bar_code/:lot_number/:serial_number' => 'lot_items#search_lot'
+  get 'search_lot/:bar_code/:lot_number/:serial_number/:add_item' => 'lot_items#search_lot'
   post 'change_destination' => 'lot_items#change_destination'
+
+  resources :sales_orders, only: [:index, :create, :show, :update] do
+    post 'add_item' => 'sales_orders#add_item'
+  end
+
+
 end

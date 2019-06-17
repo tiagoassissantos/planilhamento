@@ -68,7 +68,10 @@ import DiskSizesNew from '../components/registrations/DiskSizes/DiskSizesNew.vue
 
 import changePassword from '../components/change_password.vue'
 
-import LotTransfer from '../components/movimentations/LotTransfer.vue'
+import LotTransfer from '../components/movimentations/LotTransfer/LotTransfer.vue'
+
+import ListSalesOrder from '../components/movimentations/SalesOrder/ListSalesOrder.vue'
+import NewSalesOrder from '../components/movimentations/SalesOrder/SalesOrderNew.vue'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -135,7 +138,13 @@ const router = new VueRouter({
 
     { path: "/change-password", component: changePassword, props: true, name: 'change_password' },
 
-    { path: "/lots-transfer", component: LotTransfer, props: true, name: 'lot_ransfer' }
+    { path: "/lots-transfer", component: LotTransfer, props: true, name: 'lot_ransfer' },
+
+    { path: "/sales-order", component: ListSalesOrder, props: true, name: 'list_sales_order' },
+    { path: "/sales-order/new", component: NewSalesOrder, props: true, name: 'sales_order_new' },
+    { path: "/sales-order/:sales_order_id/edit", component: NewSalesOrder, props: true, name: 'sales_order_edit' },
+    { path: "/sales-order/:sales_order_id/item", component: LotTransfer, props: true, name: 'sales_order_item_transfer' },
+
   ]
 })
 

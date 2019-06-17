@@ -12,8 +12,8 @@
       </div>
 
       <div class="col-sm-2 offset-sm-2">
-        <router-link to="/categories/new" class="btn btn-primary float-right">
-          Novo
+        <router-link to="/sales-order/new" class="btn btn-primary float-right">
+          Novo Pedido
         </router-link>
       </div>
     </div>
@@ -29,28 +29,39 @@
       <table class="table table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nome</th>
             <th scope="col">Editar</th>
-            <th scope="col">Excluir</th>
+            <th scope="col">Código</th>
+            <th scope="col">Núm. do Pedido</th>
+            <th scope="col"> Adc. Item </th>
+            <th scope="col"> Visualizar Itens </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for='(category, index) in categories' :key="index" v-if="regExp( category )">
-            <td>{{category.id}}</td>
-            <td>{{category.name}}</td>
+          <tr v-for="(sales_order,index) in sales_orders" :key="index" v-if="regExp( sales_order )">
             <td>
-              <router-link :to="{ name: 'category', params: {category_id: category.id}}">
+              <router-link :to="{ path: `/sales-order/${sales_order.id}/edit`}">
                 <img src='../../../../assets/images/editar.png'/>
               </router-link>
             </td>
             <td>
-              <img @click="deleteCategory(category.id)" src='../../../../assets/images/excluir.png'/>
+              {{ sales_order.id }}
+            </td>
+            <td>
+              {{ sales_order.order_number }}
+            </td>
+            <td>
+              <router-link :to="{ path:`/sales-order/${sales_order.id}/item` }">
+                <img src='../../../../assets/images/plus.png' class="plus"/>
+              </router-link>
+            </td>
+            <td>
+              <img src='../../../../assets/images/view.png' class="plus"/>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+
   </div>
 </template>
 
@@ -60,11 +71,13 @@
 
     data() {
       return {
-        categories: [],
         showAlert: false,
         message: '',
         messageClass: '',
-        input: null
+        input: null,
+
+        sales_orders: []
+
       }
     },
 
@@ -75,70 +88,40 @@
     },
 
     mounted() {
-      this.getCategories();
+      this.getSalesOrders()
     },
 
     methods: {
-      async getCategories() {
-        let response = null;
-        await this.$http.get('/categories')
-          .then((resp) => {
-            response = resp;
-          })
-          .catch((resp) => {
-            response = resp;
-          })
+      async getSalesOrders() {
+        let response = null
 
-        if (response.status == 200) {
-          this.categories = response.body;
-
-        } else {
-          this.showAlert = true
-          this.messageClass = "danger"
-          this.message = "Erro ao carregar os dados."
-        }
-
-        this.loading = false
-      },
-
-      async deleteCategory(category_id){
-        let response = null;
-
-        await this.$http.delete(`/categories/${category_id}`)
+        await this.$http.get('/sales_orders')
         .then((result) => {
           response = result
         }).catch((err) => {
           response = err
         });
 
-        if( response.status == 200 ){
-          this.getCategories(),
-          this.showAlert = true
-          this.messageClass = "success"
-          this.message = "Categoria excluida com sucesso."
-        }else {
-          this.showAlert = true
-          this.messageClass = "danger"
-          this.message = "Erro ao carregar os dados."
+        if( response.status === 200 ) {
+          this.sales_orders = response.body
         }
       },
 
-      regExp( category ) {
-        var id = category.id.toString()
-        var name = category.name.toLowerCase()
+      regExp( sales_order ) {
+        var id = sales_order.id.toString()
+        var order_number = sales_order.order_number.toString()
 
         if( this.input === null){
           return true
-        }else{
+        }else {
           this.input = this.input.toLowerCase()
-          if( id.match(this.input) || name.match(this.input) ){
+          if( id.match(this.input) || order_number.match(this.input) ){
             return true
           }else{
             return false
           }
         }
       }
-
     }
   };
 </script>
@@ -154,6 +137,10 @@
   }
 
   .edit-icon {
-    font-size: 30px
+    font-size: 30px;
+  }
+
+  .plus {
+    width: 30px;
   }
 </style>

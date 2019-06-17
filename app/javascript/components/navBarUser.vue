@@ -114,6 +114,11 @@
                 <font-awesome-icon icon="box" class="sub-icon"/> Transferências
               </router-link>
             </li>
+            <li>
+              <router-link class="nav-link active text-light" to="/sales-order">
+                <font-awesome-icon icon="box" class="sub-icon"/> Pedidos de Vendas
+              </router-link>
+            </li>
           </ul>
         </a>
       </li>

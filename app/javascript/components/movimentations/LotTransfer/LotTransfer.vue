@@ -37,7 +37,7 @@
           </div>
         </form>
 
-        <form @submit.prevent="submit" v-if="showDestiny">
+        <form @submit.prevent="submit" v-if="showDestiny && !add_item">
           <div class='row'>
             <div class="col-sm-4">
               <div class="form-group">
@@ -74,6 +74,19 @@
           </div>
         </form>
 
+        <form @submit.prevent="addItem" v-if="add_item">
+          <button type='submit' class="btn btn-success full-width">
+            Adicionar Item
+          </button>
+        </form>
+
+        <div><br>
+          <b-alert show dismissible variant="danger" v-if="errorSelected">
+            Selecione um item antes de adicionar.
+          </b-alert>
+        </div>
+
+
         <div class="table-scroll mt-5">
           <table class="table table-hover table-bordered">
             <thead>
@@ -83,6 +96,7 @@
                 <th scope="col">Modelo </th>
                 <th scope="col">Número de Série</th>
                 <th scope="col">Cód. Barras</th>
+                <th scope="col">Destino </th>
               </tr>
             </thead>
             <tbody>
@@ -97,6 +111,7 @@
                 <td v-if="lot_item.model != null"> {{lot_item.model.name}}</td>
                 <td> {{lot_item.serial_number}}</td>
                 <td> {{lot_item.bar_code}}</td>
+                <td> {{lot_item.destination}} </td>
               </tr>
             </tbody>
           </table>
@@ -104,7 +119,7 @@
 
         <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
           <center>
-            <img  class="size-img-modal" src="../../../assets/images/checked.png"/>
+            <img  class="size-img-modal" src="../../../../assets/images/checked.png"/>
           </center>
           <p class="my-1"> {{ messageModal }} </p>
         </b-modal>
@@ -135,14 +150,25 @@
 
         showModal: false,
         messageModal: '',
-        index: null
+        index: null,
+
+        sales_order_id: null,
+        add_item: false,
+
+        errorSelected: false
       }
     },
 
     computed: { },
 
     mounted() {
-      this.getDestinations()
+      this.sales_order_id = this.$route.params.sales_order_id
+
+      if( this.sales_order_id != null ) {
+        this.add_item = true
+      } else {
+        this.getDestinations()
+      }
     },
 
     methods: {
@@ -155,7 +181,13 @@
         if ( this.search_lot.lot_number == '') { this.search_lot.lot_number = undefined }
         if ( this.search_lot.serial_number == '') { this.search_lot.serial_number = undefined }
 
-        let way = `/search_lot/${this.search_lot.bar_code}/${this.search_lot.lot_number}/${this.search_lot.serial_number}`
+        let way = null
+
+        if( this.add_item ) {
+          way = `/search_lot/${this.search_lot.bar_code}/${this.search_lot.lot_number}/${this.search_lot.serial_number}/${this.add_item}`
+        } else {
+          way = `/search_lot/${this.search_lot.bar_code}/${this.search_lot.lot_number}/${this.search_lot.serial_number}/${this.add_item}`
+        }
 
         await this.$http.get( way )
         .then((result) => {
@@ -166,7 +198,6 @@
 
         if (response.status == 200) {
           this.lot_items = response.body
-
           this.lot_destionation = this.lot_items.destination
           this.showDestiny = true
         } else {
@@ -251,6 +282,34 @@
           return true
         } else {
           return false
+        }
+      },
+
+      async addItem () {
+        if(this.lot_item_id === null ) {
+          this.errorSelected = true
+          return
+        }
+
+        let response = null
+        this.errorSelected = false
+
+        await this.$http.post(`/sales_orders/${this.sales_order_id}/add_item`, {lot_id: this.lot_item_id})
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if( response.status === 200 ) {
+          this.messageModal = response.body.message
+          this.showModal = true
+          this.lot_items = []
+          this.index = null
+
+          setTimeout(function(){
+            this.showModal = false
+          }.bind(this), 2000);
         }
       }
     }

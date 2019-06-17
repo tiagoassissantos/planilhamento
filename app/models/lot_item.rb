@@ -1,5 +1,6 @@
 class LotItem < ApplicationRecord
   belongs_to :lot
+  belongs_to :sales_order
   belongs_to :hardware_type
   belongs_to :model
   belongs_to :destination

@@ -38,9 +38,6 @@
                   <span class="btn btn-danger ml-3" @click="updateStatus(lot.status)">
                     {{ button_text_status }}
                   </span>
-                  <span class="btn btn-danger ml-3" @click="updateStatus(lot.status)" v-if="lot.status != 'Fechado' || lot.status != 'Fechado' ">
-                    {{ button_text_status }}
-                  </span>
                 </div>
               </div>
 

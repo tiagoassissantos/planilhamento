@@ -3,11 +3,10 @@
     <div v-if="isLogged">
       <navbar-user/>
     </div>
-    <!-- <div class='left-panel'>
-      <side-menu/>
-    </div> -->
-    <status-bar/>
-    <router-view></router-view>
+
+    <div class="margin-body">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -32,11 +31,9 @@
     mounted() {
       this.$store.dispatch('isLogged');
       this.$store.dispatch('getCurrentUser');
-
     },
 
-    methods: {
-    }
+    methods: {}
   };
 </script>
 
@@ -53,8 +50,9 @@
     padding-right: 0px;
   }
 
-  .container {
+  .container {}
 
+  .margin-body {
+    padding-top: 100px;
   }
-
 </style>

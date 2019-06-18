@@ -14,10 +14,9 @@ class LotItemsController < ApplicationController
     return unless user_logged?
 
     lot = Lot.find( params[:lot_id] )
-
     lot_item = lot.lot_items.new( lot_item_params )
 
-    p '--------------------------------------------------'
+    p '-------------------------------------------------+++-'
     p lot_item.to_json
 
     if lot_item.save
@@ -112,8 +111,8 @@ class LotItemsController < ApplicationController
     params.require(:lot_item).permit(
       :hardware_type_id, :model_id, :ram_memory, :serial_number, :asset_tag,
       :category_id, :comments, :damage_type_id, :processor_id, :disk_type_id,
-      :disk_size_id, :parent_id, :screen, :webcam, :keyboard_type_id, :wirelles,
-      :bluethooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
+      :disk_size_id, :parent_id, :screen, :webcam, :keyboard_type_id, :wireless,
+      :bluetooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
       :destination_id, :bar_code, :biometric_reader, :vga_card
     )
   end
@@ -121,31 +120,41 @@ class LotItemsController < ApplicationController
   def search_with_bar_code( bar_code, add_item )
     if add_item == 'true'
       lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2)
-      lot_items
-    else
-      Rails.logger.info('AAAAAAAAAAAAAAAAA')
+      return lot_items
+    end
+    if add_item == 'false'
       lot_items = LotItem.where(bar_code: bar_code)
-      lot_items
+      return lot_items
+    end
+    if add_item == 'devolution'
+      lot_items = LotItem.where(["bar_code = ? and destination_id = ?", bar_code, 2])
+      return lot_items
     end
   end
 
   def search_with_lot_number( lot_number, add_item )
     if add_item == 'true'
       lot_items = LotItem.where(lot_id: lot_number).where.not(destination_id: 2)
-      lot_items
-    else
+      return lot_items
+    end
+    if add_item == 'false'
       lot_items = LotItem.where(lot_id: lot_number)
-      lot_items
+      return lot_items
     end
   end
 
   def search_with_serial_number( serial_number, add_item )
     if add_item == 'true'
       lot_items = LotItem.where(serial_number: serial_number).where.not(destination_id: 2)
-      lot_items
-    else
+      return lot_items
+    end
+    if add_item == 'false'
       lot_items = LotItem.where(serial_number: serial_number)
-      lot_items
+      return lot_items
+    end
+    if add_item == 'devolution'
+      lot_items = LotItem.where(["serial_number = ? and destination_id = ?", serial_number, 2])
+      return lot_items
     end
   end
 

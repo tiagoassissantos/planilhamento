@@ -50,7 +50,9 @@ Rails.application.routes.draw do
   post 'change_destination' => 'lot_items#change_destination'
 
   resources :sales_orders, only: [:index, :create, :show, :update] do
+    resources :sales_orders_items, only: [:index]
     post 'add_item' => 'sales_orders#add_item'
+    delete 'item_devolution' => 'sales_orders#item_devolution'
   end
 
 

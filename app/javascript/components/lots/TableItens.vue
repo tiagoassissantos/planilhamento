@@ -34,37 +34,51 @@
         </thead>
       <tbody>
         <tr v-for='(lotItem, index) in lotItems' :key="index" v-if="regExp( lotItem )">
+
           <td>{{ lotItem.id }}</td>
+
           <td>
             <span v-if="lotItem.hardware_type != null" >
               {{ lotItem.hardware_type }}
             </span>
             <span v-else> </span>
           </td>
+
           <td>
             <span v-if="lotItem.serial_number != null" >
               {{ lotItem.serial_number }}
             </span>
             <span v-else> </span>
           </td>
+
           <td>
-            <span v-if="lotItem.asset_tag != null" >
-              {{ lotItem.asset_tag }}
+            <span v-if="lotItem.sku_id != null" >
+              {{ lotItem.sku_id }}
             </span>
             <span v-else> </span>
           </td>
-          <td >
+
+          <td>
             <span v-if="lotItem.category != null" >
               {{ lotItem.category }}
             </span>
             <span v-else> </span>
           </td>
+
           <td>
-            <span v-if="lotItem.destination != null" >
+            <span v-if="lotItem.destination != null">
               {{ lotItem.destination }}
             </span>
+            <span v-else> </span>
           </td>
-          <td>{{ lotItem.bar_code }}</td>
+
+          <td>
+            <span v-if="lotItem.bar_code != null">
+              {{ lotItem.bar_code }}
+            </span>
+            <span v-else> </span>
+          </td>
+
           <td v-if="lot.status != 'closed'" @click="deleteItem( lotItem.id )">
             <button class='btn btn-light'>
               <img src='../../../assets/images/excluir.png'/>
@@ -122,13 +136,14 @@
 
         if (response.status == 200) {
           this.lotItems = response.body;
-
+          console.log('+++++++++++++++++++')
+          console.log( this.lotItems)
+          console.log('+++++++++++++++++++')
         } else {
           this.showAlert = true
           this.messageClass = "danger"
           this.message = "Erro ao carregar os dados."
         }
-
         this.loading = false
       },
 
@@ -180,17 +195,17 @@
         //var serial_number = lotItem.serial_number.toLowerCase()
 
         var destination = lotItem.destination.toLowerCase()
-        var bar_code = lotItem.bar_code.toLowerCase()
+        //var bar_code = lotItem.bar_code.toLowerCase()
 
 
-        if( this.input === null){
+        if( this.input === null) {
           return true
-        }else{
+        }else {
           this.input = this.input.toLowerCase()
           if( lotItem_id.match(this.input) || hardware_type.match(this.input) || serial_number.match(this.input)
-             || destination.match(this.input) || bar_code.match(this.input) ){
+             || destination.match(this.input)) {
             return true
-          }else{
+          }else {
             return false
           }
         }

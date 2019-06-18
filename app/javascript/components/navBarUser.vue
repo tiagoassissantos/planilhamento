@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-light bg-light nav">
+  <nav class="navbar navbar-light bg-light nav fixed-nav">
     <ul>
       <li>
         <a href="#">
@@ -117,6 +117,11 @@
             <li>
               <router-link class="nav-link active text-light" to="/sales-order">
                 <font-awesome-icon icon="box" class="sub-icon"/> Pedidos de Vendas
+              </router-link>
+            </li>
+            <li>
+              <router-link class="nav-link active text-light" to="/item-devolution">
+                <font-awesome-icon icon="box" class="sub-icon"/> Devolução
               </router-link>
             </li>
           </ul>
@@ -368,4 +373,9 @@ export default {
     margin-top: -51px !important;
   }
 
+  .fixed-nav {
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+  }
 </style>

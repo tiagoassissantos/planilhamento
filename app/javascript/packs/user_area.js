@@ -72,6 +72,9 @@ import LotTransfer from '../components/movimentations/LotTransfer/LotTransfer.vu
 
 import ListSalesOrder from '../components/movimentations/SalesOrder/ListSalesOrder.vue'
 import NewSalesOrder from '../components/movimentations/SalesOrder/SalesOrderNew.vue'
+import SalesOrderItemList from '../components/movimentations/SalesOrder/SalesOrderItemList.vue'
+
+import ItemDevolution from '../components/devolutions/ItemDevolution.vue'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -144,7 +147,9 @@ const router = new VueRouter({
     { path: "/sales-order/new", component: NewSalesOrder, props: true, name: 'sales_order_new' },
     { path: "/sales-order/:sales_order_id/edit", component: NewSalesOrder, props: true, name: 'sales_order_edit' },
     { path: "/sales-order/:sales_order_id/item", component: LotTransfer, props: true, name: 'sales_order_item_transfer' },
+    { path: "/sales-order/:sales_order_id/itens", component: SalesOrderItemList, props: true, name: 'sales_order_item_list' },
 
+    { path: "/item-devolution", component: ItemDevolution, props: true, name: 'item_devolution' },
   ]
 })
 

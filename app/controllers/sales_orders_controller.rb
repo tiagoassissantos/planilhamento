@@ -48,6 +48,18 @@ class SalesOrdersController < ApplicationController
     end
   end
 
+  def item_devolution
+    lot_item = LotItem.find_by(id: params[:sales_order_id])
+    destination = Destination.find_by(id: 3)
+    lot_item.update_attributes(:sales_order => nil, :destination => destination )
+
+    if lot_item.save
+      render json: {'message': 'Item devolvido com sucesso. '}, status: 200
+    else
+      render json: {'message': 'Erro ao devolver item. '}, status: :internal_server_error
+    end
+  end
+
   private
   def sales_orders_params
     params.require(:sales_order).permit(:order_number)

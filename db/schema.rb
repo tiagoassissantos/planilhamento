@@ -93,7 +93,6 @@ ActiveRecord::Schema.define(version: 2019_06_17_192735) do
     t.string "vga_card"
     t.integer "lot_id"
     t.integer "sku_id"
-    t.bigint "sales_orders_id"
     t.bigint "sales_order_id"
     t.index ["category_id"], name: "index_lot_items_on_category_id"
     t.index ["damage_type_id"], name: "index_lot_items_on_damage_type_id"
@@ -105,7 +104,6 @@ ActiveRecord::Schema.define(version: 2019_06_17_192735) do
     t.index ["model_id"], name: "index_lot_items_on_model_id"
     t.index ["processor_id"], name: "index_lot_items_on_processor_id"
     t.index ["sales_order_id"], name: "index_lot_items_on_sales_order_id"
-    t.index ["sales_orders_id"], name: "index_lot_items_on_sales_orders_id"
   end
 
   create_table "lots", force: :cascade do |t|
@@ -202,7 +200,6 @@ ActiveRecord::Schema.define(version: 2019_06_17_192735) do
   add_foreign_key "lot_items", "models"
   add_foreign_key "lot_items", "processors"
   add_foreign_key "lot_items", "sales_orders"
-  add_foreign_key "lot_items", "sales_orders", column: "sales_orders_id"
   add_foreign_key "models", "manufacturers"
   add_foreign_key "skus", "categories"
   add_foreign_key "skus", "damage_types"

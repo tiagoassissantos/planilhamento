@@ -55,7 +55,9 @@
               </router-link>
             </td>
             <td>
-              <img src='../../../../assets/images/view.png' class="plus"/>
+              <router-link :to="{ path:`/sales-order/${sales_order.id}/itens`}">
+                <img src='../../../../assets/images/view.png' class="plus"/>
+              </router-link>
             </td>
           </tr>
         </tbody>
@@ -77,7 +79,6 @@
         input: null,
 
         sales_orders: []
-
       }
     },
 

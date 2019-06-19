@@ -176,10 +176,11 @@
         });
 
         if( response.status === 200 ) {
-          this.showModal    =  true
-          this.messageModal =  response.body.message
+          this.showModal = true
+          this.messageModal = response.body.message
           this.lot_items = []
           this.index = null
+          this.lot_item_id = null
 
           setTimeout(function(){
             this.showModal = false

@@ -182,7 +182,7 @@
           this.index = null
           this.lot_item_id = null
 
-          setTimeout(function(){
+          setTimeout(function() {
             this.showModal = false
           }.bind(this), 2000);
         }

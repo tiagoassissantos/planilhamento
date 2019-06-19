@@ -32,6 +32,7 @@ import NewLot from '../components/lots/NewLot.vue';
 import NewLotItem from '../components/lots/NewItem.vue';
 import ShowLot from '../components/lots/ShowLot.vue';
 import Inventory from '../components/lots/Inventory.vue';
+import StockQuery from '../components/lots/StockQuery.vue'
 
 import UsersList from '../components/registrations/Users/UsersList.vue'
 import UsersNew from '../components/registrations/Users/UsersNew.vue'
@@ -73,8 +74,7 @@ import LotTransfer from '../components/movimentations/LotTransfer/LotTransfer.vu
 import ListSalesOrder from '../components/movimentations/SalesOrder/ListSalesOrder.vue'
 import NewSalesOrder from '../components/movimentations/SalesOrder/SalesOrderNew.vue'
 import SalesOrderItemList from '../components/movimentations/SalesOrder/SalesOrderItemList.vue'
-
-import ItemDevolution from '../components/devolutions/ItemDevolution.vue'
+import ItemDevolution from '../components/movimentations/ItemDevolution.vue'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -92,6 +92,7 @@ const router = new VueRouter({
     { path: "/lots/:lot_id/edit", component: NewLot, props: true, name: 'edit-lot' },
     { path: "/lots/:lot_id/new-item", component: NewLotItem, props: true },
     { path: "/lots/:lot_id", component: ShowLot, props: true, name: 'lot' },
+    { path: "/stock-query", component: StockQuery, props: true, name: 'stock_query' },
 
     { path: "/inventory/:status", component: Inventory, props: true, name: 'inventory' },
 
@@ -149,7 +150,7 @@ const router = new VueRouter({
     { path: "/sales-order/:sales_order_id/item", component: LotTransfer, props: true, name: 'sales_order_item_transfer' },
     { path: "/sales-order/:sales_order_id/itens", component: SalesOrderItemList, props: true, name: 'sales_order_item_list' },
 
-    { path: "/item-devolution", component: ItemDevolution, props: true, name: 'item_devolution' },
+    { path: "/item-devolution", component: ItemDevolution, props: true, name: 'item_devolution' }
   ]
 })
 

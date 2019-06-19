@@ -100,6 +100,11 @@
                 <font-awesome-icon icon="box" class="sub-icon"/> Lotes Fechados
               </router-link>
             </li>
+            <li>
+              <router-link class="nav-link active text-light" to="/stock-query">
+                <font-awesome-icon icon="box" class="sub-icon"/> Consulta de Estoque
+              </router-link>
+            </li>
           </ul>
         </a>
       </li>

@@ -105,8 +105,44 @@ class LotItemsController < ApplicationController
     end
   end
 
-  private
+  def get_stock
+    lot_items = []
 
+    unless params[:h_type_id] == 'undefined'
+      item_h_type = LotItem.where(hardware_type_id: params[:h_type_id])
+      lot_items = lot_items + item_h_type
+    end
+
+    unless params[:manufacturer_id] == 'undefined'
+      models = Model.where(manufacturer_id: params[:manufacturer_id])
+      item_manufacturers = []
+
+      models.each do |model|
+        item = LotItem.where(model_id: model.id)
+        item_manufacturers = item_manufacturers + item
+      end
+
+      item_manufacturers.each do |item_manufacturer|
+        unless lot_items.include?(item_manufacturer)
+          lot_items << item_manufacturer
+        end
+      end
+    end
+
+    unless params[:model_id] == 'undefined'
+      item_models = LotItem.where(model_id: params[:model_id])
+
+      item_models.each do |item_model|
+        unless lot_items.include?(item_model)
+          lot_items << item_model
+        end
+      end
+    end
+
+    render json: lot_items, status: 200
+  end
+
+  private
   def lot_item_params
     params.require(:lot_item).permit(
       :hardware_type_id, :model_id, :ram_memory, :serial_number, :asset_tag,
@@ -157,5 +193,4 @@ class LotItemsController < ApplicationController
       return lot_items
     end
   end
-
 end

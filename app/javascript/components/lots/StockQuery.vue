@@ -4,11 +4,14 @@
 
       <div class="card-header">
         <div class="row">
-          <div class="col-sm-10">
+          <div class="col-sm-8">
             Consulta de Itens no Estoque
           </div>
           <div class="col-sm-2">
-            <button class="btn btn-success" @click="cleanSearch()"> Limpar Busca </button>
+            <button class="btn btn-success" @click="reportXls()"> Exportar Excel </button>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-danger" @click="cleanSearch()"> Limpar Busca </button>
           </div>
         </div>
       </div>
@@ -209,6 +212,19 @@
           canCancel: false,
           backgroundColor: '#000',
           opacity: 0.75
+        });
+      },
+
+      async reportXls() {
+        let response = null
+
+        await this.$http.post(`/report_xls`, {lot_items: this.lot_items})
+        .then((result) => {
+          console.log('+++')
+          console.log( result )
+        }).catch((err) => {
+          console.log('----')
+          console.log( err )
         });
       }
     }

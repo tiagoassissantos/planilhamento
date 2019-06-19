@@ -142,6 +142,23 @@ class LotItemsController < ApplicationController
     render json: lot_items, status: 200
   end
 
+  #Writing in xls
+  def report_xls
+    book = Spreadsheet::Workbook.new
+    sheet1 = book.create_worksheet
+    sheet1.name = 'Itens de lote'
+
+    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGODE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)',
+    'TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BT', 'MINI DISPLAY PORT', 'HDMI', 'VGA', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO')
+
+    x = 0
+    while x <= 29
+      sheet1.column(x).width = 30
+      x += 1
+    end
+    book.write '/home/gabriel/excel-file.xls'
+  end
+
   private
   def lot_item_params
     params.require(:lot_item).permit(

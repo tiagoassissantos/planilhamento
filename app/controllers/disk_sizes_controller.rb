@@ -13,8 +13,13 @@ class DiskSizesController < ApplicationController
   def create
     return unless user_logged?
 
-    disk_size = DiskSize.new( disk_size_params )
+    verify_disk_size = DiskSize.find_by(name: disk_size_params[:name])
+    unless verify_disk_size.nil?
+      render json: {'message': 'Tamanho de disco já utilizado'}, status: :internal_server_error
+      return
+    end
 
+    disk_size = DiskSize.new( disk_size_params )
     if disk_size.save
       render json: disk_size, status: :ok
     else

@@ -44,7 +44,7 @@
                             :key="index"
                             :value='hardwareType.id'
                           >
-                              {{hardwareType.name}} {{hardwareType.id}}
+                              {{hardwareType.name}}
                           </option>
                         </select>
                         <span class="error-text" v-show="errors.first('h_type')"> {{ required_text }} </span>
@@ -1182,7 +1182,6 @@
           default:
             break
         }
-
         this.$refs['my-modal'].hide()
       },
     },

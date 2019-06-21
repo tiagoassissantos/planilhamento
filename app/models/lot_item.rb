@@ -1,5 +1,6 @@
 class LotItem < ApplicationRecord
   belongs_to :lot
+  belongs_to :sales_order, optional: true
   belongs_to :hardware_type
   belongs_to :model
   belongs_to :destination
@@ -23,7 +24,7 @@ class LotItem < ApplicationRecord
     when 1
       sku = generate_monitor_sku()
     when 2
-      sku = generate_desktop_Sku()
+      sku = gen_desk_sku()
     when 3
       sku = generate_server_sku()
     when 4
@@ -65,7 +66,8 @@ class LotItem < ApplicationRecord
     p sku.errors.full_messages
   end
 
-  def generate_desktop_sku
+  def gen_desk_sku
+    Rails.logger.info('++++++++++++++++++++++324289432430240')
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -120,7 +122,7 @@ class LotItem < ApplicationRecord
     code += hdmi[0,1]
     code += vga[0,1]
     code += esata[0,1]
-    code += bright_keyboard.id.to_s
+    code += bright_keyboard.to_s
     code += biometric_reader[0,1]
     code += vga_card[0,1]
 

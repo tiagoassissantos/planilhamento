@@ -13,8 +13,13 @@ class DamageTypesController < ApplicationController
   def create
     return unless user_logged?
 
-    damage_type = DamageType.new( damage_type_params )
+    verify_damage_type = DamageType.find_by(hardware_type_id: damage_type_params[:hardware_type_id], name: damage_type_params[:name])
+    unless verify_damage_type.nil?
+      render json: {'message': 'Tipo de Avaria já utilizado'}, status: :internal_server_error
+      return
+    end
 
+    damage_type = DamageType.new( damage_type_params )
     if damage_type.save
       render json: damage_type, status: :ok
     else

@@ -15,6 +15,14 @@ class HardwareTypesController < ApplicationController
 
     hardware_type = HardwareType.new( hardware_type_params )
 
+    verify_hardware_type = HardwareType.find_by(name: hardware_type_params[:name])
+
+    unless verify_hardware_type.nil?
+      render json: {'message': 'Nome de hardware já cadastrado'}, status: :internal_server_error
+      return
+    end
+
+
     if hardware_type.save
       render json: hardware_type, status: :ok
     else
@@ -38,7 +46,7 @@ class HardwareTypesController < ApplicationController
 
     if hardware_type.update( hardware_type_params )
       render json: hardware_type, status: 200
-    else 
+    else
       render json: {'message': hardware_type.errors.full_message}, status: :internal_server_error
     end
   end

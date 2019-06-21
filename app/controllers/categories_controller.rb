@@ -13,8 +13,13 @@ class CategoriesController < ApplicationController
   def create
     return unless user_logged?
 
-    category = Category.new( category_params )
+    verify_category = Category.find_by(name: category_params[:name])
+    unless verify_category.nil?
+      render json: {'message': 'Nome de categoria já utilizado'}, status: :internal_server_error
+      return
+    end
 
+    category = Category.new( category_params )
     if category.save
       render json: category, status: :ok
     else

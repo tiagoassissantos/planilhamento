@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_06_152022) do
+ActiveRecord::Schema.define(version: 2019_06_17_192735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 2019_06_06_152022) do
     t.string "vga_card"
     t.integer "lot_id"
     t.integer "sku_id"
+    t.bigint "sales_order_id"
     t.index ["category_id"], name: "index_lot_items_on_category_id"
     t.index ["damage_type_id"], name: "index_lot_items_on_damage_type_id"
     t.index ["destination_id"], name: "index_lot_items_on_destination_id"
@@ -102,6 +103,7 @@ ActiveRecord::Schema.define(version: 2019_06_06_152022) do
     t.index ["keyboard_type_id"], name: "index_lot_items_on_keyboard_type_id"
     t.index ["model_id"], name: "index_lot_items_on_model_id"
     t.index ["processor_id"], name: "index_lot_items_on_processor_id"
+    t.index ["sales_order_id"], name: "index_lot_items_on_sales_order_id"
   end
 
   create_table "lots", force: :cascade do |t|
@@ -127,6 +129,12 @@ ActiveRecord::Schema.define(version: 2019_06_06_152022) do
 
   create_table "processors", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sales_orders", force: :cascade do |t|
+    t.string "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -191,6 +199,7 @@ ActiveRecord::Schema.define(version: 2019_06_06_152022) do
   add_foreign_key "lot_items", "keyboard_types"
   add_foreign_key "lot_items", "models"
   add_foreign_key "lot_items", "processors"
+  add_foreign_key "lot_items", "sales_orders"
   add_foreign_key "models", "manufacturers"
   add_foreign_key "skus", "categories"
   add_foreign_key "skus", "damage_types"

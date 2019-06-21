@@ -13,8 +13,13 @@ class ProcessorsController < ApplicationController
   def create
     return unless user_logged?
 
-    processor = Processor.new( processor_params )
+    verify_processor = Processor.find_by(name: processor_params[:name])
+    unless verify_processor.nil?
+      render json: {'message': 'Nome do processador já utilizado'}, status: :internal_server_error
+      return
+    end
 
+    processor = Processor.new( processor_params )
     if processor.save
       render json: processor, status: :ok
     else

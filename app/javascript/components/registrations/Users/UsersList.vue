@@ -7,7 +7,7 @@
       <div class="card-body">
 
         <users-table/>
-        
+
       </div> <!-- card body -->
     </div> <!-- card -->
   </div> <!-- app -->
@@ -29,9 +29,7 @@
       this.$store.dispatch('isLogged');
     },
 
-    methods: {
-
-    }
+    methods: { }
   };
 </script>
 

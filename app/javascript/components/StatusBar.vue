@@ -19,14 +19,10 @@ export default {
     return {
       mainProps: { blank: true, blankColor: '#777', width: 50, height: 50, class: 'm1' },
       sideActive: false
-
     }
   },
 
-  methods: {
-
-
-  }
+  methods: {}
 }
 
 </script>

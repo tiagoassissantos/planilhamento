@@ -1,7 +1,13 @@
 <template>
   <div class='container'>
-    <div class="card">
 
+    <div class="margin-alert">
+      <b-alert show dismissible v-if="error" :variant="messageClass">
+        {{message}}
+      </b-alert>
+    </div>
+
+    <div class="card">
       <div class="card-header">
         {{ header_text }}
       </div>
@@ -30,9 +36,6 @@
                 </div>
                 <div class="col-sm-4">
                   <span class="btn btn-danger ml-3" @click="updateStatus(lot.status)">
-                    {{ button_text_status }}
-                  </span>
-                  <span class="btn btn-danger ml-3" @click="updateStatus(lot.status)" v-if="lot.status != 'Fechado' || lot.status != 'Fechado' ">
                     {{ button_text_status }}
                   </span>
                 </div>
@@ -143,7 +146,7 @@
         }
 
         if (response.status == 200) {
-
+          this.error = false
           this.showModal = true
 
           setTimeout(function(){
@@ -156,7 +159,6 @@
           this.error = true;
           this.message = response.body.message;
         }
-
         this.loader.hide()
       },
 

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-light bg-light nav">
+  <nav class="navbar navbar-light bg-light nav fixed-nav">
     <ul>
       <li>
         <a href="#">
@@ -100,6 +100,11 @@
                 <font-awesome-icon icon="box" class="sub-icon"/> Lotes Fechados
               </router-link>
             </li>
+            <li>
+              <router-link class="nav-link active text-light" to="/stock-query">
+                <font-awesome-icon icon="box" class="sub-icon"/> Consulta de Estoque
+              </router-link>
+            </li>
           </ul>
         </a>
       </li>
@@ -108,6 +113,23 @@
         <a href="#">
           <font-awesome-icon icon="columns"/>
           Movimentações
+          <ul>
+            <li>
+              <router-link class="nav-link active text-light" to="/lots-transfer">
+                <font-awesome-icon icon="box" class="sub-icon"/> Transferências
+              </router-link>
+            </li>
+            <li>
+              <router-link class="nav-link active text-light" to="/sales-order">
+                <font-awesome-icon icon="box" class="sub-icon"/> Pedidos de Vendas
+              </router-link>
+            </li>
+            <li>
+              <router-link class="nav-link active text-light" to="/item-devolution">
+                <font-awesome-icon icon="box" class="sub-icon"/> Devolução
+              </router-link>
+            </li>
+          </ul>
         </a>
       </li>
     </ul>
@@ -184,12 +206,10 @@ export default {
         .then(result => {
           window.location.href = "/";
         })
-        .catch(err => {
-          //window.location.href = "/";
-        });
+        .catch(err => {});
     },
 
-    toggleNavPanel(x){
+    toggleNavPanel(x) {
       var panel = document.getElementById(x), navarrow = document.getElementById("navarrow"), maxH="300px";
       if(panel.style.height == maxH){
         panel.style.height = "0px";
@@ -358,4 +378,9 @@ export default {
     margin-top: -51px !important;
   }
 
+  .fixed-nav {
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+  }
 </style>

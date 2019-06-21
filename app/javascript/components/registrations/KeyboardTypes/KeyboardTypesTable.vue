@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    
+
     <div class='row'>
       <div class="col-sm-8">
         <div class="input-group">
@@ -51,7 +51,7 @@
         </tbody>
       </table>
     </div>
-    
+
   </div>
 </template>
 
@@ -71,9 +71,7 @@
     },
 
     computed: {
-      isLogged() {
-        return this.$store.state.logged
-      }
+      isLogged() { return this.$store.state.logged }
     },
 
     mounted() {
@@ -103,7 +101,7 @@
         this.loading = false
       },
 
-      async deleteKeyboardType(keyboard_type_id){
+      async deleteKeyboardType(keyboard_type_id) {
         let response = null;
 
         await this.$http.delete(`/keyboard_types/${keyboard_type_id}`)
@@ -140,7 +138,6 @@
           }
         }
       }
-
     }
   };
 </script>

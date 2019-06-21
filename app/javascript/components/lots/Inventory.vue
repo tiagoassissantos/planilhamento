@@ -67,7 +67,6 @@
     data() {
       return {
         lots: [],
-
         input: null
       }
     },
@@ -133,13 +132,18 @@
         var created_at = lot.created_at.toLowerCase()
         var status = lot.status.toLowerCase()
 
-        if( this.input === null){
+        if( this.input === null) {
           return true
-        }else{
+        }else {
           this.input = this.input.toLowerCase()
-          if( lot_id.match(this.input) || order_number.match(this.input) || created_at.match(this.input) || status.match(this.input)){
+          if(
+              lot_id.match(this.input)        ||
+              order_number.match(this.input)  ||
+              created_at.match(this.input)    ||
+              status.match(this.input)
+            ) {
             return true
-          }else{
+          } else {
             return false
           }
         }

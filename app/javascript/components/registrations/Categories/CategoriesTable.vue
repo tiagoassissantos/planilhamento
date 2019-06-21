@@ -17,7 +17,7 @@
         </router-link>
       </div>
     </div>
-        
+
 
     <div class="margin-alert">
       <b-alert show dismissible v-if="showAlert" :variant="messageClass">
@@ -65,7 +65,6 @@
         message: '',
         messageClass: '',
         input: null
-
       }
     },
 

@@ -114,7 +114,6 @@
             });
         }
 
-
         if (response.status == 200) {
           this.messageClass = "success";
           this.showModal = true
@@ -153,7 +152,6 @@
           response = err.body
         });
       }
-
     },
 
     props: {

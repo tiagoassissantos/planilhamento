@@ -93,8 +93,6 @@
 </template>
 
 <script>
-
-
   export default {
     components: {  },
 
@@ -124,6 +122,7 @@
     },
 
     methods: {
+
       async getLotItems() {
         let response = null;
         await this.$http.get(`/lots/${this.lotId}/lot_items`)
@@ -168,7 +167,7 @@
           response = err;
         });
 
-        if (response.status == 200){
+        if (response.status == 200) {
           this.getLotItems();
           this.showAlert = true
           this.messageClass = "success"
@@ -185,15 +184,10 @@
         }
       },
 
-
       regExp( lotItem ) {
         var lotItem_id = lotItem.id.toString()
         var hardware_type = lotItem.hardware_type.toLowerCase()
-        //var serial_number = lotItem.serial_number.toLowerCase()
-
         var destination = lotItem.destination.toLowerCase()
-        //var bar_code = lotItem.bar_code.toLowerCase()
-
 
         if( this.input === null) {
           return true
@@ -207,10 +201,7 @@
           }
         }
       }
-
     },
-
-
   };
 </script>
 

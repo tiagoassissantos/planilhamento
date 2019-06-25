@@ -8,7 +8,6 @@
             Consulta de Itens no Estoque
           </div>
           <div class="col-sm-2">
-            <!-- <span class="btn btn-success" @click="reportXls()"> Exportar Excel </span> -->
             <a :href="way" v-if="show_export" class="btn btn-success"> Exportar XLS </a>
           </div>
           <div class="col-sm-2">
@@ -20,7 +19,6 @@
       <div class="card-body">
         <form>
           <div class='row'>
-
             <div class="col-sm-4">
               <div class="form-group">
                 <label> Tipo de Hardware </label>
@@ -65,7 +63,6 @@
           </div>
         </form>
 
-
         <div><br>
           <b-alert show dismissible variant="danger" v-if="errorSelected">
             Selecione um dos itens para realizar a pesquisa.
@@ -81,7 +78,6 @@
                 <th scope="col"> Modelo </th>
                 <th scope="col"> Número de Série </th>
                 <th scope="col"> Cód. Barras </th>
-
               </tr>
             </thead>
             <tbody>
@@ -102,11 +98,10 @@
 </template>
 
 <script>
-import VueCsvDownloader from 'vue-csv-downloader';
 
   export default {
 
-    components: {VueCsvDownloader },
+    components: {},
 
     data() {
       return {
@@ -214,9 +209,6 @@ import VueCsvDownloader from 'vue-csv-downloader';
         this.loader.hide()
       },
 
-      verifyItens() {
-      },
-
       cleanSearch() {
         this.search_items = { h_type_id: undefined, manufacturer_id: undefined, model_id: undefined }
         this.lot_items = []
@@ -230,19 +222,6 @@ import VueCsvDownloader from 'vue-csv-downloader';
           opacity: 0.75
         });
       },
-
-      async reportXls() {
-        let response = null
-        let array = [2,3]
-        await this.$http.get(`/report_xls?lot_items=${JSON.stringify(this.lot_items)}`)
-        .then((result) => {
-          console.log('+++')
-          console.log( result )
-        }).catch((err) => {
-          console.log('----')
-          console.log( err )
-        });
-      }
     }
   };
 </script>

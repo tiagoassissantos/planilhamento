@@ -196,6 +196,9 @@ class LotItem < ApplicationRecord
   def generate_ssd_sku
     code = ''
     code += hardware_type.name[0,3]
+    code += model.manufacturer.id.to_s
+    code += model.id.to_s
+    code += damage_type.id.to_s
     code += disk_type.id.to_s
     code += disk_size.id.to_s
 

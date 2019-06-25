@@ -26,7 +26,6 @@
     "vuex": "^3.1.0"
   },
   "devDependencies": {
-    "vue-csv-downloader": "^1.0.3",
     "webpack-dev-server": "^3.3.1"
   }
 }

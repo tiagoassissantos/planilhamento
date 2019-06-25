@@ -67,7 +67,6 @@ class LotItem < ApplicationRecord
   end
 
   def gen_desk_sku
-    Rails.logger.info('++++++++++++++++++++++324289432430240')
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -184,11 +183,13 @@ class LotItem < ApplicationRecord
   def generate_hd_sku
     code = ''
     code += hardware_type.name[0,3]
+    code += model.manufacturer.id.to_s
+    code += model.id.to_s
     code += disk_type.id.to_s
     code += disk_size.id.to_s
 
     self.sku = Sku.find_or_create_by(
-      code: code, hardware_type: hardware_type,
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       disk_type: disk_type, disk_size: disk_size
     )
   end
@@ -198,12 +199,11 @@ class LotItem < ApplicationRecord
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
     code += model.id.to_s
-    code += damage_type.id.to_s
     code += disk_type.id.to_s
     code += disk_size.id.to_s
 
     self.sku = Sku.find_or_create_by(
-      code: code, hardware_type: hardware_type,
+      code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       disk_type: disk_type, disk_size: disk_size
     )
   end

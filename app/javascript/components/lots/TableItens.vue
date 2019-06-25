@@ -136,9 +136,6 @@
 
         if (response.status == 200) {
           this.lotItems = response.body;
-          console.log('+++++++++++++++++++')
-          console.log( this.lotItems)
-          console.log('+++++++++++++++++++')
         } else {
           this.showAlert = true
           this.messageClass = "danger"

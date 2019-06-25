@@ -8,7 +8,8 @@
             Consulta de Itens no Estoque
           </div>
           <div class="col-sm-2">
-            <button class="btn btn-success" @click="reportXls()"> Exportar Excel </button>
+            <!-- <span class="btn btn-success" @click="reportXls()"> Exportar Excel </span> -->
+            <a :href="way" v-if="show_export" class="btn btn-success"> Exportar XLS </a>
           </div>
           <div class="col-sm-2">
             <button class="btn btn-danger" @click="cleanSearch()"> Limpar Busca </button>
@@ -101,8 +102,11 @@
 </template>
 
 <script>
+import VueCsvDownloader from 'vue-csv-downloader';
+
   export default {
-    components: { },
+
+    components: {VueCsvDownloader },
 
     data() {
       return {
@@ -111,7 +115,9 @@
         h_types: [],
         manufacturers: [],
         models: [],
-        errorSelected: false
+        errorSelected: false,
+        way: '',
+        show_export: false
       }
     },
 
@@ -171,7 +177,17 @@
 
       async searchItems() {
         this.showLoading()
-        this.verifyItens() //verify if have empty values
+        if(
+            this.search_items.model_id == undefined &&
+            this.search_items.manufacturer_id == undefined &&
+            this.search_items.h_type_id == undefined
+          ) {
+          this.errorSelected = true
+          this.loader.hide()
+          return
+        } else {
+          this.errorSelected = false
+        }
 
         this.lot_items = []
         let response = null
@@ -187,18 +203,18 @@
 
         if( response.status === 200 ) {
           this.lot_items = response.body
-        }
+          let items_id = []
 
+          this.lot_items.forEach(lot_item => {
+            items_id.push(lot_item.id)
+          })
+          this.way = `/report_xls?lot_items=${items_id}`
+          this.show_export = true
+        }
         this.loader.hide()
       },
 
       verifyItens() {
-        if( this.search_items.model_id == undefined && this.search_items.manufacturer_id == undefined && this.search_items.h_type_id == undefined) {
-          this.errorSelected = true
-          return
-        } else{
-          this.errorSelected = false
-        }
       },
 
       cleanSearch() {
@@ -217,8 +233,8 @@
 
       async reportXls() {
         let response = null
-
-        await this.$http.post(`/report_xls`, {lot_items: this.lot_items})
+        let array = [2,3]
+        await this.$http.get(`/report_xls?lot_items=${JSON.stringify(this.lot_items)}`)
         .then((result) => {
           console.log('+++')
           console.log( result )

@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   get 'search_lot/:bar_code/:lot_number/:serial_number/:add_item' => 'lot_items#search_lot'
   get 'get_stock/:h_type_id/:manufacturer_id/:model_id/' => 'lot_items#get_stock'
   post 'change_destination' => 'lot_items#change_destination'
-  post 'report_xls' => 'lot_items#report_xls'
+  get 'report_xls' => 'lot_items#report_xls'
 
   resources :sales_orders, only: [:index, :create, :show, :update] do
     resources :sales_orders_items, only: [:index]

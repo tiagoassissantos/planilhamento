@@ -1680,6 +1680,13 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+cli-table@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/cli-table/-/cli-table-0.3.1.tgz#f53b05266a8b1a0b934b3d0821e6e2dc5914ae23"
+  integrity sha1-9TsFJmqLGguTSz0IIebi3FkUriM=
+  dependencies:
+    colors "1.0.3"
+
 cliui@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-3.2.0.tgz#120601537a916d29940f934da3b48d585a39213d"
@@ -1770,6 +1777,11 @@ color@^3.0.0:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
+colors@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
+  integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
+
 combined-stream@^1.0.6, combined-stream@~1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.7.tgz#2d1d24317afb8abe95d6d2c0b07b57813539d828"
@@ -1777,7 +1789,7 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.19.0:
+commander@^2.19.0, commander@^2.8.1:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
@@ -2258,7 +2270,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   dependencies:
     ms "2.0.0"
 
-debug@^3.2.5, debug@^3.2.6:
+debug@^3.1.0, debug@^3.2.5, debug@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   integrity sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==
@@ -2842,6 +2854,13 @@ findup-sync@^2.0.0:
     is-glob "^3.1.0"
     micromatch "^3.0.4"
     resolve-dir "^1.0.1"
+
+flat@^4.0.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/flat/-/flat-4.1.0.tgz#090bec8b05e39cba309747f1d588f04dbaf98db2"
+  integrity sha512-Px/TiLIznH7gEDlPXcUD4KnBusa6kR6ayRUVcnEAbreRIuhkqow/mun59BuRXwoYk7ZQOLW1ZM05ilIvK38hFw==
+  dependencies:
+    is-buffer "~2.0.3"
 
 flatted@^2.0.0:
   version "2.0.0"
@@ -3564,6 +3583,11 @@ is-buffer@^1.1.5:
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
   integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
 
+is-buffer@~2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.3.tgz#4ecf3fcf749cbd1e472689e109ac66261a25e725"
+  integrity sha512-U15Q7MXTuZlrbymiz95PJpZxu8IlipAp4dtS3wOdgPXx3mqBnslrWU14kxfHB+Py/+2PVKSr37dMAgM2A4uArw==
+
 is-callable@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.1.4.tgz#1e1adf219e1eeb684d691f9d6a05ff0d30a24d75"
@@ -3880,6 +3904,22 @@ json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
+json2csv@^3.0.0:
+  version "3.11.5"
+  resolved "https://registry.yarnpkg.com/json2csv/-/json2csv-3.11.5.tgz#088006c3b5c06425a48cb7326ca712a6f8661417"
+  integrity sha512-ORsw84BuRKMLxfI+HFZuvxRDnsJps53D5fIGr6tLn4ZY+ymcG8XU00E+JJ2wfAiHx5w2QRNmOLE8xHiGAeSfuQ==
+  dependencies:
+    cli-table "^0.3.1"
+    commander "^2.8.1"
+    debug "^3.1.0"
+    flat "^4.0.0"
+    lodash.clonedeep "^4.5.0"
+    lodash.flatten "^4.4.0"
+    lodash.get "^4.4.0"
+    lodash.set "^4.3.0"
+    lodash.uniq "^4.5.0"
+    path-is-absolute "^1.0.0"
+
 json3@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.2.tgz#3c0434743df93e2f5c42aee7b19bcb483575f4e1"
@@ -4005,7 +4045,17 @@ lodash._reinterpolate@~3.0.0:
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
 
-lodash.get@^4.0:
+lodash.clonedeep@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
+  integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
+
+lodash.flatten@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
+  integrity sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=
+
+lodash.get@^4.0, lodash.get@^4.4.0:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
@@ -4019,6 +4069,11 @@ lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
+
+lodash.set@^4.3.0:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+  integrity sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
 
 lodash.tail@^4.1.1:
   version "4.1.1"
@@ -7130,6 +7185,13 @@ vue-bootstrap-typeahead@^0.2.6:
   dependencies:
     resize-observer-polyfill "^1.5.0"
     vue "^2.5.17"
+
+vue-csv-downloader@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue-csv-downloader/-/vue-csv-downloader-1.0.3.tgz#513c6a2bebc888c78cdad1e03bda7c5d30ff9574"
+  integrity sha512-7c+OkMTHwWWr1aLdGDXEwGEWyarZQFxpMbTo00BXBPnV8YVUFdHhNXSQHgcwwoXDShojhOD0Uzla7yx41vtivQ==
+  dependencies:
+    json2csv "^3.0.0"
 
 vue-functional-data-merge@^2.0.7:
   version "2.0.7"

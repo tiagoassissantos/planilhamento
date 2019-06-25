@@ -148,15 +148,124 @@ class LotItemsController < ApplicationController
     sheet1 = book.create_worksheet
     sheet1.name = 'Itens de lote'
 
-    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGODE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)',
-    'TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BT', 'MINI DISPLAY PORT', 'HDMI', 'VGA', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO')
+    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)',
+    'TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BLUETOOTH', 'MINI DISPLAY PORT', 'HDMI', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO')
+
+    format = Spreadsheet::Format.new :weight => :bold,:size => 11
+    sheet1.row(0).height = 30
+    sheet1.row(0).default_format = format
 
     x = 0
     while x <= 29
       sheet1.column(x).width = 30
       x += 1
     end
-    book.write '/home/gabriel/excel-file.xls'
+
+    lot_items = []
+    lot_items_id = params[:lot_items].split(',')
+    lot_items_id.each do |lot_item_id|
+      item = LotItem.find_by(id: lot_item_id)
+      lot_items << item
+    end
+
+    row = 1
+    lot_items.each do |line|
+      processor_name = ''
+      disk_size = ''
+      disk_type = ''
+      webcam = ''
+      keyboard = ''
+      destination = ''
+      wireless = ''
+      bluetooth = ''
+      mini_display_port = ''
+      hdmi = '',
+      esata = '',
+      vga = '',
+
+      unless line.processor.nil?
+        processor_name = line.processor.name
+      end
+
+      unless line.disk_size.nil?
+        disk_size = line.disk_size_name.name
+      end
+
+      unless line.disk_type.nil?
+        disk_type = line.disk_type.name
+      end
+
+      if line.webcam.nil? || line.webcam == 13
+        webcam = 'Não Contem WebCam'
+      else
+        webcam = 'Contem WebCam'
+      end
+
+      unless line.keyboard_type.nil?
+        keyboard = line.keyboard_type.name
+      end
+
+      unless line.destination.nil?
+        destination = line.destination.name
+      end
+
+      if line.wireless.nil? || line.wireless == 13
+        wireless = 'Não Contem wireless'
+      else
+        wireless = 'Contem wireless'
+      end
+
+      if line.bluetooth.nil? || line.bluetooth == 0
+        bluetooth = 'Não Contem bluetooth'
+      else
+        bluetooth = 'Contem bluetooth'
+      end
+
+      if line.mini_display_port.nil? || line.bluetooth == 0
+        mini_display_port = 'Não Contem mini display port'
+      else
+        mini_display_port = 'Contem mini display port'
+      end
+
+      if line.esata.nil? || line.esata == 13
+        esata = 'Não Contem esata'
+      else
+        esata = 'Contem esata'
+      end
+
+      if line.hdmi.nil? || line.hdmi == 13
+        hdmi = 'Não Contem hdmi'
+      else
+        hdmi = 'Contem hdmi'
+      end
+
+      if line.biometric_reader.nil? || line.biometric_reader == 13
+        biometric_reader = 'Não Contem leitor biometrico'
+      else
+        biometric_reader = 'Contem leitor biometrico'
+      end
+
+      if line.vga.nil? || line.vga == 13
+        vga = 'Não Contem leitor vga'
+      else
+        vga = 'Contem placa de vídeo'
+      end
+
+      sheet1.row(row).push(
+        line.hardware_type.name, line.model.manufacturer.name, line.model.name, line.ram_memory,
+        line.serial_number, line.asset_tag, line.bar_code, line.category.name, line.comments, line.damage_type.name,
+        processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard, destination, wireless,
+        bluetooth, mini_display_port, hdmi, esata, line.bright_keyboard, biometric_reader, vga)
+      sheet1.row(row).height = 20
+      row += 1
+    end
+
+    file_contents = StringIO.new
+    time = Time.now()
+    time.strftime("%b-%m-%Y-%H:M")
+    t = Tempfile.new("Listagem_de_Items-#{time}.xlsx")
+    book.write t.path
+    send_file t.path , :type => 'application/excel'
   end
 
   private

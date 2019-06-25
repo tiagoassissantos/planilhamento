@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    
+
     <div class='row'>
       <div class="col-sm-8">
         <div class="input-group">
@@ -32,7 +32,6 @@
             <th scope="col">ID</th>
             <th scope="col">Nome</th>
             <th scope="col">Editar</th>
-            <th scope="col">Excluir</th>
           </tr>
         </thead>
         <tbody>
@@ -44,14 +43,11 @@
                 <img src='../../../../assets/images/editar.png'/>
               </router-link>
             </td>
-            <td>
-              <img @click="deleteDestination(destination.id)" src='../../../../assets/images/excluir.png'/>
-            </td>
           </tr>
         </tbody>
       </table>
     </div>
-    
+
   </div>
 </template>
 
@@ -101,28 +97,6 @@
         }
 
         this.loading = false
-      },
-
-      async deleteDestination(destination_id){
-        let response = null;
-
-        await this.$http.delete(`/destinations/${destination_id}`)
-        .then((result) => {
-          response = result
-        }).catch((err) => {
-          response = err
-        });
-
-        if( response.status == 200 ){
-          this.getDestinations(),
-          this.showAlert = true
-          this.messageClass = "success"
-          this.message = "Destino excluído com sucesso."
-        }else {
-          this.showAlert = true
-          this.messageClass = "danger"
-          this.message = "Erro ao carregar os dados."
-        }
       },
 
       regExp( destination ) {

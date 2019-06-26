@@ -1,8 +1,8 @@
 <template>
   <div class='container'>
-    <div class="card">
+    <div class="card response-display">
 
-      <div class="card-header">
+      <div class="card-header ">
         Alterar Senha
       </div>
 

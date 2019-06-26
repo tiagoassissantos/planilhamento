@@ -1,11 +1,11 @@
 <template>
   <div id="app" class='container'>
-    <div class="card">
+    <div class="card response-display">
       <div class="card-header">
         Tipos de Avaria
       </div>
       <div class="card-body">
-        
+
         <damage-types-table/>
 
       </div> <!-- card body -->

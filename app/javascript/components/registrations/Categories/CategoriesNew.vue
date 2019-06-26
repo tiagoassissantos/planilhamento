@@ -1,13 +1,14 @@
 <template>
   <div class='container'>
 
-    <div class="margin-alert">
+    <div class="margin-alert response-display">
       <b-alert show dismissible v-if="error" :variant="messageClass">
         {{ message }}
       </b-alert>
     </div>
 
-    <div class="card">
+    <div class="card response-display">
+
       <div class="card-header">
         {{ header_text }}
       </div>

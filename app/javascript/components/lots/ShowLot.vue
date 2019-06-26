@@ -137,9 +137,7 @@
             this.showModal = false
             this.$router.push('/inventory/closed')
           }.bind(this), 2000);
-
         }
-
       }
     }
   }

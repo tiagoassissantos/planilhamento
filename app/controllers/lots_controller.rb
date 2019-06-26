@@ -54,13 +54,7 @@ class LotsController < ApplicationController
 
   def show
     return unless user_logged?
-
     lot = Lot.find( params[:id] )
-
-    Rails.logger.info('+++++++++++++++++++++++++')
-    Rails.logger.info(lot.lot_items.to_json )
-    Rails.logger.info('+++++++++++++++++++++++++')
-
     render json: lot, status: :ok
   end
 

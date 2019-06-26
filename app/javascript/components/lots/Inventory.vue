@@ -40,7 +40,6 @@
                         <img src='../../../assets/images/editar.png'/>
                       </router-link>
                     </td>
-
                     <td>{{lot.id}}</td>
                     <td>{{lot.order_number}}</td>
                     <td>{{lot.status}}</td>

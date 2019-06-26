@@ -53,9 +53,7 @@
         });
 
         if( response.status === 200 ) {
-          console.log('+++++++++++++++++++===')
           this.sales_orders = response.body;
-          console.log( this.sales_orders )
         }
       }
 

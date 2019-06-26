@@ -1205,7 +1205,7 @@
     border-color: red !important;
   }
 
-  .error-text{
+  .error-text {
     color: red;
     font-size: 12px;
     font-weight: bold;

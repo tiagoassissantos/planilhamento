@@ -76,7 +76,7 @@
 
       if ( this.keyboardTypeId != null) {
         this.edit = true
-        this.getCategory()
+        this.getKeyboard()
         this.header_text = 'Editar Tipo de Teclado'
         this.button_text = 'Editar'
       } else {
@@ -112,7 +112,6 @@
             });
         }
 
-
         if (response.status == 200) {
           this.messageClass = "success";
           this.showModal = true
@@ -127,7 +126,6 @@
           this.error = true;
           this.message = response.body.message;
         }
-
         this.loader.hide()
       },
 
@@ -140,9 +138,9 @@
         });
       },
 
-      async getCategory(){
+      async getKeyboard() {
         let response = null;
-        await this.$http.get(`/keyboard_type/${this.keyboard_type}`)
+        await this.$http.get(`/keyboard_types/${this.keyboardTypeId}`)
         .then((result) => {
           this.keyboard_type =  result.body
         }).catch((err) => {

@@ -149,7 +149,7 @@
           this.error = false
           this.showModal = true
 
-          setTimeout(function(){
+          setTimeout(function() {
             this.showModal = false
             this.$router.push('/lots')
           }.bind(this), 2000);

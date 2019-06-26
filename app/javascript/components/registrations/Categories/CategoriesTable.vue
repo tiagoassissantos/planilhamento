@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class='row'>
-      <div class="col-sm-8">
+      <div class="col-md-8 col-sm-12">
         <div class="input-group">
           <input type="text" class="form-control" aria-describedby="button-addon4" v-model="input">
           <div class="input-group-append" id="button-addon4">
@@ -11,13 +11,12 @@
         </div>
       </div>
 
-      <div class="col-sm-2 offset-sm-2">
-        <router-link to="/categories/new" class="btn btn-primary float-right">
+      <div class="col-md-2 offset-md-2 col-sm-12">
+        <router-link to="/categories/new" class="btn btn-primary full-width-button float-right">
           Novo
         </router-link>
       </div>
     </div>
-
 
     <div class="margin-alert">
       <b-alert show dismissible v-if="showAlert" :variant="messageClass">

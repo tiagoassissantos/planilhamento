@@ -4,13 +4,13 @@
 
       <div class="card-header">
         <div class="row">
-          <div class="col-sm-8">
+          <div class="col-md-8 col-sm-12">
             Consulta de Itens no Estoque
           </div>
-          <div class="col-sm-2">
+          <div class="col-md-2 col-sm-6">
             <a :href="way" v-if="show_export" class="btn btn-success"> Exportar XLS </a>
           </div>
-          <div class="col-sm-2">
+          <div class="col-md-2 col-sm-6">
             <button class="btn btn-danger" @click="cleanSearch()"> Limpar Busca </button>
           </div>
         </div>

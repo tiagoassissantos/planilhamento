@@ -46,4 +46,11 @@
     }
   }
 
+  @media only screen and (max-width: 765px) {
+    .full-width-button {
+      margin-top: 20px;
+      width: 100% !important;
+    }
+  }
+
 </style>

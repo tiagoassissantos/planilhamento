@@ -143,13 +143,12 @@
       <li class="nav-item style-item">
         <div class="dropdown">
           <div class="row">
-            <div class="col-sm-3">
-              <b-img v-bind="mainProps" rounded="circle" alt="Circle image"></b-img>
-            </div>
             <div class="col-sm">
               <span class="dropbtn">
-                Nome do usuário
-                <p> Teste</p>
+                <strong> Nome: </strong>
+                {{ getCurrentUser.name }}
+                <p> {{ getCurrentUser.role }} </p>
+
               </span>
             </div>
           </div>
@@ -179,9 +178,7 @@ export default {
     }
   },
 
-
   methods: {
-
     animationHamburger() {
       let hamburger = document.getElementById('header__button');
       hamburger.classList.toggle("hamburger--open");
@@ -193,7 +190,7 @@ export default {
         sideMenu.classList.remove("expanded");
         this.sideActive = false
         navigationLi.style.display = "none";
-      }else {
+      } else {
         sideMenu.classList.add("expanded");
         navigationLi.style.display = "block";
         this.sideActive = true
@@ -211,7 +208,7 @@ export default {
 
     toggleNavPanel(x) {
       var panel = document.getElementById(x), navarrow = document.getElementById("navarrow"), maxH="300px";
-      if(panel.style.height == maxH){
+      if( panel.style.height == maxH ) {
         panel.style.height = "0px";
         navarrow.innerHTML = "&#9662;";
       } else {
@@ -219,10 +216,8 @@ export default {
         navarrow.innerHTML = "&#9652;";
       }
     }
-
   }
 }
-
 </script>
 
 <style scoped lang="scss">
@@ -241,7 +236,6 @@ export default {
   .dropbtn {
     background-color: transparent;
     color: black;
-
     font-size: 16px;
     border: none;
     cursor: pointer;
@@ -276,11 +270,11 @@ export default {
     display: block;
   }
 
-  .header-side{
+  .header-side {
     background-color:#171717;
   }
 
-  #label{
+  #label {
     color: white;
     font-size: 20px;
   }
@@ -292,12 +286,11 @@ export default {
     padding-right: 75px !important;
   }
 
-  .nav-toggle{
+  .nav-toggle {
     padding-top: 10px;
     padding-left: 20px;
     margin-right: 18px;
   }
-
 
   .nav ul {
     *zoom: 1;
@@ -373,7 +366,7 @@ export default {
     transition: max-height 500ms ease;
   }
 
-  .sub-icon{
+  .sub-icon {
     margin-right: 5px;
     margin-top: -51px !important;
   }
@@ -383,4 +376,5 @@ export default {
     z-index: 3;
     width: 100%;
   }
+
 </style>

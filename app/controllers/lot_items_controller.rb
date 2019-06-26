@@ -182,13 +182,15 @@ class LotItemsController < ApplicationController
       hdmi = '',
       esata = '',
       vga = '',
+      category = '',
+      damage_type = ''
 
       unless line.processor.nil?
         processor_name = line.processor.name
       end
 
       unless line.disk_size.nil?
-        disk_size = line.disk_size_name.name
+        disk_size = line.disk_size.name
       end
 
       unless line.disk_type.nil?
@@ -251,9 +253,17 @@ class LotItemsController < ApplicationController
         vga = 'Contem placa de vídeo'
       end
 
+      unless line.category.nil?
+        category = line.category.name
+      end
+
+      unless line.damage_type.nil?
+        damage_type = line.damage_type.name
+      end
+
       sheet1.row(row).push(
         line.hardware_type.name, line.model.manufacturer.name, line.model.name, line.ram_memory,
-        line.serial_number, line.asset_tag, line.bar_code, line.category.name, line.comments, line.damage_type.name,
+        line.serial_number, line.asset_tag, line.bar_code, category, line.comments, damage_type,
         processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard, destination, wireless,
         bluetooth, mini_display_port, hdmi, esata, line.bright_keyboard, biometric_reader, vga)
       sheet1.row(row).height = 20

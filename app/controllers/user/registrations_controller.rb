@@ -70,6 +70,16 @@ class User::RegistrationsController < Devise::RegistrationsController
     params = password_params
     user = User.find_by(id: current_user.id)
 
+    unless params[:password] == params[:password_confirm]
+      render json: {"status": "error", "message": "Confirmação de senha incorreta.", status: 500}
+      return
+    end
+
+    if params[:password].length < 6
+      render json: {"status": "error", "message": "A senha deve possuir no mínimo 6 caracteres.", status: 500}
+      return
+    end
+
     unless user.valid_password?(params[:current_password])
       render json: {"status": "error", "message": "Não foi possível alterar sua senha, digite corretamente sua senha atual.", status: 403}
     else
@@ -78,7 +88,6 @@ class User::RegistrationsController < Devise::RegistrationsController
       end
     end
   end
-
 
   # DELETE /resource
   # def destroy

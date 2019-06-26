@@ -1,14 +1,16 @@
 <template>
   <div class='container'>
     <div class="card">
+
       <div class="card-header">
         Alterar Senha
       </div>
 
       <div class="card-body">
-        <b-alert show dismissible  variant="danger" v-if="error">  {{ messageText }} </b-alert>
-        <form @submit.prevent="submit">
 
+        <b-alert show dismissible  variant="danger" v-if="error">  {{ messageText }} </b-alert>
+
+        <form @submit.prevent="submit">
           <div class="form-group">
             <input class="form-control" v-model="user.current_password" type="password" placeholder="Senha atual" />
           </div>
@@ -32,8 +34,8 @@
             <p class="my-1"> {{ messageModal }} </p>
           </b-modal>
         </form>
-      </div> <!-- card body -->
 
+      </div> <!-- card body -->
     </div> <!-- card -->
   </div> <!-- app -->
 </template>
@@ -50,7 +52,6 @@
 
         error: false,
         messageText: null,
-
         showModal: false,
         messageModal: '',
       }
@@ -71,11 +72,8 @@
 
         if (response.body.status == 'success') {
           this.error = false;
-
-
           this.messageModal = 'Senha alterada com sucesso, você será redirecionado.'
           this.showModal = true
-
 
           setTimeout(function(){
             this.showModal = false
@@ -98,9 +96,7 @@
         });
       },
     }
-
   }
-
 </script>
 
 <style scoped>

@@ -46,7 +46,7 @@
               </router-link>
             </td>
             <td>
-              <img @click="deleteModel(model.id)" src='../../../../assets/images/excluir.png'/>
+              <img @click="deleteModel(model.id)" class="cursor-item" src='../../../../assets/images/excluir.png'/>
             </td>
           </tr>
         </tbody>

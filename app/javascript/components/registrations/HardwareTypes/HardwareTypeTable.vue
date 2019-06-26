@@ -43,6 +43,7 @@
               <img
                 v-if="h_type.can_delete"
                 @click="deleteHardWare(h_type.id)"
+                class="cursor-item"
                 src="../../../../assets/images/excluir.png"
               >
             </td>

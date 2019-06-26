@@ -46,7 +46,11 @@
               </router-link>
             </td>
             <td>
-              <img @click="deleteDamageTypes(damageType.id)" src='../../../../assets/images/excluir.png'/>
+              <img
+                @click="deleteDamageTypes(damageType.id)"
+                src='../../../../assets/images/excluir.png'
+                class="cursor-item"
+              />
             </td>
           </tr>
         </tbody>

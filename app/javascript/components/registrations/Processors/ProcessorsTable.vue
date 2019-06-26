@@ -45,7 +45,11 @@
               </router-link>
             </td>
             <td>
-              <img @click="deleteProcessor(processor.id)" src='../../../../assets/images/excluir.png'/>
+              <img
+                @click="deleteProcessor(processor.id)"
+                src='../../../../assets/images/excluir.png'
+                class="cursor-item"
+              />
             </td>
           </tr>
         </tbody>

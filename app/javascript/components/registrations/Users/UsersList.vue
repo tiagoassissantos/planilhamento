@@ -53,4 +53,8 @@
     }
   }
 
+  .cursor-item{
+    cursor: pointer;
+  }
+
 </style>

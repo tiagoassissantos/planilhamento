@@ -45,7 +45,11 @@
               </router-link>
             </td>
             <td>
-              <img @click="deleteDiskSize(disk_size.id)" src='../../../../assets/images/excluir.png'/>
+              <img
+                @click="deleteDiskSize(disk_size.id)"
+                src='../../../../assets/images/excluir.png'
+                class="cursor-item"
+              />
             </td>
           </tr>
         </tbody>

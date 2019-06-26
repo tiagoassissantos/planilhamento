@@ -19,7 +19,9 @@ class LotItem < ApplicationRecord
     return unless self.sku.nil?
 
     sku = nil
-
+    Rails.logger.info('++++++++++++++')
+    Rails.logger.info(hardware_type.id)
+    Rails.logger.info('++++++++++++++')
     case hardware_type.id
     when 1
       sku = generate_monitor_sku()
@@ -39,7 +41,7 @@ class LotItem < ApplicationRecord
       sku = generate_hd_sku()
     when 9
       sku = generate_ssd_sku()
-    when 10
+    when 10...+1.0/0.0
       sku = generate_others_sku()
     end
   end

@@ -148,7 +148,6 @@
                 <strong> Nome: </strong>
                 {{ getCurrentUser.name }}
                 <p> {{ getCurrentUser.role }} </p>
-
               </span>
             </div>
           </div>

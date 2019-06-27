@@ -179,6 +179,7 @@
     methods: {
 
       async searchLot() {
+        this.showLoading()
         this.lot_items = []
         this.index = null
         let response = null;
@@ -216,6 +217,8 @@
         } else {
           this.showAlertNullItem = false
         }
+
+        this.loader.hide()
       },
 
       async getDestinations() {
@@ -322,7 +325,16 @@
             this.showModal = false
           }.bind(this), 2000);
         }
-      }
+      },
+
+      showLoading() {
+        this.loader = this.$loading.show({
+          container: this.fullPage ? null : this.$refs.formContainer,
+          canCancel: false,
+          backgroundColor: '#000',
+          opacity: 0.75
+        });
+      },
     }
   };
 </script>

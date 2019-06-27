@@ -98,7 +98,6 @@
           </b-alert>
 
         </div>
-
       </div> <!-- card body -->
     </div> <!-- card -->
   </div> <!-- app -->

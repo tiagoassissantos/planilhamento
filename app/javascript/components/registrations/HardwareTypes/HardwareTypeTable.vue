@@ -98,7 +98,6 @@ export default {
         this.messageClass = "danger";
         this.message = "Erro ao carregar os dados.";
       }
-
       this.loading = false;
     },
 
@@ -121,7 +120,7 @@ export default {
       } else {
         this.showAlert = true;
         this.messageClass = "danger";
-        this.message = "Erro ao carregar os dados.";
+        this.message = response.body.message;
       }
     },
 

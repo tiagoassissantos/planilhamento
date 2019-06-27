@@ -32,6 +32,12 @@ class DamageTypesController < ApplicationController
     return unless user_logged?
 
     damage_type = DamageType.find( params[:id])
+    lot_items = LotItem.find_by(damage_type_id: damage_type.id )
+
+    unless lot_items.nil?
+      render json: {'message': 'O item não pode ser excluído pois existem itens cadastrados.'}, status: 401
+      return
+    end
 
     if damage_type.delete
       render json: damage_type, status: 200

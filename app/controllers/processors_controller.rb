@@ -32,6 +32,12 @@ class ProcessorsController < ApplicationController
     return unless user_logged?
 
     processor = Processor.find( params[:id])
+    lot_items = LotItem.find_by(processor_id: processor.id )
+
+    unless lot_items.nil?
+      render json: {'message': 'O item não pode ser excluído pois existem itens cadastrados.'}, status: 401
+      return
+    end
 
     if processor.delete
       render json: processor, status: 200

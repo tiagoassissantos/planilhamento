@@ -33,9 +33,7 @@
       this.$store.dispatch('isLogged');
     },
 
-    methods: {
-
-    }
+    methods: {}
   };
 </script>
 

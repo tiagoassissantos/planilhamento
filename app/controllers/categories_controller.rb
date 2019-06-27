@@ -32,6 +32,12 @@ class CategoriesController < ApplicationController
     return unless user_logged?
 
     category = Category.find( params[:id])
+    lot_items = LotItem.find_by(category_id: category.id )
+
+    unless lot_items.nil?
+      render json: {'message': 'O item não pode ser excluído pois existem itens cadastrados.'}, status: 401
+      return
+    end
 
     if category.delete
       render json: category, status: 200

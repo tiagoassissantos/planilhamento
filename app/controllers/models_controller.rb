@@ -32,6 +32,12 @@ class ModelsController < ApplicationController
     return unless user_logged?
 
     model = Model.find( params[:id])
+    lot_items = LotItem.find_by(id: model.id )
+
+    unless lot_items.nil?
+      render json: {'message': 'O item não pode ser excluído pois existem itens cadastrados.'}, status: 401
+      return
+    end
 
     if model.delete
       render json: model, status: 200

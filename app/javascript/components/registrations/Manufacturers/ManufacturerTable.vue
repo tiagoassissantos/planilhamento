@@ -124,7 +124,7 @@
         }else {
           this.showAlert = true
           this.messageClass = "danger"
-          this.message = "Erro ao carregar os dados."
+          this.message = "O item não pode ser excluído pois existem itens cadastrados."
         }
       },
 

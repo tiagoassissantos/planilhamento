@@ -45,7 +45,11 @@
               </router-link>
             </td>
             <td>
-              <img @click="deleteKeyboardType(type.id)" src='../../../../assets/images/excluir.png'/>
+              <img
+                @click="deleteKeyboardType(type.id)"
+                src='../../../../assets/images/excluir.png'
+                class="cursor-item"
+              />
             </td>
           </tr>
         </tbody>
@@ -119,7 +123,7 @@
         }else {
           this.showAlert = true
           this.messageClass = "danger"
-          this.message = "Erro ao carregar os dados."
+          this.message = response.body.message
         }
       },
 

@@ -71,7 +71,6 @@
         message: '',
         messageClass: '',
         input: null
-
       }
     },
 
@@ -126,7 +125,7 @@
         }else {
           this.showAlert = true
           this.messageClass = "danger"
-          this.message = "Erro ao carregar os dados."
+          this.message = response.body.message
         }
       },
 

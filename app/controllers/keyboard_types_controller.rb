@@ -32,6 +32,12 @@ class KeyboardTypesController < ApplicationController
     return unless user_logged?
 
     keyboard_type = KeyboardType.find( params[:id])
+    lot_items = LotItem.find_by(keyboard_type_id: keyboard_type.id )
+
+    unless lot_items.nil?
+      render json: {'message': 'O item não pode ser excluído pois existem itens cadastrados.'}, status: 401
+      return
+    end
 
     if keyboard_type.delete
       render json: keyboard_type, status: 200

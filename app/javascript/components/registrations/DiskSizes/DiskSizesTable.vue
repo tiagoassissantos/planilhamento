@@ -69,7 +69,6 @@
         message: '',
         messageClass: '',
         input: null,
-
       }
     },
 
@@ -102,7 +101,6 @@
           this.messageClass = "danger"
           this.message = "Erro ao carregar os dados."
         }
-
         this.loading = false
       },
 
@@ -124,7 +122,7 @@
         }else {
           this.showAlert = true
           this.messageClass = "danger"
-          this.message = "Erro ao carregar os dados."
+          this.message = response.body.message
         }
       },
 

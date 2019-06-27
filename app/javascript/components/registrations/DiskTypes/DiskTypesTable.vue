@@ -70,7 +70,6 @@
         message: '',
         messageClass: '',
         input: null
-
       }
     },
 

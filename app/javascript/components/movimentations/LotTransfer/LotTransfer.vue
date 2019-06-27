@@ -115,6 +115,12 @@
               </tr>
             </tbody>
           </table>
+
+          <b-alert show v-if="showAlertNullItem" variant="warning">
+            <center>
+              Nenhum item encontrado.
+            </center>
+          </b-alert>
         </div>
 
         <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
@@ -136,8 +142,8 @@
     data() {
       return {
         search_lot: {
-          bar_code: undefined,
-          lot_number: undefined,
+          bar_code:      undefined,
+          lot_number:    undefined,
           serial_number: undefined
         },
 
@@ -151,11 +157,10 @@
         showModal: false,
         messageModal: '',
         index: null,
-
         sales_order_id: null,
         add_item: false,
-
-        errorSelected: false
+        errorSelected: false,
+        showAlertNullItem: false
       }
     },
 
@@ -204,6 +209,12 @@
           this.messageClass = "danger";
           this.error = true;
           this.message = "Erro ao cadastrar novo usuário.";
+        }
+
+        if ( this.lot_items.length === 0 ) {
+          this.showAlertNullItem = true
+        } else {
+          this.showAlertNullItem = false
         }
       },
 

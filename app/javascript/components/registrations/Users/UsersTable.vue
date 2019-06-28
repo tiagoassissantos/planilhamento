@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class='row'>
-      <div class="col-sm-8">
+      <div class="col-sm-12 col-md-8">
         <div class="input-group">
           <input type="text" class="form-control" aria-describedby="button-addon4" v-model="input">
           <div class="input-group-append" id="button-addon4">
@@ -11,8 +11,11 @@
         </div>
       </div>
 
-      <div class="col-sm-2 offset-sm-2">
-        <router-link to="/users/new" class="btn btn-primary float-right" v-if="getCurrentUser.role === 'Administrador'">
+      <div class="col-sm-12 col-md-2 offset-md-2">
+        <router-link
+          to="/users/new"
+          class="btn btn-primary float-right full-width-button"
+          v-if="getCurrentUser.role === 'Administrador'">
             Novo
         </router-link>
       </div>

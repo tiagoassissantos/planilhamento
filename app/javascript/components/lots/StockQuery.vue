@@ -1,16 +1,16 @@
 <template>
   <div class='container'>
-    <div class="card">
+    <div class="card response-display">
 
       <div class="card-header">
         <div class="row">
-          <div class="col-sm-8">
+          <div class="col-md-8 col-sm-12">
             Consulta de Itens no Estoque
           </div>
-          <div class="col-sm-2">
-            <a :href="way" v-if="show_export" class="btn btn-success"> Exportar XLS </a>
+          <div class="col-md-2 col-sm-6">
+            <a :href="way" v-if="can_export()" class="btn btn-success"> Exportar XLS </a>
           </div>
-          <div class="col-sm-2">
+          <div class="col-md-2 col-sm-6">
             <button class="btn btn-danger" @click="cleanSearch()"> Limpar Busca </button>
           </div>
         </div>
@@ -90,8 +90,14 @@
               </tr>
             </tbody>
           </table>
-        </div>
 
+          <b-alert show v-if="showAlertNullItem" variant="warning">
+            <center>
+              Nenhum item encontrado.
+            </center>
+          </b-alert>
+
+        </div>
       </div> <!-- card body -->
     </div> <!-- card -->
   </div> <!-- app -->
@@ -112,7 +118,8 @@
         models: [],
         errorSelected: false,
         way: '',
-        show_export: false
+        show_export: false,
+        showAlertNullItem: false
       }
     },
 
@@ -205,6 +212,12 @@
           })
           this.way = `/report_xls?lot_items=${items_id}`
           this.show_export = true
+
+          if ( this.lot_items.length === 0 ) {
+            this.showAlertNullItem = true
+          } else {
+            this.showAlertNullItem = false
+          }
         }
         this.loader.hide()
       },
@@ -212,6 +225,7 @@
       cleanSearch() {
         this.search_items = { h_type_id: undefined, manufacturer_id: undefined, model_id: undefined }
         this.lot_items = []
+        this.showAlertNullItem = false
       },
 
       showLoading() {
@@ -222,6 +236,15 @@
           opacity: 0.75
         });
       },
+
+      can_export() {
+        if ( this.show_export && this.lot_items.length > 0 ) {
+          return true
+        } else {
+          return false
+        }
+      }
+
     }
   };
 </script>

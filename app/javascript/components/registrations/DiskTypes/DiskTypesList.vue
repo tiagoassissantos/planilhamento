@@ -1,6 +1,6 @@
 <template>
   <div id="app" class='container'>
-    <div class="card">
+    <div class="card response-display">
       <div class="card-header">
         Tipo de Disco
       </div>
@@ -33,9 +33,7 @@
       this.$store.dispatch('isLogged');
     },
 
-    methods: {
-
-    }
+    methods: {}
   };
 </script>
 

@@ -22,7 +22,6 @@ class User::SessionsController < Devise::SessionsController
       sign_in :user, resource
       return render json: { success: "sucesso" }, status: 200
     end
-
     invalid_login_attempt
   end
 

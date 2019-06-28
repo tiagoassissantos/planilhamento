@@ -31,6 +31,12 @@ class DiskTypesController < ApplicationController
     return unless user_logged?
 
     disk_type = DiskType.find( params[:id])
+    lot_items = LotItem.find_by(disk_type_id: disk_type.id )
+
+    unless lot_items.nil?
+      render json: {'message': 'O item não pode ser excluído pois existem itens cadastrados.'}, status: 401
+      return
+    end
 
     if disk_type.delete
       render json: disk_type, status: 200

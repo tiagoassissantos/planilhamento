@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    <div class="card">
+    <div class="card response-display">
       <div class="card-header">
         Transferência de Lote
       </div>
@@ -115,6 +115,12 @@
               </tr>
             </tbody>
           </table>
+
+          <b-alert show v-if="showAlertNullItem" variant="warning">
+            <center>
+              Nenhum item encontrado.
+            </center>
+          </b-alert>
         </div>
 
         <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
@@ -136,8 +142,8 @@
     data() {
       return {
         search_lot: {
-          bar_code: undefined,
-          lot_number: undefined,
+          bar_code:      undefined,
+          lot_number:    undefined,
           serial_number: undefined
         },
 
@@ -151,11 +157,10 @@
         showModal: false,
         messageModal: '',
         index: null,
-
         sales_order_id: null,
         add_item: false,
-
-        errorSelected: false
+        errorSelected: false,
+        showAlertNullItem: false
       }
     },
 
@@ -174,6 +179,7 @@
     methods: {
 
       async searchLot() {
+        this.showLoading()
         this.lot_items = []
         this.index = null
         let response = null;
@@ -205,6 +211,14 @@
           this.error = true;
           this.message = "Erro ao cadastrar novo usuário.";
         }
+
+        if ( this.lot_items.length === 0 ) {
+          this.showAlertNullItem = true
+        } else {
+          this.showAlertNullItem = false
+        }
+
+        this.loader.hide()
       },
 
       async getDestinations() {
@@ -311,7 +325,16 @@
             this.showModal = false
           }.bind(this), 2000);
         }
-      }
+      },
+
+      showLoading() {
+        this.loader = this.$loading.show({
+          container: this.fullPage ? null : this.$refs.formContainer,
+          canCancel: false,
+          backgroundColor: '#000',
+          opacity: 0.75
+        });
+      },
     }
   };
 </script>

@@ -7,7 +7,7 @@
       </b-alert>
     </div>
 
-    <div class="card">
+    <div class="card response-display">
       <div class="card-header">
         {{ header_text }}
       </div>

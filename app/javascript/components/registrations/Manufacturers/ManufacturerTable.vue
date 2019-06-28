@@ -2,7 +2,7 @@
   <div id="app">
 
     <div class='row'>
-      <div class="col-sm-8">
+      <div class="col-md-8 col-sm-12">
         <div class="input-group">
           <input type="text" class="form-control" aria-describedby="button-addon4" v-model="input">
           <div class="input-group-append" id="button-addon4">
@@ -12,8 +12,8 @@
         </div>
       </div>
 
-      <div class="col-sm-2 offset-sm-2">
-        <router-link to="/manufacturers/new" class="btn btn-primary float-right">
+      <div class="col-md-2 offset-md-2 col-sm-12">
+        <router-link to="/manufacturers/new" class="btn btn-primary full-width-button float-right">
           Novo
         </router-link>
       </div>
@@ -45,7 +45,11 @@
               </router-link>
             </td>
             <td>
-              <img @click="deleteManufacturer(manufacturer.id)" src='../../../../assets/images/excluir.png'/>
+              <img
+                @click="deleteManufacturer(manufacturer.id)"
+                class="cursor-item"
+                src='../../../../assets/images/excluir.png'
+              />
             </td>
           </tr>
         </tbody>
@@ -120,7 +124,7 @@
         }else {
           this.showAlert = true
           this.messageClass = "danger"
-          this.message = "Erro ao carregar os dados."
+          this.message = "O item não pode ser excluído pois existem itens cadastrados."
         }
       },
 

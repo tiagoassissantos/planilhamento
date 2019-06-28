@@ -1,6 +1,6 @@
 <template>
   <div id="app" class='container'>
-    <div class="card">
+    <div class="card response-display">
       <div class="card-header">
         Usuários
       </div>
@@ -37,4 +37,24 @@
   .card {
     margin-top: 30px;
   }
+</style>
+
+<style>
+  @media only screen and (max-width: 855px) {
+    .response-display {
+      margin-top: 100px !important;
+    }
+  }
+
+  @media only screen and (max-width: 765px) {
+    .full-width-button {
+      margin-top: 20px;
+      width: 100% !important;
+    }
+  }
+
+  .cursor-item{
+    cursor: pointer;
+  }
+
 </style>

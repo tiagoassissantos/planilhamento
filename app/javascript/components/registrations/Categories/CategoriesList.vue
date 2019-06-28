@@ -1,7 +1,7 @@
 <template>
   <div id="app" class='container'>
-    <div class="card">
-      <div class="card-header">
+    <div class="card response-display">
+      <div class="card-header ">
         Categorias
       </div>
       <div class="card-body">

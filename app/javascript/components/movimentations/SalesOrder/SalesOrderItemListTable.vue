@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class='row'>
-      <div class="col-sm-8">
+      <div class="col-md-8 col-sm-12">
         <div class="input-group">
           <input type="text" class="form-control" aria-describedby="button-addon4" v-model="input">
           <div class="input-group-append" id="button-addon4">

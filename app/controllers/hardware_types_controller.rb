@@ -55,6 +55,12 @@ class HardwareTypesController < ApplicationController
     return unless user_logged?
 
     hardware_type = HardwareType.find( params[:id])
+    lot_items = LotItem.find_by(hardware_type_id: hardware_type.id )
+
+    unless lot_items.nil?
+      render json: {'message': 'O item não pode ser excluído pois existem itens cadastrados.'}, status: 401
+      return
+    end
 
     if hardware_type.delete
       render json: hardware_type, status: 200

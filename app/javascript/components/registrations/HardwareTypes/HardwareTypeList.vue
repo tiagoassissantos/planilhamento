@@ -1,10 +1,10 @@
 <template>
   <div id="app" class='container'>
-    <div class="card">
+    <div class="card response-display">
       <div class="card-header">
         Tipos de Hardware
       </div>
-      
+
       <div class="card-body">
         <hardware-type-table/>
       </div> <!-- card body -->

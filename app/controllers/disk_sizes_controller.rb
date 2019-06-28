@@ -32,6 +32,12 @@ class DiskSizesController < ApplicationController
     return unless user_logged?
 
     disk_size = DiskSize.find( params[:id])
+    lot_items = LotItem.find_by(disk_size_id: disk_size.id )
+
+    unless lot_items.nil?
+      render json: {'message': 'O item não pode ser excluído pois existem itens cadastrados.'}, status: 401
+      return
+    end
 
     if disk_size.delete
       render json: disk_size, status: 200

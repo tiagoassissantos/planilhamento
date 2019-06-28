@@ -12,8 +12,7 @@ tablet =   HardwareType.find_or_create_by name: 'Tablet', can_delete: false
 switch =   HardwareType.find_or_create_by name: 'Switch', can_delete: false
 hdd =      HardwareType.find_or_create_by name: 'HD', can_delete: false
 ssd =      HardwareType.find_or_create_by name: 'SSD', can_delete: false
-others =    HardwareType.find_or_create_by name: 'Outros', can_delete: false
-
+others =   HardwareType.find_or_create_by name: 'Outros', can_delete: false
 
 ####### Damage Types - NOTEBOOK #######
 DamageType.find_or_create_by name: 'Placa Mãe - NÃO LIGA', hardware_type: notebook

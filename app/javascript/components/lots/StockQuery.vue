@@ -55,6 +55,30 @@
               </div>
             </div>
 
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label> Lote </label>
+                <select class="form-control" type="text" v-model='search_items.lot_id' >
+                  <option value='undefined'> Selecione um lote </option>
+                  <option v-for='(lot,index) in lots' :key="index" :value='lot.id' >
+                    {{lot.order_number}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label> Destino </label>
+                <select class="form-control" type="text" v-model='search_items.destination_id' >
+                  <option value='undefined'> Selecione destino  </option>
+                  <option v-for='(destination,index) in destinations' :key="index" :value='destination.id' >
+                    {{destination.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
             <div class="col-sm-12 button-margin-top">
               <button type='submit' class="btn btn-primary full-width" @click="searchItems()">
                 Buscar Itens
@@ -78,6 +102,8 @@
                 <th scope="col"> Modelo </th>
                 <th scope="col"> Número de Série </th>
                 <th scope="col"> Cód. Barras </th>
+                <th scope="col"> Lote </th>
+                <th scope="col"> Destino </th>
               </tr>
             </thead>
             <tbody>
@@ -87,6 +113,8 @@
                 <td> {{ lot_item.model.name }} </td>
                 <td> {{ lot_item.serial_number }} </td>
                 <td> {{ lot_item.bar_code }} </td>
+                <td> {{ lot_item.lot }} </td>
+                <td> {{ lot_item.destination }} </td>
               </tr>
             </tbody>
           </table>
@@ -111,11 +139,20 @@
 
     data() {
       return {
-        search_items: { h_type_id: undefined, manufacturer_id: undefined, model_id: undefined },
+        search_items: {
+          h_type_id: undefined,
+          manufacturer_id: undefined,
+          model_id: undefined,
+          lot_id: undefined,
+          destination_id: undefined
+        },
+
         lot_items: [],
         h_types: [],
         manufacturers: [],
         models: [],
+        lots: [],
+        destinations: [],
         errorSelected: false,
         way: '',
         show_export: false,
@@ -129,6 +166,8 @@
       this.getAllHardwareType()
       this.getAllManufacturers()
       this.getAllModels()
+      this.getAllLots()
+      this.getAllDestinations()
     },
 
     methods: {
@@ -177,12 +216,44 @@
         }
       },
 
+      async getAllLots() {
+        let response = null
+
+        await  this.$http.get('/lots')
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if( response.status === 200 ) {
+          this.lots = response.body
+        }
+      },
+
+      async getAllDestinations() {
+        let response = null
+
+        await  this.$http.get('/destinations')
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if( response.status === 200 ) {
+          this.destinations = response.body
+        }
+      },
+
       async searchItems() {
         this.showLoading()
         if(
             this.search_items.model_id == undefined &&
             this.search_items.manufacturer_id == undefined &&
-            this.search_items.h_type_id == undefined
+            this.search_items.h_type_id == undefined &&
+            this.search_items.lot_id == undefined &&
+            this.search_items.destination_id == undefined
           ) {
           this.errorSelected = true
           this.loader.hide()
@@ -195,7 +266,7 @@
         let response = null
         let way = null
 
-        way = `/get_stock/${this.search_items.h_type_id}/${this.search_items.manufacturer_id}/${this.search_items.model_id}`
+        way = `/get_stock/${this.search_items.h_type_id}/${this.search_items.manufacturer_id}/${this.search_items.model_id}/${this.search_items.lot_id}/${this.search_items.destination_id}`
         await this.$http.get( way )
         .then((result) => {
           response = result

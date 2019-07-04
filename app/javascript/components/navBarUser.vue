@@ -62,6 +62,11 @@
               <font-awesome-icon icon="plane" class="sub-icon"/> Destino
             </router-link>
           </li>
+          <li>
+            <router-link to="/skus" class="nav-link active text-light">
+              <font-awesome-icon icon="laptop-code" class="sub-icon"/> Skus
+            </router-link>
+          </li>
         </ul>
       </li>
 

@@ -115,27 +115,56 @@ class LotItemsController < ApplicationController
 
     unless params[:manufacturer_id] == 'undefined'
       models = Model.where(manufacturer_id: params[:manufacturer_id])
-      item_manufacturers = []
 
-      models.each do |model|
-        item = LotItem.where(model_id: model.id)
-        item_manufacturers = item_manufacturers + item
-      end
-
-      item_manufacturers.each do |item_manufacturer|
-        unless lot_items.include?(item_manufacturer)
-          lot_items << item_manufacturer
+      if lot_items.size == 0
+        models.each do |model|
+          item = LotItem.where(model_id: model.id)
+          lot_items = lot_items + item
         end
+      else
+        item_manufacturers = []
+
+        lot_items.each do |item|
+          models.each do |model|
+            if item.model_id === model.id
+              item_manufacturers << item
+            end
+          end
+        end
+        lot_items = []
+        lot_items = lot_items + item_manufacturers
       end
     end
 
     unless params[:model_id] == 'undefined'
-      item_models = LotItem.where(model_id: params[:model_id])
+      if lot_items.size == 0
+        items_model = LotItem.where(model_id: params[:model_id])
+        lot_items = lot_items + items_model
+      else
+        items_model = []
 
-      item_models.each do |item_model|
-        unless lot_items.include?(item_model)
-          lot_items << item_model
+        lot_items.each do |item|
+          if item.model_id === params[:model_id].to_i
+            items_model << item
+          end
         end
+        lot_items = []
+        lot_items = lot_items + items_model
+      end
+    end
+
+    unless params[:lot_id] == 'undefined'
+      if lot_items.size === 0
+        lot_items = LotItem.where(lot_id: params[:lot_id])
+      else
+        items_lot = []
+        lot_items.each do |item|
+          if item.lot_id === params[:lot_id].to_i
+            items_lot << item
+          end
+        end
+        lot_items = []
+        lot_items = lot_items + items_lot
       end
     end
 

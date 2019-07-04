@@ -17,11 +17,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
-  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox
+  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox, faLaptopCode
 } from '@fortawesome/free-solid-svg-icons';
+
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 library.add(faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
-  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox);
+  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox, faLaptopCode);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 //pages
@@ -75,6 +76,9 @@ import ListSalesOrder from '../components/movimentations/SalesOrder/ListSalesOrd
 import NewSalesOrder from '../components/movimentations/SalesOrder/SalesOrderNew.vue'
 import SalesOrderItemList from '../components/movimentations/SalesOrder/SalesOrderItemList.vue'
 import ItemDevolution from '../components/movimentations/ItemDevolution.vue'
+
+import SkusList from '../components/registrations/skus/SkusList.vue'
+import SkusArchive from '../components/registrations/skus/SkusArchive.vue'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -150,7 +154,10 @@ const router = new VueRouter({
     { path: "/sales-order/:sales_order_id/item", component: LotTransfer, props: true, name: 'sales_order_item_transfer' },
     { path: "/sales-order/:sales_order_id/itens", component: SalesOrderItemList, props: true, name: 'sales_order_item_list' },
 
-    { path: "/item-devolution", component: ItemDevolution, props: true, name: 'item_devolution' }
+    { path: "/item-devolution", component: ItemDevolution, props: true, name: 'item_devolution' },
+
+    { path: "/skus", component: SkusList, props: true },
+    { path: "/skus/:sku_id/archive", component: SkusArchive, props: true, name: 'sku_archive' },
   ]
 })
 

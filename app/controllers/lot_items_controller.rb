@@ -126,7 +126,8 @@ class LotItemsController < ApplicationController
     end
 
     unless params[:lot_id] == 'undefined'
-      items_lot = get_stock_lot(lot_items, params[:lot_id])
+      lot = Lot.find_by(order_number: params[:lot_id])
+      items_lot = get_stock_lot(lot_items, lot.id)
       lot_items = []
       lot_items = items_lot
     end

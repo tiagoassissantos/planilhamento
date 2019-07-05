@@ -58,12 +58,11 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label> Lote </label>
-                <select class="form-control" type="text" v-model='search_items.lot_id' >
-                  <option value='undefined'> Selecione um lote </option>
-                  <option v-for='(lot,index) in lots' :key="index" :value='lot.id' >
-                    {{lot.order_number}}
-                  </option>
-                </select>
+                  <b-form-input
+                    v-model="search_items.lot_order_name"
+                    value="undefined"
+                    placeholder="Insira o nome do lote">
+                  </b-form-input>
               </div>
             </div>
 
@@ -143,7 +142,7 @@
           h_type_id: undefined,
           manufacturer_id: undefined,
           model_id: undefined,
-          lot_id: undefined,
+          lot_order_name: undefined,
           destination_id: undefined
         },
 
@@ -166,7 +165,6 @@
       this.getAllHardwareType()
       this.getAllManufacturers()
       this.getAllModels()
-      this.getAllLots()
       this.getAllDestinations()
     },
 
@@ -216,21 +214,6 @@
         }
       },
 
-      async getAllLots() {
-        let response = null
-
-        await  this.$http.get('/lots')
-        .then((result) => {
-          response = result
-        }).catch((err) => {
-          response = err
-        });
-
-        if( response.status === 200 ) {
-          this.lots = response.body
-        }
-      },
-
       async getAllDestinations() {
         let response = null
 
@@ -252,7 +235,7 @@
             this.search_items.model_id == undefined &&
             this.search_items.manufacturer_id == undefined &&
             this.search_items.h_type_id == undefined &&
-            this.search_items.lot_id == undefined &&
+            this.search_items.lot_order_name == undefined &&
             this.search_items.destination_id == undefined
           ) {
           this.errorSelected = true
@@ -265,8 +248,11 @@
         this.lot_items = []
         let response = null
         let way = null
+        if (this.search_items.lot_order_name === '') {
+          this.search_items.lot_order_name = undefined
+        }
 
-        way = `/get_stock/${this.search_items.h_type_id}/${this.search_items.manufacturer_id}/${this.search_items.model_id}/${this.search_items.lot_id}/${this.search_items.destination_id}`
+        way = `/get_stock/${this.search_items.h_type_id}/${this.search_items.manufacturer_id}/${this.search_items.model_id}/${this.search_items.lot_order_name}/${this.search_items.destination_id}`
         await this.$http.get( way )
         .then((result) => {
           response = result

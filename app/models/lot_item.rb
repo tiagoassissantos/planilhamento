@@ -190,7 +190,6 @@ class LotItem < ApplicationRecord
     code += disk_type.id.to_s
     code += disk_size.id.to_s
 
-    self.sku.archive.attach(nil)
     self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       disk_type: disk_type, disk_size: disk_size

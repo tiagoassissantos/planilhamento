@@ -109,63 +109,32 @@ class LotItemsController < ApplicationController
     lot_items = []
 
     unless params[:h_type_id] == 'undefined'
-      item_h_type = LotItem.where(hardware_type_id: params[:h_type_id])
-      lot_items = lot_items + item_h_type
+      items_h_type = get_stock_h_type( params[:h_type_id] )
+      lot_items = lot_items + items_h_type
     end
 
     unless params[:manufacturer_id] == 'undefined'
-      models = Model.where(manufacturer_id: params[:manufacturer_id])
-
-      if lot_items.size == 0
-        models.each do |model|
-          item = LotItem.where(model_id: model.id)
-          lot_items = lot_items + item
-        end
-      else
-        item_manufacturers = []
-
-        lot_items.each do |item|
-          models.each do |model|
-            if item.model_id === model.id
-              item_manufacturers << item
-            end
-          end
-        end
-        lot_items = []
-        lot_items = lot_items + item_manufacturers
-      end
+      items_manufacturer = get_stock_manufacturer(lot_items, params[:manufacturer_id])
+      lot_items = []
+      lot_items = items_manufacturer
     end
 
     unless params[:model_id] == 'undefined'
-      if lot_items.size == 0
-        items_model = LotItem.where(model_id: params[:model_id])
-        lot_items = lot_items + items_model
-      else
-        items_model = []
-
-        lot_items.each do |item|
-          if item.model_id === params[:model_id].to_i
-            items_model << item
-          end
-        end
-        lot_items = []
-        lot_items = lot_items + items_model
-      end
+      items_model = get_stock_model(lot_items, params[:model_id])
+      lot_items = []
+      lot_items = items_model
     end
 
     unless params[:lot_id] == 'undefined'
-      if lot_items.size === 0
-        lot_items = LotItem.where(lot_id: params[:lot_id])
-      else
-        items_lot = []
-        lot_items.each do |item|
-          if item.lot_id === params[:lot_id].to_i
-            items_lot << item
-          end
-        end
-        lot_items = []
-        lot_items = lot_items + items_lot
-      end
+      items_lot = get_stock_lot(lot_items, params[:lot_id])
+      lot_items = []
+      lot_items = items_lot
+    end
+
+    unless params[:destination_id] == 'undefined'
+      items_destination = get_stock_destination(lot_items, params[:destination_id])
+      lot_items = []
+      lot_items = items_destination
     end
 
     render json: lot_items, status: 200
@@ -177,8 +146,7 @@ class LotItemsController < ApplicationController
     sheet1 = book.create_worksheet
     sheet1.name = 'Itens de lote'
 
-    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)',
-    'TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BLUETOOTH', 'MINI DISPLAY PORT', 'HDMI', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO')
+    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BLUETOOTH', 'MINI DISPLAY PORT', 'HDMI', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO')
 
     format = Spreadsheet::Format.new :weight => :bold,:size => 11
     sheet1.row(0).height = 30
@@ -357,5 +325,87 @@ class LotItemsController < ApplicationController
       lot_items = LotItem.where(["serial_number = ? and destination_id = ?", serial_number, 2])
       return lot_items
     end
+  end
+
+  #methods of query stock
+
+  def get_stock_h_type( params )
+    items_h_type = LotItem.where(hardware_type_id: params)
+    return items_h_type
+  end
+
+  def get_stock_manufacturer(lot_items, params)
+    models = Model.where(manufacturer_id: params)
+
+    if lot_items.size == 0
+      models.each do |model|
+        item = LotItem.where(model_id: model.id)
+        lot_items = lot_items + item
+      end
+    else
+      item_manufacturers = []
+
+      lot_items.each do |item|
+        models.each do |model|
+          if item.model_id === model.id
+            item_manufacturers << item
+          end
+        end
+      end
+      lot_items = []
+      lot_items = lot_items + item_manufacturers
+    end
+    return lot_items
+  end
+
+  def get_stock_model(lot_items, params)
+    if lot_items.size == 0
+      items_model = LotItem.where(model_id: params)
+      lot_items = lot_items + items_model
+    else
+      items_model = []
+
+      lot_items.each do |item|
+        if item.model_id === params.to_i
+          items_model << item
+        end
+      end
+      lot_items = []
+      lot_items = lot_items + items_model
+    end
+    return lot_items
+  end
+
+  def get_stock_lot (lot_items, params)
+    if lot_items.size === 0
+      lot_items = LotItem.where(lot_id: params)
+    else
+      items_lot = []
+      lot_items.each do |item|
+        if item.lot_id === params.to_i
+          items_lot << item
+        end
+      end
+      lot_items = []
+      lot_items = lot_items + items_lot
+    end
+    return lot_items
+  end
+
+  def get_stock_destination (lot_items, params)
+    if lot_items.size === 0
+      lot_items = LotItem.where(destination_id: params)
+    else
+      items_destination = []
+
+      lot_items.each do |item|
+        if item.destination_id === params.to_i
+          items_destination << item
+        end
+      end
+      lot_items = []
+      lot_items = lot_items + items_destination
+    end
+    return lot_items
   end
 end

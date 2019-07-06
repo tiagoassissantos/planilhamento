@@ -147,7 +147,7 @@ class LotItemsController < ApplicationController
     sheet1 = book.create_worksheet
     sheet1.name = 'Itens de lote'
 
-    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BLUETOOTH', 'MINI DISPLAY PORT', 'HDMI', 'VGA', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO')
+    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BLUETOOTH', 'MINI DISPLAY PORT', 'HDMI', 'VGA', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO', 'NÚMERO PEDIDO VENDA')
 
     format = Spreadsheet::Format.new :weight => :bold,:size => 11
     sheet1.row(0).height = 30
@@ -182,7 +182,8 @@ class LotItemsController < ApplicationController
       vga = '',
       category = '',
       damage_type = '',
-      vga_card = ''
+      vga_card = '',
+      sales_number = ''
 
       unless line.processor.nil?
         processor_name = line.processor.name
@@ -211,6 +212,8 @@ class LotItemsController < ApplicationController
 
       unless line.destination.nil?
         destination = line.destination.name
+
+        sales_number = line.sales_order.order_number if line.destination.name.downcase.eql 'vendido'
       end
 
       case line.wireless
@@ -293,11 +296,13 @@ class LotItemsController < ApplicationController
         vga_card = ''
       end
 
+
+
       sheet1.row(row).push(
         line.hardware_type.name, line.model.manufacturer.name, line.model.name, line.ram_memory,
         line.serial_number, line.asset_tag, line.bar_code, category, line.comments, damage_type,
         processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard, destination, wireless,
-        bluetooth, mini_display_port, hdmi, vga, esata, line.bright_keyboard, biometric_reader, vga_card)
+        bluetooth, mini_display_port, hdmi, vga, esata, line.bright_keyboard, biometric_reader, vga_card, sales_number)
       sheet1.row(row).height = 20
       row += 1
     end

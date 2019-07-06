@@ -109,34 +109,33 @@ class LotItemsController < ApplicationController
     lot_items = []
 
     unless params[:h_type_id] == 'undefined'
-      item_h_type = LotItem.where(hardware_type_id: params[:h_type_id])
-      lot_items = lot_items + item_h_type
+      items_h_type = get_stock_h_type( params[:h_type_id] )
+      lot_items = lot_items + items_h_type
     end
 
     unless params[:manufacturer_id] == 'undefined'
-      models = Model.where(manufacturer_id: params[:manufacturer_id])
-      item_manufacturers = []
-
-      models.each do |model|
-        item = LotItem.where(model_id: model.id)
-        item_manufacturers = item_manufacturers + item
-      end
-
-      item_manufacturers.each do |item_manufacturer|
-        unless lot_items.include?(item_manufacturer)
-          lot_items << item_manufacturer
-        end
-      end
+      items_manufacturer = get_stock_manufacturer(lot_items, params[:manufacturer_id])
+      lot_items = []
+      lot_items = items_manufacturer
     end
 
     unless params[:model_id] == 'undefined'
-      item_models = LotItem.where(model_id: params[:model_id])
+      items_model = get_stock_model(lot_items, params[:model_id])
+      lot_items = []
+      lot_items = items_model
+    end
 
-      item_models.each do |item_model|
-        unless lot_items.include?(item_model)
-          lot_items << item_model
-        end
-      end
+    unless params[:lot_id] == 'undefined'
+      lot = Lot.find_by(order_number: params[:lot_id])
+      items_lot = get_stock_lot(lot_items, lot.id)
+      lot_items = []
+      lot_items = items_lot
+    end
+
+    unless params[:destination_id] == 'undefined'
+      items_destination = get_stock_destination(lot_items, params[:destination_id])
+      lot_items = []
+      lot_items = items_destination
     end
 
     render json: lot_items, status: 200
@@ -148,8 +147,7 @@ class LotItemsController < ApplicationController
     sheet1 = book.create_worksheet
     sheet1.name = 'Itens de lote'
 
-    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)',
-    'TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BLUETOOTH', 'MINI DISPLAY PORT', 'HDMI', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO')
+    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BLUETOOTH', 'MINI DISPLAY PORT', 'HDMI', 'VGA', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO')
 
     format = Spreadsheet::Format.new :weight => :bold,:size => 11
     sheet1.row(0).height = 30
@@ -183,7 +181,8 @@ class LotItemsController < ApplicationController
       esata = '',
       vga = '',
       category = '',
-      damage_type = ''
+      damage_type = '',
+      vga_card = ''
 
       unless line.processor.nil?
         processor_name = line.processor.name
@@ -197,10 +196,13 @@ class LotItemsController < ApplicationController
         disk_type = line.disk_type.name
       end
 
-      if line.webcam.nil? || line.webcam == 13
-        webcam = 'Não Contem WebCam'
+      case line.webcam
+      when '13'
+        webcam = 'Não'
+      when '12'
+        webcam = 'Sim'
       else
-        webcam = 'Contem WebCam'
+        webcam = ''
       end
 
       unless line.keyboard_type.nil?
@@ -211,46 +213,67 @@ class LotItemsController < ApplicationController
         destination = line.destination.name
       end
 
-      if line.wireless.nil? || line.wireless == 13
-        wireless = 'Não Contem wireless'
+      case line.wireless
+      when '13'
+        wireless = 'Não'
+      when '12'
+        wireless = 'Sim'
       else
-        wireless = 'Contem wireless'
+        wireless = ''
       end
 
-      if line.bluetooth.nil? || line.bluetooth == 0
-        bluetooth = 'Não Contem bluetooth'
+      case line.bluetooth
+      when '0'
+        bluetooth = 'Não'
+      when '1'
+        bluetooth = 'Sim'
       else
-        bluetooth = 'Contem bluetooth'
+        bluetooth = ''
       end
 
-      if line.mini_display_port.nil? || line.bluetooth == 0
-        mini_display_port = 'Não Contem mini display port'
+      case line.mini_display_port
+      when '13'
+        mini_display_port = 'Não'
+      when '12'
+        mini_display_port = 'Sim'
       else
-        mini_display_port = 'Contem mini display port'
+        mini_display_port = ''
       end
 
-      if line.esata.nil? || line.esata == 13
-        esata = 'Não Contem esata'
+      case line.esata
+      when '2'
+        esata = 'Não'
+      when '1'
+        esata = 'Sim'
       else
-        esata = 'Contem esata'
+        esata = ''
       end
 
-      if line.hdmi.nil? || line.hdmi == 13
-        hdmi = 'Não Contem hdmi'
+      case line.hdmi
+      when '13'
+        hdmi = 'Não'
+      when '12'
+        hdmi = 'Sim'
       else
-        hdmi = 'Contem hdmi'
+        hdmi = ''
       end
 
-      if line.biometric_reader.nil? || line.biometric_reader == 13
-        biometric_reader = 'Não Contem leitor biometrico'
+      case line.biometric_reader
+      when '13'
+        biometric_reader = 'Não'
+      when '12'
+        biometric_reader = 'Sim'
       else
-        biometric_reader = 'Contem leitor biometrico'
+        biometric_reader = ''
       end
 
-      if line.vga.nil? || line.vga == 13
-        vga = 'Não Contem leitor vga'
+      case line.vga
+      when '13'
+        vga = 'Não'
+      when '12'
+        vga = 'Sim'
       else
-        vga = 'Contem placa de vídeo'
+        vga = ''
       end
 
       unless line.category.nil?
@@ -261,11 +284,20 @@ class LotItemsController < ApplicationController
         damage_type = line.damage_type.name
       end
 
+      case line.vga_card
+      when '1'
+        vga_card = 'Integrada'
+      when '0'
+        vga_card = 'Dedicada'
+      else
+        vga_card = ''
+      end
+
       sheet1.row(row).push(
         line.hardware_type.name, line.model.manufacturer.name, line.model.name, line.ram_memory,
         line.serial_number, line.asset_tag, line.bar_code, category, line.comments, damage_type,
         processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard, destination, wireless,
-        bluetooth, mini_display_port, hdmi, esata, line.bright_keyboard, biometric_reader, vga)
+        bluetooth, mini_display_port, hdmi, vga, esata, line.bright_keyboard, biometric_reader, vga_card)
       sheet1.row(row).height = 20
       row += 1
     end
@@ -328,5 +360,87 @@ class LotItemsController < ApplicationController
       lot_items = LotItem.where(["serial_number = ? and destination_id = ?", serial_number, 2])
       return lot_items
     end
+  end
+
+  #methods of query stock
+
+  def get_stock_h_type( params )
+    items_h_type = LotItem.where(hardware_type_id: params)
+    return items_h_type
+  end
+
+  def get_stock_manufacturer(lot_items, params)
+    models = Model.where(manufacturer_id: params)
+
+    if lot_items.size == 0
+      models.each do |model|
+        item = LotItem.where(model_id: model.id)
+        lot_items = lot_items + item
+      end
+    else
+      item_manufacturers = []
+
+      lot_items.each do |item|
+        models.each do |model|
+          if item.model_id === model.id
+            item_manufacturers << item
+          end
+        end
+      end
+      lot_items = []
+      lot_items = lot_items + item_manufacturers
+    end
+    return lot_items
+  end
+
+  def get_stock_model(lot_items, params)
+    if lot_items.size == 0
+      items_model = LotItem.where(model_id: params)
+      lot_items = lot_items + items_model
+    else
+      items_model = []
+
+      lot_items.each do |item|
+        if item.model_id === params.to_i
+          items_model << item
+        end
+      end
+      lot_items = []
+      lot_items = lot_items + items_model
+    end
+    return lot_items
+  end
+
+  def get_stock_lot (lot_items, params)
+    if lot_items.size === 0
+      lot_items = LotItem.where(lot_id: params)
+    else
+      items_lot = []
+      lot_items.each do |item|
+        if item.lot_id === params.to_i
+          items_lot << item
+        end
+      end
+      lot_items = []
+      lot_items = lot_items + items_lot
+    end
+    return lot_items
+  end
+
+  def get_stock_destination (lot_items, params)
+    if lot_items.size === 0
+      lot_items = LotItem.where(destination_id: params)
+    else
+      items_destination = []
+
+      lot_items.each do |item|
+        if item.destination_id === params.to_i
+          items_destination << item
+        end
+      end
+      lot_items = []
+      lot_items = lot_items + items_destination
+    end
+    return lot_items
   end
 end

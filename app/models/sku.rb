@@ -8,4 +8,5 @@ class Sku < ApplicationRecord
   belongs_to :keyboard_type, optional: true
   belongs_to :category, optional: true
   belongs_to :damage_type, optional: true
+  has_one_attached :archive
 end

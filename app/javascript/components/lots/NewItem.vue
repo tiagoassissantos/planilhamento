@@ -177,7 +177,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-if="showNumberOfSerieandAssetTag">
+                    <div class="col-sm-6 col-md-4 col-lg-3" v-if="showDamageType">
                       <div class="form-group">
                         <label>Local / Tipo Avaria</label>
                         <select
@@ -416,7 +416,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showHdmihVgaEsata'>
+                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showEsata'>
                       <div class="form-group">
                         <label>eSata</label>
                         <select
@@ -653,9 +653,18 @@
         return this.$store.state.logged
       },
 
+      showDamageType() {
+        if(
+          this.lot_item.hardware_type_id == 8 ||
+          this.lot_item.hardware_type_id == 9){
+            return false
+          } else {
+            return true
+          }
+      },
+
       showNumberOfSerieandAssetTag() {
-        if(this.lot_item.hardware_type_id == 3 ||
-           this.lot_item.hardware_type_id == 8) {
+        if(this.lot_item.hardware_type_id == 3 ) {
           return false
         } else {
           return true
@@ -700,7 +709,8 @@
       showDiskFields() {
         if (
             this.lot_item.hardware_type_id == 8 ||
-            this.lot_item.hardware_type_id == 9) {
+            this.lot_item.hardware_type_id == 9 ||
+            this.lot_item.hardware_type_id == 10) {
           return true;
         }
         return false;
@@ -709,6 +719,8 @@
       showScreen() {
         if (
             this.lot_item.hardware_type_id == 0 ||
+            this.lot_item.hardware_type_id == 2 ||
+            this.lot_item.hardware_type_id == 3 ||
             this.lot_item.hardware_type_id == 7 ||
             this.lot_item.hardware_type_id == 8 ||
             this.lot_item.hardware_type_id == 9) {
@@ -740,7 +752,6 @@
       showWireless() {
         if (
             this.lot_item.hardware_type_id == 2 ||
-            this.lot_item.hardware_type_id == 3 ||
             this.lot_item.hardware_type_id == 4 ||
             this.lot_item.hardware_type_id == 5 ||
             this.lot_item.hardware_type_id == 6 ||
@@ -753,7 +764,6 @@
       showBluetooth() {
         if (
             this.lot_item.hardware_type_id == 2 ||
-            this.lot_item.hardware_type_id == 3 ||
             this.lot_item.hardware_type_id == 4 ||
             this.lot_item.hardware_type_id == 5 ||
             this.lot_item.hardware_type_id == 6 ||
@@ -778,6 +788,17 @@
             this.lot_item.hardware_type_id == 1 ||
             this.lot_item.hardware_type_id == 2 ||
             this.lot_item.hardware_type_id == 3 ||
+            this.lot_item.hardware_type_id == 4 ||
+            this.lot_item.hardware_type_id == 10) {
+          return true;
+        }
+        return false;
+      },
+
+      showEsata() {
+        if (
+            this.lot_item.hardware_type_id == 1 ||
+            this.lot_item.hardware_type_id == 2 ||
             this.lot_item.hardware_type_id == 4 ||
             this.lot_item.hardware_type_id == 10) {
           return true;
@@ -814,7 +835,10 @@
       },
 
       showBarCode() {
-        if (this.lot_item.destination_id == 0 || this.lot_item.destination_id == 3) {
+        if (
+            this.lot_item.destination_id == null  ||
+            this.lot_item.destination_id == 'x'   ||
+            this.lot_item.destination_id == 4) {
           return false;
         }
         return true;
@@ -833,7 +857,6 @@
       this.getKeyboardTypes();
       this.getDestinations();
       this.getSkus();
-
     },
 
     methods: {

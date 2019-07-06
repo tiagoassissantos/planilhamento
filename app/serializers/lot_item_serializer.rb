@@ -3,9 +3,10 @@ class LotItemSerializer < ActiveModel::Serializer
       :category, :comments, :damage_type, :processor, :disk_type,
       :disk_size, :parent_id, :screen, :webcam, :keyboard_type, :wireless,
       :bluetooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
-      :destination, :bar_code, :biometric_reader, :vga_card, :sku_id
+      :destination, :bar_code, :biometric_reader, :vga_card, :sku_id, :lot
 
   has_one :model
+
 
   def hardware_type
     return object.hardware_type.name
@@ -45,5 +46,9 @@ class LotItemSerializer < ActiveModel::Serializer
 
   def sku_id
     return object.sku.code
+  end
+
+  def lot
+    return object.lot.order_number
   end
 end

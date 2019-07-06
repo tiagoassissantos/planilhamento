@@ -15,7 +15,6 @@ Rails.application.routes.draw do
     get 'get_user', to: 'user/sessions#get_user'
   end
 
-
   get 'user-area' => 'user_area#index'
 
   get 'hardware_types' => 'hardware_types#index'
@@ -47,7 +46,7 @@ Rails.application.routes.draw do
     get 'get_sku/:sku_id' => 'lot_items#get_sku'
   end
   get 'search_lot/:bar_code/:lot_number/:serial_number/:add_item' => 'lot_items#search_lot'
-  get 'get_stock/:h_type_id/:manufacturer_id/:model_id/' => 'lot_items#get_stock'
+  get 'get_stock/:h_type_id/:manufacturer_id/:model_id/:lot_id/:destination_id' => 'lot_items#get_stock'
   post 'change_destination' => 'lot_items#change_destination'
   get 'report_xls' => 'lot_items#report_xls'
 
@@ -57,5 +56,5 @@ Rails.application.routes.draw do
     delete 'item_devolution' => 'sales_orders#item_devolution'
   end
 
-
+  resources :skus, only: [:index, :update, :show]
 end

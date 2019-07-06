@@ -105,11 +105,6 @@
                 <font-awesome-icon icon="box" class="sub-icon"/> Lotes Fechados
               </router-link>
             </li>
-            <li>
-              <router-link class="nav-link active text-light" to="/stock-query">
-                <font-awesome-icon icon="box" class="sub-icon"/> Consulta de Estoque
-              </router-link>
-            </li>
           </ul>
         </a>
       </li>
@@ -132,6 +127,20 @@
             <li>
               <router-link class="nav-link active text-light" to="/item-devolution">
                 <font-awesome-icon icon="box" class="sub-icon"/> Devolução
+              </router-link>
+            </li>
+          </ul>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <font-awesome-icon icon="columns"/>
+          Consultas
+          <ul>
+            <li>
+              <router-link class="nav-link active text-light" to="/stock-query">
+                <font-awesome-icon icon="box" class="sub-icon"/> Consulta de Estoque
               </router-link>
             </li>
           </ul>

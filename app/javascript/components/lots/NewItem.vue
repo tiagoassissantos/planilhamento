@@ -21,7 +21,7 @@
           <div class="card">
             <div class="card-body">
               <div class="container">
-                <form @submit.prevent="submit">
+                <!--form @submit.prevent="submit"-->
 
                   <div class="row">
                     <div class="col-sm-6 col-md-4 col-lg-3">
@@ -111,7 +111,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-if="showNumberOfSerieandAssetTag">
+                    <div class="col-sm-6 col-md-4 col-lg-3">
                       <div class="form-group">
                         <label>Número de Série</label>
                         <input
@@ -513,7 +513,7 @@
                   </div> <!-- End Row -->
 
                   <div class="float-right">
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-primary" type="button" @click='submit'>
                       Adicionar
                     </button>
                     <button class="btn btn-danger cancel-btn" type="button" v-on:click='cancelItem'>
@@ -546,7 +546,7 @@
                     <b-button class="mt-3" variant="outline-danger" block @click="hideModal"> Fechar </b-button>
                   </b-modal>
 
-                </form>
+                <!--/form-->
               </div> <!-- === FIM CONTAINER === -->
             </div>
           </div>
@@ -664,7 +664,7 @@
       },
 
       showNumberOfSerieandAssetTag() {
-        if(this.lot_item.hardware_type_id == 3 ) {
+        if (this.lot_item.hardware_type_id == 3 ) {
           return false
         } else {
           return true
@@ -860,6 +860,10 @@
     },
 
     methods: {
+
+      doNothing() {
+        console.log('---> doNothing')
+      },
 
       cancelItem() {
         this.$router.go(-1)

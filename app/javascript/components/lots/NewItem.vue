@@ -185,7 +185,6 @@
                           name="damge_type"
                           type="text"
                           v-model='lot_item.damage_type_id'
-                          v-validate.disabled="'required|min_value:1'"
                           :class="{'input': true, 'is-danger': errors.has('damge_type') }"
                         >
                           <option value='null'> Selecionar o Tipo de Avaria </option>

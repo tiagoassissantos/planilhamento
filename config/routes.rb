@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
   resources :keyboard_types, only: [:index, :create, :destroy, :show, :update]
   resources :destinations, only: [:index, :create, :destroy, :show, :update]
+  get '/transfer_destinations' => 'destinations#transfer_destinations'
   resources :disk_types, only: [:index, :create, :destroy, :show, :update]
   resources :disk_sizes, only: [:index, :create, :destroy, :show, :update]
 

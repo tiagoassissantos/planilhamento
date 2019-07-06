@@ -58,7 +58,7 @@
                   v-model="lot_item_destination"
                 >
                   <option value='null'> Selecione o Destino </option>
-                  <option v-for='(destination, index) in destinations'  :key="index" :value='destination.id'>
+                  <option v-for='(destination, index) in destinations' :key="index" :value='destination.id'>
                     {{destination.name}}
                   </option>
                 </select>
@@ -223,7 +223,7 @@
 
       async getDestinations() {
         let response = null;
-        await this.$http.get('/destinations')
+        await this.$http.get('/transfer_destinations')
           .then((resp) => {
             response = resp;
           })

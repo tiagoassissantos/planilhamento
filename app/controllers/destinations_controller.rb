@@ -3,12 +3,15 @@ class DestinationsController < ApplicationController
 
   def index
     return unless user_logged?
-
     destinations = Destination.all
-
     render json: destinations, status: :ok
   end
 
+  def transfer_destinations
+    return unless user_logged?
+    destinations = Destination.where.not(name: 'Vendido')
+    render json: destinations, status: :ok
+  end
 
   def create
     return unless user_logged?

@@ -213,7 +213,7 @@ class LotItemsController < ApplicationController
       unless line.destination.nil?
         destination = line.destination.name
 
-        sales_number = line.sales_order.order_number if line.destination.name.downcase.eql 'vendido'
+        sales_number = line.sales_order.order_number if line.destination.name.downcase.eql? 'vendido'
       end
 
       case line.wireless

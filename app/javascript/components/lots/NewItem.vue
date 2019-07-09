@@ -44,11 +44,17 @@
                             :key="index"
                             :value='hardwareType.id'
                           >
-                              {{hardwareType.name}}
+                            {{hardwareType.name}}
                           </option>
                         </select>
                         <span class="error-text" v-show="errors.first('h_type')"> {{ required_text }} </span>
+                        <div>
+                          <b-button v-b-modal.modal-1>Launch demo modal</b-button>
 
+                          <b-modal id="modal-1" title="BootstrapVue">
+                            <p class="my-4">Hello from modal!</p>
+                          </b-modal>
+                        </div>
                       </div>
                     </div>
                   </div>

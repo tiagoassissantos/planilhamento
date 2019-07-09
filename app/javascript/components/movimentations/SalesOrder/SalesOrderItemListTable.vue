@@ -10,6 +10,10 @@
           </div>
         </div>
       </div>
+
+      <div class="col-md-2 offset-md-2 col-sm-12">
+        <b-button v-b-modal.newItem variant='primary'> Adicionar Item </b-button>
+      </div>
     </div>
 
     <div class="margin-alert">
@@ -77,12 +81,16 @@
         </tbody>
       </table>
     </div>
+
+    <new-item />
   </div>
 </template>
 
 <script>
+  import newItem from './AddItemSalesOrder.vue';
+
   export default {
-    components: { },
+    components: { newItem },
 
     data() {
       return {

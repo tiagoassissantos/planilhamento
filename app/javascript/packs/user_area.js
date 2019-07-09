@@ -8,6 +8,11 @@ import 'bootstrap';
 import VeeValidate from 'vee-validate';
 import Vuelidate from 'vuelidate';
 
+import 'jquery';
+global.jQuery = require('jquery');
+var $ = global.jQuery;
+window.$ = $;
+
 //css
 import 'bootstrap/dist/css/bootstrap.css';
 //import '../../../app/javascript/assets/stylesheets/standarts.scss'
@@ -163,7 +168,7 @@ const router = new VueRouter({
 
 import store from './store/principal';
 
-document.addEventListener('DOMContentLoaded', () => {
+/*document.addEventListener('DOMContentLoaded', () => {
   document.body.appendChild(document.createElement('app'))
   const app = new Vue({
     router,
@@ -174,4 +179,20 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   console.log(app)
+})*/
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  let elApp = document.createElement('div')
+  elApp.innerHTML = '<div></div>'
+  elApp.id = 'my-app'
+
+  document.body.appendChild(elApp)
+
+  new Vue({
+    render: h => h(App),
+    el: elApp.firstChild,
+    router,
+    store
+  })
 })

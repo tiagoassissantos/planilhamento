@@ -21,531 +21,530 @@
           <div class="card">
             <div class="card-body">
               <div class="container">
-                <!--form @submit.prevent="submit"-->
 
-                  <div class="row">
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                      <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
 
-                        <label>Tipo de Hardware</label>
-                        <select
-                          class="form-control"
-                          type="text"
-                          v-model='lot_item.hardware_type_id'
-                          @change='getDamageTypes()'
-                          v-validate.disabled="'required|min_value:1'"
-                          name="h_type"
-                          :class="{'input': true, 'is-danger': errors.has('h_type') }"
+                      <label>Tipo de Hardware</label>
+                      <select
+                        class="form-control"
+                        type="text"
+                        v-model='lot_item.hardware_type_id'
+                        @change='getDamageTypes()'
+                        v-validate.disabled="'required|min_value:1'"
+                        name="h_type"
+                        :class="{'input': true, 'is-danger': errors.has('h_type') }"
+                      >
+                        <option value='0'> Selecione um tipo de hardware </option>
+                        <option value='x'> Cadastrar novo tipo </option>
+                        <option
+                          v-for='(hardwareType,index) in hardwareTypes'
+                          :key="index"
+                          :value='hardwareType.id'
                         >
-                          <option value='0'> Selecione um tipo de hardware </option>
-                          <option value='x' @click="openModal(9)"> Cadastrar novo tipo </option>
-                          <option
-                            v-for='(hardwareType,index) in hardwareTypes'
-                            :key="index"
-                            :value='hardwareType.id'
-                          >
-                              {{hardwareType.name}}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('h_type')"> {{ required_text }} </span>
+                            {{hardwareType.name}}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('h_type')"> {{ required_text }} </span>
+                      <button class='btn btn-link'>Cadastrar novo Tipo de Hardware</button>
 
-                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                      <label>Fabicante</label>
+                      <select
+                        class="form-control"
+                        v-model='manufacturerId'
+                        name="manufacturer"
+                        @change='getModels()'
+                        v-validate.disabled="'required|min_value:1'"
+                        :class="{'input': true, 'is-danger': errors.has('manufacturer') }"
+                      >
+                        <option value="0"> Selecionar Fabricante </option>
+                        <option value='x' @click="openModal(0)"> Cadastrar Novo </option>
+                        <option v-for=' (manufacturer, index) in manufacturers' :key="index" :value='manufacturer.id'>
+                          {{manufacturer.name}}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('manufacturer')"> {{ required_text }} </span>
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                      <div class="form-group">
-                        <label>Fabicante</label>
-                        <select
-                          class="form-control"
-                          v-model='manufacturerId'
-                          name="manufacturer"
-                          @change='getModels()'
-                          v-validate.disabled="'required|min_value:1'"
-                          :class="{'input': true, 'is-danger': errors.has('manufacturer') }"
-                        >
-                          <option value="0"> Selecionar Fabricante </option>
-                          <option value='x' @click="openModal(0)"> Cadastrar Novo </option>
-                          <option v-for=' (manufacturer, index) in manufacturers' :key="index" :value='manufacturer.id'>
-                            {{manufacturer.name}}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('manufacturer')"> {{ required_text }} </span>
-                      </div>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                      <label>Modelo</label>
+                      <select
+                        class="form-control"
+                        name="models"
+                        type="text"
+                        v-model='lot_item.model_id'
+                        v-validate.disabled="'required|min_value:1'"
+                        :class="{'input': true, 'is-danger': errors.has('models') }"
+                      >
+                        <option value='0'> Selecione um Modelo</option>
+                        <option value='x' @click="openModal(1)"> Cadastrar Modelo</option>
+                        <option v-for='(model, index) in models' :key="index" :value='model.id'>
+                          {{model.name}}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('models')"> {{ required_text }} </span>
                     </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                      <div class="form-group">
-                        <label>Modelo</label>
-                        <select
-                          class="form-control"
-                          name="models"
-                          type="text"
-                          v-model='lot_item.model_id'
-                          v-validate.disabled="'required|min_value:1'"
-                          :class="{'input': true, 'is-danger': errors.has('models') }"
-                        >
-                          <option value='0'> Selecione um Modelo</option>
-                          <option value='x' @click="openModal(1)"> Cadastrar Modelo</option>
-                          <option v-for='(model, index) in models' :key="index" :value='model.id'>
-                            {{model.name}}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('models')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showMemory'>
-                      <div class="form-group">
-                        <label>Memória RAM</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          v-model='lot_item.ram_memory'
-                          name="ram_memory"
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('ram_memory') }"
-                        />
-                      <span class="error-text" v-show="errors.first('ram_memory')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                      <div class="form-group">
-                        <label>Número de Série</label>
-                        <input
-                          type="text"
-                          name="serial_number"
-                          class="form-control"
-                          v-model='lot_item.serial_number'
-                          v-validate="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('serial_number') }"
-                        />
-                        <span class="error-text" v-show="errors.first('serial_number')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-if="showNumberOfSerieandAssetTag">
-                      <div class="form-group">
-                        <label>Asset TAG</label>
-                        <input
-                          type="text"
-                          name="asset_tag"
-                          class="form-control"
-                          v-model='lot_item.asset_tag'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('asset_tag') }"
-                        />
-                        <span class="error-text" v-show="errors.first('asset_tag')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showCategory'>
-                      <div class="form-group">
-                        <label>Categoria</label>
-                        <select
-                          class="form-control"
-                          name="category"
-                          type="text"
-                          v-model='lot_item.category_id'
-                          v-validate.disabled="'required|min_value:1'"
-                          :class="{'input': true, 'is-danger': errors.has('category') }"
-                        >
-                          <option value='null'> Selecionar Categoria </option>
-                          <option value='x' @click="openModal(4)"> Cadastrar novo </option>
-                          <option v-for='(category, index) in categories' :key="index" :value='category.id'>
-                            {{category.name}}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('category')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                      <div class="form-group">
-                        <label>Comentários</label>
-                        <input
-                          type="text"
-                          name="coments"
-                          class="form-control"
-                          v-model='lot_item.comments'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('coments') }"
-                        />
-                        <span class="error-text" v-show="errors.first('coments')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-if="showDamageType">
-                      <div class="form-group">
-                        <label>Local / Tipo Avaria</label>
-                        <select
-                          class="form-control"
-                          name="damge_type"
-                          type="text"
-                          v-model='lot_item.damage_type_id'
-                          :class="{'input': true, 'is-danger': errors.has('damge_type') }"
-                        >
-                          <option value='null'> Selecionar o Tipo de Avaria </option>
-                          <option value='x' @click="openModal(2)"> Cadastrar novo </option>
-                          <option v-for='(damageType, index) in damageTypes' :key="index" :value='damageType.id'>
-                            {{ damageType.name }}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('damge_type')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showProcessor'>
-                      <div class="form-group">
-                        <label>Processador</label>
-                        <select
-                          class="form-control"
-                          name="processor"
-                          type="text"
-                          v-model='lot_item.processor_id'
-                          v-validate.disabled="'required|min_value:1'"
-                          :class="{'input': true, 'is-danger': errors.has('processor') }"
-                        >
-                          <option value='null'> Selecione o processador </option>
-                          <option value='x' @click="openModal(5)"> Cadastre novo</option>
-                          <option v-for='(processor, index) in processors' :key="index" :value='processor.id'>
-                            {{processor.name}}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('processor')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showDiskFields'>
-                      <div class="form-group">
-                        <label>Tamanho do HD</label>
-                        <select
-                          class="form-control"
-                          name="disk_size"
-                          type="text"
-                          v-model='lot_item.disk_size_id'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('disk_size') }"
-                        >
-                          <option value='null' @click="openModal(7)"> Selecione o Tamanho do HD </option>
-                          <option value='x' @click="openModal(7)">Cadastrar Novo</option>
-                          <option v-for='(diskSize, index) in diskSizes' :key="index" :value='diskSize.id'>
-                            {{diskSize.name}}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('disk_size')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showDiskFields'>
-                      <div class="form-group">
-                        <label>Tipo</label>
-                        <select
-                          class="form-control"
-                          name="disk_type"
-                          type="text"
-                          v-model='lot_item.disk_type_id'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('disk_type') }"
-                        >
-                          <option value='null'>Selecione Tipo de HD </option>
-                          <option value='x' @click="openModal(8)"> Cadastre Novo</option>
-                          <option v-for='(diskType, index) in diskTypes' :key="index" :value='diskType.id'>
-                            {{diskType.name}}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('disk_type')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showDiskFields'>
-                      <div class="form-group">
-                        <label>Parent (ID)</label>
-                        <input
-                          type="text"
-                          name="parent_id"
-                          class="form-control"
-                          v-model='lot_item.parent_id' v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('parent_id') }" />
-                        <span class="error-text" v-show="errors.first('parent_id')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showScreen'>
-                      <div class="form-group">
-                        <label>Tela (Polegadas)</label>
-                        <input
-                          type="text"
-                          name="screen"
-                          class="form-control"
-                          v-model='lot_item.screen'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('screen') }"/>
-                        <span class="error-text" v-show="errors.first('screen')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showWebcam'>
-                      <div class="form-group">
-                        <label>Webcam</label>
-                        <select
-                          class="form-control"
-                          name="webcam"
-                          v-model='lot_item.webcam'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('webcam') }" >
-                          <option value="null" selected>Selecione</option>
-                          <option value="12">Sim</option>
-                          <option value="13">Não</option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('webcam')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showKeyboardType'>
-                      <div class="form-group">
-                        <label>Tipo Teclado</label>
-                        <select
-                          class="form-control"
-                          name="keyboard-type"
-                          type="text"
-                          v-model='lot_item.keyboard_type_id'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('keyboard-type') }"
-                        >
-                          <option value='null'> Selecione Novo Tipo de Teclado </option>
-                          <option value='x' @click="openModal(6)"> Cadastre Novo</option>
-                          <option v-for='(keyboardType, index) in keyboardTypes' :key="index" :value='keyboardType.id'>
-                            {{keyboardType.name}}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('keyboard-type')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showWireless'>
-                      <div class="form-group">
-                        <label>Wireless</label>
-                        <select
-                          class="form-control"
-                          name="wireless"
-                          v-model='lot_item.wireless'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('wireless') }"
-                        >
-                          <option value="null" selected>Selecione</option>
-                          <option value="12">Sim</option>
-                          <option value="13">Não</option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('wireless')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showBluetooth'>
-                      <div class="form-group">
-                        <label>Bluetooth</label>
-                        <select
-                          class="form-control"
-                          name="bluetooth"
-                          v-model='lot_item.bluetooth'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('bluetooth') }">
-                          <option value="null" selected> Selecione </option>
-                          <option value="1">Sim</option>
-                          <option value="0">Não</option>
-                        </select>
-
-                        <span class="error-text" v-show="errors.first('bluetooth')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3"  v-show='showMiniDisplayPort'>
-                      <div class="form-group">
-                        <label>Mini Display Port</label>
-                        <select
-                          class="form-control"
-                          name="mini-display"
-                          v-model='lot_item.mini_display_port'
-                          v-validate.disabled="'required|min_value:12'"
-                          :class="{'input': true, 'is-danger': errors.has('mini-display') }"
-                        >
-                          <option value="null" selected>Selecione</option>
-                          <option value="12">Sim</option>
-                          <option value="13">Não</option>
-                        </select>
-
-                        <span class="error-text" v-show="errors.first('mini-display')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showHdmihVgaEsata'>
-                      <div class="form-group">
-                        <label>HDMI</label>
-                        <select
-                          class="form-control"
-                          name="hdmi"
-                          v-model='lot_item.hdmi'
-                          v-validate.disabled="'required|min_value:12'"
-                          :class="{'input': true, 'is-danger': errors.has('hdmi') }"
-                        >
-                          <option value="null"> Selecione </option>
-                          <option value="12">Sim</option>
-                          <option value="13">Não</option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('hdmi')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showHdmihVgaEsata'>
-                      <div class="form-group">
-                        <label>VGA</label>
-                        <select
-                          class="form-control"
-                          name="vga"
-                          v-model='lot_item.vga'
-                          v-validate.disabled="'required|min_value:12'"
-                          :class="{'input': true, 'is-danger': errors.has('vga') }">
-                          <option value="null" > Cadastre VGA</option>
-                          <option value="12">Sim</option>
-                          <option value="13">Não</option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('vga')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showEsata'>
-                      <div class="form-group">
-                        <label>eSata</label>
-                        <select
-                          class="form-control"
-                          name="esata"
-                          v-model='lot_item.esata'
-                          v-validate.disabled="'required|min_value:1'"
-                          :class="{'input': true, 'is-danger': errors.has('esata') }" >
-                          <option value="null" selected> Selecione </option>
-                          <option value="1">Sim</option>
-                          <option value="2">Não</option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('esata')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showLuminousKeyboard'>
-                      <div class="form-group">
-                        <label>Teclado Luminoso</label>
-                        <input
-                          type="text"
-                          name="birght_keyboard"
-                          class="form-control"
-                          v-model='lot_item.bright_keyboard'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('birght_keyboard') }"
-                        />
-                      </div>
-                      <span class="error-text" v-show="errors.first('birght_keyboard')"> {{ required_text }} </span>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showBiometricReader'>
-                      <div class="form-group">
-                        <label>Leitor Biométrico</label>
-                        <select
-                          class="form-control"
-                          name="biometric_reader"
-                          v-model='lot_item.biometric_reader'
-                          v-validate.disabled="'required'"
-                          :class="{'input': true, 'is-danger': errors.has('biometric_reader') }">
-                          <option value="null" selected> Selecione </option>
-                          <option value="12"> Sim </option>
-                          <option value="13"> Não </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('biometric_reader')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showVideoCard'>
-                      <div class="form-group">
-                        <label>Tipo Placa Vídeo</label>
-                        <select
-                          class="form-control"
-                          name="vga-card"
-                          v-model='lot_item.vga_card'
-                          v-validate.disabled="'required|min_value:0'"
-                          :class="{'input': true, 'is-danger': errors.has('vga-card') }"
-                        >
-                          <option value="null" >Selecione </option>
-                          <option value="1">Integrada</option>
-                          <option value="0">Dedicada</option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('vga-card')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                      <div class="form-group">
-                        <label>Destino</label>
-                        <select
-                          class="form-control"
-                          name="destinations"
-                          type="text"
-                          v-model='lot_item.destination_id'
-                          v-validate.disabled="'required|min_value:1'"
-                          :class="{'input': true, 'is-danger': errors.has('destinations') }"
-                        >
-                          <option value='null'> Selecione o Destino </option>
-                          <option value='x' @click="openModal(3)"> Cadastre Novo </option>
-                          <option v-for='(destination, index) in destinations'  :key="index" :value='destination.id'>
-                            {{destination.name}}
-                          </option>
-                        </select>
-                        <span class="error-text" v-show="errors.first('destinations')"> {{ required_text }} </span>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showBarCode'>
-                      <div class="form-group">
-                        <label>Código de Barras</label>
-                        <input type="text" class="form-control" v-model='lot_item.bar_code'/>
-                      </div>
-                    </div>
-                  </div> <!-- End Row -->
-
-                  <div class="float-right">
-                    <button class="btn btn-primary" type="button" @click='submit'>
-                      Adicionar
-                    </button>
-                    <button class="btn btn-danger cancel-btn" type="button" v-on:click='cancelItem'>
-                      Cancelar
-                    </button>
                   </div>
 
-                  <!-- modal Alert-->
-                  <b-modal v-model="showModal" v-if="showModal" hide-footer>
-                    <center>
-                      <img  class="size-img-modal" src="../../../assets/images/checked.png"/>
-                    </center>
-                    <p class="my-1"> {{ messageModal }} </p>
-                  </b-modal>
-
-                  <!-- modal de componentes -->
-                  <b-modal ref="my-modal" hide-footer title="Cadastre..." size="lg">
-                    <div class="d-block text-center">
-                      <new-manufacturer v-if="id_modal === 0" modal_params="Cadastre"></new-manufacturer>
-                      <new-model v-if="id_modal === 1" modal_params="Cadastre" />
-                      <new-damage-type v-if="id_modal === 2" modal_params="Cadastre"/>
-                      <new-destinations v-if="id_modal === 3" modal_params="Cadastre"/>
-                      <new-categories v-if="id_modal === 4" modal_params="Cadastre"/>
-                      <new-processors v-if="id_modal === 5" modal_params="Cadastre"/>
-                      <new-keyboard-types v-if="id_modal === 6" modal_params="Cadastre"/>
-                      <disk-sizes v-if="id_modal === 7" modal_params="Cadastre"/>
-                      <disk-types v-if="id_modal === 8" modal_params="Cadastre"/>
-                      <new-hardware v-if="id_modal === 9" modal_params="Cadastre"/>
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showMemory'>
+                    <div class="form-group">
+                      <label>Memória RAM</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model='lot_item.ram_memory'
+                        name="ram_memory"
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('ram_memory') }"
+                      />
+                    <span class="error-text" v-show="errors.first('ram_memory')"> {{ required_text }} </span>
                     </div>
-                    <b-button class="mt-3" variant="outline-danger" block @click="hideModal"> Fechar </b-button>
-                  </b-modal>
+                  </div>
 
-                <!--/form-->
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                      <label>Número de Série</label>
+                      <input
+                        type="text"
+                        name="serial_number"
+                        class="form-control"
+                        v-model='lot_item.serial_number'
+                        v-validate="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('serial_number') }"
+                      />
+                      <span class="error-text" v-show="errors.first('serial_number')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-if="showNumberOfSerieandAssetTag">
+                    <div class="form-group">
+                      <label>Asset TAG</label>
+                      <input
+                        type="text"
+                        name="asset_tag"
+                        class="form-control"
+                        v-model='lot_item.asset_tag'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('asset_tag') }"
+                      />
+                      <span class="error-text" v-show="errors.first('asset_tag')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showCategory'>
+                    <div class="form-group">
+                      <label>Categoria</label>
+                      <select
+                        class="form-control"
+                        name="category"
+                        type="text"
+                        v-model='lot_item.category_id'
+                        v-validate.disabled="'required|min_value:1'"
+                        :class="{'input': true, 'is-danger': errors.has('category') }"
+                      >
+                        <option value='null'> Selecionar Categoria </option>
+                        <option value='x' @click="openModal(4)"> Cadastrar novo </option>
+                        <option v-for='(category, index) in categories' :key="index" :value='category.id'>
+                          {{category.name}}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('category')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                      <label>Comentários</label>
+                      <input
+                        type="text"
+                        name="coments"
+                        class="form-control"
+                        v-model='lot_item.comments'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('coments') }"
+                      />
+                      <span class="error-text" v-show="errors.first('coments')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-if="showDamageType">
+                    <div class="form-group">
+                      <label>Local / Tipo Avaria</label>
+                      <select
+                        class="form-control"
+                        name="damge_type"
+                        type="text"
+                        v-model='lot_item.damage_type_id'
+                        :class="{'input': true, 'is-danger': errors.has('damge_type') }"
+                      >
+                        <option value='null'> Selecionar o Tipo de Avaria </option>
+                        <option value='x' @click="openModal(2)"> Cadastrar novo </option>
+                        <option v-for='(damageType, index) in damageTypes' :key="index" :value='damageType.id'>
+                          {{ damageType.name }}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('damge_type')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showProcessor'>
+                    <div class="form-group">
+                      <label>Processador</label>
+                      <select
+                        class="form-control"
+                        name="processor"
+                        type="text"
+                        v-model='lot_item.processor_id'
+                        v-validate.disabled="'required|min_value:1'"
+                        :class="{'input': true, 'is-danger': errors.has('processor') }"
+                      >
+                        <option value='null'> Selecione o processador </option>
+                        <option value='x' @click="openModal(5)"> Cadastre novo</option>
+                        <option v-for='(processor, index) in processors' :key="index" :value='processor.id'>
+                          {{processor.name}}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('processor')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showDiskFields'>
+                    <div class="form-group">
+                      <label>Tamanho do HD</label>
+                      <select
+                        class="form-control"
+                        name="disk_size"
+                        type="text"
+                        v-model='lot_item.disk_size_id'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('disk_size') }"
+                      >
+                        <option value='null' @click="openModal(7)"> Selecione o Tamanho do HD </option>
+                        <option value='x' @click="openModal(7)">Cadastrar Novo</option>
+                        <option v-for='(diskSize, index) in diskSizes' :key="index" :value='diskSize.id'>
+                          {{diskSize.name}}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('disk_size')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showDiskFields'>
+                    <div class="form-group">
+                      <label>Tipo</label>
+                      <select
+                        class="form-control"
+                        name="disk_type"
+                        type="text"
+                        v-model='lot_item.disk_type_id'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('disk_type') }"
+                      >
+                        <option value='null'>Selecione Tipo de HD </option>
+                        <option value='x' @click="openModal(8)"> Cadastre Novo</option>
+                        <option v-for='(diskType, index) in diskTypes' :key="index" :value='diskType.id'>
+                          {{diskType.name}}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('disk_type')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showDiskFields'>
+                    <div class="form-group">
+                      <label>Parent (ID)</label>
+                      <input
+                        type="text"
+                        name="parent_id"
+                        class="form-control"
+                        v-model='lot_item.parent_id' v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('parent_id') }" />
+                      <span class="error-text" v-show="errors.first('parent_id')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showScreen'>
+                    <div class="form-group">
+                      <label>Tela (Polegadas)</label>
+                      <input
+                        type="text"
+                        name="screen"
+                        class="form-control"
+                        v-model='lot_item.screen'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('screen') }"/>
+                      <span class="error-text" v-show="errors.first('screen')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showWebcam'>
+                    <div class="form-group">
+                      <label>Webcam</label>
+                      <select
+                        class="form-control"
+                        name="webcam"
+                        v-model='lot_item.webcam'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('webcam') }" >
+                        <option value="null" selected>Selecione</option>
+                        <option value="12">Sim</option>
+                        <option value="13">Não</option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('webcam')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showKeyboardType'>
+                    <div class="form-group">
+                      <label>Tipo Teclado</label>
+                      <select
+                        class="form-control"
+                        name="keyboard-type"
+                        type="text"
+                        v-model='lot_item.keyboard_type_id'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('keyboard-type') }"
+                      >
+                        <option value='null'> Selecione Novo Tipo de Teclado </option>
+                        <option value='x' @click="openModal(6)"> Cadastre Novo</option>
+                        <option v-for='(keyboardType, index) in keyboardTypes' :key="index" :value='keyboardType.id'>
+                          {{keyboardType.name}}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('keyboard-type')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showWireless'>
+                    <div class="form-group">
+                      <label>Wireless</label>
+                      <select
+                        class="form-control"
+                        name="wireless"
+                        v-model='lot_item.wireless'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('wireless') }"
+                      >
+                        <option value="null" selected>Selecione</option>
+                        <option value="12">Sim</option>
+                        <option value="13">Não</option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('wireless')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showBluetooth'>
+                    <div class="form-group">
+                      <label>Bluetooth</label>
+                      <select
+                        class="form-control"
+                        name="bluetooth"
+                        v-model='lot_item.bluetooth'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('bluetooth') }">
+                        <option value="null" selected> Selecione </option>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
+                      </select>
+
+                      <span class="error-text" v-show="errors.first('bluetooth')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3"  v-show='showMiniDisplayPort'>
+                    <div class="form-group">
+                      <label>Mini Display Port</label>
+                      <select
+                        class="form-control"
+                        name="mini-display"
+                        v-model='lot_item.mini_display_port'
+                        v-validate.disabled="'required|min_value:12'"
+                        :class="{'input': true, 'is-danger': errors.has('mini-display') }"
+                      >
+                        <option value="null" selected>Selecione</option>
+                        <option value="12">Sim</option>
+                        <option value="13">Não</option>
+                      </select>
+
+                      <span class="error-text" v-show="errors.first('mini-display')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showHdmihVgaEsata'>
+                    <div class="form-group">
+                      <label>HDMI</label>
+                      <select
+                        class="form-control"
+                        name="hdmi"
+                        v-model='lot_item.hdmi'
+                        v-validate.disabled="'required|min_value:12'"
+                        :class="{'input': true, 'is-danger': errors.has('hdmi') }"
+                      >
+                        <option value="null"> Selecione </option>
+                        <option value="12">Sim</option>
+                        <option value="13">Não</option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('hdmi')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showHdmihVgaEsata'>
+                    <div class="form-group">
+                      <label>VGA</label>
+                      <select
+                        class="form-control"
+                        name="vga"
+                        v-model='lot_item.vga'
+                        v-validate.disabled="'required|min_value:12'"
+                        :class="{'input': true, 'is-danger': errors.has('vga') }">
+                        <option value="null" > Cadastre VGA</option>
+                        <option value="12">Sim</option>
+                        <option value="13">Não</option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('vga')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showEsata'>
+                    <div class="form-group">
+                      <label>eSata</label>
+                      <select
+                        class="form-control"
+                        name="esata"
+                        v-model='lot_item.esata'
+                        v-validate.disabled="'required|min_value:1'"
+                        :class="{'input': true, 'is-danger': errors.has('esata') }" >
+                        <option value="null" selected> Selecione </option>
+                        <option value="1">Sim</option>
+                        <option value="2">Não</option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('esata')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showLuminousKeyboard'>
+                    <div class="form-group">
+                      <label>Teclado Luminoso</label>
+                      <input
+                        type="text"
+                        name="birght_keyboard"
+                        class="form-control"
+                        v-model='lot_item.bright_keyboard'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('birght_keyboard') }"
+                      />
+                    </div>
+                    <span class="error-text" v-show="errors.first('birght_keyboard')"> {{ required_text }} </span>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showBiometricReader'>
+                    <div class="form-group">
+                      <label>Leitor Biométrico</label>
+                      <select
+                        class="form-control"
+                        name="biometric_reader"
+                        v-model='lot_item.biometric_reader'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('biometric_reader') }">
+                        <option value="null" selected> Selecione </option>
+                        <option value="12"> Sim </option>
+                        <option value="13"> Não </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('biometric_reader')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showVideoCard'>
+                    <div class="form-group">
+                      <label>Tipo Placa Vídeo</label>
+                      <select
+                        class="form-control"
+                        name="vga-card"
+                        v-model='lot_item.vga_card'
+                        v-validate.disabled="'required|min_value:0'"
+                        :class="{'input': true, 'is-danger': errors.has('vga-card') }"
+                      >
+                        <option value="null" >Selecione </option>
+                        <option value="1">Integrada</option>
+                        <option value="0">Dedicada</option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('vga-card')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                      <label>Destino</label>
+                      <select
+                        class="form-control"
+                        name="destinations"
+                        type="text"
+                        v-model='lot_item.destination_id'
+                        v-validate.disabled="'required|min_value:1'"
+                        :class="{'input': true, 'is-danger': errors.has('destinations') }"
+                      >
+                        <option value='null'> Selecione o Destino </option>
+                        <option value='x' @click="openModal(3)"> Cadastre Novo </option>
+                        <option v-for='(destination, index) in destinations'  :key="index" :value='destination.id'>
+                          {{destination.name}}
+                        </option>
+                      </select>
+                      <span class="error-text" v-show="errors.first('destinations')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showBarCode'>
+                    <div class="form-group">
+                      <label>Código de Barras</label>
+                      <input type="text" class="form-control" v-model='lot_item.bar_code'/>
+                    </div>
+                  </div>
+                </div> <!-- End Row -->
+
+                <div class="float-right">
+                  <button class="btn btn-primary" type="button" @click='submit'>
+                    Adicionar
+                  </button>
+                  <button class="btn btn-danger cancel-btn" type="button" v-on:click='cancelItem'>
+                    Cancelar
+                  </button>
+                </div>
+
+                <!-- modal Alert-->
+                <b-modal v-model="showModal" v-if="showModal" hide-footer>
+                  <center>
+                    <img  class="size-img-modal" src="../../../assets/images/checked.png"/>
+                  </center>
+                  <p class="my-1"> {{ messageModal }} </p>
+                </b-modal>
+
+                <!-- modal de componentes -->
+                <div class="modal fade" id="my-modal" tabindex="-1" role="dialog">
+                  <div class="d-block text-center">
+                    <new-manufacturer v-if="id_modal === 0" modal_params="Cadastre"></new-manufacturer>
+                    <new-model v-if="id_modal === 1" modal_params="Cadastre" />
+                    <new-damage-type v-if="id_modal === 2" modal_params="Cadastre"/>
+                    <new-destinations v-if="id_modal === 3" modal_params="Cadastre"/>
+                    <new-categories v-if="id_modal === 4" modal_params="Cadastre"/>
+                    <new-processors v-if="id_modal === 5" modal_params="Cadastre"/>
+                    <new-keyboard-types v-if="id_modal === 6" modal_params="Cadastre"/>
+                    <disk-sizes v-if="id_modal === 7" modal_params="Cadastre"/>
+                    <disk-types v-if="id_modal === 8" modal_params="Cadastre"/>
+                    <new-hardware v-if="id_modal === 9" modal_params="Cadastre"/>
+                  </div>
+                  <b-button class="mt-3" variant="outline-danger" block @click="hideModal"> Fechar </b-button>
+                </div>
+
               </div> <!-- === FIM CONTAINER === -->
             </div>
           </div>
@@ -1009,6 +1008,15 @@
       },
 
       async getDamageTypes() {
+        console.log(`lot_item.hardware_type_id - ${this.lot_item.hardware_type_id}`)
+        if (this.lot_item.hardware_type_id == 'x') {
+          console.log('////////////////////////////////////////////////')
+          this.id_modal = 9
+          console.log( $('my-modal') )
+          $('my-modal').modal('show');
+          return;
+        }
+
         let response = null;
 
         await this.$http.get(`/damage_types/by-hardware-type/${this.lot_item.hardware_type_id}`)
@@ -1160,7 +1168,9 @@
 
       openModal( id ) {
         this.id_modal = id
-        this.$refs['my-modal'].show()
+        //this.$refs['my-modal'].show()
+        console.log('+++++++++++++++++++++++=================')
+        $('#my-modal').modal('show');
       },
 
       hideModal() {

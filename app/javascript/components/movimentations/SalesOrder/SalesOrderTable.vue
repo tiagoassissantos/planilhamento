@@ -32,7 +32,6 @@
             <th scope="col">Editar</th>
             <th scope="col">Código</th>
             <th scope="col">Núm. do Pedido</th>
-            <th scope="col"> Adc. Item </th>
             <th scope="col"> Visualizar Itens </th>
           </tr>
         </thead>
@@ -48,11 +47,6 @@
             </td>
             <td>
               {{ sales_order.order_number }}
-            </td>
-            <td>
-              <router-link :to="{ path:`/sales-order/${sales_order.id}/item` }">
-                <img src='../../../../assets/images/plus.png' class="plus"/>
-              </router-link>
             </td>
             <td>
               <router-link :to="{ path:`/sales-order/${sales_order.id}/itens`}">

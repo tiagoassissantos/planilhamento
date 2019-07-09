@@ -82,7 +82,7 @@
       </table>
     </div>
 
-    <new-item />
+    <new-item :props_data="props_data" add_item="true" v-on:callComponente="answerCall"/>
   </div>
 </template>
 
@@ -100,7 +100,11 @@
         input: null,
 
         sales_orders_items: [],
-        sales_order_id: null
+        sales_order_id: null,
+        props_data: {
+          sales_order_id: null,
+          add_item: false
+        }
       }
     },
 
@@ -109,6 +113,8 @@
     mounted() {
       this.sales_order_id = this.$route.params.sales_order_id
       this.getSalesOrdersItems()
+      this.props_data.sales_order_id = this.sales_order_id
+      this.props_data.add_item = true
     },
 
     methods: {
@@ -148,7 +154,14 @@
             return false
           }
         }
-      }
+      },
+
+      answerCall() {
+        console.log('asdkjsajldsajlkdljksadjlksalkdjsajlkdjlksadljkl')
+        this.sales_orders_items = []
+        this.getSalesOrdersItems();
+      },
+
     }
   };
 </script>

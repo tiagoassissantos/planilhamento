@@ -327,7 +327,10 @@ class LotItemsController < ApplicationController
   end
 
   def search_with_bar_code( bar_code, add_item )
-    if add_item == 'true'
+    if add_item === 'true'
+      Rails.logger.info('+++++++++++++++++++++++++++')
+      Rails.logger.info('+++++++++++++++++++++++++++')
+      Rails.logger.info('+++++++++++++++++++++++++++')
       lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2)
       return lot_items
     end

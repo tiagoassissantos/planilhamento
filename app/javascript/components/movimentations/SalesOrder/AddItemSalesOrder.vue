@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="newItem" title="Adicionar Item" size='xl'>
+  <b-modal id="newItem"  ref="my-modal" hide-footer title="Adicionar Item" size='xl'>
     <form>
       <div class='row'>
         <div class="col-sm-3">
@@ -31,7 +31,7 @@
       </div>
     </form>
 
-    <form @submit.prevent="submit" v-if="showDestiny && !add_item">
+    <form @submit.prevent="submit" v-if="showDestiny && !props_data.add_item">
       <div class='row'>
         <div class="col-sm-4">
           <div class="form-group">
@@ -66,12 +66,6 @@
           </button>
         </div>
       </div>
-    </form>
-
-    <form @submit.prevent="addItem" v-if="add_item">
-      <button type='submit' class="btn btn-success full-width">
-        Adicionar Item
-      </button>
     </form>
 
     <div><br>
@@ -124,6 +118,8 @@
       <p class="my-1"> {{ messageModal }} </p>
     </b-modal>
 
+    <b-button class="mt-3" variant="success" block @click="addItem"> Adcionar item</b-button>
+
   </b-modal>
 </template>
 
@@ -131,7 +127,7 @@
   export default {
     components: { },
 
-    props: ['sales_order_id'],
+    props: ['props_data'],
 
     data() {
       return {
@@ -159,9 +155,7 @@
 
     computed: { },
 
-    mounted() {
-
-    },
+    mounted() {},
 
     methods: {
 
@@ -176,8 +170,8 @@
 
         let way = null
 
-        if( this.add_item ) {
-          way = `/search_lot/${this.search_lot.bar_code}/${this.search_lot.lot_number}/${this.search_lot.serial_number}/${this.add_item}`
+        if( this.props_data.add_item === true) {
+          way = `/search_lot/${this.search_lot.bar_code}/${this.search_lot.lot_number}/${this.search_lot.serial_number}/${this.props_data.add_item}`
         } else {
           way = `/search_lot/${this.search_lot.bar_code}/${this.search_lot.lot_number}/${this.search_lot.serial_number}/${this.add_item}`
         }
@@ -295,7 +289,7 @@
         let response = null
         this.errorSelected = false
 
-        await this.$http.post(`/sales_orders/${this.sales_order_id}/add_item`, {lot_id: this.lot_item_id})
+        await this.$http.post(`/sales_orders/${this.props_data.sales_order_id}/add_item`, {lot_id: this.lot_item_id})
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -307,9 +301,11 @@
           this.showModal = true
           this.lot_items = []
           this.index = null
+          this.$emit('callComponente');
 
           setTimeout(function(){
             this.showModal = false
+            this.$refs['my-modal'].hide()
           }.bind(this), 2000);
         }
       },
@@ -322,6 +318,7 @@
           opacity: 0.75
         });
       },
+
     }
   };
 </script>

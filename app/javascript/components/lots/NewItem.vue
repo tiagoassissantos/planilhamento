@@ -37,23 +37,30 @@
                         :class="{'input': true, 'is-danger': errors.has('h_type') }"
                       >
                         <option value='0'> Selecione um tipo de hardware </option>
-                        <option value='x'> Cadastrar novo tipo </option>
                         <option
                           v-for='(hardwareType,index) in hardwareTypes'
                           :key="index"
                           :value='hardwareType.id'
                         >
-                    
-                            {{hardwareType.name}}
+                          {{hardwareType.name}}
                         </option>
                       </select>
-                      <span class="error-text" v-show="errors.first('h_type')"> {{ required_text }} </span>
-                      <button class='btn btn-link'>Cadastrar novo Tipo de Hardware</button>
 
+                      <div>
+                        <p class="link-new" id="modal-1" @click="toggleModal('my-modal','modal-1')">Cadastre novo Hardware</p>
+                        <b-modal ref="my-modal" size="lg" hide-footer title="Novo Tipo de Hardware">
+                          <div class="d-block text-center">
+                            <new-hardware modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(9, 'my-modal')">Close Me</b-button>
+                        </b-modal>
                       </div>
+
+                      <span class="error-text" v-show="errors.first('h_type')"> {{ required_text }} </span>
                     </div>
                   </div>
                 </div>
+              </div>
 
                 <div class="row">
                   <div class="col-sm-6 col-md-4 col-lg-3">
@@ -68,11 +75,21 @@
                         :class="{'input': true, 'is-danger': errors.has('manufacturer') }"
                       >
                         <option value="0"> Selecionar Fabricante </option>
-                        <option value='x' @click="openModal(0)"> Cadastrar Novo </option>
                         <option v-for=' (manufacturer, index) in manufacturers' :key="index" :value='manufacturer.id'>
                           {{manufacturer.name}}
                         </option>
                       </select>
+
+                      <div>
+                        <p class="link-new" id="modal-2" @click="toggleModal('my-modal-1','modal-2')">Cadastre novo Fabricante</p>
+                        <b-modal ref="my-modal-1" size="lg" hide-footer title="Novo Fabricante">
+                          <div class="d-block text-center">
+                            <new-manufacturer modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(0, 'my-modal-1')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                       <span class="error-text" v-show="errors.first('manufacturer')"> {{ required_text }} </span>
                     </div>
                   </div>
@@ -89,11 +106,20 @@
                         :class="{'input': true, 'is-danger': errors.has('models') }"
                       >
                         <option value='0'> Selecione um Modelo</option>
-                        <option value='x' @click="openModal(1)"> Cadastrar Modelo</option>
                         <option v-for='(model, index) in models' :key="index" :value='model.id'>
                           {{model.name}}
                         </option>
                       </select>
+                      <div>
+                        <p class="link-new" id="modal-3" @click="toggleModal('my-modal-2','modal-3')">Cadastre novo Modelo</p>
+                        <b-modal ref="my-modal-2" size="lg" hide-footer title="Novo Modelo">
+                          <div class="d-block text-center">
+                            <new-model modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(1, 'my-modal-2')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                       <span class="error-text" v-show="errors.first('models')"> {{ required_text }} </span>
                     </div>
                   </div>
@@ -155,11 +181,21 @@
                         :class="{'input': true, 'is-danger': errors.has('category') }"
                       >
                         <option value='null'> Selecionar Categoria </option>
-                        <option value='x' @click="openModal(4)"> Cadastrar novo </option>
                         <option v-for='(category, index) in categories' :key="index" :value='category.id'>
                           {{category.name}}
                         </option>
                       </select>
+
+                      <div>
+                        <p class="link-new" id="modal-4" @click="toggleModal('my-modal-3','modal-4')">Cadastre nova Categoria</p>
+                        <b-modal ref="my-modal-3" size="lg" hide-footer title="Nova Categoria">
+                          <div class="d-block text-center">
+                            <new-categories modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(4, 'my-modal-3')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                       <span class="error-text" v-show="errors.first('category')"> {{ required_text }} </span>
                     </div>
                   </div>
@@ -190,11 +226,21 @@
                         :class="{'input': true, 'is-danger': errors.has('damge_type') }"
                       >
                         <option value='null'> Selecionar o Tipo de Avaria </option>
-                        <option value='x' @click="openModal(2)"> Cadastrar novo </option>
                         <option v-for='(damageType, index) in damageTypes' :key="index" :value='damageType.id'>
                           {{ damageType.name }}
                         </option>
                       </select>
+
+                      <div>
+                        <p class="link-new" id="modal-5" @click="toggleModal('my-modal-4','modal-5')">Cadastre nova Avaria</p>
+                        <b-modal ref="my-modal-4" size="lg" hide-footer title="Nova Avaria">
+                          <div class="d-block text-center">
+                            <new-damage-type modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(2, 'my-modal-4')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                       <span class="error-text" v-show="errors.first('damge_type')"> {{ required_text }} </span>
                     </div>
                   </div>
@@ -211,11 +257,21 @@
                         :class="{'input': true, 'is-danger': errors.has('processor') }"
                       >
                         <option value='null'> Selecione o processador </option>
-                        <option value='x' @click="openModal(5)"> Cadastre novo</option>
                         <option v-for='(processor, index) in processors' :key="index" :value='processor.id'>
                           {{processor.name}}
                         </option>
                       </select>
+
+                      <div>
+                        <p class="link-new" id="modal-7" @click="toggleModal('my-modal-6','modal-7')">Cadastre novo Processador</p>
+                        <b-modal ref="my-modal-6" size="lg" hide-footer title="Novo Processador">
+                          <div class="d-block text-center">
+                            <new-processors modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(5, 'my-modal-6')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                       <span class="error-text" v-show="errors.first('processor')"> {{ required_text }} </span>
                     </div>
                   </div>
@@ -231,12 +287,22 @@
                         v-validate.disabled="'required'"
                         :class="{'input': true, 'is-danger': errors.has('disk_size') }"
                       >
-                        <option value='null' @click="openModal(7)"> Selecione o Tamanho do HD </option>
-                        <option value='x' @click="openModal(7)">Cadastrar Novo</option>
+                        <option value='null' > Selecione o Tamanho do HD </option>
                         <option v-for='(diskSize, index) in diskSizes' :key="index" :value='diskSize.id'>
                           {{diskSize.name}}
                         </option>
                       </select>
+
+                      <div>
+                        <p class="link-new" id="modal-9" @click="toggleModal('my-modal-8','modal-9')">Cadastre novo Tamanho do HD</p>
+                        <b-modal ref="my-modal-8" size="lg" hide-footer title="Novo tamanho do HD">
+                          <div class="d-block text-center">
+                            <disk-sizes modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(7, 'my-modal-8')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                       <span class="error-text" v-show="errors.first('disk_size')"> {{ required_text }} </span>
                     </div>
                   </div>
@@ -253,11 +319,21 @@
                         :class="{'input': true, 'is-danger': errors.has('disk_type') }"
                       >
                         <option value='null'>Selecione Tipo de HD </option>
-                        <option value='x' @click="openModal(8)"> Cadastre Novo</option>
                         <option v-for='(diskType, index) in diskTypes' :key="index" :value='diskType.id'>
                           {{diskType.name}}
                         </option>
                       </select>
+
+                      <div>
+                        <p class="link-new" id="modal-10" @click="toggleModal('my-modal-9','modal-10')">Cadastre novo Tipo de HD</p>
+                        <b-modal ref="my-modal-9" size="lg" hide-footer title="Novo Tipo de HD">
+                          <div class="d-block text-center">
+                            <disk-sizes modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(8, 'my-modal-9')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                       <span class="error-text" v-show="errors.first('disk_type')"> {{ required_text }} </span>
                     </div>
                   </div>
@@ -318,11 +394,21 @@
                         :class="{'input': true, 'is-danger': errors.has('keyboard-type') }"
                       >
                         <option value='null'> Selecione Novo Tipo de Teclado </option>
-                        <option value='x' @click="openModal(6)"> Cadastre Novo</option>
                         <option v-for='(keyboardType, index) in keyboardTypes' :key="index" :value='keyboardType.id'>
                           {{keyboardType.name}}
                         </option>
                       </select>
+
+                      <div>
+                        <p class="link-new" id="modal-8" size="lg" @click="toggleModal('my-modal-7','modal-8')">Cadastre novo Tipo de Teclado</p>
+                        <b-modal ref="my-modal-7" hide-footer title="Novo Tipo de Teclado">
+                          <div class="d-block text-center">
+                            <new-keyboard-types modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(6, 'my-modal-7')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                       <span class="error-text" v-show="errors.first('keyboard-type')"> {{ required_text }} </span>
                     </div>
                   </div>
@@ -496,11 +582,21 @@
                         :class="{'input': true, 'is-danger': errors.has('destinations') }"
                       >
                         <option value='null'> Selecione o Destino </option>
-                        <option value='x' @click="openModal(3)"> Cadastre Novo </option>
                         <option v-for='(destination, index) in destinations'  :key="index" :value='destination.id'>
                           {{destination.name}}
                         </option>
                       </select>
+
+                      <div>
+                        <p class="link-new" id="modal-6"  @click="toggleModal('my-modal-5','modal-6')">Cadastre novo Destino</p>
+                        <b-modal ref="my-modal-5" size="lg" hide-footer title="Novo Destino">
+                          <div class="d-block text-center">
+                            <new-destinations modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(3, 'my-modal-5')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                       <span class="error-text" v-show="errors.first('destinations')"> {{ required_text }} </span>
                     </div>
                   </div>
@@ -531,8 +627,9 @@
                 </b-modal>
 
                 <!-- modal de componentes -->
-                <div class="modal fade" id="my-modal" tabindex="-1" role="dialog">
+                <div class="modal fade"  tabindex="-1" role="dialog">
                   <div class="d-block text-center">
+                    <new-hardware  v-if="id_modal === 9" modal_params="Cadastre"/>
                     <new-manufacturer v-if="id_modal === 0" modal_params="Cadastre"></new-manufacturer>
                     <new-model v-if="id_modal === 1" modal_params="Cadastre" />
                     <new-damage-type v-if="id_modal === 2" modal_params="Cadastre"/>
@@ -542,7 +639,6 @@
                     <new-keyboard-types v-if="id_modal === 6" modal_params="Cadastre"/>
                     <disk-sizes v-if="id_modal === 7" modal_params="Cadastre"/>
                     <disk-types v-if="id_modal === 8" modal_params="Cadastre"/>
-                    <new-hardware v-if="id_modal === 9" modal_params="Cadastre"/>
                   </div>
                   <b-button class="mt-3" variant="outline-danger" block @click="hideModal"> Fechar </b-button>
                 </div>
@@ -861,10 +957,6 @@
 
     methods: {
 
-      doNothing() {
-        console.log('---> doNothing')
-      },
-
       cancelItem() {
         this.$router.go(-1)
       },
@@ -1010,15 +1102,6 @@
       },
 
       async getDamageTypes() {
-        console.log(`lot_item.hardware_type_id - ${this.lot_item.hardware_type_id}`)
-        if (this.lot_item.hardware_type_id == 'x') {
-          console.log('////////////////////////////////////////////////')
-          this.id_modal = 9
-          console.log( $('my-modal') )
-          $('my-modal').modal('show');
-          return;
-        }
-
         let response = null;
 
         await this.$http.get(`/damage_types/by-hardware-type/${this.lot_item.hardware_type_id}`)
@@ -1168,15 +1251,9 @@
         this.$validator.reset();
       },
 
-      openModal( id ) {
-        this.id_modal = id
-        //this.$refs['my-modal'].show()
-        console.log('+++++++++++++++++++++++=================')
-        $('#my-modal').modal('show');
-      },
+     hideModal(id, string_modal) {
 
-      hideModal() {
-        switch (this.id_modal) {
+        switch (id) {
           case 0:
             this.manufacturers = []
             this.getManufacturers();
@@ -1220,8 +1297,14 @@
           default:
             break
         }
-        this.$refs['my-modal'].hide()
+        this.$refs[string_modal].hide()
       },
+
+      toggleModal(ref_string, id_string) {
+        console.log(id_string)
+        this.$refs[ref_string].toggle(id_string)
+      }
+
     },
   };
 </script>
@@ -1248,4 +1331,16 @@
     font-size: 12px;
     font-weight: bold;
   }
+
+  .link-new {
+    color: #0094d9;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .link-new:hover {
+    text-decoration: underline;
+  }
+
 </style>

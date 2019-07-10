@@ -9,9 +9,9 @@ class LotItem < ApplicationRecord
   belongs_to :disk_size, optional: true
   belongs_to :keyboard_type, optional: true
   belongs_to :category, optional: true
-  belongs_to :damage_type, optional: true
   belongs_to :sku, optional: true
 
+  has_and_belongs_to_many :damage_types
   before_save :generate_sku
 
   def generate_sku
@@ -19,9 +19,7 @@ class LotItem < ApplicationRecord
     return unless self.sku.nil?
 
     sku = nil
-    Rails.logger.info('++++++++++++++')
-    Rails.logger.info(hardware_type.id)
-    Rails.logger.info('++++++++++++++')
+
     case hardware_type.id
     when 1
       sku = generate_monitor_sku()
@@ -48,11 +46,16 @@ class LotItem < ApplicationRecord
 
   def generate_monitor_sku
     code = ''
+    Rails.logger.info('+++++++++++++++++++++')
+    Rails.logger.info('+++++++++++++++++++++')
+    Rails.logger.info( damage_types.ids )
+    Rails.logger.info('+++++++++++++++++++++')
+    Rails.logger.info('+++++++++++++++++++++')
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
-    code += damage_type.id.to_s
+    code += damage_types.ids.to_s
     code += screen
     code += hdmi[0,1]
     code += vga[0,1]
@@ -60,7 +63,7 @@ class LotItem < ApplicationRecord
 
     self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer,
-      model: model, category: category, damage_type: damage_type, screen: screen,
+      model: model, category: category, damage_type: damage_types, screen: screen,
       hdmi: hdmi, vga: vga, esata: esata
     )
 

@@ -15,7 +15,13 @@ class LotItemsController < ApplicationController
 
     lot = Lot.find( params[:lot_id] )
     lot_item = lot.lot_items.new( lot_item_params )
-
+    damages = []
+    damage = DamageType.find_by(id: 3)
+    damages << damage
+    Rails.logger.info("KKKKKKKKKKKKKKKKKKKKKKKKKK")
+    Rails.logger.info( lot_item.lot_item_damage_types )
+    Rails.logger.info("kkkkkkkkkkkkkkkkkkkkkkkkkkk")
+    Rails.logger.info('--------------')
     p '-------------------------------------------------+++-'
     p lot_item.to_json
 
@@ -61,7 +67,7 @@ class LotItemsController < ApplicationController
     end
   end
 
-  def get_all_skus
+  def get_all_skus #erro por conta do hard_type_id -> verificar
     skus = Sku.select('code', 'id').all
     render json: skus, status: 200
   end
@@ -319,18 +325,16 @@ class LotItemsController < ApplicationController
   def lot_item_params
     params.require(:lot_item).permit(
       :hardware_type_id, :model_id, :ram_memory, :serial_number, :asset_tag,
-      :category_id, :comments, :damage_type_id, :processor_id, :disk_type_id,
+      :category_id, :comments, :processor_id, :disk_type_id,
       :disk_size_id, :parent_id, :screen, :webcam, :keyboard_type_id, :wireless,
       :bluetooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
-      :destination_id, :bar_code, :biometric_reader, :vga_card
+      :destination_id, :bar_code, :biometric_reader, :vga_card, damage_type_id: []
     )
   end
 
   def search_with_bar_code( bar_code, add_item )
     if add_item === 'true'
-      Rails.logger.info('+++++++++++++++++++++++++++')
-      Rails.logger.info('+++++++++++++++++++++++++++')
-      Rails.logger.info('+++++++++++++++++++++++++++')
+
       lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2)
       return lot_items
     end

@@ -218,19 +218,33 @@
                   <div class="col-sm-6 col-md-4 col-lg-3" v-if="showDamageType">
                     <div class="form-group">
                       <label>Local / Tipo Avaria</label>
-                      <select
+                      <!-- <select
                         class="form-control"
                         name="damge_type"
                         type="text"
                         v-model='lot_item.damage_type_id'
                         :class="{'input': true, 'is-danger': errors.has('damge_type') }"
                       >
+
                         <option value='null'> Selecionar o Tipo de Avaria </option>
                         <option v-for='(damageType, index) in damageTypes' :key="index" :value='damageType.id'>
-                          {{ damageType.name }}
+                            {{ damageType.name }}
                         </option>
-                      </select>
+                      </select> -->
 
+                      <multiselect
+                        v-model="value"
+                        :options="damageTypes"
+                        :multiple="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :preserve-search="true"
+                        placeholder="Selecione Avarias"
+                        label="name"
+                        track-by="name"
+                        :preselect-first="true"
+                      >
+                      </multiselect>
                       <div>
                         <p class="link-new" id="modal-5" @click="toggleModal('my-modal-4','modal-5')">Cadastre nova Avaria</p>
                         <b-modal ref="my-modal-4" size="lg" hide-footer title="Nova Avaria">
@@ -666,14 +680,18 @@
   import DiskTypes from '../registrations/DiskTypes/DiskTypesNew.vue'
   import newHardware from '../registrations/HardwareTypes/HardwareTypeNew.vue'
 
+    import Multiselect from 'vue-multiselect'
+
   export default {
     components: {
       VueBootstrapTypeahead, newManufacturer, newModel, newDamageType, newDestinations, newCategories,
-      newProcessors, newKeyboardTypes, DiskSizes, DiskTypes, newHardware
+      newProcessors, newKeyboardTypes, DiskSizes, DiskTypes, newHardware, Multiselect
       },
 
     data() {
       return {
+        value: [], //Array of selected damage types.
+
         lot_item: {
           hardware_type_id: 0,
           model_id: 0,
@@ -682,7 +700,7 @@
           asset_tag: null,
           category_id: null,
           comments: null,
-          damage_type_id: null,
+          damage_type_id: [],
           processor_id: null,
           disk_size_id: null,
           disk_type_id: null,
@@ -702,6 +720,8 @@
           vga_card: null,
           biometric_reader: null
         },
+
+        selected: [], // Must be an array reference!
 
         hardwareTypes: [],
         manufacturers: [],
@@ -962,6 +982,11 @@
       },
 
       async submit() {
+
+        this.value.forEach(damageType => {
+          this.lot_item.damage_type_id.push(damageType.id)
+        })
+
         this.$validator.validate().then((result) => {});
         this.registrationOrEdit()
       },
@@ -1001,6 +1026,7 @@
           this.error = true;
           this.message = response.body.message;
         }
+        this.lot_item.damage_type_id = []
       },
 
       showLoading() {
@@ -1301,10 +1327,8 @@
       },
 
       toggleModal(ref_string, id_string) {
-        console.log(id_string)
         this.$refs[ref_string].toggle(id_string)
-      }
-
+      },
     },
   };
 </script>
@@ -1344,3 +1368,6 @@
   }
 
 </style>
+
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

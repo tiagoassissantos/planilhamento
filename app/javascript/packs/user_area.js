@@ -22,12 +22,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
-  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox, faLaptopCode
+  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox, faLaptopCode, faTools
 } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 library.add(faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
-  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox, faLaptopCode);
+  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox, faLaptopCode, faTools);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 //pages
@@ -84,6 +84,8 @@ import ItemDevolution from '../components/movimentations/ItemDevolution.vue'
 
 import SkusList from '../components/registrations/skus/SkusList.vue'
 import SkusArchive from '../components/registrations/skus/SkusArchive.vue'
+
+import ItemSearchMaintenance from '../components/maintenance/ItemSearchMaintenance.vue'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -163,6 +165,8 @@ const router = new VueRouter({
 
     { path: "/skus", component: SkusList, props: true },
     { path: "/skus/:sku_id/archive", component: SkusArchive, props: true, name: 'sku_archive' },
+
+    { path: "/maintenance/search-items", component: ItemSearchMaintenance, props: true },
   ]
 })
 

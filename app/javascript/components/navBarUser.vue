@@ -135,6 +135,20 @@
 
       <li>
         <a href="#">
+          <font-awesome-icon icon="tools"/>
+          Manutenção
+          <ul>
+            <li>
+              <router-link class="nav-link active text-light" to="/maintenance/search-items">
+                <font-awesome-icon icon="box" class="sub-icon"/> Consulta de Itens
+              </router-link>
+            </li>
+          </ul>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
           <font-awesome-icon icon="columns"/>
           Consultas
           <ul>

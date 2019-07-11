@@ -218,19 +218,6 @@
                   <div class="col-sm-6 col-md-4 col-lg-3" v-if="showDamageType">
                     <div class="form-group">
                       <label>Local / Tipo Avaria</label>
-                      <!-- <select
-                        class="form-control"
-                        name="damge_type"
-                        type="text"
-                        v-model='lot_item.damage_type_id'
-                        :class="{'input': true, 'is-danger': errors.has('damge_type') }"
-                      >
-
-                        <option value='null'> Selecionar o Tipo de Avaria </option>
-                        <option v-for='(damageType, index) in damageTypes' :key="index" :value='damageType.id'>
-                            {{ damageType.name }}
-                        </option>
-                      </select> -->
 
                       <multiselect
                         v-model="value"
@@ -680,7 +667,7 @@
   import DiskTypes from '../registrations/DiskTypes/DiskTypesNew.vue'
   import newHardware from '../registrations/HardwareTypes/HardwareTypeNew.vue'
 
-    import Multiselect from 'vue-multiselect'
+  import Multiselect from 'vue-multiselect'
 
   export default {
     components: {
@@ -750,16 +737,8 @@
 
         id_modal: '',
         required_text: 'Este campo é obrigatório.',
-        text_manufacturer: 'Selecione um Fabricante',
-        text_model: 'Selecione um modelo',
-        text_damage_type: 'Selecione o Tipo de Avaria',
-        text_destination: 'Selecione o Destino',
-        text_category: 'Selecione a Categoria',
-        text_processors: 'Selecione o Processador',
-        text_keyboard: 'Selecione o Tipo de Teclado',
-        text_size_hd: 'Selecione o tamanho do hd',
-        text_type_hd: 'Selecione o tipo de hd',
-        text_h_type: 'Selecione o tipo de Hardware'
+
+        editDamageType: ''
       }
     },
 
@@ -962,8 +941,6 @@
     },
 
     mounted() {
-      this.lotId = this.$route.params.lot_id;
-
       this.getHardwareTypes();
       this.getManufacturers();
       this.getCategories();
@@ -973,6 +950,8 @@
       this.getKeyboardTypes();
       this.getDestinations();
       this.getSkus();
+
+      this.lotId = this.$route.params.lot_id;
     },
 
     methods: {
@@ -1367,6 +1346,11 @@
     text-decoration: underline;
   }
 
+  select[readonly] {
+    background: #eee;
+    pointer-events: none;
+    touch-action: none;
+  }
 </style>
 
 

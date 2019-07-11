@@ -49,7 +49,6 @@ class LotItemsController < ApplicationController
 
   def show
     return unless user_logged?
-
     lot_item = LotItem.find( params[:id] )
 
     render json: lot_item, status: :ok
@@ -68,7 +67,7 @@ class LotItemsController < ApplicationController
     end
   end
 
-  def get_all_skus #erro por conta do hard_type_id -> verificar
+  def get_all_skus #erro por conta do hardware_type_id -> verificar
     skus = Sku.select('code', 'id').all
     render json: skus, status: 200
   end
@@ -303,8 +302,6 @@ class LotItemsController < ApplicationController
         vga_card = ''
       end
 
-
-
       sheet1.row(row).push(
         line.hardware_type.name, line.model.manufacturer.name, line.model.name, line.ram_memory,
         line.serial_number, line.asset_tag, line.bar_code, category, line.comments, damage_type,
@@ -334,9 +331,6 @@ class LotItemsController < ApplicationController
   end
 
   def search_with_bar_code( bar_code, add_item )
-    Rails.logger.info("+++++++++++++++++++")
-    Rails.logger.info( add_item )
-    Rails.logger.info("+++++++++++++++++=")
 
     if add_item === 'true'
       lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2)
@@ -379,7 +373,6 @@ class LotItemsController < ApplicationController
   end
 
   #methods of query stock
-
   def get_stock_h_type( params )
     items_h_type = LotItem.where(hardware_type_id: params)
     return items_h_type

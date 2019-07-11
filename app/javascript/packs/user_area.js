@@ -86,6 +86,7 @@ import SkusList from '../components/registrations/skus/SkusList.vue'
 import SkusArchive from '../components/registrations/skus/SkusArchive.vue'
 
 import ItemSearchMaintenance from '../components/maintenance/ItemSearchMaintenance.vue'
+import ItemEditMaintenance from '../components/maintenance/ItemEditMaintenance.vue'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -167,6 +168,7 @@ const router = new VueRouter({
     { path: "/skus/:sku_id/archive", component: SkusArchive, props: true, name: 'sku_archive' },
 
     { path: "/maintenance/search-items", component: ItemSearchMaintenance, props: true },
+    { path: "/maintenance/:lot_item_id/edit", component: ItemEditMaintenance, props: true },
   ]
 })
 

@@ -54,7 +54,11 @@
                 <td> {{lot_item.serial_number}}</td>
                 <td> {{lot_item.bar_code}}</td>
                 <td> {{lot_item.destination}} </td>
-                <td> <img src='../../../assets/images/editar.png'/> </td>
+                <td>
+                  <router-link :to="{ path: `/maintenance/${lot_item.id}/edit`}">
+                    <img src='../../../assets/images/editar.png'/>
+                  </router-link>
+                </td>
               </tr>
             </tbody>
           </table>

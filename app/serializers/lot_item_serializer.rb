@@ -6,7 +6,7 @@ class LotItemSerializer < ActiveModel::Serializer
       :destination, :bar_code, :biometric_reader, :vga_card, :sku_id, :lot
 
   has_one :model
-
+  has_many :damage_types
 
   def hardware_type
     return object.hardware_type.name

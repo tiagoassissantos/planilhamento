@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_10_160435) do
+ActiveRecord::Schema.define(version: 2019_07_11_140406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,7 +86,8 @@ ActiveRecord::Schema.define(version: 2019_07_10_160435) do
   create_table "lot_item_damage_types", force: :cascade do |t|
     t.bigint "lot_item_id"
     t.bigint "damage_type_id"
-    t.datetime "appointment_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["damage_type_id"], name: "index_lot_item_damage_types_on_damage_type_id"
     t.index ["lot_item_id"], name: "index_lot_item_damage_types_on_lot_item_id"
   end
@@ -99,7 +100,6 @@ ActiveRecord::Schema.define(version: 2019_07_10_160435) do
     t.string "asset_tag"
     t.bigint "category_id"
     t.string "comments"
-    t.bigint "damage_type_id"
     t.bigint "processor_id"
     t.bigint "disk_type_id"
     t.bigint "disk_size_id"
@@ -124,7 +124,6 @@ ActiveRecord::Schema.define(version: 2019_07_10_160435) do
     t.integer "sku_id"
     t.bigint "sales_order_id"
     t.index ["category_id"], name: "index_lot_items_on_category_id"
-    t.index ["damage_type_id"], name: "index_lot_items_on_damage_type_id"
     t.index ["destination_id"], name: "index_lot_items_on_destination_id"
     t.index ["disk_size_id"], name: "index_lot_items_on_disk_size_id"
     t.index ["disk_type_id"], name: "index_lot_items_on_disk_type_id"
@@ -203,13 +202,6 @@ ActiveRecord::Schema.define(version: 2019_07_10_160435) do
     t.index ["processor_id"], name: "index_skus_on_processor_id"
   end
 
-  create_table "table_lot_item_damage_types", force: :cascade do |t|
-    t.bigint "damage_type_id"
-    t.bigint "lot_item_id"
-    t.index ["damage_type_id"], name: "index_table_lot_item_damage_types_on_damage_type_id"
-    t.index ["lot_item_id"], name: "index_table_lot_item_damage_types_on_lot_item_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -228,7 +220,6 @@ ActiveRecord::Schema.define(version: 2019_07_10_160435) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "damage_types", "hardware_types"
   add_foreign_key "lot_items", "categories"
-  add_foreign_key "lot_items", "damage_types"
   add_foreign_key "lot_items", "destinations"
   add_foreign_key "lot_items", "disk_sizes"
   add_foreign_key "lot_items", "disk_types"

@@ -1,6 +1,6 @@
 class LotItemSerializer < ActiveModel::Serializer
   attributes :id, :hardware_type, :model, :ram_memory, :serial_number, :asset_tag,
-      :category, :comments, :damage_type, :processor, :disk_type,
+      :category, :comments, :processor, :disk_type,
       :disk_size, :parent_id, :screen, :webcam, :keyboard_type, :wireless,
       :bluetooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
       :destination, :bar_code, :biometric_reader, :vga_card, :sku_id, :lot
@@ -18,10 +18,6 @@ class LotItemSerializer < ActiveModel::Serializer
 
   def category
     return object.category.name unless object.category.nil?
-  end
-
-  def damage_type
-    return object.damage_type.name unless object.damage_type.nil?
   end
 
   def processor

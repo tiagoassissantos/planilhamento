@@ -10,8 +10,9 @@ class LotItem < ApplicationRecord
   belongs_to :keyboard_type, optional: true
   belongs_to :category, optional: true
   belongs_to :sku, optional: true
+  has_many :lot_item_damage_types
+  has_many :damage_types, :through => :lot_item_damage_types
 
-  has_and_belongs_to_many :damage_types
   before_save :generate_sku
 
   def generate_sku
@@ -46,16 +47,10 @@ class LotItem < ApplicationRecord
 
   def generate_monitor_sku
     code = ''
-    Rails.logger.info('+++++++++++++++++++++')
-    Rails.logger.info('+++++++++++++++++++++')
-    Rails.logger.info( damage_types.ids )
-    Rails.logger.info('+++++++++++++++++++++')
-    Rails.logger.info('+++++++++++++++++++++')
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
-    code += damage_types.ids.to_s
     code += screen
     code += hdmi[0,1]
     code += vga[0,1]
@@ -63,7 +58,7 @@ class LotItem < ApplicationRecord
 
     self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer,
-      model: model, category: category, damage_type: damage_types, screen: screen,
+      model: model, category: category, screen: screen,
       hdmi: hdmi, vga: vga, esata: esata
     )
 
@@ -77,7 +72,6 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
-    code += damage_type.id.to_s
     code += processor.id.to_s
     code += mini_display_port[0,1]
     code += hdmi[0,1]
@@ -87,7 +81,7 @@ class LotItem < ApplicationRecord
 
     self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
-      category: category, damage_type: damage_type, processor: processor,
+      category: category, processor: processor,
       mini_display_port: mini_display_port, hdmi: hdmi, vga: vga, esata: esata, vga_card: vga_card
     )
   end
@@ -98,7 +92,6 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
-    #code += damage_type.id.to_s
     code += processor.id.to_s
     code += hdmi[0,1]
     code += vga[0,1]
@@ -115,7 +108,6 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
-    code += damage_type.id.to_s
     code += processor.id.to_s
     code += screen
     code += webcam[0,1]
@@ -132,7 +124,7 @@ class LotItem < ApplicationRecord
 
     self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
-      category: category, damage_type: damage_type, processor: processor, screen: screen,
+      category: category, processor: processor, screen: screen,
       webcam: webcam, keyboard_type: keyboard_type, wireless: wireless, bluetooth: bluetooth,
       mini_display_port: mini_display_port, hdmi: hdmi, vga: vga, esata: esata,
       bright_keyboard: bright_keyboard, biometric_reader: biometric_reader, vga_card: vga_card
@@ -145,13 +137,12 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
-    code += damage_type.id.to_s
     code += screen
     code += webcam[0,1]
 
     self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
-      category: category, damage_type: damage_type, screen: screen, webcam: webcam
+      category: category, screen: screen, webcam: webcam
     )
   end
 
@@ -161,13 +152,12 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
-    code += damage_type.id.to_s
     code += screen
     code += webcam[0,1]
 
     self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
-      category: category, damage_type: damage_type, screen: screen, webcam: webcam
+      category: category, screen: screen, webcam: webcam
     )
   end
 
@@ -177,12 +167,10 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
-    code += damage_type.id.to_s
 
     self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
-      category: category, damage_type: damage_type
-    )
+      category: category)
   end
 
   def generate_hd_sku

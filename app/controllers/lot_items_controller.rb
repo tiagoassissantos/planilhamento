@@ -12,16 +12,17 @@ class LotItemsController < ApplicationController
 
   def create
     return unless user_logged?
+    damages_types_ids = params[:lot_item][:damage_type_id]
+    damages_types = []
 
     lot = Lot.find( params[:lot_id] )
     lot_item = lot.lot_items.new( lot_item_params )
-    damages = []
-    damage = DamageType.find_by(id: 3)
-    damages << damage
-    Rails.logger.info("KKKKKKKKKKKKKKKKKKKKKKKKKK")
-    Rails.logger.info( lot_item.lot_item_damage_types )
-    Rails.logger.info("kkkkkkkkkkkkkkkkkkkkkkkkkkk")
-    Rails.logger.info('--------------')
+
+    damages_types_ids.each do |id|
+      damage = DamageType.find(id)
+      lot_item.damage_types << damage
+    end
+
     p '-------------------------------------------------+++-'
     p lot_item.to_json
 
@@ -328,7 +329,7 @@ class LotItemsController < ApplicationController
       :category_id, :comments, :processor_id, :disk_type_id,
       :disk_size_id, :parent_id, :screen, :webcam, :keyboard_type_id, :wireless,
       :bluetooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
-      :destination_id, :bar_code, :biometric_reader, :vga_card, damage_type_id: []
+      :destination_id, :bar_code, :biometric_reader, :vga_card
     )
   end
 

@@ -1,4 +1,5 @@
 class DamageType < ApplicationRecord
   belongs_to :hardware_type
-  has_and_belongs_to_many :lot_items
+  has_many :lot_item_damage_types
+  has_many :lot_items, :through => :lot_item_damage_types
 end

@@ -13,7 +13,7 @@ class LotItem < ApplicationRecord
   has_many :lot_item_damage_types
   has_many :damage_types, :through => :lot_item_damage_types
 
-  before_save :generate_sku
+  before_create :generate_sku
 
   def generate_sku
 
@@ -54,12 +54,20 @@ class LotItem < ApplicationRecord
     return code
   end
 
+  def insert_damage_sku(sku, damage_types)
+    damage_types.each do |damage|
+      sku.damage_types << damage
+    end
+    sku.save
+  end
+
   def generate_monitor_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
+    code += damage_code
     code += screen
     code += hdmi[0,1]
     code += vga[0,1]
@@ -71,7 +79,7 @@ class LotItem < ApplicationRecord
       hdmi: hdmi, vga: vga, esata: esata
     )
 
-    #self.sku.damage_types <<
+    insert_damage_sku( self.sku, damage_types)
 
     p '----------------------------------------------------------------------'
     p sku.errors.full_messages
@@ -83,6 +91,7 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
+    code += damage_code
     code += processor.id.to_s
     code += mini_display_port[0,1]
     code += hdmi[0,1]
@@ -95,6 +104,7 @@ class LotItem < ApplicationRecord
       category: category, processor: processor,
       mini_display_port: mini_display_port, hdmi: hdmi, vga: vga, esata: esata, vga_card: vga_card
     )
+    insert_damage_sku( self.sku, damage_types)
   end
 
   def generate_server_sku(damage_code)
@@ -103,6 +113,7 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
+    code += damage_code
     code += processor.id.to_s
     code += hdmi[0,1]
     code += vga[0,1]
@@ -111,6 +122,7 @@ class LotItem < ApplicationRecord
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, processor: processor, hdmi: hdmi, vga: vga
     )
+    insert_damage_sku( self.sku, damage_types)
   end
 
   def generate_notebook_sku(damage_code)
@@ -119,6 +131,7 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
+    code += damage_code
     code += processor.id.to_s
     code += screen
     code += webcam[0,1]
@@ -140,6 +153,7 @@ class LotItem < ApplicationRecord
       mini_display_port: mini_display_port, hdmi: hdmi, vga: vga, esata: esata,
       bright_keyboard: bright_keyboard, biometric_reader: biometric_reader, vga_card: vga_card
     )
+    insert_damage_sku( self.sku, damage_types)
   end
 
   def generate_celular_sku(damage_code)
@@ -148,6 +162,7 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
+    code += damage_code
     code += screen
     code += webcam[0,1]
 
@@ -155,6 +170,7 @@ class LotItem < ApplicationRecord
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, screen: screen, webcam: webcam
     )
+    insert_damage_sku( self.sku, damage_types)
   end
 
   def generate_tablet_sku(damage_code)
@@ -163,6 +179,7 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
+    code += damage_code
     code += screen
     code += webcam[0,1]
 
@@ -170,6 +187,7 @@ class LotItem < ApplicationRecord
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, screen: screen, webcam: webcam
     )
+    insert_damage_sku( self.sku, damage_types)
   end
 
   def generate_switch_sku(damage_code)
@@ -178,10 +196,12 @@ class LotItem < ApplicationRecord
     code += model.manufacturer.id.to_s
     code += model.id.to_s
     code += category.id.to_s
+    code += damage_code
 
     self.sku = Sku.find_or_create_by(
       code: code, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category)
+    insert_damage_sku( self.sku, damage_types)
   end
 
   def generate_hd_sku(damage_code)

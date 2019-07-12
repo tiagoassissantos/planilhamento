@@ -299,8 +299,17 @@ class LotItemsController < ApplicationController
         category = line.category.name
       end
 
-      unless line.damage_type.nil?
-        damage_type = line.damage_type.name
+      unless line.damage_types.nil?
+        damage_types = line.damage_types
+        damage_type = ''
+
+        damage_types.each do |damage|
+          if damage_type == ''
+            damage_type = damage.name
+          else
+            damage_type = damage_type + ' , ' + damage.name
+          end
+        end
       end
 
       case line.vga_card

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_11_140406) do
+ActiveRecord::Schema.define(version: 2019_07_12_145845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,15 @@ ActiveRecord::Schema.define(version: 2019_07_11_140406) do
     t.string "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "sku_damage_types", force: :cascade do |t|
+    t.bigint "sku_id"
+    t.bigint "damage_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["damage_type_id"], name: "index_sku_damage_types_on_damage_type_id"
+    t.index ["sku_id"], name: "index_sku_damage_types_on_sku_id"
   end
 
   create_table "skus", force: :cascade do |t|

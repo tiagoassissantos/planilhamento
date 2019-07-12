@@ -1,0 +1,2 @@
+class SkuDamageType < ApplicationRecord
+end

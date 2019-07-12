@@ -20,32 +20,41 @@ class LotItem < ApplicationRecord
     return unless self.sku.nil?
 
     sku = nil
+    damage_code = generate_code_damage()
 
     case hardware_type.id
     when 1
-      sku = generate_monitor_sku()
+      sku = generate_monitor_sku(damage_code)
     when 2
-      sku = gen_desk_sku()
+      sku = gen_desk_sku(damage_code)
     when 3
-      sku = generate_server_sku()
+      sku = generate_server_sku(damage_code)
     when 4
-      sku = generate_notebook_sku()
+      sku = generate_notebook_sku(damage_code)
     when 5
-      sku = generate_celular_sku()
+      sku = generate_celular_sku(damage_code)
     when 6
-      sku = generate_tablet_sku()
+      sku = generate_tablet_sku(damage_code)
     when 7
-      sku = generate_switch_sku()
+      sku = generate_switch_sku(damage_code)
     when 8
-      sku = generate_hd_sku()
+      sku = generate_hd_sku(damage_code)
     when 9
-      sku = generate_ssd_sku()
+      sku = generate_ssd_sku(damage_code)
     when 10...+1.0/0.0
-      sku = generate_others_sku()
+      sku = generate_others_sku(damage_code)
     end
   end
 
-  def generate_monitor_sku
+  def generate_code_damage
+    code = ''
+    damage_types.each do |damage|
+      code += damage.id.to_s
+    end
+    return code
+  end
+
+  def generate_monitor_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -62,11 +71,13 @@ class LotItem < ApplicationRecord
       hdmi: hdmi, vga: vga, esata: esata
     )
 
+    #self.sku.damage_types <<
+
     p '----------------------------------------------------------------------'
     p sku.errors.full_messages
   end
 
-  def gen_desk_sku
+  def gen_desk_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -86,7 +97,7 @@ class LotItem < ApplicationRecord
     )
   end
 
-  def generate_server_sku
+  def generate_server_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -102,7 +113,7 @@ class LotItem < ApplicationRecord
     )
   end
 
-  def generate_notebook_sku
+  def generate_notebook_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -131,7 +142,7 @@ class LotItem < ApplicationRecord
     )
   end
 
-  def generate_celular_sku
+  def generate_celular_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -146,7 +157,7 @@ class LotItem < ApplicationRecord
     )
   end
 
-  def generate_tablet_sku
+  def generate_tablet_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -161,7 +172,7 @@ class LotItem < ApplicationRecord
     )
   end
 
-  def generate_switch_sku
+  def generate_switch_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -173,7 +184,7 @@ class LotItem < ApplicationRecord
       category: category)
   end
 
-  def generate_hd_sku
+  def generate_hd_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -187,7 +198,7 @@ class LotItem < ApplicationRecord
     )
   end
 
-  def generate_ssd_sku
+  def generate_ssd_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s
@@ -201,7 +212,7 @@ class LotItem < ApplicationRecord
     )
   end
 
-  def generate_others_sku
+  def generate_others_sku(damage_code)
     code = ''
     code += hardware_type.name[0,3]
     code += model.manufacturer.id.to_s

@@ -7,6 +7,9 @@ class Sku < ApplicationRecord
   belongs_to :disk_size, optional: true
   belongs_to :keyboard_type, optional: true
   belongs_to :category, optional: true
-  belongs_to :damage_type, optional: true
+  #belongs_to :damage_type, optional: true
   has_one_attached :archive
+
+  has_many :sku_damage_types
+  has_many :damage_types, :through => :sku_damage_types
 end

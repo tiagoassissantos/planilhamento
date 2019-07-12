@@ -13,7 +13,7 @@ class LotItem < ApplicationRecord
   has_many :lot_item_damage_types
   has_many :damage_types, :through => :lot_item_damage_types
 
-  before_create :generate_sku
+  before_save :generate_sku
 
   def generate_sku
 

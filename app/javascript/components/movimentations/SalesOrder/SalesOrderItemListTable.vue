@@ -157,7 +157,6 @@
       },
 
       answerCall() {
-        console.log('asdkjsajldsajlkdljksadjlksalkdjsajlkdjlksadljkl')
         this.sales_orders_items = []
         this.getSalesOrdersItems();
       },

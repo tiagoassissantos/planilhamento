@@ -1245,7 +1245,7 @@
       selectedSku( sku ) {
        this.$http.get(`/lots/${this.lotId}/get_sku/${sku.id}`)
        .then((result) => {
-         this.lot_item = result.body
+         this.lot_item = result.body.sku
          this.manufacturerId = this.lot_item.manufacturer_id
          this.getModels()
          this.getDamageTypes()

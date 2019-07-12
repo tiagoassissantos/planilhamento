@@ -77,14 +77,14 @@ class LotItemsController < ApplicationController
     render json: lot_item, status: 200
   end
 
-  def get_all_skus #erro por conta do hardware_type_id -> verificar
-    skus = Sku.select('code', 'id').all
+  def get_all_skus
+    skus = Sku.all
     render json: skus, status: 200
   end
 
   def get_sku
     sku = Sku.find_by(id: params[:sku_id])
-    render json: sku, status: 200
+    render :json => {sku: sku} , status: 200
   end
 
   def search_lot

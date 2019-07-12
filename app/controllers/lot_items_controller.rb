@@ -58,13 +58,23 @@ class LotItemsController < ApplicationController
   def update
     return unless user_logged?
 
-    lot_item = LotItem.find( params[:id] )
+    lot_item = LotItem.find( params[:lot_item_id] )
+    damage_types_id = params[:damage_types_id]
 
-    if lot_item.update( lot_item_params )
-      render json: lot_item, status: 200
-    else
-      render json: {'message': lot_item.errors.full_message}, status: :internal_server_error
+    lot_item_damage_type = LotItemDamageType.where(lot_item_id: lot_item.id)
+    lot_item_damage_type.delete_all
+
+    damage_types_id.each do |id|
+      damage = DamageType.find(id)
+      lot_item.damage_types << damage
     end
+
+    destination_id = params[:destination_id]
+    unless destination_id.nil? || destination_id == 'null'
+      lot_item.update_attributes(:destination_id => destination_id)
+    end
+
+    render json: lot_item, status: 200
   end
 
   def get_all_skus #erro por conta do hardware_type_id -> verificar

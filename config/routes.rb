@@ -41,13 +41,13 @@ Rails.application.routes.draw do
   resources :disk_sizes, only: [:index, :create, :destroy, :show, :update]
 
   resources :lots, only: [:index, :create, :destroy, :show, :update] do
-    resources :lot_items, only: [:index, :create, :destroy, :update] do
+    resources :lot_items, only: [:index, :create, :destroy] do
     end
     get 'get_all_skus' => 'lot_items#get_all_skus'
     get 'get_sku/:sku_id' => 'lot_items#get_sku'
   end
 
-  resources :lot_items, only: [:show] do
+  resources :lot_items, only: [:show, :update] do
   end
 
   get 'search_lot/:bar_code/:lot_number/:serial_number/:add_item' => 'lot_items#search_lot'

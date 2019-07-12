@@ -94,6 +94,13 @@
 
           <button class="full-width btn btn-success space-top"> Salvar Alterações </button>
         </form>
+
+        <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
+          <center>
+            <img  class="size-img-modal" src="../../../assets/images/checked.png"/>
+          </center>
+          <p class="my-1"> {{ messageModal }} </p>
+        </b-modal>
       </div> <!-- card body -->
     </div> <!-- card -->
   </div> <!-- app -->
@@ -139,7 +146,10 @@
         lot_item_id: null,
         damageTypes: [],
         destinations: [],
-        new_destination: null
+        new_destination: null,
+
+        showModal: false,
+        messageModal: '',
       }
     },
 
@@ -174,6 +184,7 @@
         await this.$http.get('/destinations')
           .then((resp) => {
             response = resp;
+            this.messageModal = "Item Editado com sucesso."
           })
           .catch((resp) => {
             response = resp;
@@ -185,20 +196,38 @@
       },
 
       async submit() {
+        let response = null
+        let damages_id = []
 
-        let values_id = []
         this.value.forEach( damage => {
-          values_id.push(damage.id)
+          damages_id.push(damage.id)
         });
 
         if( this.new_destination !== null) {
           this.lot_item.destination_id = this.new_destination
         }
 
-        console.log("++++++++++++++++++++")
-        console.log( this.lot_item )
-        console.log("++++++++++++++++++++")
+        await this.$http.put(`/lot_items/${this.lot_item_id}`,
+        JSON.stringify({
+                        lot_item_id: this.lot_item_id,
+                        damage_types_id: damages_id,
+                        destination_id: this.lot_item.destination_id
+                      }))
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.showModal = true
+          setTimeout(function(){
+            this.showModal = false
+            this.$router.push('/maintenance/search-items')
+          }.bind(this), 2000);
+        }
       }
+
     }
   };
 </script>

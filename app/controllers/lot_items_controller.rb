@@ -200,6 +200,7 @@ class LotItemsController < ApplicationController
       damage_type = '',
       vga_card = '',
       sales_number = ''
+      bright_keyboard = ''
 
       unless line.processor.nil?
         processor_name = line.processor.name
@@ -295,6 +296,15 @@ class LotItemsController < ApplicationController
         vga = ''
       end
 
+      case line.bright_keyboard
+      when '2'
+        bright_keyboard = 'Não'
+      when '1'
+        bright_keyboard = 'Sim'
+      else
+        ''
+      end
+
       unless line.category.nil?
         category = line.category.name
       end
@@ -325,7 +335,7 @@ class LotItemsController < ApplicationController
         line.hardware_type.name, line.model.manufacturer.name, line.model.name, line.ram_memory,
         line.serial_number, line.asset_tag, line.bar_code, category, line.comments, damage_type,
         processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard, destination, wireless,
-        bluetooth, mini_display_port, hdmi, vga, esata, line.bright_keyboard, biometric_reader, vga_card, sales_number)
+        bluetooth, mini_display_port, hdmi, vga, esata, bright_keyboard , biometric_reader, vga_card, sales_number)
       sheet1.row(row).height = 20
       row += 1
     end

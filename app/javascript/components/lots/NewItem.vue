@@ -525,14 +525,18 @@
                   <div class="col-sm-6 col-md-4 col-lg-3" v-show='showLuminousKeyboard'>
                     <div class="form-group">
                       <label>Teclado Luminoso</label>
-                      <input
-                        type="text"
+                      <select
                         name="birght_keyboard"
                         class="form-control"
                         v-model='lot_item.bright_keyboard'
                         v-validate.disabled="'required'"
                         :class="{'input': true, 'is-danger': errors.has('birght_keyboard') }"
-                      />
+                      >
+                        <option value="null" selected> Selecione </option>
+                        <option value="1">Sim</option>
+                        <option value="2">Não</option>
+                      </select>
+
                     </div>
                     <span class="error-text" v-show="errors.first('birght_keyboard')"> {{ required_text }} </span>
                   </div>
@@ -1356,6 +1360,7 @@
   .input-size {
     font-size: 12px !important;
   }
+
 </style>
 
 

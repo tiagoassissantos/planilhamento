@@ -25,7 +25,6 @@
           <thead>
             <tr>
               <th scope="col">Editar</th>
-              <th scope="col">Código</th>
               <th scope="col">Núm. Lote</th>
               <th scope="col">Data</th>
             </tr>
@@ -39,8 +38,6 @@
                   <img src='../../../assets/images/editar.png'/>
                 </router-link>
               </td>
-
-              <td>{{lot.id}}</td>
               <td>{{lot.order_number}}</td>
               <td>{{lot.created_at}}</td>
             </tr>

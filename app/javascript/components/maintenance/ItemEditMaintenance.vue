@@ -12,7 +12,6 @@
             <table class="table table-hover table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">Código</th>
                   <th scope="col">Produto</th>
                   <th scope="col">Num. Série</th>
                   <th scope="col">SKU</th>
@@ -20,8 +19,6 @@
                 </tr>
               </thead>
               <tbody>
-                <td>{{ lot_item.id }}</td>
-
                 <td>
                   <span v-if="lot_item.hardware_type != null" >
                     {{ lot_item.hardware_type }}

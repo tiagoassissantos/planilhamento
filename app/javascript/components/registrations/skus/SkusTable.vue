@@ -29,8 +29,7 @@
       <table class="table table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Código</th>
+            <th scope="col">SKU</th>
             <th scope="col">Tipo de Hardware </th>
             <th scope="col">Modelo</th>
             <th scope="col"> Upload de Arqv.</th>
@@ -38,7 +37,6 @@
         </thead>
         <tbody>
           <tr v-for='(sku, index) in skus' :key="index" v-if="regExp( sku )">
-            <td> {{ sku.id }} </td>
             <td> {{ sku.code }} </td>
             <td> {{ sku.hardware_type }} </td>
             <td> {{ sku.model }} </td>

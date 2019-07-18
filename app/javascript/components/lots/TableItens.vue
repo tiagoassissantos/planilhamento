@@ -22,7 +22,6 @@
       <table class="table table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col">Código</th>
             <th scope="col">Produto</th>
             <th scope="col">Num. Série</th>
             <th scope="col">SKU</th>
@@ -34,8 +33,6 @@
         </thead>
       <tbody>
         <tr v-for='(lotItem, index) in lotItems' :key="index" v-if="regExp( lotItem )">
-
-          <td>{{ lotItem.id }}</td>
 
           <td>
             <span v-if="lotItem.hardware_type != null" >

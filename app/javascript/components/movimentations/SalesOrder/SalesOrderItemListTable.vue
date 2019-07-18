@@ -26,7 +26,6 @@
       <table class="table table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col"> Código </th>
             <th scope="col"> Produto </th>
             <th scope="col"> Num. Série </th>
             <th scope="col"> SKU </th>
@@ -37,10 +36,6 @@
         </thead>
         <tbody>
           <tr v-for="(sales_orders_item, index) in sales_orders_items" :key="index" v-if="regExp( sales_orders_item )">
-            <td>
-              {{ sales_orders_item.id }}
-            </td>
-
             <td>
               <span v-if="sales_orders_item.hardware_type != null" >
                 {{ sales_orders_item.hardware_type }}

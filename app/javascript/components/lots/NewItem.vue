@@ -230,6 +230,7 @@
                         label="name"
                         track-by="name"
                         :preselect-first="true"
+                        class="input-size"
                       >
                       </multiselect>
                       <div>
@@ -1350,6 +1351,10 @@
     background: #eee;
     pointer-events: none;
     touch-action: none;
+  }
+
+  .input-size {
+    font-size: 12px !important;
   }
 </style>
 

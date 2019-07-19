@@ -156,6 +156,11 @@
       this.lot_item_id = this.$route.params.lot_item_id
       this.getlot_item()
       this.getDestinations();
+
+
+      setTimeout(function(){
+        this.getDamageTypes();
+      }.bind(this), 2000);
     },
 
     methods: {
@@ -223,7 +228,29 @@
             this.$router.push('/maintenance/search-items')
           }.bind(this), 2000);
         }
-      }
+      },
+
+      async getDamageTypes() {
+        let response = null;
+
+        await this.$http.get(`/damage_types/by-hardware-name/${this.lot_item.hardware_type}`)
+          .then((resp) => {
+            response = resp;
+          })
+          .catch((resp) => {
+            response = resp;
+          })
+
+        if (response.status == 200) {
+          this.damageTypes = response.body;
+
+        } else {
+          this.error = true
+          this.messageClass = "danger"
+          this.message = "Erro ao carregar os dados."
+        }
+
+      },
 
     }
   };

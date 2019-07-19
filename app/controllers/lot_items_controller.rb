@@ -12,7 +12,8 @@ class LotItemsController < ApplicationController
 
   def create
     return unless user_logged?
-    verify_bar_code = LotItem.where.not(destination: 4).where(bar_code: lot_item_params[:bar_code])
+    verify_bar_code = LotItem.where.not(bar_code: nil).where(bar_code: lot_item_params[:bar_code])
+
     unless verify_bar_code.size == 0
       render json: {'message': "Código de Barras já utilizado"}, status: :internal_server_error
       return
@@ -371,7 +372,17 @@ v    end
       return lot_items
     end
     if add_item == 'false'
-      lot_items = LotItem.where(bar_code: bar_code)
+      lot_items = []
+      lot = LotItem.where(bar_code: bar_code)
+
+      index = 0
+      while index < lot.length
+        if lot[index].lot.status == 'closed'
+          lot_items << lot[index]
+        end
+        index+= 1
+      end
+
       return lot_items
     end
     if add_item == 'devolution'
@@ -383,9 +394,6 @@ v    end
   def search_with_lot_number( lot_number, add_item )
     if add_item == 'true'
       lot_items = LotItem.where(lot_id: lot_number).where.not(destination_id: 2).where.not(destination_id: 4)
-      Rails.logger.info("++++++++++++")
-      Rails.logger.info( lot_items.to_json )
-      Rails.logger.info("++++++++++++")
       return lot_items
     end
     if add_item == 'false'
@@ -400,7 +408,17 @@ v    end
       return lot_items
     end
     if add_item == 'false'
-      lot_items = LotItem.where(serial_number: serial_number)
+      lot_items = []
+      lot = LotItem.where(serial_number: serial_number)
+
+      index = 0
+      while index < lot.length
+        if lot[index].lot.status == 'closed'
+          lot_items << lot[index]
+        end
+        index+= 1
+      end
+
       return lot_items
     end
     if add_item == 'devolution'

@@ -133,7 +133,10 @@
         var hardware_type = lotItem.hardware_type.toLowerCase()
         var destination = lotItem.destination.toLowerCase()
         var bar_code = lotItem.bar_code.toLowerCase()
-        var category = lotItem.category.toLowerCase()
+        var category = ''
+        if( lotItem.category != null) {
+          category = lotItem.category.toLowerCase()
+        }
         var sku = lotItem.sku_id.toLowerCase()
 
         if( this.input === null) {

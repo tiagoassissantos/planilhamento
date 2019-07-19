@@ -12,6 +12,12 @@ class LotItemsController < ApplicationController
 
   def create
     return unless user_logged?
+    verify_bar_code = LotItem.where.not(destination: 4).where(bar_code: lot_item_params[:bar_code])
+    unless verify_bar_code.size == 0
+      render json: {'message': "Código de Barras já utilizado"}, status: :internal_server_error
+      return
+    end
+
     damages_types_ids = params[:lot_item][:damage_type_id]
     damages_types = []
 
@@ -29,8 +35,7 @@ class LotItemsController < ApplicationController
     if lot_item.save
       render json: lot_item, status: :ok
     else
-      render json: {'message': lot_item.errors.full_messages}, status: :internal_server_error
-    end
+v    end
   end
 
 
@@ -302,7 +307,7 @@ class LotItemsController < ApplicationController
       when '1'
         bright_keyboard = 'Sim'
       else
-        ''
+        bright_keyboard = ''
       end
 
       unless line.category.nil?
@@ -362,7 +367,7 @@ class LotItemsController < ApplicationController
   def search_with_bar_code( bar_code, add_item )
 
     if add_item === 'true'
-      lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2)
+      lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2).where.not(destination_id: 4)
       return lot_items
     end
     if add_item == 'false'
@@ -377,7 +382,10 @@ class LotItemsController < ApplicationController
 
   def search_with_lot_number( lot_number, add_item )
     if add_item == 'true'
-      lot_items = LotItem.where(lot_id: lot_number).where.not(destination_id: 2)
+      lot_items = LotItem.where(lot_id: lot_number).where.not(destination_id: 2).where.not(destination_id: 4)
+      Rails.logger.info("++++++++++++")
+      Rails.logger.info( lot_items.to_json )
+      Rails.logger.info("++++++++++++")
       return lot_items
     end
     if add_item == 'false'
@@ -388,7 +396,7 @@ class LotItemsController < ApplicationController
 
   def search_with_serial_number( serial_number, add_item )
     if add_item == 'true'
-      lot_items = LotItem.where(serial_number: serial_number).where.not(destination_id: 2)
+      lot_items = LotItem.where(serial_number: serial_number).where.not(destination_id: 2).where.not(destination_id: 4)
       return lot_items
     end
     if add_item == 'false'

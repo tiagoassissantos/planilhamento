@@ -11,14 +11,24 @@
 
       <div class="card-body"> <!-- =================== -->
         <div class="input-group">
-          <vue-bootstrap-typeahead  class="width-complete" v-model="query"
-          :data="skus" :serializer="s => s.code"  :minMatchingChars="0"
-          placeholder="Insira o SKU"  @hit="selectedSku($event)"/>
+          <vue-bootstrap-typeahead
+            class="width-complete"
+            v-model="query"
+            :data="skus"
+            :serializer="s => s.code"
+            :minMatchingChars="0"
+            placeholder="Insira o SKU"
+            @hit="selectedSku($event)" />
+
           <div class="input-group-append" id="button-addon4">
             <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
           </div>
 
           <div class="card">
+            <div>
+              <b-alert show variant="danger" v-if="error"> {{ message }} </b-alert>
+            </div>
+
             <div class="card-body">
               <div class="container">
 
@@ -1009,6 +1019,9 @@
           this.messageClass = "danger";
           this.error = true;
           this.message = response.body.message;
+          console.log('++++++++++++++')
+          console.log(this.message)
+          console.log('++++++++++++++')
         }
         this.lot_item.damage_type_id = []
       },

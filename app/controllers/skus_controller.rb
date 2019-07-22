@@ -16,6 +16,13 @@ class SkusController < ApplicationController
     Rails.logger.error e.backtrace
   end
 
+  def delete_archive
+    sku = Sku.find(params[:sku_id])
+    if sku.archive.purge
+      render json: {'message': 'Arquivo removido com sucesso'}, status: :ok
+    end
+  end
+
   def show
     sku = Sku.find_by(id: params[:id])
     render json: sku, status: :ok

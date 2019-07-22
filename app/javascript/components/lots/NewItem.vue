@@ -977,15 +977,10 @@
 
       async submit() {
         this.lot_item.damage_type_id = []
-        console.log('???????????????????')
-        console.log( this.lot_item )
         this.value.forEach(damageType => {
           this.lot_item.damage_type_id.push(damageType.id)
         })
 
-        console.log('++++++++++++')
-        console.log(this.lot_item)
-        console.log('++++++++++++')
         this.$validator.validate().then((result) => {});
         this.registrationOrEdit()
       },

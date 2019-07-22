@@ -12,6 +12,13 @@ class LotItemsController < ApplicationController
 
   def create
     return unless user_logged?
+    verify_bar_code = LotItem.where.not(bar_code: nil).where(bar_code: lot_item_params[:bar_code])
+
+    unless verify_bar_code.size == 0
+      render json: {'message': "Código de Barras já utilizado"}, status: :internal_server_error
+      return
+    end
+
     damages_types_ids = params[:lot_item][:damage_type_id]
     damages_types = []
 
@@ -29,8 +36,7 @@ class LotItemsController < ApplicationController
     if lot_item.save
       render json: lot_item, status: :ok
     else
-      render json: {'message': lot_item.errors.full_messages}, status: :internal_server_error
-    end
+v    end
   end
 
 
@@ -200,6 +206,7 @@ class LotItemsController < ApplicationController
       damage_type = '',
       vga_card = '',
       sales_number = ''
+      bright_keyboard = ''
 
       unless line.processor.nil?
         processor_name = line.processor.name
@@ -295,6 +302,15 @@ class LotItemsController < ApplicationController
         vga = ''
       end
 
+      case line.bright_keyboard
+      when '2'
+        bright_keyboard = 'Não'
+      when '1'
+        bright_keyboard = 'Sim'
+      else
+        bright_keyboard = ''
+      end
+
       unless line.category.nil?
         category = line.category.name
       end
@@ -325,7 +341,7 @@ class LotItemsController < ApplicationController
         line.hardware_type.name, line.model.manufacturer.name, line.model.name, line.ram_memory,
         line.serial_number, line.asset_tag, line.bar_code, category, line.comments, damage_type,
         processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard, destination, wireless,
-        bluetooth, mini_display_port, hdmi, vga, esata, line.bright_keyboard, biometric_reader, vga_card, sales_number)
+        bluetooth, mini_display_port, hdmi, vga, esata, bright_keyboard , biometric_reader, vga_card, sales_number)
       sheet1.row(row).height = 20
       row += 1
     end
@@ -352,11 +368,21 @@ class LotItemsController < ApplicationController
   def search_with_bar_code( bar_code, add_item )
 
     if add_item === 'true'
-      lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2)
+      lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2).where.not(destination_id: 4)
       return lot_items
     end
     if add_item == 'false'
-      lot_items = LotItem.where(bar_code: bar_code)
+      lot_items = []
+      lot = LotItem.where(bar_code: bar_code)
+
+      index = 0
+      while index < lot.length
+        if lot[index].lot.status == 'closed'
+          lot_items << lot[index]
+        end
+        index+= 1
+      end
+
       return lot_items
     end
     if add_item == 'devolution'
@@ -367,7 +393,7 @@ class LotItemsController < ApplicationController
 
   def search_with_lot_number( lot_number, add_item )
     if add_item == 'true'
-      lot_items = LotItem.where(lot_id: lot_number).where.not(destination_id: 2)
+      lot_items = LotItem.where(lot_id: lot_number).where.not(destination_id: 2).where.not(destination_id: 4)
       return lot_items
     end
     if add_item == 'false'
@@ -378,11 +404,21 @@ class LotItemsController < ApplicationController
 
   def search_with_serial_number( serial_number, add_item )
     if add_item == 'true'
-      lot_items = LotItem.where(serial_number: serial_number).where.not(destination_id: 2)
+      lot_items = LotItem.where(serial_number: serial_number).where.not(destination_id: 2).where.not(destination_id: 4)
       return lot_items
     end
     if add_item == 'false'
-      lot_items = LotItem.where(serial_number: serial_number)
+      lot_items = []
+      lot = LotItem.where(serial_number: serial_number)
+
+      index = 0
+      while index < lot.length
+        if lot[index].lot.status == 'closed'
+          lot_items << lot[index]
+        end
+        index+= 1
+      end
+
       return lot_items
     end
     if add_item == 'devolution'

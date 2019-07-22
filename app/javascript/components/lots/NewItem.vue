@@ -11,14 +11,24 @@
 
       <div class="card-body"> <!-- =================== -->
         <div class="input-group">
-          <vue-bootstrap-typeahead  class="width-complete" v-model="query"
-          :data="skus" :serializer="s => s.code"  :minMatchingChars="0"
-          placeholder="Insira o SKU"  @hit="selectedSku($event)"/>
+          <vue-bootstrap-typeahead
+            class="width-complete"
+            v-model="query"
+            :data="skus"
+            :serializer="s => s.code"
+            :minMatchingChars="0"
+            placeholder="Insira o SKU"
+            @hit="selectedSku($event)" />
+
           <div class="input-group-append" id="button-addon4">
             <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
           </div>
 
           <div class="card">
+            <div>
+              <b-alert show variant="danger" v-if="error"> {{ message }} </b-alert>
+            </div>
+
             <div class="card-body">
               <div class="container">
 
@@ -230,6 +240,7 @@
                         label="name"
                         track-by="name"
                         :preselect-first="true"
+                        class="input-size"
                       >
                       </multiselect>
                       <div>
@@ -524,14 +535,18 @@
                   <div class="col-sm-6 col-md-4 col-lg-3" v-show='showLuminousKeyboard'>
                     <div class="form-group">
                       <label>Teclado Luminoso</label>
-                      <input
-                        type="text"
+                      <select
                         name="birght_keyboard"
                         class="form-control"
                         v-model='lot_item.bright_keyboard'
                         v-validate.disabled="'required'"
                         :class="{'input': true, 'is-danger': errors.has('birght_keyboard') }"
-                      />
+                      >
+                        <option value="null" selected> Selecione </option>
+                        <option value="1">Sim</option>
+                        <option value="2">Não</option>
+                      </select>
+
                     </div>
                     <span class="error-text" v-show="errors.first('birght_keyboard')"> {{ required_text }} </span>
                   </div>
@@ -961,11 +976,16 @@
       },
 
       async submit() {
-
+        this.lot_item.damage_type_id = []
+        console.log('???????????????????')
+        console.log( this.lot_item )
         this.value.forEach(damageType => {
           this.lot_item.damage_type_id.push(damageType.id)
         })
 
+        console.log('++++++++++++')
+        console.log(this.lot_item)
+        console.log('++++++++++++')
         this.$validator.validate().then((result) => {});
         this.registrationOrEdit()
       },
@@ -1004,6 +1024,9 @@
           this.messageClass = "danger";
           this.error = true;
           this.message = response.body.message;
+          console.log('++++++++++++++')
+          console.log(this.message)
+          console.log('++++++++++++++')
         }
         this.lot_item.damage_type_id = []
       },
@@ -1351,6 +1374,11 @@
     pointer-events: none;
     touch-action: none;
   }
+
+  .input-size {
+    font-size: 12px !important;
+  }
+
 </style>
 
 

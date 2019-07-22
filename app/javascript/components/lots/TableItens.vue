@@ -22,7 +22,6 @@
       <table class="table table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col">Código</th>
             <th scope="col">Produto</th>
             <th scope="col">Num. Série</th>
             <th scope="col">SKU</th>
@@ -34,8 +33,6 @@
         </thead>
       <tbody>
         <tr v-for='(lotItem, index) in lotItems' :key="index" v-if="regExp( lotItem )">
-
-          <td>{{ lotItem.id }}</td>
 
           <td>
             <span v-if="lotItem.hardware_type != null" >
@@ -188,13 +185,25 @@
         var lotItem_id = lotItem.id.toString()
         var hardware_type = lotItem.hardware_type.toLowerCase()
         var destination = lotItem.destination.toLowerCase()
+        var serial_number = lotItem.serial_number.toString()
+
+        var bar_code = ''
+        var category = ''
+
+        if( lotItem.category != null) {
+          var category = lotItem.category.toLowerCase()
+        }
+
+        if ( lotItem.bar_code != null ) {
+          var bar_code = lotItem.bar_code.toString()
+        }
 
         if( this.input === null) {
           return true
         }else {
           this.input = this.input.toLowerCase()
           if( lotItem_id.match(this.input) || hardware_type.match(this.input) || serial_number.match(this.input)
-             || destination.match(this.input)) {
+             || destination.match(this.input) || category.match(this.input) || bar_code.match(this.input) ) {
             return true
           }else {
             return false

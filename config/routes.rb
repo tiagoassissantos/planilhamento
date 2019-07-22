@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 
   resources :damage_types, only: [:index, :create, :destroy, :show, :update]
   get 'damage_types/by-hardware-type/:hardware_type_id' => 'damage_types#by_hardware_type'
+  get 'damage_types/by-hardware-name/:hardware_type_name' => 'damage_types#by_hardware_name'
+
 
   resources :keyboard_types, only: [:index, :create, :destroy, :show, :update]
   resources :destinations, only: [:index, :create, :destroy, :show, :update]

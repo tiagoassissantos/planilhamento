@@ -59,6 +59,12 @@ class DamageTypesController < ApplicationController
     render json: damage_types, status: :ok
   end
 
+  def by_hardware_name
+    return unless user_logged?
+    hardware_type = HardwareType.find_by(name: params[:hardware_type_name])
+    damage_types = DamageType.where( hardware_type_id: hardware_type.id )
+    render json: damage_types, status: :ok
+  end
 
   def update
     return unless user_logged?

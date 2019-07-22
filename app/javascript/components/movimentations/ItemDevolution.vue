@@ -11,14 +11,14 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label> Código de barras </label>
-                <input class="form-control" type="number" v-model="search_lot.bar_code" placeholder="Código de Barras"/>
+                <input class="form-control" type="text" v-model="search_lot.bar_code" placeholder="Código de Barras"/>
               </div>
             </div>
 
             <div class="col-sm-4">
               <div class="form-group">
                 <label> Número da Série  </label>
-                <input class="form-control" type="number" v-model="search_lot.serial_number" placeholder="Número de Série"/>
+                <input class="form-control" type="text" v-model="search_lot.serial_number" placeholder="Número de Série"/>
               </div>
             </div>
 

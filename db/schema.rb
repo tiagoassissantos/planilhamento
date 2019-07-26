@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_12_145845) do
+ActiveRecord::Schema.define(version: 2019_07_26_164227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,8 +95,8 @@ ActiveRecord::Schema.define(version: 2019_07_12_145845) do
   create_table "lot_items", force: :cascade do |t|
     t.bigint "hardware_type_id"
     t.bigint "model_id"
-    t.string "ram_memory"
-    t.string "serial_number"
+    t.string "ram_memory", null: false
+    t.string "serial_number", null: false
     t.string "asset_tag"
     t.bigint "category_id"
     t.string "comments"
@@ -107,15 +107,10 @@ ActiveRecord::Schema.define(version: 2019_07_12_145845) do
     t.string "screen"
     t.string "webcam"
     t.bigint "keyboard_type_id"
-    t.string "wireless"
     t.string "bluetooth"
-    t.string "mini_display_port"
-    t.string "hdmi"
-    t.string "vga"
-    t.string "esata"
     t.string "bright_keyboard"
     t.bigint "destination_id"
-    t.string "bar_code"
+    t.string "bar_code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "biometric_reader"
@@ -123,6 +118,7 @@ ActiveRecord::Schema.define(version: 2019_07_12_145845) do
     t.integer "lot_id"
     t.integer "sku_id"
     t.bigint "sales_order_id"
+    t.string "color"
     t.index ["category_id"], name: "index_lot_items_on_category_id"
     t.index ["destination_id"], name: "index_lot_items_on_destination_id"
     t.index ["disk_size_id"], name: "index_lot_items_on_disk_size_id"
@@ -180,12 +176,7 @@ ActiveRecord::Schema.define(version: 2019_07_12_145845) do
     t.string "code"
     t.string "screen"
     t.string "webcam"
-    t.string "wireless"
     t.string "bluetooth"
-    t.string "mini_display_port"
-    t.string "hdmi"
-    t.string "vga"
-    t.string "esata"
     t.string "bright_keyboard"
     t.string "biometric_reader"
     t.string "vga_card"
@@ -200,6 +191,8 @@ ActiveRecord::Schema.define(version: 2019_07_12_145845) do
     t.bigint "keyboard_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ram_memory"
+    t.string "color"
     t.index ["category_id"], name: "index_skus_on_category_id"
     t.index ["damage_type_id"], name: "index_skus_on_damage_type_id"
     t.index ["disk_size_id"], name: "index_skus_on_disk_size_id"

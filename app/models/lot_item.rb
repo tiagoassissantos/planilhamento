@@ -49,8 +49,7 @@ class LotItem < ApplicationRecord
   def generate_monitor_sku()
     self.sku = Sku.find_or_create_by(
       code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer,
-      model: model, category: category, screen: screen,
-      hdmi: hdmi, vga: vga, esata: esata
+      model: model, category: category, screen: screen
     )
 
     p '----------------------------------------------------------------------'
@@ -60,15 +59,14 @@ class LotItem < ApplicationRecord
   def gen_desk_sku()
     self.sku = Sku.find_or_create_by(
       code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
-      category: category, processor: processor,
-      mini_display_port: mini_display_port, hdmi: hdmi, vga: vga, esata: esata, vga_card: vga_card
+      category: category, processor: processor, vga_card: vga_card
     )
   end
 
   def generate_server_sku()
     self.sku = Sku.find_or_create_by(
       code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
-      category: category, processor: processor, hdmi: hdmi, vga: vga
+      category: category, processor: processor
     )
   end
 
@@ -76,23 +74,22 @@ class LotItem < ApplicationRecord
     self.sku = Sku.find_or_create_by(
       code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, processor: processor, screen: screen,
-      webcam: webcam, keyboard_type: keyboard_type, wireless: wireless, bluetooth: bluetooth,
-      mini_display_port: mini_display_port, hdmi: hdmi, vga: vga, esata: esata,
-      bright_keyboard: bright_keyboard, biometric_reader: biometric_reader, vga_card: vga_card
+      webcam: webcam, keyboard_type: keyboard_type, bluetooth: bluetooth, bright_keyboard: bright_keyboard,
+      biometric_reader: biometric_reader, vga_card: vga_card
     )
   end
 
   def generate_celular_sku()
     self.sku = Sku.find_or_create_by(
       code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
-      category: category, screen: screen, webcam: webcam
+      category: category, screen: screen, webcam: webcam, ram_memory: ram_memory, disk_size: disk_size, color: color
     )
   end
 
   def generate_tablet_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
-      category: category, screen: screen, webcam: webcam
+      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model, disk_size: disk_size,
+      category: category, screen: screen, webcam: webcam, color: color
     )
   end
 

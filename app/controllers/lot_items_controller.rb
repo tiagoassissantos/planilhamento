@@ -167,7 +167,7 @@ class LotItemsController < ApplicationController
     sheet1 = book.create_worksheet
     sheet1.name = 'Itens de lote'
 
-    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'DESTINO', 'GRUPO DE ESTOQUE', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'BLUETOOTH', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO', 'NÚMERO PEDIDO VENDA', 'COR')
+    sheet1.row(0).push('TIPO DE HARDWARE','LOTE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'DESTINO', 'GRUPO DE ESTOQUE', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'BLUETOOTH', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO', 'NÚMERO PEDIDO VENDA', 'COR')
 
     format = Spreadsheet::Format.new :weight => :bold,:size => 11
     sheet1.row(0).height = 30
@@ -289,7 +289,7 @@ class LotItemsController < ApplicationController
 
 
       sheet1.row(row).push(
-        line.hardware_type.name, line.model.manufacturer.name, line.model.name, line.ram_memory,
+        line.hardware_type.name, line.lot_id, line.model.manufacturer.name, line.model.name, line.ram_memory,
         line.serial_number, line.asset_tag, line.bar_code, destination, category, line.comments, damage_type,
         processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard,
         bluetooth, bright_keyboard , biometric_reader, vga_card, sales_number, line.color)

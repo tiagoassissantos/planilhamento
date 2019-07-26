@@ -201,9 +201,8 @@
         if( this.input === null) {
           return true
         }else {
-          this.input = this.input.toLowerCase()
-          if( lotItem_id.match(this.input) || hardware_type.match(this.input) || serial_number.match(this.input)
-             || destination.match(this.input) || category.match(this.input) || bar_code.match(this.input) ) {
+          if( lotItem_id.match(this.input.toLowerCase()) || hardware_type.match(this.input.toLowerCase()) || serial_number.match(this.input.toLowerCase())
+             || destination.match(this.input.toLowerCase()) || category.match(this.input.toLowerCase()) || bar_code.match(this.input.toLowerCase()) ) {
             return true
           }else {
             return false

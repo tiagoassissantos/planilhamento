@@ -63,5 +63,7 @@ Rails.application.routes.draw do
     delete 'item_devolution' => 'sales_orders#item_devolution'
   end
 
-  resources :skus, only: [:index, :update, :show]
+  resources :skus, only: [:index, :update, :show] do
+    delete 'delete_archive' => 'skus#delete_archive'
+  end
 end

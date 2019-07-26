@@ -32,7 +32,7 @@
             <th scope="col">SKU</th>
             <th scope="col">Tipo de Hardware </th>
             <th scope="col">Modelo</th>
-            <th scope="col"> Upload de Arqv.</th>
+            <th scope="col"> Arquivo </th>
           </tr>
         </thead>
         <tbody>
@@ -41,9 +41,15 @@
             <td> {{ sku.hardware_type }} </td>
             <td> {{ sku.model }} </td>
             <td>
-              <router-link :to="{ path:`/skus/${sku.id}/archive`}" class="btn btn-success">
+              <router-link :to="{ path:`/skus/${sku.id}/archive`}" class="btn btn-success" v-if="sku.archive == 'false'">
                 Upload
               </router-link>
+              <a :href="sku.archive" target="_blank" class="btn btn-info" v-if="sku.archive != 'false'">
+                Download
+              </a>
+              <span target="_blank" class="btn btn-danger" v-if="sku.archive != 'false'" @click="deleteArchive(sku.id)">
+                Excluir
+              </span>
             </td>
           </tr>
         </tbody>
@@ -63,7 +69,8 @@
         showAlert: false,
         message: '',
         messageClass: '',
-        input: null
+        input: null,
+        way: ''
       }
     },
 
@@ -114,8 +121,20 @@
             return false
           }
         }
-      }
+      },
 
+      async deleteArchive( sku_id ) {
+        let response = null
+
+        this.$http.delete(`/skus/${sku_id}/delete_archive`)
+        .then((result) => {
+          response = result
+          this.skus = []
+          this.getSkus()
+        }).catch((err) => {
+          response = err
+        });
+      }
     }
   };
 </script>

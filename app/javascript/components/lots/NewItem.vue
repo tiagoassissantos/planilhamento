@@ -149,6 +149,17 @@
                     </div>
                   </div>
 
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull'>
+                    <div class="form-group">
+                      <label>Memória RAM</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model='lot_item.ram_memory'
+                      />
+                    </div>
+                  </div>
+
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group">
                       <label>Número de Série</label>
@@ -164,7 +175,7 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-6 col-md-4 col-lg-3" v-if="showNumberOfSerieandAssetTag">
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show="showAssetTag">
                     <div class="form-group">
                       <label>Asset TAG</label>
                       <input
@@ -172,10 +183,7 @@
                         name="asset_tag"
                         class="form-control"
                         v-model='lot_item.asset_tag'
-                        v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('asset_tag') }"
                       />
-                      <span class="error-text" v-show="errors.first('asset_tag')"> {{ required_text }} </span>
                     </div>
                   </div>
 
@@ -210,18 +218,39 @@
                     </div>
                   </div>
 
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull'>
+                    <div class="form-group">
+                      <label>Categoria</label>
+                      <select
+                        class="form-control"
+                        type="text"
+                        v-model='lot_item.category_id'
+                      >
+                        <option value='null'> Selecionar Categoria </option>
+                        <option v-for='(category, index) in categories' :key="index" :value='category.id'>
+                          {{category.name}}
+                        </option>
+                      </select>
+                      <div>
+                        <p class="link-new" id="modal-4" @click="toggleModal('my-modal-3','modal-4')">Cadastre nova Categoria</p>
+                        <b-modal ref="my-modal-3" size="lg" hide-footer title="Nova Categoria">
+                          <div class="d-block text-center">
+                            <new-categories modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(4, 'my-modal-3')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group">
                       <label>Comentários</label>
                       <input
                         type="text"
-                        name="coments"
                         class="form-control"
                         v-model='lot_item.comments'
-                        v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('coments') }"
                       />
-                      <span class="error-text" v-show="errors.first('coments')"> {{ required_text }} </span>
                     </div>
                   </div>
 
@@ -288,9 +317,37 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showDiskFields'>
+                                    <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull'>
                     <div class="form-group">
-                      <label>Tamanho do HD</label>
+                      <label>Processador</label>
+                      <select
+                        class="form-control"
+                        type="text"
+                        v-model='lot_item.processor_id'
+                      >
+                        <option value='null'> Selecione o processador </option>
+                        <option v-for='(processor, index) in processors' :key="index" :value='processor.id'>
+                          {{processor.name}}
+                        </option>
+                      </select>
+
+                      <div>
+                        <p class="link-new" id="modal-7" @click="toggleModal('my-modal-6','modal-7')">Cadastre novo Processador</p>
+                        <b-modal ref="my-modal-6" size="lg" hide-footer title="Novo Processador">
+                          <div class="d-block text-center">
+                            <new-processors modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(5, 'my-modal-6')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showDiskSize'>
+                    <div class="form-group">
+                      <label>Tamanho do Armazenamento</label>
                       <select
                         class="form-control"
                         name="disk_size"
@@ -316,6 +373,33 @@
                       </div>
 
                       <span class="error-text" v-show="errors.first('disk_size')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull && showNewOthersAccNull'>
+                    <div class="form-group">
+                      <label>Tamanho do Armazenamento</label>
+                      <select
+                        class="form-control"
+                        type="text"
+                        v-model='lot_item.disk_size_id'
+                      >
+                        <option value='null' > Selecione o Tamanho do HD </option>
+                        <option v-for='(diskSize, index) in diskSizes' :key="index" :value='diskSize.id'>
+                          {{diskSize.name}}
+                        </option>
+                      </select>
+
+                      <div>
+                        <p class="link-new" id="modal-9" @click="toggleModal('my-modal-8','modal-9')">Cadastre novo Tamanho do HD</p>
+                        <b-modal ref="my-modal-8" size="lg" hide-footer title="Novo tamanho do HD">
+                          <div class="d-block text-center">
+                            <disk-sizes modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(7, 'my-modal-8')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                     </div>
                   </div>
 
@@ -350,16 +434,42 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showDiskFields'>
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull && showNewOthersAccNull'>
+                    <div class="form-group">
+                      <label>Tipo</label>
+                      <select
+                        class="form-control"
+                        type="text"
+                        v-model='lot_item.disk_type_id'
+                      >
+                        <option value='null'>Selecione Tipo de HD </option>
+                        <option v-for='(diskType, index) in diskTypes' :key="index" :value='diskType.id'>
+                          {{diskType.name}}
+                        </option>
+                      </select>
+
+                      <div>
+                        <p class="link-new" id="modal-10" @click="toggleModal('my-modal-9','modal-10')">Cadastre novo Tipo de HD</p>
+                        <b-modal ref="my-modal-9" size="lg" hide-footer title="Novo Tipo de HD">
+                          <div class="d-block text-center">
+                            <disk-sizes modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(8, 'my-modal-9')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showParentId'>
                     <div class="form-group">
                       <label>Parent (ID)</label>
                       <input
                         type="text"
                         name="parent_id"
                         class="form-control"
-                        v-model='lot_item.parent_id' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('parent_id') }" />
-                      <span class="error-text" v-show="errors.first('parent_id')"> {{ required_text }} </span>
+                        v-model='lot_item.parent_id'
+                      />
                     </div>
                   </div>
 
@@ -377,6 +487,17 @@
                     </div>
                   </div>
 
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull && showNewOthersAccNull'>
+                    <div class="form-group">
+                      <label>Tela (Polegadas)</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model='lot_item.screen'
+                      />
+                    </div>
+                  </div>
+
                   <div class="col-sm-6 col-md-4 col-lg-3" v-show='showWebcam'>
                     <div class="form-group">
                       <label>Webcam</label>
@@ -391,6 +512,20 @@
                         <option value="13">Não</option>
                       </select>
                       <span class="error-text" v-show="errors.first('webcam')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull && showNewOthersAccNull'>
+                    <div class="form-group">
+                      <label>Webcam</label>
+                      <select
+                        class="form-control"
+                        v-model='lot_item.webcam'
+                      >
+                        <option value="null" selected>Selecione</option>
+                        <option value="12">Sim</option>
+                        <option value="13">Não</option>
+                      </select>
                     </div>
                   </div>
 
@@ -425,23 +560,33 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showWireless'>
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull && showNewOthersAccNull'>
                     <div class="form-group">
-                      <label>Wireless</label>
+                      <label>Tipo Teclado</label>
                       <select
                         class="form-control"
-                        name="wireless"
-                        v-model='lot_item.wireless'
-                        v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('wireless') }"
+                        type="text"
+                        v-model='lot_item.keyboard_type_id'
                       >
-                        <option value="null" selected>Selecione</option>
-                        <option value="12">Sim</option>
-                        <option value="13">Não</option>
+                        <option value='null'> Selecione Novo Tipo de Teclado </option>
+                        <option v-for='(keyboardType, index) in keyboardTypes' :key="index" :value='keyboardType.id'>
+                          {{keyboardType.name}}
+                        </option>
                       </select>
-                      <span class="error-text" v-show="errors.first('wireless')"> {{ required_text }} </span>
+
+                      <div>
+                        <p class="link-new" id="modal-8" size="lg" @click="toggleModal('my-modal-7','modal-8')">Cadastre novo Tipo de Teclado</p>
+                        <b-modal ref="my-modal-7" hide-footer title="Novo Tipo de Teclado">
+                          <div class="d-block text-center">
+                            <new-keyboard-types modal_params="Cadastre"/>
+                          </div>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(6, 'my-modal-7')"> Fechar </b-button>
+                        </b-modal>
+                      </div>
+
                     </div>
                   </div>
+
 
                   <div class="col-sm-6 col-md-4 col-lg-3" v-show='showBluetooth'>
                     <div class="form-group">
@@ -461,74 +606,25 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-6 col-md-4 col-lg-3"  v-show='showMiniDisplayPort'>
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showColors'>
                     <div class="form-group">
-                      <label>Mini Display Port</label>
-                      <select
-                        class="form-control"
-                        name="mini-display"
-                        v-model='lot_item.mini_display_port'
-                        v-validate.disabled="'required|min_value:12'"
-                        :class="{'input': true, 'is-danger': errors.has('mini-display') }"
-                      >
-                        <option value="null" selected>Selecione</option>
-                        <option value="12">Sim</option>
-                        <option value="13">Não</option>
-                      </select>
+                      <label>Cor</label>
 
-                      <span class="error-text" v-show="errors.first('mini-display')"> {{ required_text }} </span>
+                      <input
+                        type="text"
+                        name="color"
+                        class="form-control"
+                        v-model='lot_item.color' v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('color') }" />
+
+                      <span class="error-text" v-show="errors.first('color')"> {{ required_text }} </span>
                     </div>
                   </div>
 
-                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showHdmihVgaEsata'>
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='lot_item.hardware_type_id == 10'>
                     <div class="form-group">
-                      <label>HDMI</label>
-                      <select
-                        class="form-control"
-                        name="hdmi"
-                        v-model='lot_item.hdmi'
-                        v-validate.disabled="'required|min_value:12'"
-                        :class="{'input': true, 'is-danger': errors.has('hdmi') }"
-                      >
-                        <option value="null"> Selecione </option>
-                        <option value="12">Sim</option>
-                        <option value="13">Não</option>
-                      </select>
-                      <span class="error-text" v-show="errors.first('hdmi')"> {{ required_text }} </span>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showHdmihVgaEsata'>
-                    <div class="form-group">
-                      <label>VGA</label>
-                      <select
-                        class="form-control"
-                        name="vga"
-                        v-model='lot_item.vga'
-                        v-validate.disabled="'required|min_value:12'"
-                        :class="{'input': true, 'is-danger': errors.has('vga') }">
-                        <option value="null" > Cadastre VGA</option>
-                        <option value="12">Sim</option>
-                        <option value="13">Não</option>
-                      </select>
-                      <span class="error-text" v-show="errors.first('vga')"> {{ required_text }} </span>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showEsata'>
-                    <div class="form-group">
-                      <label>eSata</label>
-                      <select
-                        class="form-control"
-                        name="esata"
-                        v-model='lot_item.esata'
-                        v-validate.disabled="'required|min_value:1'"
-                        :class="{'input': true, 'is-danger': errors.has('esata') }" >
-                        <option value="null" selected> Selecione </option>
-                        <option value="1">Sim</option>
-                        <option value="2">Não</option>
-                      </select>
-                      <span class="error-text" v-show="errors.first('esata')"> {{ required_text }} </span>
+                      <label>Cor</label>
+                      <input type="text" class="form-control" v-model='lot_item.color' />
                     </div>
                   </div>
 
@@ -551,6 +647,23 @@
                     <span class="error-text" v-show="errors.first('birght_keyboard')"> {{ required_text }} </span>
                   </div>
 
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull && showNewOthersAccNull'>
+                    <div class="form-group">
+                      <label>Teclado Luminoso</label>
+                      <select
+                        name="birght_keyboard"
+                        class="form-control"
+                        v-model='lot_item.bright_keyboard'
+                      >
+                        <option value="null" selected> Selecione </option>
+                        <option value="1">Sim</option>
+                        <option value="2">Não</option>
+                      </select>
+
+                    </div>
+                  </div>
+
+
                   <div class="col-sm-6 col-md-4 col-lg-3" v-show='showBiometricReader'>
                     <div class="form-group">
                       <label>Leitor Biométrico</label>
@@ -565,6 +678,20 @@
                         <option value="13"> Não </option>
                       </select>
                       <span class="error-text" v-show="errors.first('biometric_reader')"> {{ required_text }} </span>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull && showNewOthersAccNull'>
+                    <div class="form-group">
+                      <label>Leitor Biométrico</label>
+                      <select
+                        class="form-control"
+                        v-model='lot_item.biometric_reader'
+                      >
+                        <option value="null" selected> Selecione </option>
+                        <option value="12"> Sim </option>
+                        <option value="13"> Não </option>
+                      </select>
                     </div>
                   </div>
 
@@ -585,6 +712,21 @@
                       <span class="error-text" v-show="errors.first('vga-card')"> {{ required_text }} </span>
                     </div>
                   </div>
+
+                  <div class="col-sm-6 col-md-4 col-lg-3" v-show='showOthersAccNull && showNewOthersAccNull'>
+                    <div class="form-group">
+                      <label>Tipo Placa Vídeo</label>
+                      <select
+                        class="form-control"
+                        v-model='lot_item.vga_card'
+                      >
+                        <option value="null" >Selecione </option>
+                        <option value="1">Integrada</option>
+                        <option value="0">Dedicada</option>
+                      </select>
+                    </div>
+                  </div>
+
 
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group">
@@ -620,7 +762,15 @@
                   <div class="col-sm-6 col-md-4 col-lg-3" v-show='showBarCode'>
                     <div class="form-group">
                       <label>Código de Barras</label>
-                      <input type="text" class="form-control" v-model='lot_item.bar_code'/>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model='lot_item.bar_code'
+                        name="bar_code"
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('bar_code') }"
+                      />
+                      <span class="error-text" v-show="errors.first('bar_code')"> {{ required_text }} </span>
                     </div>
                   </div>
                 </div> <!-- End Row -->
@@ -710,17 +860,13 @@
           screen: null,
           webcam: null,
           keyboard_type_id: null,
-          wireless: null,
           bluetooth: null,
-          mini_display_port: null,
-          hdmi: null,
-          vga: null,
-          esata: null,
           bright_keyboard: null,
           destination_id: null,
           bar_code: null,
           vga_card: null,
-          biometric_reader: null
+          biometric_reader: null,
+          color: null
         },
 
         selected: [], // Must be an array reference!
@@ -773,20 +919,14 @@
           }
       },
 
-      showNumberOfSerieandAssetTag() {
-        if (this.lot_item.hardware_type_id == 3 ) {
-          return false
-        } else {
-          return true
-        }
-      },
-
       showMemory() {
         if (this.lot_item.hardware_type_id == 0 ||
             this.lot_item.hardware_type_id == 1 ||
             this.lot_item.hardware_type_id == 7 ||
             this.lot_item.hardware_type_id == 8 ||
-            this.lot_item.hardware_type_id == 9) {
+            this.lot_item.hardware_type_id == 9 ||
+            this.lot_item.hardware_type_id == 10 ||
+            this.lot_item.hardware_type_id > 10) {
           return false;
         }
         return true;
@@ -796,7 +936,10 @@
         if (
             this.lot_item.hardware_type_id == 0 ||
             this.lot_item.hardware_type_id == 8 ||
-            this.lot_item.hardware_type_id == 9) {
+            this.lot_item.hardware_type_id == 9 ||
+            this.lot_item.hardware_type_id == 10 ||
+            this.lot_item.hardware_type_id > 10
+            ) {
           return false;
         }
         return true;
@@ -810,7 +953,10 @@
             this.lot_item.hardware_type_id == 6 ||
             this.lot_item.hardware_type_id == 7 ||
             this.lot_item.hardware_type_id == 8 ||
-            this.lot_item.hardware_type_id == 9) {
+            this.lot_item.hardware_type_id == 10 ||
+            this.lot_item.hardware_type_id == 9 ||
+            this.lot_item.hardware_type_id > 10
+            ) {
           return false;
         }
         return true;
@@ -819,8 +965,31 @@
       showDiskFields() {
         if (
             this.lot_item.hardware_type_id == 8 ||
+            this.lot_item.hardware_type_id == 9
+          ) {
+          return true;
+        }
+        return false;
+      },
+
+      showParentId() {
+        if (
+            this.lot_item.hardware_type_id == 8 ||
             this.lot_item.hardware_type_id == 9 ||
-            this.lot_item.hardware_type_id == 10) {
+            this.lot_item.hardware_type_id == 10
+          ) {
+          return true;
+        }
+        return false;
+      },
+
+      showDiskSize() {
+        if (
+            this.lot_item.hardware_type_id == 5 ||
+            this.lot_item.hardware_type_id == 6 ||
+            this.lot_item.hardware_type_id == 8 ||
+            this.lot_item.hardware_type_id == 9
+          ) {
           return true;
         }
         return false;
@@ -829,11 +998,25 @@
       showScreen() {
         if (
             this.lot_item.hardware_type_id == 0 ||
+            this.lot_item.hardware_type_id == 1 ||
             this.lot_item.hardware_type_id == 2 ||
             this.lot_item.hardware_type_id == 3 ||
+            this.lot_item.hardware_type_id == 4 ||
             this.lot_item.hardware_type_id == 7 ||
             this.lot_item.hardware_type_id == 8 ||
+            this.lot_item.hardware_type_id == 10 ||
+            this.lot_item.hardware_type_id > 10 ||
             this.lot_item.hardware_type_id == 9) {
+          return false;
+        }
+        return true;
+      },
+
+      showAssetTag() {
+        if (
+            this.lot_item.hardware_type_id == 8 ||
+            this.lot_item.hardware_type_id == 9
+            ) {
           return false;
         }
         return true;
@@ -841,10 +1024,18 @@
 
       showWebcam() {
         if (
-            this.lot_item.hardware_type_id == 4 ||
+            this.lot_item.hardware_type_id == 4
+            ) {
+          return true;
+        }
+        return false;
+      },
+
+      showColors() {
+        if (
             this.lot_item.hardware_type_id == 5 ||
-            this.lot_item.hardware_type_id == 6 ||
-            this.lot_item.hardware_type_id == 10) {
+            this.lot_item.hardware_type_id == 6
+          ) {
           return true;
         }
         return false;
@@ -852,20 +1043,8 @@
 
       showKeyboardType() {
         if (
-            this.lot_item.hardware_type_id == 4 ||
-            this.lot_item.hardware_type_id == 10) {
-          return true;
-        }
-        return false;
-      },
-
-      showWireless() {
-        if (
-            this.lot_item.hardware_type_id == 2 ||
-            this.lot_item.hardware_type_id == 4 ||
-            this.lot_item.hardware_type_id == 5 ||
-            this.lot_item.hardware_type_id == 6 ||
-            this.lot_item.hardware_type_id == 10) {
+            this.lot_item.hardware_type_id == 4
+        ) {
           return true;
         }
         return false;
@@ -873,44 +1052,8 @@
 
       showBluetooth() {
         if (
-            this.lot_item.hardware_type_id == 2 ||
-            this.lot_item.hardware_type_id == 4 ||
-            this.lot_item.hardware_type_id == 5 ||
-            this.lot_item.hardware_type_id == 6 ||
-            this.lot_item.hardware_type_id == 10) {
-          return true;
-        }
-        return false;
-      },
-
-      showMiniDisplayPort() {
-        if (
-            this.lot_item.hardware_type_id == 2 ||
-            this.lot_item.hardware_type_id == 4 ||
-            this.lot_item.hardware_type_id == 10) {
-          return true;
-        }
-        return false;
-      },
-
-      showHdmihVgaEsata() {
-        if (
-            this.lot_item.hardware_type_id == 1 ||
-            this.lot_item.hardware_type_id == 2 ||
-            this.lot_item.hardware_type_id == 3 ||
-            this.lot_item.hardware_type_id == 4 ||
-            this.lot_item.hardware_type_id == 10) {
-          return true;
-        }
-        return false;
-      },
-
-      showEsata() {
-        if (
-            this.lot_item.hardware_type_id == 1 ||
-            this.lot_item.hardware_type_id == 2 ||
-            this.lot_item.hardware_type_id == 4 ||
-            this.lot_item.hardware_type_id == 10) {
+            this.lot_item.hardware_type_id == 4
+          ) {
           return true;
         }
         return false;
@@ -918,8 +1061,7 @@
 
       showLuminousKeyboard() {
         if (
-            this.lot_item.hardware_type_id == 4 ||
-            this.lot_item.hardware_type_id == 10) {
+            this.lot_item.hardware_type_id == 4 ) {
           return true;
         }
         return false;
@@ -927,8 +1069,7 @@
 
       showBiometricReader() {
         if (
-            this.lot_item.hardware_type_id == 4 ||
-            this.lot_item.hardware_type_id == 10) {
+            this.lot_item.hardware_type_id == 4 ) {
           return true;
         }
         return false;
@@ -937,8 +1078,7 @@
       showVideoCard() {
         if (
             this.lot_item.hardware_type_id == 2 ||
-            this.lot_item.hardware_type_id == 4 ||
-            this.lot_item.hardware_type_id == 10) {
+            this.lot_item.hardware_type_id == 4 ) {
           return true;
         }
         return false;
@@ -949,6 +1089,22 @@
             this.lot_item.destination_id == null  ||
             this.lot_item.destination_id == 'x'   ||
             this.lot_item.destination_id == 4) {
+          return false;
+        }
+        return true;
+      },
+
+      showOthersAccNull() {
+        if (
+            this.lot_item.hardware_type_id == 10   ||
+            this.lot_item.hardware_type_id > 10) {
+          return true;
+        }
+        return false;
+      },
+
+      showNewOthersAccNull() {
+        if (this.lot_item.hardware_type_id > 10) {
           return false;
         }
         return true;
@@ -977,21 +1133,57 @@
 
       async submit() {
         this.lot_item.damage_type_id = []
-        console.log('???????????????????')
-        console.log( this.lot_item )
         this.value.forEach(damageType => {
           this.lot_item.damage_type_id.push(damageType.id)
         })
 
-        console.log('++++++++++++')
-        console.log(this.lot_item)
-        console.log('++++++++++++')
         this.$validator.validate().then((result) => {});
         this.registrationOrEdit()
       },
 
       async registrationOrEdit() {
         let response = null;
+
+        if( this.lot_item.destination_id == 4 ) {
+          this.lot_item.bar_code = ' '
+        }
+
+        if(
+          (this.lot_item.hardware_type_id == 2 ||
+          this.lot_item.hardware_type_id == 3 ||
+          this.lot_item.hardware_type_id == 4 ||
+          this.lot_item.hardware_type_id == 5 ||
+          this.lot_item.hardware_type_id == 6 ) &&
+          this.lot_item.ram_memory == ''
+          ) {
+            this.lot_item.ram_memory = null
+          }
+
+          if (
+            this.lot_item.hardware_type_id == 1 ||
+            this.lot_item.hardware_type_id == 7 ||
+            this.lot_item.hardware_type_id == 8 ||
+            this.lot_item.hardware_type_id == 9
+          ) {
+            this.lot_item.ram_memory = ' '
+          }
+
+          if( this.lot_item.serial_number == '') {
+            this.lot_item.serial_number = null
+          }
+
+          if(
+            (this.lot_item.hardware_type_id == 5 ||
+            this.lot_item.hardware_type_id == 6) &&
+            this.lot_item.color == null
+          ) {
+            return
+          }
+
+          if (this.lot_item.hardware_type_id == 10 && this.lot_item.ram_memory == null ){
+            this.lot_item.ram_memory = ''
+          }
+
 
         if (this.edit) {
           await this.$http.put(`/lots/${this.lotId}/lot_items`, {lot_item: this.lot_item})
@@ -1024,9 +1216,6 @@
           this.messageClass = "danger";
           this.error = true;
           this.message = response.body.message;
-          console.log('++++++++++++++')
-          console.log(this.message)
-          console.log('++++++++++++++')
         }
         this.lot_item.damage_type_id = []
       },

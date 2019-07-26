@@ -12,7 +12,7 @@ class LotItemsController < ApplicationController
 
   def create
     return unless user_logged?
-    verify_bar_code = LotItem.where.not(bar_code: nil).where(bar_code: lot_item_params[:bar_code])
+    verify_bar_code = LotItem.where.not(bar_code: ' ').where(bar_code: lot_item_params[:bar_code])
 
     unless verify_bar_code.size == 0
       render json: {'message': "Código de Barras já utilizado"}, status: :internal_server_error
@@ -35,8 +35,7 @@ class LotItemsController < ApplicationController
 
     if lot_item.save
       render json: lot_item, status: :ok
-    else
-v    end
+    end
   end
 
 
@@ -56,7 +55,6 @@ v    end
   def show
     return unless user_logged?
     lot_item = LotItem.find( params[:id] )
-
     render json: lot_item, status: :ok
   end
 
@@ -169,7 +167,7 @@ v    end
     sheet1 = book.create_worksheet
     sheet1.name = 'Itens de lote'
 
-    sheet1.row(0).push('TIPO DE HARDWARE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'CATEGORIA', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'DESTINO', 'WIRELESS', 'BLUETOOTH', 'MINI DISPLAY PORT', 'HDMI', 'VGA', 'ESATA', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO', 'NÚMERO PEDIDO VENDA')
+    sheet1.row(0).push('TIPO DE HARDWARE','LOTE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'DESTINO', 'GRUPO DE ESTOQUE', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'BLUETOOTH', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO', 'NÚMERO PEDIDO VENDA', 'COR')
 
     format = Spreadsheet::Format.new :weight => :bold,:size => 11
     sheet1.row(0).height = 30
@@ -196,17 +194,13 @@ v    end
       webcam = ''
       keyboard = ''
       destination = ''
-      wireless = ''
       bluetooth = ''
-      mini_display_port = ''
-      hdmi = '',
-      esata = '',
-      vga = '',
-      category = '',
-      damage_type = '',
-      vga_card = '',
+      category = ''
+      damage_type = ''
+      vga_card = ''
       sales_number = ''
       bright_keyboard = ''
+      cor = ''
 
       unless line.processor.nil?
         processor_name = line.processor.name
@@ -239,15 +233,6 @@ v    end
         sales_number = line.sales_order.order_number if line.destination.name.downcase.eql? 'vendido'
       end
 
-      case line.wireless
-      when '13'
-        wireless = 'Não'
-      when '12'
-        wireless = 'Sim'
-      else
-        wireless = ''
-      end
-
       case line.bluetooth
       when '0'
         bluetooth = 'Não'
@@ -257,33 +242,6 @@ v    end
         bluetooth = ''
       end
 
-      case line.mini_display_port
-      when '13'
-        mini_display_port = 'Não'
-      when '12'
-        mini_display_port = 'Sim'
-      else
-        mini_display_port = ''
-      end
-
-      case line.esata
-      when '2'
-        esata = 'Não'
-      when '1'
-        esata = 'Sim'
-      else
-        esata = ''
-      end
-
-      case line.hdmi
-      when '13'
-        hdmi = 'Não'
-      when '12'
-        hdmi = 'Sim'
-      else
-        hdmi = ''
-      end
-
       case line.biometric_reader
       when '13'
         biometric_reader = 'Não'
@@ -291,15 +249,6 @@ v    end
         biometric_reader = 'Sim'
       else
         biometric_reader = ''
-      end
-
-      case line.vga
-      when '13'
-        vga = 'Não'
-      when '12'
-        vga = 'Sim'
-      else
-        vga = ''
       end
 
       case line.bright_keyboard
@@ -337,11 +286,13 @@ v    end
         vga_card = ''
       end
 
+
+
       sheet1.row(row).push(
-        line.hardware_type.name, line.model.manufacturer.name, line.model.name, line.ram_memory,
-        line.serial_number, line.asset_tag, line.bar_code, category, line.comments, damage_type,
-        processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard, destination, wireless,
-        bluetooth, mini_display_port, hdmi, vga, esata, bright_keyboard , biometric_reader, vga_card, sales_number)
+        line.hardware_type.name, line.lot_id, line.model.manufacturer.name, line.model.name, line.ram_memory,
+        line.serial_number, line.asset_tag, line.bar_code, destination, category, line.comments, damage_type,
+        processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard,
+        bluetooth, bright_keyboard , biometric_reader, vga_card, sales_number, line.color)
       sheet1.row(row).height = 20
       row += 1
     end
@@ -359,9 +310,8 @@ v    end
     params.require(:lot_item).permit(
       :hardware_type_id, :model_id, :ram_memory, :serial_number, :asset_tag,
       :category_id, :comments, :processor_id, :disk_type_id,
-      :disk_size_id, :parent_id, :screen, :webcam, :keyboard_type_id, :wireless,
-      :bluetooth, :mini_display_port, :hdmi, :vga, :esata, :bright_keyboard,
-      :destination_id, :bar_code, :biometric_reader, :vga_card
+      :disk_size_id, :parent_id, :screen, :webcam, :keyboard_type_id, :bluetooth,
+      :bright_keyboard, :destination_id, :bar_code, :biometric_reader, :vga_card, :color
     )
   end
 

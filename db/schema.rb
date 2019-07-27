@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_164227) do
+ActiveRecord::Schema.define(version: 2019_07_27_134052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 2019_07_26_164227) do
   create_table "lot_items", force: :cascade do |t|
     t.bigint "hardware_type_id"
     t.bigint "model_id"
-    t.string "ram_memory", null: false
+    t.string "ram_memory"
     t.string "serial_number", null: false
     t.string "asset_tag"
     t.bigint "category_id"
@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(version: 2019_07_26_164227) do
     t.datetime "updated_at", null: false
     t.string "ram_memory"
     t.string "color"
+    t.string "sku_uid"
     t.index ["category_id"], name: "index_skus_on_category_id"
     t.index ["damage_type_id"], name: "index_skus_on_damage_type_id"
     t.index ["disk_size_id"], name: "index_skus_on_disk_size_id"

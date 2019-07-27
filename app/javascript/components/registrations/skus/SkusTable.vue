@@ -31,7 +31,21 @@
           <tr>
             <th scope="col">SKU</th>
             <th scope="col">Tipo de Hardware </th>
+            <th scope="col">Fabricante</th>
             <th scope="col">Modelo</th>
+            <th scope="col">Mem. RAM</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Avarias</th>
+            <th scope="col">Processador</th>
+            <th scope="col">Armazenador</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Webcam</th>
+            <th scope="col">Teclado</th>
+            <th scope="col">Bluetooth</th>
+            <th scope="col">Teclado Luminoso</th>
+            <th scope="col">Leitor Biométrico</th>
+            <th scope="col">Placa Vídeo</th>
+            <th scope="col">Cor</th>
             <th scope="col"> Arquivo </th>
           </tr>
         </thead>
@@ -39,6 +53,7 @@
           <tr v-for='(sku, index) in skus' :key="index" v-if="regExp( sku )">
             <td> {{ sku.code }} </td>
             <td> {{ sku.hardware_type }} </td>
+            <td> {{ sku.manufacturer }} </td>
             <td> {{ sku.model }} </td>
             <td>
               <router-link :to="{ path:`/skus/${sku.id}/archive`}" class="btn btn-success" v-if="sku.archive == 'false'">

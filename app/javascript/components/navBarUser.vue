@@ -165,7 +165,7 @@
     <ul class="nav justify-content-end nav-header">
       <li class="nav-item style-item">
         <span class="nav-link" href="#">
-          0.0.19
+          V. 1.0
         </span>
       </li>
       <li class="nav-item style-item">

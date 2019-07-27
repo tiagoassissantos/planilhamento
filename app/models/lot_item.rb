@@ -17,7 +17,6 @@ class LotItem < ApplicationRecord
   after_save :generate_sku_code
 
   def generate_sku
-
     return unless self.sku.nil?
 
     sku = nil
@@ -46,10 +45,11 @@ class LotItem < ApplicationRecord
     end
   end
 
+
   def generate_monitor_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer,
-      model: model, category: category, screen: screen
+      hardware_type: hardware_type, manufacturer: model.manufacturer,
+      model: model, category: category, screen: screen, damage_types: damage_types
     )
 
     p '----------------------------------------------------------------------'
@@ -58,21 +58,21 @@ class LotItem < ApplicationRecord
 
   def gen_desk_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, processor: processor, vga_card: vga_card
     )
   end
 
   def generate_server_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, processor: processor
     )
   end
 
   def generate_notebook_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, processor: processor, screen: screen,
       webcam: webcam, keyboard_type: keyboard_type, bluetooth: bluetooth, bright_keyboard: bright_keyboard,
       biometric_reader: biometric_reader, vga_card: vga_card
@@ -81,41 +81,41 @@ class LotItem < ApplicationRecord
 
   def generate_celular_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category, screen: screen, webcam: webcam, ram_memory: ram_memory, disk_size: disk_size, color: color
     )
   end
 
   def generate_tablet_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model, disk_size: disk_size,
+      hardware_type: hardware_type, manufacturer: model.manufacturer, model: model, disk_size: disk_size,
       category: category, screen: screen, webcam: webcam, color: color
     )
   end
 
   def generate_switch_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       category: category)
   end
 
   def generate_hd_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       disk_type: disk_type, disk_size: disk_size
     )
   end
 
   def generate_ssd_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
+      hardware_type: hardware_type, manufacturer: model.manufacturer, model: model,
       disk_type: disk_type, disk_size: disk_size
     )
   end
 
   def generate_others_sku()
     self.sku = Sku.find_or_create_by(
-      code: nil, hardware_type: hardware_type, manufacturer: model.manufacturer, model: model
+      hardware_type: hardware_type, manufacturer: model.manufacturer, model: model
     )
   end
 

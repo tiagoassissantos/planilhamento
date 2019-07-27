@@ -1,5 +1,6 @@
 class SkuSerializer < ActiveModel::Serializer
-  attributes :id, :code, :hardware_type, :manufacturer, :model, :archive
+  attributes :id, :code, :hardware_type, :manufacturer, :model, :ram_memory,
+             :archive, :damages
 
   has_one :hardware_type
   has_one :manufacturer
@@ -16,6 +17,18 @@ class SkuSerializer < ActiveModel::Serializer
 
   def model
     return object.model.name
+  end
+
+  def category
+    return object.category.name
+  end
+
+  def damages
+    dams = []
+    object.damage_types.each do |damage|
+      dams << damage.name
+    end
+    return dams
   end
 
   def archive

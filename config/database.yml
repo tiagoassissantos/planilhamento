@@ -18,6 +18,6 @@ test:
 
 production:
   <<: *default
-  database: mescladora-gag_production
-  username: mescladora-gag
-  password: <%= ENV['MESCLADORA-GAG_DATABASE_PASSWORD'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>

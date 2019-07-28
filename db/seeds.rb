@@ -10,7 +10,7 @@ notebook = HardwareType.find_or_create_by name: 'Notebook', can_delete: false
 celular =  HardwareType.find_or_create_by name: 'Celular', can_delete: false
 tablet =   HardwareType.find_or_create_by name: 'Tablet', can_delete: false
 switch =   HardwareType.find_or_create_by name: 'Switch', can_delete: false
-hdd =      HardwareType.find_or_create_by name: 'HD', can_delete: false
+hdd =      HardwareType.find_or_create_by name: 'HDD', can_delete: false
 ssd =      HardwareType.find_or_create_by name: 'SSD', can_delete: false
 others =   HardwareType.find_or_create_by name: 'Outros', can_delete: false
 
@@ -79,6 +79,14 @@ DamageType.find_or_create_by name: 'Carcaça - PEDESTAL QUEBRADO', hardware_type
 DamageType.find_or_create_by name: 'Tela - TELA MANCHADA', hardware_type: monitor
 DamageType.find_or_create_by name: 'Tela - TELA TRINCADA', hardware_type: monitor
 DamageType.find_or_create_by name: 'OUTROS', hardware_type: monitor
+
+
+####### Damage Types - Smartphone #######
+DamageType.find_or_create_by name: 'NÃO LIGA', hardware_type: celular
+DamageType.find_or_create_by name: 'TELA MANCHADA', hardware_type: celular
+DamageType.find_or_create_by name: 'TELA TRINCADA', hardware_type: celular
+DamageType.find_or_create_by name: 'BATERIA NÃO CARREGA', hardware_type: celular
+DamageType.find_or_create_by name: 'OUTROS', hardware_type: celular
 
 
 ####### Damage Types - HD #######

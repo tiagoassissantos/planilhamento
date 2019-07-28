@@ -508,8 +508,8 @@
                         v-validate.disabled="'required'"
                         :class="{'input': true, 'is-danger': errors.has('webcam') }" >
                         <option value="null" selected>Selecione</option>
-                        <option value="12">Sim</option>
-                        <option value="13">Não</option>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
                       </select>
                       <span class="error-text" v-show="errors.first('webcam')"> {{ required_text }} </span>
                     </div>
@@ -523,8 +523,8 @@
                         v-model='lot_item.webcam'
                       >
                         <option value="null" selected>Selecione</option>
-                        <option value="12">Sim</option>
-                        <option value="13">Não</option>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
                       </select>
                     </div>
                   </div>
@@ -610,12 +610,32 @@
                     <div class="form-group">
                       <label>Cor</label>
 
-                      <input
+                      <!-input
                         type="text"
                         name="color"
                         class="form-control"
                         v-model='lot_item.color' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('color') }" />
+                        :class="{'input': true, 'is-danger': errors.has('color') }" /-->
+
+                      <select
+                        class="form-control"
+                        name="color"
+                        v-model='lot_item.color'
+                        v-validate.disabled="'required'"
+                        :class="{'input': true, 'is-danger': errors.has('color') }">
+                        <option value="null" selected> Selecione </option>
+                        <option value="Amarelo">Amarelo</option>
+                        <option value="Azul">Azul</option>
+                        <option value="Branco">Branco</option>
+                        <option value="Dourado">Dourado</option>
+                        <option value="Laranja">Laranja</option>
+                        <option value="Prata">Prata</option>
+                        <option value="Preto">Preto</option>
+                        <option value="Rosa">Rosa</option>
+                        <option value="Verde">Verde</option>
+                        <option value="Vermelho">Vermelho</option>
+                        <option value="Violeta">Violeta</option>
+                      </select>
 
                       <span class="error-text" v-show="errors.first('color')"> {{ required_text }} </span>
                     </div>
@@ -640,7 +660,7 @@
                       >
                         <option value="null" selected> Selecione </option>
                         <option value="1">Sim</option>
-                        <option value="2">Não</option>
+                        <option value="0">Não</option>
                       </select>
 
                     </div>
@@ -657,7 +677,7 @@
                       >
                         <option value="null" selected> Selecione </option>
                         <option value="1">Sim</option>
-                        <option value="2">Não</option>
+                        <option value="0">Não</option>
                       </select>
 
                     </div>
@@ -674,8 +694,8 @@
                         v-validate.disabled="'required'"
                         :class="{'input': true, 'is-danger': errors.has('biometric_reader') }">
                         <option value="null" selected> Selecione </option>
-                        <option value="12"> Sim </option>
-                        <option value="13"> Não </option>
+                        <option value="1"> Sim </option>
+                        <option value="0"> Não </option>
                       </select>
                       <span class="error-text" v-show="errors.first('biometric_reader')"> {{ required_text }} </span>
                     </div>
@@ -689,8 +709,8 @@
                         v-model='lot_item.biometric_reader'
                       >
                         <option value="null" selected> Selecione </option>
-                        <option value="12"> Sim </option>
-                        <option value="13"> Não </option>
+                        <option value="1"> Sim </option>
+                        <option value="0"> Não </option>
                       </select>
                     </div>
                   </div>

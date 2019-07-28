@@ -1,6 +1,6 @@
 class SkuSerializer < ActiveModel::Serializer
   attributes :id, :code, :hardware_type, :manufacturer, :model, :ram_memory,
-             :archive, :damages, :category, :processor, :disk_size, :disk_type, :webcam, :keyboard_type
+             :archive, :damages, :category, :processor, :disk_size, :disk_type, :webcam, :keyboard_type, :bluetooth, :bright_keyboard, :biometric_reader
 
   has_one :hardware_type
   has_one :manufacturer
@@ -92,4 +92,39 @@ class SkuSerializer < ActiveModel::Serializer
     end
   end
 
+  def bluetooth
+    case object.bluetooth
+    when '1'
+      return 'Sim'
+    when '0'
+      return 'Não'
+    else
+      return ' '
+    end
+  end
+
+  def bright_keyboard
+    case object.bright_keyboard
+    when '1'
+      return 'Sim'
+    when '0'
+      return 'Não'
+    else
+      return ' '
+    end
+  end
+
+  def biometric_reader
+    case object.biometric_reader
+    when '12'
+      return 'Sim'
+    when '13'
+      return 'Não'
+    else
+      return ' '
+    end
+  end
+
 end
+
+

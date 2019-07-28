@@ -70,7 +70,7 @@
             </td>
             <td>
               <span v-if="sku.disk_size != null"> {{ sku.disk_size }} </span>
-              <span v-else>  </span>
+              <span v-else></span>
             </td>
             <td>
               <span v-if="sku.disk_type != null"> {{ sku.disk_type }} </span>
@@ -81,6 +81,9 @@
               <span v-if="sku.keyboard_type != null"> {{ sku.keyboard_type }} </span>
               <span v-else>  </span>
             </td>
+            <td> {{ sku.bluetooth }} </td>
+            <td> {{sku.bright_keyboard}} </td>
+            <td> {{ sku.biometric_reader }}</td>
             <td>
               <router-link :to="{ path:`/skus/${sku.id}/archive`}" class="btn btn-success" v-if="sku.archive == 'false'">
                 Upload

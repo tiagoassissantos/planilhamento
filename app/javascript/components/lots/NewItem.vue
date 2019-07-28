@@ -1158,7 +1158,107 @@
         })
 
         this.$validator.validate().then((result) => {});
+
+        switch (this.lot_item.hardware_type_id) {
+          case 1:
+            if ( this.validationMonitorAndSwitch() ) { return }
+            break;
+          case 2:
+            if ( this.validationDeskTop() ) { return }
+            break;
+          case 3:
+            if ( this.validationServer() ) { return }
+            break;
+          case 4:
+            if ( this.validationNoteBook() ) { return }
+            break;
+          case 5:
+            if ( this.validationPhone() ) { return }
+            break;
+          case 6:
+            if ( this.validationPhone() ) { return }
+            break;
+          case 7:
+            if ( this.validationMonitorAndSwitch() ) { return }
+            break;
+          case 8:
+            if ( this.validationHdAndSsd() ) { return }
+            break;
+          case 9:
+            if ( this.validationHdAndSsd() ) { return }
+            break;
+
+          default:
+            break;
+        }
         this.registrationOrEdit()
+      },
+
+      validationMonitorAndSwitch () {
+        if(
+            this.lot_item.category_id == null         ||
+            this.lot_item.damage_type_id.length == 0
+          ){
+          return true
+        }
+      },
+
+      validationDeskTop () {
+        if(
+            this.lot_item.category_id == null         ||
+            this.lot_item.damage_type_id.length == 0  ||
+            this.lot_item.processor_id == null        ||
+            this.lot_item.vga_card == null
+          ){
+          return true
+        }
+      },
+
+      validationServer () {
+        if(
+            this.lot_item.category_id == null         ||
+            this.lot_item.damage_type_id.length == 0  ||
+            this.lot_item.processor_id == null
+          ){
+          return true
+        }
+      },
+
+      validationNoteBook() {
+        if(
+            this.lot_item.category_id == null         ||
+            this.lot_item.damage_type_id.length == 0  ||
+            this.lot_item.processor_id == null        ||
+            this.lot_item.webcam == null              ||
+            this.lot_item.keyboard_type_id == null    ||
+            this.lot_item.bluetooth == null           ||
+            this.lot_item.bright_keyboard == null     ||
+            this.lot_item.biometric_reader == null    ||
+            this.lot_item.vga_card == null
+          ){
+          return true
+        }
+      },
+
+      validationPhone() {
+        if(
+            this.lot_item.category_id == null         ||
+            this.lot_item.damage_type_id.length == 0  ||
+            this.lot_item.disk_size_id == null        ||
+            this.lot_item.screen == null              ||
+            this.lot_item.color == null
+          ){
+          return true
+        }
+      },
+
+      validationHdAndSsd() {
+        if(
+            this.lot_item.disk_size_id == null        ||
+            this.lot_item.disk_type_id == null
+          ){
+          return true
+        }
       },
 
       async registrationOrEdit() {

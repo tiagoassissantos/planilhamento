@@ -421,12 +421,12 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-10" @click="toggleModal('my-modal-9','modal-10')">Cadastre novo Tipo de HD</p>
-                        <b-modal ref="my-modal-9" size="lg" hide-footer title="Novo Tipo de HD">
+                        <p class="link-new" id="modal-10" @click="toggleModal('my-modal-10','modal-10')">Cadastre novo Tipo de HD</p>
+                        <b-modal ref="my-modal-10" size="lg" hide-footer title="Novo Tipo de HD">
                           <div class="d-block text-center">
-                            <disk-sizes modal_params="Cadastre"/>
+                            <disk-types modal_params="Cadastre"/>
                           </div>
-                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(8, 'my-modal-9')"> Fechar </b-button>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(8, 'my-modal-10')"> Fechar </b-button>
                         </b-modal>
                       </div>
 
@@ -449,12 +449,12 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-10" @click="toggleModal('my-modal-9','modal-10')">Cadastre novo Tipo de HD</p>
+                        <p class="link-new" id="modal-10" @click="toggleModal('my-modal-10','modal-10')">Cadastre novo Tipo de HD</p>
                         <b-modal ref="my-modal-9" size="lg" hide-footer title="Novo Tipo de HD">
                           <div class="d-block text-center">
-                            <disk-sizes modal_params="Cadastre"/>
+                            <disk-types modal_params="Cadastre"/>
                           </div>
-                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(8, 'my-modal-9')"> Fechar </b-button>
+                          <b-button class="mt-3" variant="outline-danger" block @click="hideModal(8, 'my-modal-10')"> Fechar </b-button>
                         </b-modal>
                       </div>
 
@@ -813,7 +813,7 @@
                 </b-modal>
 
                 <!-- modal de componentes -->
-                <div class="modal fade"  tabindex="-1" role="dialog">
+                <!-- <div class="modal fade"  tabindex="-1" role="dialog">
                   <div class="d-block text-center">
                     <new-hardware  v-if="id_modal === 9" modal_params="Cadastre"/>
                     <new-manufacturer v-if="id_modal === 0" modal_params="Cadastre"></new-manufacturer>
@@ -827,7 +827,7 @@
                     <disk-types v-if="id_modal === 8" modal_params="Cadastre"/>
                   </div>
                   <b-button class="mt-3" variant="outline-danger" block @click="hideModal"> Fechar </b-button>
-                </div>
+                </div> -->
 
               </div> <!-- === FIM CONTAINER === -->
             </div>
@@ -1489,6 +1489,9 @@
 
         if (response.status == 200) {
           this.diskTypes = response.body;
+          console.log('?????????????????????????')
+          console.log(response.body)
+          console.log('?????????????????????????')
         } else {
           this.error = true
           this.messageClass = "danger"

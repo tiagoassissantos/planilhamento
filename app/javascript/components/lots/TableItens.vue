@@ -182,10 +182,10 @@
       },
 
       regExp( lotItem ) {
-        var lotItem_id = lotItem.id.toString()
+        var lotItem_id = lotItem.id
         var hardware_type = lotItem.hardware_type.toLowerCase()
         var destination = lotItem.destination.toLowerCase()
-        var serial_number = lotItem.serial_number.toString()
+        var serial_number = lotItem.serial_number
 
         var bar_code = ''
         var category = ''
@@ -195,7 +195,7 @@
         }
 
         if ( lotItem.bar_code != null ) {
-          var bar_code = lotItem.bar_code.toString()
+          var bar_code = lotItem.bar_code
         }
 
         if( this.input === null) {

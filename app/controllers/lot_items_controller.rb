@@ -167,7 +167,7 @@ class LotItemsController < ApplicationController
     sheet1 = book.create_worksheet
     sheet1.name = 'Itens de lote'
 
-    sheet1.row(0).push('TIPO DE HARDWARE','LOTE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'DESTINO', 'GRUPO DE ESTOQUE', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'BLUETOOTH', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO', 'NÚMERO PEDIDO VENDA', 'COR')
+    sheet1.row(0).push('SKU','TIPO DE HARDWARE','LOTE', 'FABRICANTE', 'MODELO', 'MEMÓRIA RAM', 'NÚMERO DE SÉRIE', 'ASSET TAG', 'CÓDIGO DE BARRAS', 'DESTINO', 'GRUPO DE ESTOQUE', 'COMENTÁRIOS', 'LOCAL / TIPO DE AVARIA', 'DESCRIÇÃO DO PROCESSADOR', 'TAMANHO', 'TIPO', 'PARENT (ID)','TELA', 'WEBCAM', 'TIPO TECLADO', 'BLUETOOTH', 'TECLADO LUMINOSO', 'LEITOR BIOMÉTRICO', 'TIPO PLACA DE VÍDEO', 'NÚMERO PEDIDO VENDA', 'COR')
 
     format = Spreadsheet::Format.new :weight => :bold,:size => 11
     sheet1.row(0).height = 30
@@ -215,9 +215,9 @@ class LotItemsController < ApplicationController
       end
 
       case line.webcam
-      when '13'
+      when '0'
         webcam = 'Não'
-      when '12'
+      when '1'
         webcam = 'Sim'
       else
         webcam = ''
@@ -243,16 +243,16 @@ class LotItemsController < ApplicationController
       end
 
       case line.biometric_reader
-      when '13'
+      when '0'
         biometric_reader = 'Não'
-      when '12'
+      when '1'
         biometric_reader = 'Sim'
       else
         biometric_reader = ''
       end
 
       case line.bright_keyboard
-      when '2'
+      when '0'
         bright_keyboard = 'Não'
       when '1'
         bright_keyboard = 'Sim'
@@ -286,10 +286,8 @@ class LotItemsController < ApplicationController
         vga_card = ''
       end
 
-
-
       sheet1.row(row).push(
-        line.hardware_type.name, line.lot_id, line.model.manufacturer.name, line.model.name, line.ram_memory,
+        line.sku.code, line.hardware_type.name, line.lot_id, line.model.manufacturer.name, line.model.name, line.ram_memory,
         line.serial_number, line.asset_tag, line.bar_code, destination, category, line.comments, damage_type,
         processor_name, disk_size, disk_type, line.parent_id, line.screen, webcam, keyboard,
         bluetooth, bright_keyboard , biometric_reader, vga_card, sales_number, line.color)
@@ -302,7 +300,7 @@ class LotItemsController < ApplicationController
     time.strftime("%b-%m-%Y-%H:M")
     t = Tempfile.new("Listagem_de_Items-#{time}.xlsx")
     book.write t.path
-    send_file t.path , :type => 'application/excel'
+    send_file t.path , type: 'application/excel', filename: "Listagem_de_Items-#{time}.xlsx"
   end
 
   private

@@ -58,14 +58,14 @@ class LotItem < ApplicationRecord
   def gen_desk_sku()
     self.sku = Sku.new(
       hardware_type: hardware_type, model: model,
-      category: category, processor: processor, vga_card: vga_card
+      category: category, processor: processor, vga_card: vga_card, damage_types: damage_types
     ).find_or_create
   end
 
   def generate_server_sku()
     self.sku = Sku.new(
       hardware_type: hardware_type, model: model,
-      category: category, processor: processor
+      category: category, processor: processor, damage_types: damage_types
     ).find_or_create
   end
 
@@ -74,28 +74,28 @@ class LotItem < ApplicationRecord
       hardware_type: hardware_type, model: model,
       category: category, processor: processor, screen: screen,
       webcam: webcam, keyboard_type: keyboard_type, bluetooth: bluetooth, bright_keyboard: bright_keyboard,
-      biometric_reader: biometric_reader, vga_card: vga_card
+      biometric_reader: biometric_reader, vga_card: vga_card, damage_types: damage_types
     ).find_or_create
   end
 
   def generate_celular_sku()
     self.sku = Sku.new(
       hardware_type: hardware_type, model: model,
-      category: category, screen: screen, webcam: webcam, ram_memory: ram_memory, disk_size: disk_size, color: color
+      category: category, screen: screen, webcam: webcam, ram_memory: ram_memory, disk_size: disk_size, color: color, damage_types: damage_types
     ).find_or_create
   end
 
   def generate_tablet_sku()
     self.sku = Sku.new(
       hardware_type: hardware_type, model: model, disk_size: disk_size,
-      category: category, screen: screen, webcam: webcam, color: color
+      category: category, screen: screen, webcam: webcam, color: color, damage_types: damage_types, ram_memory: ram_memory
     ).find_or_create
   end
 
   def generate_switch_sku()
     self.sku = Sku.new(
       hardware_type: hardware_type, model: model,
-      category: category
+      category: category, damage_types: damage_types
     ).find_or_create
   end
 

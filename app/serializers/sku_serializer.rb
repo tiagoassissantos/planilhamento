@@ -67,8 +67,8 @@ class SkuSerializer < ActiveModel::Serializer
   end
 
   def disk_type
-    unless object.disk_size.nil?
-      return object.disk_size.name
+    unless object.disk_type.nil?
+      return object.disk_type.name
     else
       return nil
     end
@@ -76,9 +76,9 @@ class SkuSerializer < ActiveModel::Serializer
 
   def webcam
     case object.webcam
-    when '12'
+    when '1'
       return 'Sim'
-    when '13'
+    when '0'
       return 'Não'
     else
       return nil
@@ -117,9 +117,20 @@ class SkuSerializer < ActiveModel::Serializer
 
   def biometric_reader
     case object.biometric_reader
-    when '12'
+    when '1'
       return 'Sim'
-    when '13'
+    when '0'
+      return 'Não'
+    else
+      return nil
+    end
+  end
+
+  def vga_card
+    case object.vga_card
+    when '1'
+      return 'Sim'
+    when '0'
       return 'Não'
     else
       return nil

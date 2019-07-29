@@ -113,10 +113,7 @@
               <span v-else> </span>
             </td>
 
-            <td>
-              <span v-if="sku.vga_card != null">{{ sku.vga_ard }} </span>
-              <span v-else> </span>
-            </td>
+            <td> {{ sku.vga_card }} </td>
 
             <td>
               <span v-if="sku.color != null">{{ sku.color }} </span>

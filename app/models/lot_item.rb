@@ -88,7 +88,7 @@ class LotItem < ApplicationRecord
   def generate_tablet_sku()
     self.sku = Sku.new(
       hardware_type: hardware_type, model: model, disk_size: disk_size,
-      category: category, screen: screen, webcam: webcam, color: color, damage_types: damage_types
+      category: category, screen: screen, webcam: webcam, color: color, damage_types: damage_types, ram_memory: ram_memory
     ).find_or_create
   end
 

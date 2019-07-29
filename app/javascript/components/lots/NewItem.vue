@@ -791,6 +791,8 @@
                         :class="{'input': true, 'is-danger': errors.has('bar_code') }"
                       />
                       <span class="error-text" v-show="errors.first('bar_code')"> {{ required_text }} </span>
+                      <span class="error-text"> {{ message }}</span>
+
                     </div>
                   </div>
                 </div> <!-- End Row -->
@@ -1328,12 +1330,14 @@
             this.$router.push(`/lots/${this.lotId}`)
           }.bind(this), 2000);
         } else {
+
           this.messageClass = "danger";
           this.error = true;
           this.message = response.body.message;
         }
         this.lot_item.damage_type_id = []
       },
+
 
       showLoading() {
         this.loader = this.$loading.show({

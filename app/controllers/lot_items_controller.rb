@@ -314,25 +314,17 @@ class LotItemsController < ApplicationController
   end
 
   def search_with_bar_code( bar_code, add_item )
-
     if add_item === 'true'
       lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2).where.not(destination_id: 4)
       return lot_items
     end
+
     if add_item == 'false'
       lot_items = []
-      lot = LotItem.where(bar_code: bar_code)
-
-      index = 0
-      while index < lot.length
-        if lot[index].lot.status == 'closed'
-          lot_items << lot[index]
-        end
-        index+= 1
-      end
-
-      return lot_items
+      items = LotItem.joins(:lot).where(lots: {status: 'closed'}, bar_code: bar_code)
+      return items
     end
+
     if add_item == 'devolution'
       lot_items = LotItem.where(["bar_code = ? and destination_id = ?", bar_code, 2])
       return lot_items
@@ -344,9 +336,11 @@ class LotItemsController < ApplicationController
       lot_items = LotItem.where(lot_id: lot_number).where.not(destination_id: 2).where.not(destination_id: 4)
       return lot_items
     end
+
     if add_item == 'false'
-      lot_items = LotItem.where(lot_id: lot_number)
-      return lot_items
+      lot_items = []
+      items = LotItem.joins(:lot).where(lots: {order_number: lot_number, status: 'closed'})
+      return items
     end
   end
 
@@ -355,20 +349,13 @@ class LotItemsController < ApplicationController
       lot_items = LotItem.where(serial_number: serial_number).where.not(destination_id: 2).where.not(destination_id: 4)
       return lot_items
     end
+
     if add_item == 'false'
       lot_items = []
-      lot = LotItem.where(serial_number: serial_number)
-
-      index = 0
-      while index < lot.length
-        if lot[index].lot.status == 'closed'
-          lot_items << lot[index]
-        end
-        index+= 1
-      end
-
-      return lot_items
+      items = LotItem.joins(:lot).where(lots: {status: 'closed'}, serial_number: serial_number)
+      return items
     end
+
     if add_item == 'devolution'
       lot_items = LotItem.where(["serial_number = ? and destination_id = ?", serial_number, 2])
       return lot_items

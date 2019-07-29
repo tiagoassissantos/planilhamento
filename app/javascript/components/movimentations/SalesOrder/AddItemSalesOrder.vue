@@ -11,7 +11,7 @@
 
         <div class="col-sm-3">
           <div class="form-group">
-            <label> Número do Lote  </label>
+            <label> Número do Lote </label>
             <input class="form-control" type="text" v-model="search_lot.lot_number" placeholder="Número do Lote" />
           </div>
         </div>

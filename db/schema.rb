@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2019_07_27_134052) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -37,13 +38,13 @@ ActiveRecord::Schema.define(version: 2019_07_27_134052) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "damage_types", force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.bigint "hardware_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -51,34 +52,34 @@ ActiveRecord::Schema.define(version: 2019_07_27_134052) do
   end
 
   create_table "destinations", force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "can_delete", default: true
   end
 
   create_table "disk_sizes", force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "disk_types", force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "hardware_types", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
+    t.citext "name"
+    t.citext "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "can_delete", default: true
   end
 
   create_table "keyboard_types", force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -95,30 +96,30 @@ ActiveRecord::Schema.define(version: 2019_07_27_134052) do
   create_table "lot_items", force: :cascade do |t|
     t.bigint "hardware_type_id"
     t.bigint "model_id"
-    t.string "ram_memory"
-    t.string "serial_number", null: false
-    t.string "asset_tag"
+    t.citext "ram_memory"
+    t.citext "serial_number", null: false
+    t.citext "asset_tag"
     t.bigint "category_id"
-    t.string "comments"
+    t.citext "comments"
     t.bigint "processor_id"
     t.bigint "disk_type_id"
     t.bigint "disk_size_id"
-    t.string "parent_id"
-    t.string "screen"
-    t.string "webcam"
+    t.citext "parent_id"
+    t.citext "screen"
+    t.citext "webcam"
     t.bigint "keyboard_type_id"
-    t.string "bluetooth"
-    t.string "bright_keyboard"
+    t.citext "bluetooth"
+    t.citext "bright_keyboard"
     t.bigint "destination_id"
-    t.string "bar_code", null: false
+    t.citext "bar_code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "biometric_reader"
-    t.string "vga_card"
+    t.citext "biometric_reader"
+    t.citext "vga_card"
     t.integer "lot_id"
     t.integer "sku_id"
     t.bigint "sales_order_id"
-    t.string "color"
+    t.citext "color"
     t.index ["category_id"], name: "index_lot_items_on_category_id"
     t.index ["destination_id"], name: "index_lot_items_on_destination_id"
     t.index ["disk_size_id"], name: "index_lot_items_on_disk_size_id"
@@ -131,20 +132,20 @@ ActiveRecord::Schema.define(version: 2019_07_27_134052) do
   end
 
   create_table "lots", force: :cascade do |t|
-    t.string "order_number"
+    t.citext "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status"
   end
 
   create_table "manufacturers", force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "models", force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.bigint "manufacturer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -152,13 +153,13 @@ ActiveRecord::Schema.define(version: 2019_07_27_134052) do
   end
 
   create_table "processors", force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "sales_orders", force: :cascade do |t|
-    t.string "order_number"
+    t.citext "order_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -173,13 +174,13 @@ ActiveRecord::Schema.define(version: 2019_07_27_134052) do
   end
 
   create_table "skus", force: :cascade do |t|
-    t.string "code"
-    t.string "screen"
-    t.string "webcam"
-    t.string "bluetooth"
-    t.string "bright_keyboard"
-    t.string "biometric_reader"
-    t.string "vga_card"
+    t.citext "code"
+    t.citext "screen"
+    t.citext "webcam"
+    t.citext "bluetooth"
+    t.citext "bright_keyboard"
+    t.citext "biometric_reader"
+    t.citext "vga_card"
     t.bigint "hardware_type_id"
     t.bigint "manufacturer_id"
     t.bigint "model_id"
@@ -191,9 +192,9 @@ ActiveRecord::Schema.define(version: 2019_07_27_134052) do
     t.bigint "keyboard_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "ram_memory"
-    t.string "color"
-    t.string "uid"
+    t.citext "ram_memory"
+    t.citext "color"
+    t.citext "uid"
     t.index ["category_id"], name: "index_skus_on_category_id"
     t.index ["damage_type_id"], name: "index_skus_on_damage_type_id"
     t.index ["disk_size_id"], name: "index_skus_on_disk_size_id"

@@ -5,7 +5,7 @@
     <div class="login-page">
 
       <div class="header-form"></div>
-      <form class="" action="/users/sign_in" method="POST" @submit.prevent="submit">
+      <form class='signin_form' action="/users/sign_in" method="POST" @submit.prevent="submit">
 
         <div class="container">
           <center>
@@ -15,7 +15,7 @@
           <b-alert v-if="error" show dismissible variant="danger"> Verifique seu Login e Senha.</b-alert>
 
           <div class="form-group">
-            <label class="sr-only" for="inlineFormInputGroup"> Email </label>
+            <label class="" for="login-email"> Email </label>
             <div class="input-group">
               <div class="input-group-prepend ">
                 <div class="input-group-text icon-input">
@@ -26,7 +26,7 @@
                 type="email"
                 name="auth_key"
                 class="form-control input-color"
-                id="inlineFormInputGroup"
+                id="login-email"
                 placeholder="E-mail"
                 v-model="email"
               >
@@ -34,7 +34,7 @@
           </div>
 
           <div class="form-group">
-            <label class="sr-only" for="inlineFormInputGroup">Email</label>
+            <label class="" for="login-password">Password</label>
             <div class="input-group">
               <div class="input-group-prepend ">
                 <div class="input-group-text icon-input">
@@ -45,7 +45,7 @@
                 type="password"
                 name="password"
                 class="form-control input-color"
-                id="inlineFormInputGroup"
+                id="login-password"
                 placeholder="Senha"
                 v-model="password"
               >

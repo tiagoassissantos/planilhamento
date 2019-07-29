@@ -177,9 +177,6 @@
 
         if (response.status == 200) {
           this.skus = response.body;
-          console.log("++++++++++++++")
-          console.log( this.skus )
-          console.log("++++++++++++++")
         } else {
           this.showAlert = true
           this.messageClass = "danger"
@@ -193,12 +190,51 @@
         var code = sku.code.toLowerCase()
         var h_type = sku.hardware_type.toLowerCase()
         var model = sku.model.toLowerCase()
+        var ram_memory = ''
+        if (sku.ram_memory != null ) {
+          ram_memory = sku.ram_memory.toLowerCase()
+        }
+        var category = ''
+        if (sku.category != null ) {
+          category = sku.category.toLowerCase()
+        }
+        var damageType = ''
+        if (sku.category != null ) {
+          category = sku.category.toLowerCase()
+        }
+        var processor = ''
+        if (sku.processor != null ) {
+          processor = sku.processor.toLowerCase()
+        }
+        var disk_size = ''
+        if (sku.disk_size != null ) {
+          disk_size = sku.disk_size.toLowerCase()
+        }
+        var keyboard_type = ''
+        if (sku.keyboard_type != null ) {
+          keyboard_type = sku.keyboard_type.toLowerCase()
+        }
+        var color = ''
+        if (sku.color != null ) {
+          color = sku.color.toLowerCase()
+        }
 
         if( this.input === null){
           return true
         }else{
-          this.input = this.input.toLowerCase()
-          if( id.match(this.input) || code.match(this.input) || h_type.match(this.input) || code.match(this.input) || model.match(this.input) ){
+          this.input = this.input
+          if(
+              id.match(this.input.toLowerCase())            ||
+              h_type.match(this.input.toLowerCase())        ||
+              code.match(this.input.toLowerCase())          ||
+              model.match(this.input.toLowerCase())         ||
+              ram_memory.match(this.input.toLowerCase())    ||
+              category.match(this.input.toLowerCase())      ||
+              processor.match(this.input.toLowerCase())     ||
+              disk_size.match(this.input.toLowerCase())     ||
+              keyboard_type.match(this.input.toLowerCase()) ||
+              color.match(this.input.toLowerCase())
+            ){
             return true
           }else{
             return false

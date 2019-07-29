@@ -40,18 +40,17 @@ class Sku < ApplicationRecord
 
     when 2 # desktop
       code += category.id.to_s
-      code += generate_code_damage
       code += processor.id.to_s
       code += vga_card
+      code += generate_code_damage
 
     when 3 # server
       code += category.id.to_s
-      code += generate_code_damage
       code += processor.id.to_s
+      code += generate_code_damage
 
     when 4 # notebook
       code += category.id.to_s
-      code += generate_code_damage
       code += processor.id.to_s
       code += webcam
       code += keyboard_type.id.to_s
@@ -59,19 +58,20 @@ class Sku < ApplicationRecord
       code += bright_keyboard
       code += biometric_reader
       code += vga_card
+      code += generate_code_damage
 
     when 5 # celular
       code += ram_memory
       code += category.id.to_s
-      code += generate_code_damage
       code += disk_size.id.to_s
       code += color[0,4]
+      code += generate_code_damage
 
     when 6 # tablet
       code += ram_memory
       code += category.id.to_s
-      code += generate_code_damage
       code += color[0,4]
+      code += generate_code_damage
 
     when 7 # switch
       code += category.id.to_s
@@ -80,7 +80,6 @@ class Sku < ApplicationRecord
     when 8, 9 # hd ssd
       code += disk_size.id.to_s
       code += disk_type.id.to_s
-
     end
 
     code
@@ -97,7 +96,7 @@ class Sku < ApplicationRecord
 
 
   def generate_code_damage
-    code = ''
+    code = 'DT'
     damage_types.sort_by{|d| d.id}.each do |damage|
       code += damage.id.to_s
     end

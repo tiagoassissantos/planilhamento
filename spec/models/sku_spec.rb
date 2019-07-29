@@ -2,17 +2,24 @@ require 'rails_helper'
 
 RSpec.describe Sku, type: :model do
   context 'generate monitor sku uid' do
-    it 'generate uid to monitor' do
+    it 'with 1 damage' do
       sku_monitor = build(:sku_monitor)
       uid = sku_monitor.generate_sku_uid
-      code = "Mon#{sku_monitor.model.manufacturer.id}#{sku_monitor.model.id}#{sku_monitor.category.id}#{sku_monitor.damage_types[0].id}"
+      code = "Mon#{sku_monitor.model.manufacturer.id}#{sku_monitor.model.id}#{sku_monitor.category.id}DT#{sku_monitor.damage_types[0].id}"
       expect(uid).to eq(code)
     end
 
-    it 'generate uid to monitor with 2 damages' do
+    it 'with 2 damages' do
       sku_monitor = build(:sku_monitor_2_damages)
       uid = sku_monitor.generate_sku_uid
-      code = "Mon#{sku_monitor.model.manufacturer.id}#{sku_monitor.model.id}#{sku_monitor.category.id}#{sku_monitor.damage_types[1].id}#{sku_monitor.damage_types[0].id}"
+      code = "Mon#{sku_monitor.model.manufacturer.id}#{sku_monitor.model.id}#{sku_monitor.category.id}DT#{sku_monitor.damage_types[1].id}#{sku_monitor.damage_types[0].id}"
+      expect(uid).to eq(code)
+    end
+
+    it 'without damage' do
+      sku_monitor = build(:sku_monitor_without_damages)
+      uid = sku_monitor.generate_sku_uid
+      code = "Mon#{sku_monitor.model.manufacturer.id}#{sku_monitor.model.id}#{sku_monitor.category.id}DT"
       expect(uid).to eq(code)
     end
   end
@@ -22,7 +29,7 @@ RSpec.describe Sku, type: :model do
     it 'generate uid to desktop' do
       sku = build(:sku_desktop)
       uid = sku.generate_sku_uid
-      code = "Des#{sku.model.manufacturer.id}#{sku.model.id}#{sku.category.id}#{sku.damage_types[0].id}#{sku.processor.id}#{sku.vga_card}"
+      code = "Des#{sku.model.manufacturer.id}#{sku.model.id}#{sku.category.id}#{sku.processor.id}#{sku.vga_card}DT#{sku.damage_types[0].id}"
       expect(uid).to eq(code)
     end
   end
@@ -32,7 +39,7 @@ RSpec.describe Sku, type: :model do
     it 'generate uid' do
       sku = build(:sku_server)
       uid = sku.generate_sku_uid
-      code = "Ser#{sku.model.manufacturer.id}#{sku.model.id}#{sku.category.id}#{sku.damage_types[0].id}#{sku.processor.id}"
+      code = "Ser#{sku.model.manufacturer.id}#{sku.model.id}#{sku.category.id}#{sku.processor.id}DT#{sku.damage_types[0].id}"
       expect(uid).to eq(code)
     end
   end
@@ -42,7 +49,7 @@ RSpec.describe Sku, type: :model do
     it 'generate uid' do
       sku = build(:sku_notebook)
       uid = sku.generate_sku_uid
-      code = "Not#{sku.model.manufacturer.id}#{sku.model.id}#{sku.category.id}#{sku.damage_types[0].id}#{sku.processor.id}#{sku.webcam}#{sku.keyboard_type.id}#{sku.bluetooth}#{sku.bright_keyboard}#{sku.biometric_reader}#{sku.vga_card}"
+      code = "Not#{sku.model.manufacturer.id}#{sku.model.id}#{sku.category.id}#{sku.processor.id}#{sku.webcam}#{sku.keyboard_type.id}#{sku.bluetooth}#{sku.bright_keyboard}#{sku.biometric_reader}#{sku.vga_card}DT#{sku.damage_types[0].id}"
       expect(uid).to eq(code)
     end
   end
@@ -51,7 +58,7 @@ RSpec.describe Sku, type: :model do
     it 'generate uid' do
       sku = build(:sku_smartphone)
       uid = sku.generate_sku_uid
-      code = "Cel#{sku.model.manufacturer.id}#{sku.model.id}#{sku.ram_memory}#{sku.category.id}#{sku.damage_types[0].id}#{sku.disk_size.id}#{sku.color[0,4]}"
+      code = "Cel#{sku.model.manufacturer.id}#{sku.model.id}#{sku.ram_memory}#{sku.category.id}#{sku.disk_size.id}#{sku.color[0,4]}DT#{sku.damage_types[0].id}"
       expect(uid).to eq(code)
     end
   end

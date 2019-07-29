@@ -16,6 +16,12 @@ FactoryBot.define do
     ] }
   end
 
+  factory :sku_monitor_without_damages, class: Sku do
+    hardware_type { HardwareType.first }
+    model {create(:model_1)}
+    category {create(:category_1)}
+  end
+
   factory :sku_desktop, class: Sku do
     hardware_type { HardwareType.find(2) }
     model {create(:model_1)}

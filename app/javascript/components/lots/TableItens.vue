@@ -201,7 +201,7 @@
         if( this.input === null) {
           return true
         }else {
-          if( lotItem_id.match(this.input.toLowerCase()) || hardware_type.match(this.input.toLowerCase()) || serial_number.match(this.input.toLowerCase())
+          if( hardware_type.match(this.input.toLowerCase()) || serial_number.match(this.input.toLowerCase())
              || destination.match(this.input.toLowerCase()) || category.match(this.input.toLowerCase()) || bar_code.match(this.input.toLowerCase()) ) {
             return true
           }else {

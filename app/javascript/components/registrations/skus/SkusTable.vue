@@ -26,26 +26,26 @@
     </div>
 
     <div class="table-scroll">
-      <table class="table table-hover table-bordered">
+      <table class="table table-hover table-bordered font-small">
         <thead>
           <tr>
-            <th scope="col">  SKU </th>
-            <th scope="col">  Tipo de Hardware  </th>
-            <th scope="col">  Fabricante </th>
-            <th scope="col">  Modelo </th>
-            <th scope="col">  Mem. RAM </th>
-            <th scope="col">  Categoria </th>
-            <th scope="col">  Avarias </th>
-            <th scope="col">  Processador </th>
-            <th scope="col">  Armazenamento </th>
-            <th scope="col">  Tipo </th>
-            <th scope="col">  Webcam </th>
-            <th scope="col">  Teclado </th>
-            <th scope="col">  Bluetooth </th>
-            <th scope="col">  Teclado Luminoso </th>
-            <th scope="col">  Leitor Biométrico </th>
-            <th scope="col">  Placa Vídeo </th>
-            <th scope="col">  Cor </th>
+            <th scope="col"> SKU </th>
+            <th scope="col"> Tipo de Hardware </th>
+            <th scope="col"> Fabricante </th>
+            <th scope="col"> Modelo </th>
+            <th scope="col"> Mem. RAM </th>
+            <th scope="col"> Categoria </th>
+            <th scope="col"> Avarias </th>
+            <th scope="col"> Processador </th>
+            <th scope="col"> Armazenamento </th>
+            <th scope="col"> Tipo Armazenamento </th>
+            <th scope="col"> Webcam </th>
+            <th scope="col"> Teclado </th>
+            <th scope="col"> Bluetooth </th>
+            <th scope="col"> Teclado Luminoso </th>
+            <th scope="col"> Leitor Biométrico </th>
+            <th scope="col"> Placa Vídeo </th>
+            <th scope="col"> Cor </th>
             <th scope="col"> Arquivo </th>
           </tr>
         </thead>
@@ -55,35 +55,74 @@
             <td> {{ sku.hardware_type }} </td>
             <td> {{ sku.manufacturer }} </td>
             <td> {{ sku.model }} </td>
+
             <td>
               <span v-if="sku.ram_memory != null"> {{ sku.ram_memory }} </span>
-              <span v-else>  </span>
+              <span v-else> </span>
             </td>
+
             <td>
               <span v-if="sku.category != null"> {{ sku.category }} </span>
-              <span v-else>  </span>
+              <span v-else> </span>
             </td>
-            <td> damage </td>
+
+            <td>
+              <span class='badge badge-primary' v-if="sku.category != null" v-for="damage in sku.damages">
+                {{ damage }}
+              </span>
+              <span v-else> </span>
+            </td>
+
             <td>
               <span v-if="sku.processor != null"> {{ sku.processor }} </span>
-              <span v-else>  </span>
+              <span v-else> </span>
             </td>
+
             <td>
               <span v-if="sku.disk_size != null"> {{ sku.disk_size }} </span>
-              <span v-else></span>
+              <span v-else> </span>
             </td>
+
             <td>
               <span v-if="sku.disk_type != null"> {{ sku.disk_type }} </span>
-              <span v-else>  </span>
+              <span v-else> </span>
             </td>
-            <td> {{ sku.webcam }} </td>
+
+            <td>
+              <span v-if="sku.webcam != null">{{ sku.webcam }}</span>
+              <span v-else> </span>
+            </td>
+
             <td>
               <span v-if="sku.keyboard_type != null"> {{ sku.keyboard_type }} </span>
-              <span v-else>  </span>
+              <span v-else> </span>
             </td>
-            <td> {{ sku.bluetooth }} </td>
-            <td> {{sku.bright_keyboard}} </td>
-            <td> {{ sku.biometric_reader }}</td>
+
+            <td>
+              <span v-if="sku.bluetooth != null">{{ sku.bluetooth }} </span>
+              <span v-else> </span>
+            </td>
+
+            <td>
+              <span v-if="sku.bright_keyboard != null">{{sku.bright_keyboard}} </span>
+              <span v-else> </span>
+            </td>
+
+            <td>
+              <span v-if="sku.biometric_reader != null">{{ sku.biometric_reader }} </span>
+              <span v-else> </span>
+            </td>
+
+            <td>
+              <span v-if="sku.vga_card != null">{{ sku.vga_ard }} </span>
+              <span v-else> </span>
+            </td>
+
+            <td>
+              <span v-if="sku.color != null">{{ sku.color }} </span>
+              <span v-else> </span>
+            </td>
+
             <td>
               <router-link :to="{ path:`/skus/${sku.id}/archive`}" class="btn btn-success" v-if="sku.archive == 'false'">
                 Upload
@@ -198,5 +237,9 @@
 
   .edit-icon {
     font-size: 30px
+  }
+
+  .font-small {
+    font-size: 12px
   }
 </style>

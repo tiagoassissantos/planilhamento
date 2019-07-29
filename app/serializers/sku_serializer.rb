@@ -1,9 +1,9 @@
 class SkuSerializer < ActiveModel::Serializer
   attributes :id, :code, :hardware_type, :manufacturer, :model, :ram_memory,
-             :archive, :damages, :category, :processor, :disk_size, :disk_type, :webcam, :keyboard_type, :bluetooth, :bright_keyboard, :biometric_reader
+             :archive, :damages, :category, :processor, :disk_size, :disk_type, :webcam, :keyboard_type, :bluetooth, :bright_keyboard, :biometric_reader, :vga_card, :color
 
   has_one :hardware_type
-  has_one :manufacturer
+  #has_one :manufacturer
   has_one :model
   has_one :archive
   has_one :category
@@ -17,7 +17,7 @@ class SkuSerializer < ActiveModel::Serializer
   end
 
   def manufacturer
-    return object.manufacturer.name
+    return object.model.manufacturer.name
   end
 
   def model
@@ -28,7 +28,7 @@ class SkuSerializer < ActiveModel::Serializer
     unless object.category.nil?
       return object.category.name
     else
-      return ''
+      return nil
     end
   end
 
@@ -44,7 +44,7 @@ class SkuSerializer < ActiveModel::Serializer
     unless object.processor.nil?
       return object.processor.name
     else
-      return ''
+      return nil
     end
   end
 
@@ -61,7 +61,7 @@ class SkuSerializer < ActiveModel::Serializer
     unless object.disk_size.nil?
       return object.disk_size.name
     else
-      return ''
+      return nil
     end
   end
 
@@ -69,7 +69,7 @@ class SkuSerializer < ActiveModel::Serializer
     unless object.disk_size.nil?
       return object.disk_size.name
     else
-      return ''
+      return nil
     end
   end
 
@@ -80,7 +80,7 @@ class SkuSerializer < ActiveModel::Serializer
     when '13'
       return 'Não'
     else
-      return ' '
+      return nil
     end
   end
 
@@ -88,7 +88,7 @@ class SkuSerializer < ActiveModel::Serializer
     unless object.keyboard_type.nil?
       return object.keyboard_type.name
     else
-      return ''
+      return nil
     end
   end
 
@@ -99,7 +99,7 @@ class SkuSerializer < ActiveModel::Serializer
     when '0'
       return 'Não'
     else
-      return ' '
+      return nil
     end
   end
 
@@ -110,7 +110,7 @@ class SkuSerializer < ActiveModel::Serializer
     when '0'
       return 'Não'
     else
-      return ' '
+      return nil
     end
   end
 
@@ -121,7 +121,7 @@ class SkuSerializer < ActiveModel::Serializer
     when '13'
       return 'Não'
     else
-      return ' '
+      return nil
     end
   end
 

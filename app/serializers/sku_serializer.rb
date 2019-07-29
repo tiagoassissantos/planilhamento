@@ -12,6 +12,7 @@ class SkuSerializer < ActiveModel::Serializer
   has_one :disk_type
   has_one :keyboard_type
 
+
   def hardware_type
     return object.hardware_type.name
   end
@@ -124,7 +125,6 @@ class SkuSerializer < ActiveModel::Serializer
       return nil
     end
   end
-
 end
 
 

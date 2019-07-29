@@ -610,7 +610,7 @@
                     <div class="form-group">
                       <label>Cor</label>
 
-                      <!-input
+                      <!--input
                         type="text"
                         name="color"
                         class="form-control"
@@ -1196,8 +1196,7 @@
 
       validationMonitorAndSwitch () {
         if(
-            this.lot_item.category_id == null ||
-            this.lot_item.damage_type_id.length == 0
+            this.lot_item.category_id == null
           ){
           return true
         }
@@ -1206,7 +1205,6 @@
       validationDeskTop () {
         if(
             this.lot_item.category_id == null ||
-            this.lot_item.damage_type_id.length == 0 ||
             this.lot_item.processor_id == null ||
             this.lot_item.vga_card == null
           ){
@@ -1217,7 +1215,6 @@
       validationServer () {
         if(
             this.lot_item.category_id == null ||
-            this.lot_item.damage_type_id.length == 0 ||
             this.lot_item.processor_id == null
           ){
           return true
@@ -1227,7 +1224,6 @@
       validationNoteBook() {
         if(
             this.lot_item.category_id == null ||
-            this.lot_item.damage_type_id.length == 0 ||
             this.lot_item.processor_id == null ||
             this.lot_item.webcam == null ||
             this.lot_item.keyboard_type_id == null ||
@@ -1243,7 +1239,6 @@
       validationPhone() {
         if(
             this.lot_item.category_id == null ||
-            this.lot_item.damage_type_id.length == 0 ||
             this.lot_item.disk_size_id == null ||
             this.lot_item.screen == null ||
             this.lot_item.color == null

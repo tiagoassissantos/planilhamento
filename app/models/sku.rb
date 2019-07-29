@@ -68,8 +68,14 @@ class Sku < ApplicationRecord
       code += generate_code_damage
 
     when 6 # tablet
+      Rails.logger.info '-----------------'
+      Rails.logger.info ram_memory
+      Rails.logger.info '-----------------'
       code += ram_memory
       code += category.id.to_s
+      Rails.logger.info '----------??-'
+      Rails.logger.info color
+      Rails.logger.info '-----------------'
       code += color[0,4]
       code += generate_code_damage
 

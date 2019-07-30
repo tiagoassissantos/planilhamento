@@ -6,8 +6,8 @@
         <div class="input-group">
           <input type="text" class="form-control" aria-describedby="button-addon4" v-model="input">
           <div class="input-group-append" id="button-addon4">
-            <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
-            <button class="btn btn-danger" type="button" @click="input = null">Limpar pesquisa</button>
+            <button class="btn btn-outline-secondary" type="button" @click="filter()">Pesquisar</button>
+            <button class="btn btn-danger" type="button" @click="clearFilter()">Limpar pesquisa</button>
           </div>
         </div>
       </div>
@@ -31,7 +31,7 @@
       <b-table
         id="my-table"
         :fields="header"
-        :items="skus"
+        :items="maxSkus"
         :per-page="perPage"
         :current-page="currentPage"
         small
@@ -120,115 +120,6 @@
           </span>
         </template>
       </b-table>
-
-<!-- <table class="table table-hover table-bordered font-small">
-        <thead>
-          <tr>
-            <th scope="col"> SKU </th>
-            <th scope="col"> Tipo de Hardware </th>
-            <th scope="col"> Fabricante </th>
-            <th scope="col"> Modelo </th>
-            <th scope="col"> Mem. RAM </th>
-            <th scope="col"> Categoria </th>
-            <th scope="col"> Avarias </th>
-            <th scope="col"> Processador </th>
-            <th scope="col"> Armazenamento </th>
-            <th scope="col"> Tipo Armazenamento </th>
-            <th scope="col"> Webcam </th>
-            <th scope="col"> Teclado </th>
-            <th scope="col"> Bluetooth </th>
-            <th scope="col"> Teclado Luminoso </th>
-            <th scope="col"> Leitor Biométrico </th>
-            <th scope="col"> Placa Vídeo </th>
-            <th scope="col"> Cor </th>
-            <th scope="col"> Arquivo </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for='(sku, index) in skus' :key="index">
-            <td> {{ sku.code }} </td>
-            <td> {{ sku.hardware_type }} </td>
-            <td> {{ sku.manufacturer }} </td>
-            <td> {{ sku.model }} </td>
-
-            <td>
-              <span v-if="sku.ram_memory != null"> {{ sku.ram_memory }} </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span v-if="sku.category != null"> {{ sku.category }} </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span class='badge badge-primary' v-if="sku.category != null" v-for="damage in sku.damages">
-                {{ damage }}
-              </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span v-if="sku.processor != null"> {{ sku.processor }} </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span v-if="sku.disk_size != null"> {{ sku.disk_size }} </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span v-if="sku.disk_type != null"> {{ sku.disk_type }} </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span v-if="sku.webcam != null">{{ sku.webcam }}</span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span v-if="sku.keyboard_type != null"> {{ sku.keyboard_type }} </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span v-if="sku.bluetooth != null">{{ sku.bluetooth }} </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span v-if="sku.bright_keyboard != null">{{sku.bright_keyboard}} </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <span v-if="sku.biometric_reader != null">{{ sku.biometric_reader }} </span>
-              <span v-else> </span>
-            </td>
-
-            <td> {{ sku.vga_card }} </td>
-
-            <td>
-              <span v-if="sku.color != null">{{ sku.color }} </span>
-              <span v-else> </span>
-            </td>
-
-            <td>
-              <router-link :to="{ path:`/skus/${sku.id}/archive`}" class="btn btn-success" v-if="sku.archive == 'false'">
-                Upload
-              </router-link>
-              <a :href="sku.archive" target="_blank" class="btn btn-info" v-if="sku.archive != 'false'">
-                Download
-              </a>
-              <span target="_blank" class="btn btn-danger" v-if="sku.archive != 'false'" @click="deleteArchive(sku.id)">
-                Excluir
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table> -->
     </div>
 
   </div>
@@ -301,69 +192,13 @@
 
         if (response.status == 200) {
           this.skus = response.body;
+          this.maxSkus = response.body
         } else {
           this.showAlert = true
           this.messageClass = "danger"
           this.message = "Erro ao carregar os dados."
         }
         this.loading = false
-      },
-
-      regExp( sku ) {
-        var id = sku.id.toString()
-        var code = sku.code.toLowerCase()
-        var h_type = sku.hardware_type.toLowerCase()
-        var model = sku.model.toLowerCase()
-        var ram_memory = ''
-        if (sku.ram_memory != null ) {
-          ram_memory = sku.ram_memory.toLowerCase()
-        }
-        var category = ''
-        if (sku.category != null ) {
-          category = sku.category.toLowerCase()
-        }
-        var damageType = ''
-        if (sku.category != null ) {
-          category = sku.category.toLowerCase()
-        }
-        var processor = ''
-        if (sku.processor != null ) {
-          processor = sku.processor.toLowerCase()
-        }
-        var disk_size = ''
-        if (sku.disk_size != null ) {
-          disk_size = sku.disk_size.toLowerCase()
-        }
-        var keyboard_type = ''
-        if (sku.keyboard_type != null ) {
-          keyboard_type = sku.keyboard_type.toLowerCase()
-        }
-        var color = ''
-        if (sku.color != null ) {
-          color = sku.color.toLowerCase()
-        }
-
-        if( this.input === null){
-          return true
-        }else{
-          this.input = this.input
-          if(
-              id.match(this.input.toLowerCase())            ||
-              h_type.match(this.input.toLowerCase())        ||
-              code.match(this.input.toLowerCase())          ||
-              model.match(this.input.toLowerCase())         ||
-              ram_memory.match(this.input.toLowerCase())    ||
-              category.match(this.input.toLowerCase())      ||
-              processor.match(this.input.toLowerCase())     ||
-              disk_size.match(this.input.toLowerCase())     ||
-              keyboard_type.match(this.input.toLowerCase()) ||
-              color.match(this.input.toLowerCase())
-            ){
-            return true
-          }else{
-            return false
-          }
-        }
       },
 
       async deleteArchive( sku_id ) {
@@ -381,6 +216,68 @@
 
       routerUpload (sku_id) {
         this.$router.push(`/skus/${sku_id}/archive`)
+      },
+
+      filter() {
+        if( this.input != '' && this.input != null) {
+          this.maxSkus = []
+          this.skus.forEach(sku => {
+            var id = sku.id.toString()
+            var code = sku.code.toLowerCase()
+            var h_type = sku.hardware_type.toLowerCase()
+            var model = sku.model.toLowerCase()
+            var ram_memory = ''
+            if (sku.ram_memory != null ) {
+              ram_memory = sku.ram_memory.toLowerCase()
+            }
+            var category = ''
+            if (sku.category != null ) {
+              category = sku.category.toLowerCase()
+            }
+            var damageType = ''
+            if (sku.category != null ) {
+              category = sku.category.toLowerCase()
+            }
+            var processor = ''
+            if (sku.processor != null ) {
+              processor = sku.processor.toLowerCase()
+            }
+            var disk_size = ''
+            if (sku.disk_size != null ) {
+              disk_size = sku.disk_size.toLowerCase()
+            }
+            var keyboard_type = ''
+            if (sku.keyboard_type != null ) {
+              keyboard_type = sku.keyboard_type.toLowerCase()
+            }
+            var color = ''
+            if (sku.color != null ) {
+              color = sku.color.toLowerCase()
+            }
+
+            if(
+              id.match(this.input.toLowerCase())            ||
+              h_type.match(this.input.toLowerCase())        ||
+              code.match(this.input.toLowerCase())          ||
+              model.match(this.input.toLowerCase())         ||
+              ram_memory.match(this.input.toLowerCase())    ||
+              category.match(this.input.toLowerCase())      ||
+              processor.match(this.input.toLowerCase())     ||
+              disk_size.match(this.input.toLowerCase())     ||
+              keyboard_type.match(this.input.toLowerCase()) ||
+              color.match(this.input.toLowerCase())
+            ){
+              this.maxSkus.push(sku)
+
+            }
+          });
+
+        }
+      },
+
+      clearFilter() {
+        this.input = null
+        this.maxSkus = this.skus
       }
     }
   };

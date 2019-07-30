@@ -183,9 +183,23 @@
         this.lot_items = []
         this.index = null
         let response = null;
-        if ( this.search_lot.bar_code == '') { this.search_lot.bar_code = undefined }
-        if ( this.search_lot.lot_number == '') { this.search_lot.lot_number = undefined }
-        if ( this.search_lot.serial_number == '') { this.search_lot.serial_number = undefined }
+        if ( this.search_lot.bar_code == '' || this.search_lot.bar_code == undefined) {
+          this.search_lot.bar_code = undefined
+        } else {
+          this.search_lot.bar_code = this.search_lot.bar_code.trim()
+        }
+
+        if ( this.search_lot.lot_number == '' || this.search_lot.lot_number == undefined ) {
+          this.search_lot.lot_number = undefined
+        } else {
+          this.search_lot.lot_number = this.search_lot.lot_number.trim()
+        }
+
+        if ( this.search_lot.serial_number == '' || this.search_lot.serial_number == undefined) {
+          this.search_lot.serial_number = undefined
+        } else {
+          this.search_lot.serial_number = this.search_lot.serial_number.trim()
+        }
 
         let way = null
 

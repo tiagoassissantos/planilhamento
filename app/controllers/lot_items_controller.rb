@@ -333,7 +333,7 @@ class LotItemsController < ApplicationController
 
   def search_with_lot_number( lot_number, add_item )
     if add_item == 'true'
-      lot_items = LotItem.where(lot_id: lot_number).where.not(destination_id: 2).where.not(destination_id: 4)
+      lot_items = LotItem.joins(:lot).where(lots: {order_number: lot_number}).where.not(destination_id: 2).where.not(destination_id: 4)
       return lot_items
     end
 

@@ -1,18 +1,19 @@
 class CreateSkus < ActiveRecord::Migration[5.2]
   def change
+    enable_extension("citext")
     create_table :skus do |t|
-      t.string :code
-      t.string :screen
-      t.string :webcam
-      t.string :wireless
-      t.string :bluetooth
-      t.string :mini_display_port
-      t.string :hdmi
-      t.string :vga
-      t.string :esata
-      t.string :bright_keyboard
-      t.string :biometric_reader
-      t.string :vga_card
+      t.citext :code
+      t.citext :screen
+      t.citext :webcam
+      t.citext :wireless
+      t.citext :bluetooth
+      t.citext :mini_display_port
+      t.citext :hdmi
+      t.citext :vga
+      t.citext :esata
+      t.citext :bright_keyboard
+      t.citext :biometric_reader
+      t.citext :vga_card
 
       t.references :hardware_type, foreign_key: true
       t.references :manufacturer, foreign_key: true

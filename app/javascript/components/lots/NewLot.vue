@@ -21,11 +21,20 @@
 
         <div class='row'>
           <div class="col-sm-12">
-            <form @submit.prevent="submit">
+            <form @submit.prevent="validationBeforeSubmit">
               <div class="form-group row">
                 <label class='col-sm-2 col-form-label'>Número do Pedido:</label>
                 <div class="col-sm-4">
-                  <input class="form-control ml-3" type="text" v-model='lot.order_number' placeholder="Número do Pedido" />
+                  <input
+                    class="form-control ml-3"
+                    type="text"
+                    v-model='lot.order_number'
+                    placeholder="Número do Pedido"
+                    name="lot"
+                    v-validate="'required'"
+                    :class="{'input': true, 'is-danger': errors.has('lot') }"
+                  />
+                  <span class="error-text" v-show="errors.first('lot')"> Este campo é obrigatório  </span>
                 </div>
               </div>
 
@@ -117,6 +126,16 @@
     },
 
     methods: {
+
+      validationBeforeSubmit() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.submit()
+            return;
+          }
+        });
+      },
+
       async submit() {
         this.showLoading()
 
@@ -202,7 +221,6 @@
         if( status === 'Reaberto') { this.lot.status = 'Fechado', this.button_text_status = 'Fechar lote' }
       },
 
-
     }
   };
 </script>
@@ -211,4 +229,16 @@
   .card {
     margin-top: 50px;
   }
+
+  .is-danger {
+    border-color: red !important;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 20px;
+  }
+
 </style>

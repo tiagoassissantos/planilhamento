@@ -14,11 +14,20 @@
       </div>
 
       <div class="card-body">
-        <form @submit.prevent="submit">
+        <form @submit.prevent="validationBeforeSubmit">
           <div class='row'>
             <div class="col-sm-8">
               <div class="form-group">
-                <input class="form-control" type="text" v-model='category.name' placeholder="Nome da Categoria" />
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model='category.name'
+                  placeholder="Nome da Categoria"
+                  name="category"
+                  v-validate="'required'"
+                  :class="{'input': true, 'is-danger': errors.has('category') }"
+                />
+                <span class="error-text" v-show="errors.first('category')"> Este campo é obrigatório  </span>
               </div>
             </div>
 
@@ -87,6 +96,16 @@
     },
 
     methods: {
+
+      validationBeforeSubmit() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.submit()
+            return;
+          }
+        });
+      },
+
       async submit() {
         this.showLoading()
 
@@ -163,5 +182,15 @@
 <style scoped>
   .card {
     margin-top: 50px;
+  }
+
+  .is-danger {
+    border-color: red !important;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
   }
 </style>

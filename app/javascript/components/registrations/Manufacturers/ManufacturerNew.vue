@@ -13,11 +13,20 @@
       </div>
 
       <div class="card-body">
-        <form @submit.prevent="submit">
+        <form @submit.prevent="validationBeforeSubmit">
           <div class='row'>
             <div class="col-sm-12 col-md-8">
               <div class="form-group">
-                <input class="form-control" type="text" v-model='manufacturer.name' placeholder="Nome do Fabricante" />
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model='manufacturer.name'
+                  placeholder="Nome do Fabricante"
+                  name="manufacturer"
+                  v-validate="'required'"
+                  :class="{'input': true, 'is-danger': errors.has('manufacturer') }"
+                />
+                <span class="error-text" v-show="errors.first('manufacturer')">  Este campo é obrigatório  </span>
               </div>
             </div>
 
@@ -91,6 +100,16 @@
     },
 
     methods: {
+
+      validationBeforeSubmit() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.submit()
+            return;
+          }
+        });
+      },
+
       async submit() {
         this.showLoading()
 
@@ -176,5 +195,16 @@
       background-color: red !important;
     }
   }
+
+  .is-danger {
+    border-color: red !important;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
 
 </style>

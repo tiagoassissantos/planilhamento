@@ -30,6 +30,7 @@
 
       <b-table
         id="my-table"
+        :fields="header"
         :items="skus"
         :per-page="perPage"
         :current-page="currentPage"
@@ -38,7 +39,7 @@
         hover
       >
 
-        <template slot="code" slot-scope="data">
+        <template slot="SKU" slot-scope="data">
           {{ data.item.code }}
         </template>
 
@@ -55,7 +56,7 @@
         </template>
 
         <template slot="ram_memory" slot-scope="data">
-          {{ data.item.model }}
+          {{ data.item.ram_memory }}
         </template>
 
         <template slot="damages" slot-scope="data">
@@ -109,11 +110,18 @@
         </template>
 
         <template slot="archive" slot-scope="data">
-          {{ data.item.archive }}
+          <span @click="routerUpload(data.item.id)" class="btn btn-success" v-if="data.item.archive == 'false'"> Upload </span>
+
+          <a :href="data.item.archive" target="_blank" class="btn btn-info" v-if="data.item.archive != 'false'">
+            Download
+          </a>
+          <span target="_blank" class="btn btn-danger" v-if="data.item.archive != 'false'" @click="deleteArchive(data.item.id)">
+            Excluir
+          </span>
         </template>
       </b-table>
 
-      <!-- <table class="table table-hover table-bordered font-small">
+<!-- <table class="table table-hover table-bordered font-small">
         <thead>
           <tr>
             <th scope="col"> SKU </th>
@@ -137,7 +145,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for='(sku, index) in maxSkus' :key="index">
+          <tr v-for='(sku, index) in skus' :key="index">
             <td> {{ sku.code }} </td>
             <td> {{ sku.hardware_type }} </td>
             <td> {{ sku.manufacturer }} </td>
@@ -240,20 +248,28 @@
         input: null,
         way: '',
         pageNumber: 0,
-
-
-        perPage: 5,
+        perPage: 20,
         currentPage: 1,
-        items: [
-          { id: 1, first_name: 'Fred', last_name: 'Flintstone' },
-          { id: 2, first_name: 'Wilma', last_name: 'Flintstone' },
-          { id: 3, first_name: 'Barney', last_name: 'Rubble' },
-          { id: 4, first_name: 'Betty', last_name: 'Rubble' },
-          { id: 5, first_name: 'Pebbles', last_name: 'Flintstone' },
-          { id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble' },
-          { id: 7, first_name: 'The Great', last_name: 'Gazzoo' },
-          { id: 8, first_name: 'Rockhead', last_name: 'Slate' },
-          { id: 9, first_name: 'Pearl', last_name: 'Slaghoople' }
+
+        header: [
+          {key: 'code', label: 'SKU'},
+          {key: 'hardware_type', label: 'Hardware'},
+          {key: 'manufacturer', label: 'Fabricante'},
+          {key: 'model', label: 'Modelo'},
+          {key: 'ram_memory', label: 'Memória Ram'},
+          {key: 'damages', label: 'Avaria'},
+          {key: 'category', label: 'Categoria'},
+          {key: 'processor', label: 'Processador'},
+          {key: 'disk_size', label: 'Tam. disco'},
+          {key: 'disk_type', label: 'Tipo disco'},
+          {key: 'webcam', label: 'Webcam'},
+          {key: 'keyboard_type', label: 'Teclado'},
+          {key: 'bluetooth', label: 'Bluetooth'},
+          {key: 'bright_keyboard', label: 'Teclado Luminoso'},
+          {key: 'biometric_reader', label: 'Leitor Biométrico'},
+          {key: 'vga_card', label: 'Placa de vídeo'},
+          {key: 'color', label: 'Cor'},
+          {key: 'archive', label: 'Arquivo'}
         ]
 
       }
@@ -264,7 +280,7 @@
         return this.$store.state.logged
       },
       rows() {
-        return this.items.length
+        return this.skus.length
       }
     },
 
@@ -362,6 +378,10 @@
           response = err
         });
       },
+
+      routerUpload (sku_id) {
+        this.$router.push(`/skus/${sku_id}/archive`)
+      }
     }
   };
 </script>

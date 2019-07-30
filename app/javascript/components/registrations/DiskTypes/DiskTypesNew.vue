@@ -13,11 +13,20 @@
       </div>
 
       <div class="card-body">
-        <form @submit.prevent="submit">
+        <form @submit.prevent="validationBeforeSubmit">
           <div class='row'>
             <div class="col-sm-8">
               <div class="form-group">
-                <input class="form-control" type="text" v-model='disk_type.name' placeholder="Tipo de Disco" />
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model='disk_type.name'
+                  placeholder="Tipo de Disco"
+                  name="disk_type"
+                  v-validate="'required'"
+                  :class="{'input': true, 'is-danger': errors.has('disk_type') }"
+                />
+                <span class="error-text" v-show="errors.first('disk_type')"> Este campo é obrigatório  </span>
               </div>
             </div>
 
@@ -86,6 +95,16 @@
     },
 
     methods: {
+
+      validationBeforeSubmit() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.submit()
+            return;
+          }
+        });
+      },
+
       async submit() {
         this.showLoading()
 
@@ -161,4 +180,15 @@
   .card {
     margin-top: 50px;
   }
+
+  .is-danger {
+    border-color: red !important;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
 </style>

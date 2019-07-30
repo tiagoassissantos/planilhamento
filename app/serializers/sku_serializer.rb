@@ -1,4 +1,6 @@
 class SkuSerializer < ActiveModel::Serializer
+  include Rails.application.routes.url_helpers
+
   attributes :id, :code, :hardware_type, :manufacturer, :model, :ram_memory,
              :archive, :damages, :category, :processor, :disk_size, :disk_type, :webcam, :keyboard_type, :bluetooth, :bright_keyboard, :biometric_reader, :vga_card, :color
 
@@ -50,8 +52,12 @@ class SkuSerializer < ActiveModel::Serializer
   end
 
   def archive
+
     if object.archive.attached?
-      url = 'http://'+ ENV["url"] + Rails.application.routes.url_helpers.rails_blob_path( object.archive, disposition: "attachment" )
+      Rails.logger.info('+++++++++++++++++++++++++')
+      Rails.logger.info(ENV["url"])
+      Rails.logger.info('+++++++++++++++++++++++++')
+      url = 'http://'+ ENV["url"] + rails_blob_path( object.archive, disposition: "attachment" )
       return url
     else
       return 'false'

@@ -15,11 +15,20 @@
       <div class="card-body">
         <div class='row'>
           <div class="col-sm-12">
-            <form @submit.prevent="submit">
+            <form @submit.prevent="validationBeforeSubmit">
               <div class="form-group row">
                 <label class='col-sm-2 col-form-label'>Número do Pedido:</label>
                 <div class="col-sm-4">
-                  <input class="form-control ml-3" type="text" v-model='sales_order.order_number' placeholder="Número do Pedido" />
+                  <input
+                    class="form-control ml-3"
+                    type="text"
+                    name="sales_number"
+                    v-model='sales_order.order_number'
+                    placeholder="Número do Pedido"
+                    v-validate="'required'"
+                    :class="{'input': true, 'is-danger': errors.has('sales_number') }"
+                  />
+                  <span class="error-text" v-show="errors.first('sales_number')">  Este campo é obrigatório  </span>
                 </div>
               </div>
 
@@ -88,6 +97,16 @@
     },
 
     methods: {
+
+      validationBeforeSubmit() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.submit()
+            return;
+          }
+       });
+      },
+
       async submit() {
         this.showLoading()
         let response = null;
@@ -159,5 +178,16 @@
 <style scoped>
   .card {
     margin-top: 50px;
+  }
+
+  .is-danger {
+    border-color: red !important;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 20px;
   }
 </style>

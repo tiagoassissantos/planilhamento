@@ -149,7 +149,8 @@
         index: null,
         add_item: false,
         errorSelected: false,
-        showAlertNullItem: false
+        showAlertNullItem: false,
+        loader: null
       }
     },
 
@@ -199,7 +200,7 @@
           this.showAlertNullItem = false
         }
 
-        this.loader.hide()
+        //this.loader.hide()
       },
 
       async getDestinations() {
@@ -219,7 +220,6 @@
           this.messageClass = "danger"
           this.message = "Erro ao carregar os dados."
         }
-        this.loading = false
       },
 
       async submit() {
@@ -311,12 +311,12 @@
       },
 
       showLoading() {
-        this.loader = this.$loading.show({
-          container: this.fullPage ? null : this.$refs.formContainer,
+        /*this.loader = this.$loading.show({
+          container: null,
           canCancel: false,
           backgroundColor: '#000',
           opacity: 0.75
-        });
+        });*/
       },
 
     }

@@ -20,13 +20,6 @@
     </div>
 
     <div class="table-scroll">
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="my-table"
-        align="fill"
-      > </b-pagination>
 
       <b-table
         id="my-table"
@@ -110,16 +103,25 @@
         </template>
 
         <template slot="archive" slot-scope="data">
-          <span @click="routerUpload(data.item.id)" class="btn btn-success" v-if="data.item.archive == 'false'"> Upload </span>
+          <span @click="routerUpload(data.item.id)" class="btn btn-success width-btn" v-if="data.item.archive == 'false'"> Upload </span>
 
-          <a :href="data.item.archive" target="_blank" class="btn btn-info" v-if="data.item.archive != 'false'">
+          <a :href="data.item.archive" target="_blank" class="btn btn-info width-btn" v-if="data.item.archive != 'false'">
             Download
           </a>
-          <span target="_blank" class="btn btn-danger" v-if="data.item.archive != 'false'" @click="deleteArchive(data.item.id)">
+          <span target="_blank" class="btn btn-danger width-btn margin-button" v-if="data.item.archive != 'false'" @click="deleteArchive(data.item.id)">
             Excluir
           </span>
         </template>
       </b-table>
+
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+        align="fill"
+      > </b-pagination>
+
     </div>
 
   </div>
@@ -268,7 +270,6 @@
               color.match(this.input.toLowerCase())
             ){
               this.maxSkus.push(sku)
-
             }
           });
 
@@ -299,5 +300,13 @@
 
   .font-small {
     font-size: 12px
+  }
+
+  .width-btn {
+    width: 100%;
+  }
+
+  .margin-button {
+    margin-top: 5px;
   }
 </style>

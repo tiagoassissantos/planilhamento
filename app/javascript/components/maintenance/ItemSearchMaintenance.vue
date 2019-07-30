@@ -18,7 +18,7 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label> Número da Série  </label>
-                <input class="form-control" type="number" v-model="search_lot.serial_number" placeholder="Número de Série"/>
+                <input class="form-control" type="text" v-model="search_lot.serial_number" placeholder="Número de Série"/>
               </div>
             </div>
 

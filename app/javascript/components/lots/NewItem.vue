@@ -1153,65 +1153,64 @@
 
 
         this.$validator.validate().then((result) => {
-           switch (this.lot_item.hardware_type_id) {
-          case 1:
-            if ( this.validationMonitorAndSwitch() ) {
-              return
+          switch (this.lot_item.hardware_type_id) {
+            case 1:
+              if ( this.validationMonitorAndSwitch() ) {
+                return
+                }
+              break;
+            case 2:
+              if ( this.validationDeskTop() ) {
+                this.returnSubmit = true
+              } else {
+                this.returnSubmit = false
               }
-            break;
-          case 2:
-            if ( this.validationDeskTop() ) {
-              this.returnSubmit = true
-            } else {
-              this.returnSubmit = false
-            }
-            break;
-          case 3:
-            if ( this.validationServer() ) {
-              return
-            }
-            break;
-          case 4:
-            if ( this.validationNoteBook() ) {
-              this.returnSubmit = true
-            } else {
-              this.returnSubmit = false
-            }
-            break;
-          case 5:
-            if ( this.validationPhone() ) {
-               this.returnSubmit = true
-            } else {
-              this.returnSubmit = false
-            }
-            break;
-          case 6:
-            if ( this.validationPhone() ) {
-              this.returnSubmit = true
-            } else {
-              this.returnSubmit = false
-            }
-            break;
-          case 7:
-            if ( this.validationMonitorAndSwitch() ) {
-              return
-            }
-            break;
-          case 8:
-            if ( this.validationHdAndSsd() ) {
-              return
-            }
-            break;
-          case 9:
-            if ( this.validationHdAndSsd() ) {
-              return
-            }
-            break;
+              break;
+            case 3:
+              if ( this.validationServer() ) {
+                return
+              }
+              break;
+            case 4:
+              if ( this.validationNoteBook() ) {
+                this.returnSubmit = true
+              } else {
+                this.returnSubmit = false
+              }
+              break;
+            case 5:
+              if ( this.validationPhone() ) {
+                 this.returnSubmit = true
+              } else {
+                this.returnSubmit = false
+              }
+              break;
+            case 6:
+              if ( this.validationPhone() ) {
+                this.returnSubmit = true
+              } else {
+                this.returnSubmit = false
+              }
+              break;
+            case 7:
+              if ( this.validationMonitorAndSwitch() ) {
+                return
+              }
+              break;
+            case 8:
+              if ( this.validationHdAndSsd() ) {
+                return
+              }
+              break;
+            case 9:
+              if ( this.validationHdAndSsd() ) {
+                return
+              }
+              break;
 
-          default:
-            break;
-        }
-
+            default:
+              break;
+          }
         });
 
         setTimeout(function() {

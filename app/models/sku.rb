@@ -80,6 +80,8 @@ class Sku < ApplicationRecord
     when 8, 9 # hd ssd
       code += disk_size.id.to_s
       code += disk_type.id.to_s
+      hardware_type = nil
+      model = nil
     end
 
     code
@@ -89,8 +91,11 @@ class Sku < ApplicationRecord
   def generate_base_sku_code
     code = ''
     code += hardware_type.name[0,3]
-    code += model.manufacturer.id.to_s
-    code += model.id.to_s
+
+    unless hardware_type.id == 8 || hardware_type.id == 9
+      code += model.manufacturer.id.to_s
+      code += model.id.to_s
+    end
     code
   end
 
@@ -106,5 +111,11 @@ class Sku < ApplicationRecord
   def generate_sku_code
     self.code = self.id
     self.save
+
+    if self.hardware_type_id == 8 || self.hardware_type_id == 9
+      self.update_attribute(:hardware_type_id, nil )
+      self.update_attribute(:model_id, nil )
+    end
+
   end
 end

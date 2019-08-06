@@ -315,13 +315,13 @@ class LotItemsController < ApplicationController
 
   def search_with_bar_code( bar_code, add_item )
     if add_item === 'true'
-      lot_items = LotItem.where(bar_code: bar_code).where.not(destination_id: 2).where.not(destination_id: 4)
+      lot_items = LotItem.where(bar_code: bar_code).where(destination_id: 1)
       return lot_items
     end
 
     if add_item == 'false'
       lot_items = []
-      items = LotItem.joins(:lot).where(lots: {status: 'closed'}, bar_code: bar_code)
+      items = LotItem.joins(:lot).where( bar_code: bar_code).where.not(destination: 2)
       return items
     end
 
@@ -333,26 +333,26 @@ class LotItemsController < ApplicationController
 
   def search_with_lot_number( lot_number, add_item )
     if add_item == 'true'
-      lot_items = LotItem.joins(:lot).where(lots: {order_number: lot_number}).where.not(destination_id: 2).where.not(destination_id: 4)
+      lot_items = LotItem.joins(:lot).where(lots: {order_number: lot_number}).where(destination_id: 1)
       return lot_items
     end
 
     if add_item == 'false'
       lot_items = []
-      items = LotItem.joins(:lot).where(lots: {order_number: lot_number, status: 'closed'})
+      items = LotItem.joins(:lot).where(lots: {order_number: lot_number }).where.not(destination: 2)
       return items
     end
   end
 
   def search_with_serial_number( serial_number, add_item )
     if add_item == 'true'
-      lot_items = LotItem.where(serial_number: serial_number).where.not(destination_id: 2).where.not(destination_id: 4)
+      lot_items = LotItem.where(serial_number: serial_number).where(destination_id: 1)
       return lot_items
     end
 
     if add_item == 'false'
       lot_items = []
-      items = LotItem.joins(:lot).where(lots: {status: 'closed'}, serial_number: serial_number)
+      items = LotItem.joins(:lot).where( serial_number: serial_number).where.not(destination: 2)
       return items
     end
 

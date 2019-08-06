@@ -597,7 +597,7 @@
                         v-model='lot_item.bluetooth'
                         v-validate.disabled="'required'"
                         :class="{'input': true, 'is-danger': errors.has('bluetooth') }">
-                        <option value="null" selected> Selecione </option>
+                        <option value='null' selected> Selecione </option>
                         <option value="1">Sim</option>
                         <option value="0">Não</option>
                       </select>
@@ -609,13 +609,6 @@
                   <div class="col-sm-6 col-md-4 col-lg-3" v-show='showColors'>
                     <div class="form-group">
                       <label>Cor</label>
-
-                      <!--input
-                        type="text"
-                        name="color"
-                        class="form-control"
-                        v-model='lot_item.color' v-validate.disabled="'required'"
-                        :class="{'input': true, 'is-danger': errors.has('color') }" /-->
 
                       <select
                         class="form-control"
@@ -914,14 +907,12 @@
 
         query: null,
         skus: [],
-
         showModal: false,
         messageModal: '',
-
         id_modal: '',
         required_text: 'Este campo é obrigatório.',
-
-        editDamageType: ''
+        editDamageType: '',
+        returnSubmit: false
       }
     },
 
@@ -1159,46 +1150,83 @@
           this.lot_item.damage_type_id.push(damageType.id)
         })
 
-        this.$validator.validate().then((result) => {});
 
-        switch (this.lot_item.hardware_type_id) {
+
+        this.$validator.validate().then((result) => {
+           switch (this.lot_item.hardware_type_id) {
           case 1:
-            if ( this.validationMonitorAndSwitch() ) { return }
+            if ( this.validationMonitorAndSwitch() ) {
+              return
+              }
             break;
           case 2:
-            if ( this.validationDeskTop() ) { return }
+            if ( this.validationDeskTop() ) {
+              this.returnSubmit = true
+            } else {
+              this.returnSubmit = false
+            }
             break;
           case 3:
-            if ( this.validationServer() ) { return }
+            if ( this.validationServer() ) {
+              return
+            }
             break;
           case 4:
-            if ( this.validationNoteBook() ) { return }
+            if ( this.validationNoteBook() ) {
+              this.returnSubmit = true
+            } else {
+              this.returnSubmit = false
+            }
             break;
           case 5:
-            if ( this.validationPhone() ) { return }
+            if ( this.validationPhone() ) {
+               this.returnSubmit = true
+            } else {
+              this.returnSubmit = false
+            }
             break;
           case 6:
-            if ( this.validationPhone() ) { return }
+            if ( this.validationPhone() ) {
+              this.returnSubmit = true
+            } else {
+              this.returnSubmit = false
+            }
             break;
           case 7:
-            if ( this.validationMonitorAndSwitch() ) { return }
+            if ( this.validationMonitorAndSwitch() ) {
+              return
+            }
             break;
           case 8:
-            if ( this.validationHdAndSsd() ) { return }
+            if ( this.validationHdAndSsd() ) {
+              return
+            }
             break;
           case 9:
-            if ( this.validationHdAndSsd() ) { return }
+            if ( this.validationHdAndSsd() ) {
+              return
+            }
             break;
 
           default:
             break;
         }
-        this.registrationOrEdit()
+
+        });
+
+        setTimeout(function() {
+          if ( this.returnSubmit ) {
+            return
+          }
+
+          this.registrationOrEdit()
+        }.bind(this), 1000);
       },
 
       validationMonitorAndSwitch () {
         if(
-            this.lot_item.category_id == null
+            this.lot_item.category_id == null ||
+            this.lot_item.bar_code.trim() == ''
           ){
           return true
         }
@@ -1208,16 +1236,29 @@
         if(
             this.lot_item.category_id == null ||
             this.lot_item.processor_id == null ||
-            this.lot_item.vga_card == null
+            this.lot_item.vga_card == null ||
+            this.lot_item.ram_memory == null ||
+            this.lot_item.ram_memory.trim() == '' ||
+            this.lot_item.bar_code.trim() == ''
           ){
           return true
+
+        } else if ( this.lot_item.vga_card == 'null') {
+          this.lot_item.vga_card = null
+          return true
+
+        } else {
+          return false
         }
       },
 
       validationServer () {
         if(
             this.lot_item.category_id == null ||
-            this.lot_item.processor_id == null
+            this.lot_item.processor_id == null ||
+            this.lot_item.ram_memory == null ||
+            this.lot_item.ram_memory.trim() == '' ||
+            this.lot_item.bar_code.trim() == ''
           ){
           return true
         }
@@ -1232,9 +1273,35 @@
             this.lot_item.bluetooth == null ||
             this.lot_item.bright_keyboard == null ||
             this.lot_item.biometric_reader == null ||
-            this.lot_item.vga_card == null
+            this.lot_item.vga_card == null ||
+            this.lot_item.ram_memory == null ||
+            this.lot_item.ram_memory.trim() == '' ||
+            this.lot_item.bar_code.trim() == ''
           ){
           return true
+        } else if ( this.lot_item.bluetooth == 'null'  ) {
+          this.lot_item.bluetooth = null
+          return true
+
+        } else if ( this.lot_item.webcam == 'null'  ) {
+          this.lot_item.webcam = null
+          return true
+
+        } else if ( this.lot_item.bright_keyboard == 'null'  ) {
+          this.lot_item.bright_keyboard = null
+          return true
+
+        } else if ( this.lot_item.keyboard_type_id == 'null'  ) {
+          this.lot_item.keyboard_type_id = null
+          return true
+
+        } else if ( this.lot_item.vga_card == 'null'  ) {
+          this.lot_item.vga_card = null
+          return true
+
+        }
+         else {
+          return false
         }
       },
 
@@ -1243,16 +1310,26 @@
             this.lot_item.category_id == null ||
             this.lot_item.disk_size_id == null ||
             this.lot_item.screen == null ||
-            this.lot_item.color == null
+            this.lot_item.color == null ||
+            this.lot_item.bar_code.trim() == ''
           ){
           return true
+
+
+        } else if (this.lot_item.color == 'null'){
+          this.lot_item.color = null
+          return true
+
+        } else {
+          return false
         }
       },
 
       validationHdAndSsd() {
         if(
             this.lot_item.disk_size_id == null ||
-            this.lot_item.disk_type_id == null
+            this.lot_item.disk_type_id == null ||
+            this.lot_item.bar_code.trim() == ''
           ){
           return true
         }

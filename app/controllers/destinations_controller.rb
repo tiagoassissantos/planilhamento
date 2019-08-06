@@ -3,7 +3,7 @@ class DestinationsController < ApplicationController
 
   def index
     return unless user_logged?
-    destinations = Destination.all
+    destinations = Destination.where.not(name: 'Vendido')
     render json: destinations, status: :ok
   end
 

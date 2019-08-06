@@ -11,7 +11,7 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label> Código de barras </label>
-                <input class="form-control" type="number" v-model="search_lot.bar_code" placeholder="Código de Barras"/>
+                <input class="form-control" type="text" v-model="search_lot.bar_code" placeholder="Código de Barras"/>
               </div>
             </div>
 

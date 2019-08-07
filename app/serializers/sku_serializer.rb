@@ -16,15 +16,28 @@ class SkuSerializer < ActiveModel::Serializer
 
 
   def hardware_type
-    return object.hardware_type.name
+    if object.hardware_type.nil?
+      return nil
+    else
+      return object.hardware_type.name
+    end
   end
 
   def manufacturer
-    return object.model.manufacturer.name
+    if object.model.nil?
+      return nil
+    else
+      return object.model.manufacturer.name
+    end
   end
 
   def model
-    return object.model.name
+    if object.model.nil?
+      return nil
+    else
+      return object.model.name
+    end
+
   end
 
   def category
@@ -54,9 +67,6 @@ class SkuSerializer < ActiveModel::Serializer
   def archive
 
     if object.archive.attached?
-      Rails.logger.info('+++++++++++++++++++++++++')
-      Rails.logger.info(ENV["url"])
-      Rails.logger.info('+++++++++++++++++++++++++')
       url = 'http://'+ ENV["url"] + rails_blob_path( object.archive, disposition: "attachment" )
       return url
     else

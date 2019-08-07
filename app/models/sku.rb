@@ -80,7 +80,6 @@ class Sku < ApplicationRecord
     when 8, 9 # hd ssd
       code += disk_size.id.to_s
       code += disk_type.id.to_s
-      hardware_type = nil
       model = nil
     end
 
@@ -113,7 +112,6 @@ class Sku < ApplicationRecord
     self.save
 
     if self.hardware_type_id == 8 || self.hardware_type_id == 9
-      self.update_attribute(:hardware_type_id, nil )
       self.update_attribute(:model_id, nil )
     end
 

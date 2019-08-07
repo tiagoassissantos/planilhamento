@@ -40,7 +40,7 @@ class LotItemSerializer < ActiveModel::Serializer
   end
 
   def sku_id
-    return object.sku.code
+    return object.sku.code unless object.sku.code.nil?
   end
 
   def lot

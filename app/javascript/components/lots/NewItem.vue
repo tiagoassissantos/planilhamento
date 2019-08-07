@@ -1298,6 +1298,10 @@
           this.lot_item.vga_card = null
           return true
 
+        }  else if ( this.lot_item.biometric_reader == 'null'  ) {
+          this.lot_item.biometric_reader = null
+          return true
+
         }
          else {
           return false

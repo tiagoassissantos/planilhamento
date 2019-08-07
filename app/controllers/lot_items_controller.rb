@@ -75,7 +75,7 @@ class LotItemsController < ApplicationController
 
     destination_id = params[:destination_id]
     unless destination_id.nil? || destination_id == 'null'
-      lot_item.update_attributes(:destination_id => destination_id)
+      lot_item.update(:destination_id => destination_id)
     end
 
     render json: lot_item, status: 200
@@ -352,7 +352,7 @@ class LotItemsController < ApplicationController
 
     if add_item == 'false'
       lot_items = []
-      items = LotItem.joins(:lot).where( serial_number: serial_number).where.not(destination: 2)
+      items = LotItem.joins(:lot).where( serial_number: serial_number).where(destination: 1).or(LotItem.joins(:lot).where( serial_number: serial_number).where(destination: 3))
       return items
     end
 

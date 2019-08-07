@@ -14,9 +14,11 @@ class LotItem < ApplicationRecord
   has_many :damage_types, :through => :lot_item_damage_types
 
   before_create :generate_sku
+  before_update :change_sku
 
   def generate_sku
-    return unless self.sku.nil?
+
+    #return unless self.sku.nil?
 
     sku = nil
 
@@ -44,6 +46,9 @@ class LotItem < ApplicationRecord
     end
   end
 
+  def change_sku
+    generate_sku
+  end
 
   def generate_monitor_sku()
     self.sku = Sku.new(

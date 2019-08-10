@@ -230,8 +230,8 @@ class LotItemsController < ApplicationController
       unless line.destination.nil?
         destination = line.destination.name
 
-        if line.destination.name.downcase.eql? 'vendido' && !line.sales_order.nil?
-          sales_number = line.sales_order.order_number
+        if line.destination.name.downcase.eql? 'vendido'
+          sales_number = SalesOrder.find(line.sales_order_id).order_number
         end
       end
 

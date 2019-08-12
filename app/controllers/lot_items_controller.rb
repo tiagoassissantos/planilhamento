@@ -321,7 +321,7 @@ class LotItemsController < ApplicationController
 
     if add_item == 'false'
       lot_items = []
-      items = LotItem.joins(:lot).where( bar_code: bar_code).where.not(destination: 2)
+      items = LotItem.joins(:lot).where( bar_code: bar_code).where(destination: 1).or(LotItem.joins(:lot).where(bar_code: bar_code).where(destination: 3))
       return items
     end
 

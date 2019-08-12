@@ -66,4 +66,6 @@ Rails.application.routes.draw do
   resources :skus, only: [:index, :update, :show] do
     delete 'delete_archive' => 'skus#delete_archive'
   end
+
+  get 'query_sku/:filter' => 'skus#query_sku'
 end

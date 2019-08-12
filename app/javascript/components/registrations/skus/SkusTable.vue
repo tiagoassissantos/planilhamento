@@ -220,65 +220,32 @@
         this.$router.push(`/skus/${sku_id}/archive`)
       },
 
-      filter() {
-        if( this.input != '' && this.input != null) {
+      async filter() {
+        this.maxSkus = []
+        let response = null
+
+        if( this.input == '' || this.input == null ) {
           this.maxSkus = []
-          this.skus.forEach(sku => {
-            var id = sku.id.toString()
-            var code = sku.code.toLowerCase()
-            var h_type = sku.hardware_type.toLowerCase()
-            var model = sku.model.toLowerCase()
-            var ram_memory = ''
-            if (sku.ram_memory != null ) {
-              ram_memory = sku.ram_memory.toLowerCase()
-            }
-            var category = ''
-            if (sku.category != null ) {
-              category = sku.category.toLowerCase()
-            }
-            var damageType = ''
-            if (sku.category != null ) {
-              category = sku.category.toLowerCase()
-            }
-            var processor = ''
-            if (sku.processor != null ) {
-              processor = sku.processor.toLowerCase()
-            }
-            var disk_size = ''
-            if (sku.disk_size != null ) {
-              disk_size = sku.disk_size.toLowerCase()
-            }
-            var keyboard_type = ''
-            if (sku.keyboard_type != null ) {
-              keyboard_type = sku.keyboard_type.toLowerCase()
-            }
-            var color = ''
-            if (sku.color != null ) {
-              color = sku.color.toLowerCase()
-            }
+          this.getSkus();
+          return
+        }
 
-            if(
-              id.match(this.input.toLowerCase())            ||
-              h_type.match(this.input.toLowerCase())        ||
-              code.match(this.input.toLowerCase())          ||
-              model.match(this.input.toLowerCase())         ||
-              ram_memory.match(this.input.toLowerCase())    ||
-              category.match(this.input.toLowerCase())      ||
-              processor.match(this.input.toLowerCase())     ||
-              disk_size.match(this.input.toLowerCase())     ||
-              keyboard_type.match(this.input.toLowerCase()) ||
-              color.match(this.input.toLowerCase())
-            ){
-              this.maxSkus.push(sku)
-            }
-          });
+        await this.$http.get(`/query_sku/${this.input}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
 
+        if ( response.status == 200 ) {
+          this.maxSkus = response.body
         }
       },
 
       clearFilter() {
         this.input = null
-        this.maxSkus = this.skus
+        this.maxSkus = []
+        this.getSkus();
       }
     }
   };

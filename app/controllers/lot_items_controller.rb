@@ -298,9 +298,9 @@ class LotItemsController < ApplicationController
     file_contents = StringIO.new
     time = Time.now()
     time.strftime("%b-%m-%Y-%H:M")
-    t = Tempfile.new("Listagem_de_Items-#{time}.xlsx")
+    t = Tempfile.new("Listagem_de_Items-#{time}.xls")
     book.write t.path
-    send_file t.path , type: 'application/excel', filename: "Listagem_de_Items-#{time}.xlsx"
+    send_file t.path , type: 'application/excel', filename: "Listagem_de_Items-#{time}.xls"
   end
 
   private

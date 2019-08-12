@@ -319,6 +319,7 @@ class LotItemsController < ApplicationController
       return lot_items
     end
 
+    #Apenas traz itens que estão com o destino em "disponivel para vendas"/"Manutenção"
     if add_item == 'false'
       lot_items = []
       items = LotItem.joins(:lot).where( bar_code: bar_code).where(destination: 1).or(LotItem.joins(:lot).where(bar_code: bar_code).where(destination: 3))
@@ -344,6 +345,7 @@ class LotItemsController < ApplicationController
     end
   end
 
+  #Apenas traz itens que estão com o destino em "disponivel para vendas"/"Manutenção"
   def search_with_serial_number( serial_number, add_item )
     if add_item == 'true'
       lot_items = LotItem.where(serial_number: serial_number).where(destination_id: 1)

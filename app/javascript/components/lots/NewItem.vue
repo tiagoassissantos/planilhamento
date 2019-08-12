@@ -1150,8 +1150,6 @@
           this.lot_item.damage_type_id.push(damageType.id)
         })
 
-
-
         this.$validator.validate().then((result) => {
           switch (this.lot_item.hardware_type_id) {
             case 1:
@@ -1168,7 +1166,9 @@
               break;
             case 3:
               if ( this.validationServer() ) {
-                return
+                this.returnSubmit = true
+              } else {
+                this.returnSubmit = false
               }
               break;
             case 4:
@@ -1225,7 +1225,7 @@
       validationMonitorAndSwitch () {
         if(
             this.lot_item.category_id == null ||
-            this.lot_item.bar_code.trim() == ''
+            ( this.lot_item.destination_id != 4 && this.lot_item.bar_code.trim() == '')
           ){
           return true
         }
@@ -1238,7 +1238,7 @@
             this.lot_item.vga_card == null ||
             this.lot_item.ram_memory == null ||
             this.lot_item.ram_memory.trim() == '' ||
-            this.lot_item.bar_code.trim() == ''
+            ( this.lot_item.destination_id != 4 && this.lot_item.bar_code.trim() == '')
           ){
           return true
 
@@ -1252,15 +1252,16 @@
       },
 
       validationServer () {
-        if(
+        if (
             this.lot_item.category_id == null ||
             this.lot_item.processor_id == null ||
             this.lot_item.ram_memory == null ||
             this.lot_item.ram_memory.trim() == '' ||
-            this.lot_item.bar_code.trim() == ''
-          ){
+            ( this.lot_item.destination_id != 4 && this.lot_item.bar_code.trim() == '')
+          ) {
           return true
         }
+        return false;
       },
 
       validationNoteBook() {
@@ -1275,7 +1276,7 @@
             this.lot_item.vga_card == null ||
             this.lot_item.ram_memory == null ||
             this.lot_item.ram_memory.trim() == '' ||
-            this.lot_item.bar_code.trim() == ''
+            ( this.lot_item.destination_id != 4 && this.lot_item.bar_code.trim() == '')
           ){
           return true
         } else if ( this.lot_item.bluetooth == 'null'  ) {
@@ -1314,7 +1315,7 @@
             this.lot_item.disk_size_id == null ||
             this.lot_item.screen == null ||
             this.lot_item.color == null ||
-            this.lot_item.bar_code.trim() == ''
+            ( this.lot_item.destination_id != 4 && this.lot_item.bar_code.trim() == '')
           ){
           return true
 
@@ -1332,7 +1333,7 @@
         if(
             this.lot_item.disk_size_id == null ||
             this.lot_item.disk_type_id == null ||
-            this.lot_item.bar_code.trim() == ''
+            ( this.lot_item.destination_id != 4 && this.lot_item.bar_code.trim() == '')
           ){
           return true
         }

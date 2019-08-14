@@ -70,6 +70,7 @@ class Sku < ApplicationRecord
     when 6 # tablet
       code += ram_memory
       code += category.id.to_s
+      code += disk_size.id.to_s
       code += color[0,4]
       code += generate_code_damage
 

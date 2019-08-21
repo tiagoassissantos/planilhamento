@@ -44,6 +44,8 @@
                   <option value='operator_n1'>Operador N1</option>
                   <option value='operator_n2'>Operador N2</option>
                   <option value='operator_comercial'>Operador Comercial</option>
+                  <option value='operator_marketing'> Operador Marketing </option>
+                  <option value='operator_warranty'>Operador Pós venda & Garantia </option>
                 </select>
               </div>
             </div>

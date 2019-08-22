@@ -31,8 +31,8 @@
             <th scope="col">ID</th>
             <th scope="col">Nome</th>
             <th scope="col">Fabricante</th>
-            <th scope="col">Editar</th>
-            <th scope="col">Excluir</th>
+            <th scope="col" v-if="user_operator_n2">Editar</th>
+            <th scope="col" v-if="user_operator_n2">Excluir</th>
           </tr>
         </thead>
         <tbody>
@@ -40,12 +40,12 @@
             <td>{{model.id}}</td>
             <td>{{model.name}}</td>
             <td>{{model.manufacturer.name}}</td>
-            <td>
+            <td v-if="user_operator_n2">
               <router-link :to="{ name: 'model', params: {model_id: model.id}}">
                 <img src='../../../../assets/images/editar.png'/>
               </router-link>
             </td>
-            <td>
+            <td v-if="user_operator_n2">
               <img @click="deleteModel(model.id)" class="cursor-item" src='../../../../assets/images/excluir.png'/>
             </td>
           </tr>
@@ -66,18 +66,33 @@
         showAlert: false,
         message: '',
         messageClass: '',
-        input: null
+        input: null,
+        user_operator_n2: true
       }
     },
 
     computed: {
       isLogged() {
         return this.$store.state.logged
+      },
+
+      getCurrentUser() {
+        return this.$store.state.currentUser
       }
+
     },
 
     mounted() {
       this.getModels();
+
+      this.$store.dispatch('getCurrentUser');
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == 'SET_CURRENT_USER') {
+          if(this.getCurrentUser.role == "Operador N2"){
+            this.user_operator_n2 = false
+          }
+        }
+      })
     },
 
     methods: {

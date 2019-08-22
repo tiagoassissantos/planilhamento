@@ -82,14 +82,14 @@
     },
 
     mounted() {
-      this.$store.dispatch('getCurrentUser');
-      this.$store.subscribe((mutation, state) => {
-        if (mutation.type == 'SET_CURRENT_USER') {
-          if( this.getCurrentUser.role == "Operador N2"){
-            this.$router.push('/')
-          }
-        }
-      }),
+      //this.$store.dispatch('getCurrentUser');
+      //this.$store.subscribe((mutation, state) => {
+      //  if (mutation.type == 'SET_CURRENT_USER') {
+      //    if( this.getCurrentUser.role == "Operador N2"){
+      //      this.$router.push('/')
+      //    }
+      //  }
+      //}),
 
       this.lotId = this.$route.params.lot_id;
       this.getLot();

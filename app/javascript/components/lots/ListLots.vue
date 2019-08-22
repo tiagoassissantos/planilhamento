@@ -18,7 +18,7 @@
           </div>
 
           <div class="col-md-2 offset-md-2 col-sm-12">
-            <router-link to="/lots/new" class="btn btn-primary full-width-button float-right">
+            <router-link v-if="!user_operator_n2" to="/lots/new" class="btn btn-primary full-width-button float-right">
                 Novo Lote
             </router-link>
           </div>
@@ -30,24 +30,35 @@
               <table class="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th scope="col">Editar</th>
-                    <th scope="col">Núm. Lote</th>
+                    <th scope="col" v-if="!user_operator_n1 && !user_operator_n2"> Editar </th>
+                    <th scope="col"> Núm. Lote </th>
                     <th scope="col"> Status </th>
-                    <th scope="col">Data</th>
+                    <th scope="col"> Data </th>
+                    <th scope="col"> Ação </th>
                   </tr>
                 </thead>
 
                 <tbody>
                   <tr v-for='(lot, index) in lots' :key="index" v-if="regExp( lot )">
-                    <td>
+                    <td v-if="!user_operator_n1 && !user_operator_n2">
                       <router-link :to="{ name: 'edit-lot', params: {lot_id: lot.id}}">
-                        <!--router-link to="/lots/" class="nav-link active text-light"-->
                         <img src='../../../assets/images/editar.png'/>
                       </router-link>
                     </td>
                     <td>{{lot.order_number}}</td>
                     <td>{{lot.status}}</td>
                     <td>{{lot.created_at}}</td>
+                    <td>
+                      <span
+                        v-if="checkStatusAndUser(lot.status)"
+                        @click="updateStatus(lot)"
+                        class="btn btn-danger button-custom"
+                      >
+                        <span v-if="lot.status === 'Aberto'"> Fechar </span>
+                        <span v-if="lot.status === 'Reaberto'"> Fechar </span>
+                        <span v-if="lot.status === 'Fechado'"> Reabrir </span>
+                      </span>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -70,8 +81,11 @@
     data() {
       return {
         lots: [],
-
-        input: null
+        button_text_status: null,
+        input: null,
+        user_operator_n1: false,
+        user_operator_n2: false,
+        user_operator_comercial: false
       }
     },
 
@@ -89,9 +103,20 @@
       this.$store.dispatch('getCurrentUser');
       this.$store.subscribe((mutation, state) => {
         if (mutation.type == 'SET_CURRENT_USER') {
-          if( this.getCurrentUser.role == "Operador N2") {
+          if( this.getCurrentUser.role == "Operador Pós-Venda / Garantia" || this.getCurrentUser.role == "Operador Marketing") {
             this.$router.push('/')
           }
+          if( this.getCurrentUser.role == "Operador N1" ) {
+            this.user_operator_n1 = true
+          }
+          if( this.getCurrentUser.role == "Operador N2" ) {
+            this.user_operator_n2 = true
+          }
+
+          if( this.getCurrentUser.role == "Operador Comercial" ) {
+            this.user_operator_comercial = true
+          }
+
         }
       }),
       this.getLots();
@@ -114,9 +139,18 @@
 
             let status = ''
 
-            if( lot.status === 'open') { status = 'Aberto'}
-            if( lot.status === 'closed') { status = 'Fechado' }
-            if( lot.status === 'reopened') { status = 'Reaberto' }
+            if( lot.status === 'open') {
+              status = 'Aberto'
+              this.button_text_status = 'Fechar lote'
+            }
+            if( lot.status === 'closed') {
+              this.button_text_status = 'Reabrir lote',
+              status = 'Fechado'
+            }
+            if( lot.status === 'reopened') {
+              this.button_text_status = 'Fechar lote'
+              status = 'Reaberto'
+            }
 
             this.lots.push({
               id: lot.id,
@@ -156,8 +190,39 @@
             return false
           }
         }
-      }
+      },
 
+      async updateStatus(lot_update) {
+        let response = null
+
+          if( lot_update.status === 'Aberto') { lot_update.status = 'closed'}
+          if( lot_update.status === 'Fechado') { lot_update.status = 'reopened' }
+          if( lot_update.status === 'Reaberto') { lot_update.status = 'closed' }
+
+        await this.$http.put(`/lots/${lot_update.id}`, {lot: lot_update})
+          .then((result) => {
+            response = result;
+          }).catch((err) => {
+            response = err
+          });
+
+          if ( response.status == 200 ) {
+            this.lots = []
+            this.getLots();
+          }
+      },
+
+      checkStatusAndUser( lot_status ) {
+        if( this.user_operator_n1 && lot_status == "Fechado") {
+          return false
+        } else if ( this.user_operator_n2 && lot_status == "Fechado" ){
+          return false
+        } else if( this.user_operator_comercial ){
+          return false
+        } else {
+          return true
+        }
+      }
     }
   }
 </script>
@@ -174,5 +239,9 @@
 
   .edit-icon {
     font-size: 30px
+  }
+
+  .button-custom {
+    cursor: pointer;
   }
 </style>

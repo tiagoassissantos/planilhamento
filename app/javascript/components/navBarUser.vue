@@ -1,68 +1,68 @@
 <template>
   <nav class="navbar navbar-light bg-light nav fixed-nav">
     <ul>
-      <li>
+      <li v-if="user_comercial && user_operator_warranty">
         <a href="#">
           <font-awesome-icon icon="list"/>
           Cadastros
         </a>
         <ul>
-          <li>
+          <li v-if="user_operator_n1 && user_operator_n2 && user_operator_marketing">
             <router-link to="/users" class="nav-link active text-light">
               <font-awesome-icon icon="user" class="sub-icon"/> Usuários
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_n1 && user_operator_n2 && user_operator_marketing">
             <router-link to="/hardware-types" class="nav-link active text-light">
               <font-awesome-icon icon="microchip" class="sub-icon"/> Tipo de Hardware
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_marketing">
             <router-link to="/manufacturers" class="nav-link active text-light">
               <font-awesome-icon icon="user-cog" class="sub-icon"/> Fabricante
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_marketing">
             <router-link to="/models" class="nav-link active text-light">
               <font-awesome-icon icon="info-circle" class="sub-icon"/> Modelo
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_n2 && user_operator_marketing">
             <router-link to="/categories" class="nav-link active text-light">
               <font-awesome-icon icon="indent" class="sub-icon"/> Categoria
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_n2 && user_operator_marketing">
             <router-link to="/damage-types" class="nav-link active text-light">
               <font-awesome-icon icon="unlink" class="sub-icon"/> Tipo de Avaria
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_n2 && user_operator_marketing">
             <router-link to="/processors" class="nav-link active text-light">
               <font-awesome-icon icon="sim-card" class="sub-icon"/> Processadores
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_n2 && user_operator_marketing">
             <router-link to="/disk-types" class="nav-link active text-light">
               <font-awesome-icon icon="memory" class="sub-icon"/> Tipo do Disco
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_n2 && user_operator_marketing">
             <router-link to="/disk-sizes" class="nav-link active text-light">
               <font-awesome-icon icon="server" class="sub-icon"/> Tamanho do Disco
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_n2 && user_operator_marketing">
             <router-link to="/keyboard-types" class="nav-link active text-light">
               <font-awesome-icon icon="keyboard" class="sub-icon"/> Tipo Teclado
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_n2 && user_operator_marketing">
             <router-link to="/destinations" class="nav-link active text-light">
               <font-awesome-icon icon="plane" class="sub-icon"/> Destino
             </router-link>
           </li>
-          <li>
+          <li v-if="user_operator_n2">
             <router-link to="/skus" class="nav-link active text-light">
               <font-awesome-icon icon="laptop-code" class="sub-icon"/> Skus
             </router-link>
@@ -70,7 +70,7 @@
         </ul>
       </li>
 
-      <li v-if="getCurrentUser.role != 'Operador N2'">
+      <li v-if="user_operator_marketing && user_operator_warranty ">
         <a href="#">
           <font-awesome-icon icon="laptop"/>
           Recebimento
@@ -84,7 +84,7 @@
         </ul>
       </li>
 
-      <li>
+      <li v-if="user_comercial && user_operator_warranty && user_operator_marketing">
         <a href="#">
           <font-awesome-icon icon="copy"/>
           Inventário
@@ -109,22 +109,22 @@
         </a>
       </li>
 
-      <li>
+      <li v-if="user_operator_n2 && user_comercial && user_operator_marketing">
         <a href="#">
           <font-awesome-icon icon="columns"/>
           Movimentações
           <ul>
-            <li>
+            <li v-if="user_operator_warranty">
               <router-link class="nav-link active text-light" to="/lots-transfer">
                 <font-awesome-icon icon="box" class="sub-icon"/> Transferências
               </router-link>
             </li>
-            <li>
+            <li v-if="user_operator_n1 && user_operator_warranty">
               <router-link class="nav-link active text-light" to="/sales-order">
                 <font-awesome-icon icon="box" class="sub-icon"/> Pedidos de Vendas
               </router-link>
             </li>
-            <li>
+            <li v-if="user_operator_n1">
               <router-link class="nav-link active text-light" to="/item-devolution">
                 <font-awesome-icon icon="box" class="sub-icon"/> Devolução
               </router-link>
@@ -133,7 +133,7 @@
         </a>
       </li>
 
-      <li>
+      <li v-if="user_operator_warranty && user_operator_marketing && user_comercial">
         <a href="#">
           <font-awesome-icon icon="tools"/>
           Manutenção
@@ -191,17 +191,45 @@
 </template>
 
 <script>
+import { setTimeout } from 'timers';
 export default {
   data() {
     return {
       mainProps: { blank: true, blankColor: '#777', width: 50, height: 50, class: 'm1' },
-      sideActive: false
+      sideActive: false.currentUser,
+      user_operator_n1: true,
+      user_operator_n2: true,
+      user_comercial: true,
+      user_operator_marketing: true,
+      user_operator_warranty: true
     }
   },
 
   computed: {
     getCurrentUser() {
-        return this.$store.state.currentUser
+
+      setTimeout( function () {
+        switch (this.$store.state.currentUser.role) {
+          case "Operador N1":
+            this.user_operator_n1 = false
+            break;
+          case "Operador N2":
+            this.user_operator_n2 = false
+            break;
+          case "Operador Comercial":
+            this.user_comercial = false
+            break;
+          case "Operador Pós-Venda / Garantia":
+            this.user_operator_warranty = false
+            break;
+          case "Operador Marketing":
+            this.user_operator_marketing = false
+            break;
+          default:
+            break;
+        }
+      }.bind(this), 50);
+      return this.$store.state.currentUser
     }
   },
 

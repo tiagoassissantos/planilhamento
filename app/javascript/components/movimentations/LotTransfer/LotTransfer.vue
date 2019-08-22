@@ -164,7 +164,11 @@
       }
     },
 
-    computed: { },
+    computed: {
+      getCurrentUser() {
+        return this.$store.state.currentUser
+      }
+    },
 
     mounted() {
       this.sales_order_id = this.$route.params.sales_order_id
@@ -174,6 +178,20 @@
       } else {
         this.getDestinations()
       }
+
+      this.$store.dispatch('getCurrentUser');
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == 'SET_CURRENT_USER') {
+          if(
+            this.getCurrentUser.role == "Operador N2"         ||
+            this.getCurrentUser.role == "Operador Comercial"  ||
+            this.getCurrentUser.role == "Operador Marketing"  ||
+            this.getCurrentUser.role == "Operador Pós-Venda / Garantia"
+            ){
+              this.$router.push('/')
+          }
+        }
+      })
     },
 
     methods: {

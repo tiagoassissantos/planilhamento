@@ -102,7 +102,7 @@
           {{ data.item.color }}
         </template>
 
-        <template slot="archive" slot-scope="data">
+        <template slot="archive" slot-scope="data" v-if="user_operator_marketing">
           <span @click="routerUpload(data.item.id)" class="btn btn-success width-btn" v-if="data.item.archive == 'false'"> Upload </span>
 
           <a :href="data.item.archive" target="_blank" class="btn btn-info width-btn" v-if="data.item.archive != 'false'">
@@ -163,7 +163,9 @@
           {key: 'vga_card', label: 'Placa de vídeo'},
           {key: 'color', label: 'Cor'},
           {key: 'archive', label: 'Arquivo'}
-        ]
+        ],
+        user_operator_marketing: true,
+        user: {}
 
       }
     },
@@ -174,11 +176,12 @@
       },
       rows() {
         return this.skus.length
-      }
+      },
     },
 
     mounted() {
       this.getSkus();
+      this.getUser();
     },
 
     methods: {
@@ -246,6 +249,28 @@
         this.input = null
         this.maxSkus = []
         this.getSkus();
+      },
+
+      async getUser() {
+        let response = null
+
+        await this.$http.get('/get_user')
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.user = response.body
+          if(
+            this.user.role == "Operador Marketing" ||
+            this.user.role == "Operador Comercial" ||
+            this.user.role == "Operador N2" ||
+            this.user.role == "Operador Pós-Venda / Garantia") {
+            this.user_operator_marketing = false
+          }
+        }
       }
     }
   };

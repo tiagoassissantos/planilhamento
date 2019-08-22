@@ -24,27 +24,27 @@
         {{ message }}
       </b-alert>
     </div>
-
+  {{getCurrentUser.role}}
     <div class="table-scroll">
       <table class="table table-hover table-bordered">
         <thead>
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Nome</th>
-            <th scope="col">Editar</th>
-            <th scope="col">Excluir</th>
+            <th scope="col" v-if="user_operator_n2">Editar</th>
+            <th scope="col" v-if="user_operator_n2">Excluir</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for='(manufacturer, index) in manufacturers' :key="index" v-if="regExp( manufacturer )">
             <td>{{manufacturer.id}}</td>
             <td>{{manufacturer.name}}</td>
-            <td>
+            <td v-if="user_operator_n2">
               <router-link :to="{ name: 'manufacturer', params: {manufacturer_id: manufacturer.id}}">
                 <img src='../../../../assets/images/editar.png'/>
               </router-link>
             </td>
-            <td>
+            <td v-if="user_operator_n2">
               <img
                 @click="deleteManufacturer(manufacturer.id)"
                 class="cursor-item"
@@ -70,12 +70,26 @@
         message: '',
         messageClass: '',
         input: null,
+        user_operator_n2: true
       }
     },
 
     computed: {
       isLogged() {
         return this.$store.state.logged
+      },
+
+      getCurrentUser() {
+        setTimeout( function () {
+          switch (this.$store.state.currentUser.role) {
+            case "Operador N2":
+              this.user_operator_n2 = false
+              break;
+            default:
+              break;
+          }
+        }.bind(this), 50);
+        return this.$store.state.currentUser
       }
     },
 

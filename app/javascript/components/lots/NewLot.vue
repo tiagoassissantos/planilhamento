@@ -38,18 +38,6 @@
                 </div>
               </div>
 
-              <div class="form-group row" v-if="edit">
-                <label class='col-sm-2 col-form-label'> Status do lote: </label>
-                <div class="col-sm-4">
-                  <input class="form-control ml-3" disabled  type="text" v-model='lot.status' placeholder="Número do Pedido" />
-                </div>
-                <div class="col-sm-4">
-                  <span class="btn btn-danger ml-3" @click="updateStatus(lot.status)">
-                    {{ button_text_status }}
-                  </span>
-                </div>
-              </div>
-
               <button type='submit' class="btn btn-primary">
                 {{button_text}}
               </button>
@@ -102,15 +90,6 @@
     },
 
     mounted() {
-      this.$store.dispatch('getCurrentUser');
-      this.$store.subscribe((mutation, state) => {
-        if (mutation.type == 'SET_CURRENT_USER') {
-          if( this.getCurrentUser.role == "Operador N2"){
-            this.$router.push('/')
-          }
-        }
-      }),
-
       this.lotId = this.$route.params.lot_id;
 
       if ( this.lotId != null) {
@@ -139,9 +118,6 @@
       async submit() {
         this.showLoading()
 
-          if( this.lot.status === 'Aberto') { this.button_text_status = 'Fechar lote', this.lot.status = 'open'}
-          if( this.lot.status === 'Fechado') {  this.button_text_status = 'Reabrir lote', this.lot.status = 'closed' }
-          if( this.lot.status === 'Reaberto') { this.button_text_status = 'Fechar lote', this.lot.status = 'reopened' }
         let response = null;
 
         if (this.edit) {
@@ -193,10 +169,6 @@
 
         if (response.status == 200) {
           this.lot = response.body;
-          if( this.lot.status === 'open') { this.button_text_status = 'Fechar lote', this.lot.status = 'Aberto'}
-          if( this.lot.status === 'closed') {  this.button_text_status = 'Reabrir lote', this.lot.status = 'Fechado' }
-          if( this.lot.status === 'reopened') { this.button_text_status = 'Fechar lote', this.lot.status = 'Reaberto' }
-
         } else {
           this.showAlert = true
           this.messageClass = "danger"

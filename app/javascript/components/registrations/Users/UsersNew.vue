@@ -130,7 +130,7 @@
       this.$store.subscribe((mutation, state) => {
         if (mutation.type == 'SET_CURRENT_USER') {
           if(this.getCurrentUser.role != "Administrador"){
-            this.$router.push('/users')
+            this.$router.push('/')
           }
         }
       }),

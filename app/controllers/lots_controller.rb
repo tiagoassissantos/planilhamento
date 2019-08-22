@@ -63,7 +63,9 @@ class LotsController < ApplicationController
     return unless user_logged?
 
     lot = Lot.find( params[:id] )
-
+    Rails.logger.info("+++++++++++++++")
+    Rails.logger.info( lot_params )
+    Rails.logger.info("+++++++++++++++")
     if lot.update( lot_params )
       render json: lot, status: 200
     else

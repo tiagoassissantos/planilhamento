@@ -22,11 +22,24 @@
     computed: {
       isLogged() {
         return this.$store.state.logged
+      },
+
+      getCurrentUser() {
+        return this.$store.state.currentUser
       }
     },
 
     mounted() {
       this.$store.dispatch('isLogged');
+
+      this.$store.dispatch('getCurrentUser');
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == 'SET_CURRENT_USER') {
+          if(this.getCurrentUser.role != "Administrador"){
+            this.$router.push('/')
+          }
+        }
+      })
     },
 
     methods: { }

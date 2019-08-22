@@ -27,6 +27,20 @@
 
     mounted() {
       this.$store.dispatch('isLogged');
+
+      this.$store.dispatch('getCurrentUser');
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == 'SET_CURRENT_USER') {
+          if(
+            this.getCurrentUser.role == "Operador N2"         ||
+            this.getCurrentUser.role == "Operador Comercial"  ||
+            this.getCurrentUser.role == "Operador Marketing"  ||
+            this.getCurrentUser.role == "Operador Pós-Venda / Garantia"){
+              this.$router.push('/')
+          }
+        }
+      })
+
     },
 
     methods: {

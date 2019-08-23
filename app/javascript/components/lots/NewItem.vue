@@ -57,7 +57,15 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-1" @click="toggleModal('my-modal','modal-1')">Cadastre novo Hardware</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-1"
+                          @click="toggleModal('my-modal','modal-1')"
+                        >
+                          Cadastre novo Hardware
+                        </p>
+
                         <b-modal ref="my-modal" size="lg" hide-footer title="Novo Tipo de Hardware">
                           <div class="d-block text-center">
                             <new-hardware modal_params="Cadastre"/>
@@ -91,7 +99,14 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-2" @click="toggleModal('my-modal-1','modal-2')">Cadastre novo Fabricante</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-2"
+                          @click="toggleModal('my-modal-1','modal-2')"
+                        >
+                          Cadastre novo Fabricante
+                        </p>
                         <b-modal ref="my-modal-1" size="lg" hide-footer title="Novo Fabricante">
                           <div class="d-block text-center">
                             <new-manufacturer modal_params="Cadastre"/>
@@ -121,7 +136,14 @@
                         </option>
                       </select>
                       <div>
-                        <p class="link-new" id="modal-3" @click="toggleModal('my-modal-2','modal-3')">Cadastre novo Modelo</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-3"
+                          @click="toggleModal('my-modal-2','modal-3')"
+                        >
+                          Cadastre novo Modelo
+                        </p>
                         <b-modal ref="my-modal-2" size="lg" hide-footer title="Novo Modelo">
                           <div class="d-block text-center">
                             <new-model modal_params="Cadastre"/>
@@ -205,7 +227,14 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-4" @click="toggleModal('my-modal-3','modal-4')">Cadastre nova Categoria</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-4"
+                          @click="toggleModal('my-modal-3','modal-4')"
+                        >
+                          Cadastre nova Categoria
+                        </p>
                         <b-modal ref="my-modal-3" size="lg" hide-footer title="Nova Categoria">
                           <div class="d-block text-center">
                             <new-categories modal_params="Cadastre"/>
@@ -232,7 +261,14 @@
                         </option>
                       </select>
                       <div>
-                        <p class="link-new" id="modal-4" @click="toggleModal('my-modal-3','modal-4')">Cadastre nova Categoria</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-4"
+                          @click="toggleModal('my-modal-3','modal-4')"
+                        >
+                          Cadastre nova Categoria
+                        </p>
                         <b-modal ref="my-modal-3" size="lg" hide-footer title="Nova Categoria">
                           <div class="d-block text-center">
                             <new-categories modal_params="Cadastre"/>
@@ -273,7 +309,14 @@
                       >
                       </multiselect>
                       <div>
-                        <p class="link-new" id="modal-5" @click="toggleModal('my-modal-4','modal-5')">Cadastre nova Avaria</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-5"
+                          @click="toggleModal('my-modal-4','modal-5')"
+                        >
+                          Cadastre nova Avaria
+                        </p>
                         <b-modal ref="my-modal-4" size="lg" hide-footer title="Nova Avaria">
                           <div class="d-block text-center">
                             <new-damage-type modal_params="Cadastre"/>
@@ -304,7 +347,14 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-7" @click="toggleModal('my-modal-6','modal-7')">Cadastre novo Processador</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-7"
+                          @click="toggleModal('my-modal-6','modal-7')"
+                        >
+                          Cadastre novo Processador
+                        </p>
                         <b-modal ref="my-modal-6" size="lg" hide-footer title="Novo Processador">
                           <div class="d-block text-center">
                             <new-processors modal_params="Cadastre"/>
@@ -332,7 +382,14 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-7" @click="toggleModal('my-modal-6','modal-7')">Cadastre novo Processador</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-7"
+                          @click="toggleModal('my-modal-6','modal-7')"
+                        >
+                          Cadastre novo Processador
+                        </p>
                         <b-modal ref="my-modal-6" size="lg" hide-footer title="Novo Processador">
                           <div class="d-block text-center">
                             <new-processors modal_params="Cadastre"/>
@@ -363,7 +420,14 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-9" @click="toggleModal('my-modal-8','modal-9')">Cadastre novo Tamanho do HD</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-9"
+                          @click="toggleModal('my-modal-8','modal-9')"
+                        >
+                          Cadastre novo Tamanho do HD
+                        </p>
                         <b-modal ref="my-modal-8" size="lg" hide-footer title="Novo tamanho do HD">
                           <div class="d-block text-center">
                             <disk-sizes modal_params="Cadastre"/>
@@ -391,7 +455,14 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-9" @click="toggleModal('my-modal-8','modal-9')">Cadastre novo Tamanho do HD</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-9"
+                          @click="toggleModal('my-modal-8','modal-9')"
+                        >
+                          Cadastre novo Tamanho do HD
+                        </p>
                         <b-modal ref="my-modal-8" size="lg" hide-footer title="Novo tamanho do HD">
                           <div class="d-block text-center">
                             <disk-sizes modal_params="Cadastre"/>
@@ -421,7 +492,14 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-10" @click="toggleModal('my-modal-10','modal-10')">Cadastre novo Tipo de HD</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-10"
+                          @click="toggleModal('my-modal-10','modal-10')"
+                        >
+                          Cadastre novo Tipo de HD
+                        </p>
                         <b-modal ref="my-modal-10" size="lg" hide-footer title="Novo Tipo de HD">
                           <div class="d-block text-center">
                             <disk-types modal_params="Cadastre"/>
@@ -449,7 +527,14 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-10" @click="toggleModal('my-modal-10','modal-10')">Cadastre novo Tipo de HD</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-10"
+                          @click="toggleModal('my-modal-10','modal-10')"
+                        >
+                          Cadastre novo Tipo de HD
+                        </p>
                         <b-modal ref="my-modal-9" size="lg" hide-footer title="Novo Tipo de HD">
                           <div class="d-block text-center">
                             <disk-types modal_params="Cadastre"/>
@@ -547,7 +632,15 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-8" size="lg" @click="toggleModal('my-modal-7','modal-8')">Cadastre novo Tipo de Teclado</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-8"
+                          size="lg"
+                          @click="toggleModal('my-modal-7','modal-8')"
+                        >
+                          Cadastre novo Tipo de Teclado
+                        </p>
                         <b-modal ref="my-modal-7" hide-footer title="Novo Tipo de Teclado">
                           <div class="d-block text-center">
                             <new-keyboard-types modal_params="Cadastre"/>
@@ -575,7 +668,15 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-8" size="lg" @click="toggleModal('my-modal-7','modal-8')">Cadastre novo Tipo de Teclado</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-8"
+                          size="lg"
+                          @click="toggleModal('my-modal-7','modal-8')"
+                        >
+                          Cadastre novo Tipo de Teclado
+                        </p>
                         <b-modal ref="my-modal-7" hide-footer title="Novo Tipo de Teclado">
                           <div class="d-block text-center">
                             <new-keyboard-types modal_params="Cadastre"/>
@@ -759,7 +860,14 @@
                       </select>
 
                       <div>
-                        <p class="link-new" id="modal-6"  @click="toggleModal('my-modal-5','modal-6')">Cadastre novo Destino</p>
+                        <p
+                          v-if="show_ref_to_modal"
+                          class="link-new"
+                          id="modal-6"
+                          @click="toggleModal('my-modal-5','modal-6')"
+                        >
+                          Cadastre novo Destino
+                        </p>
                         <b-modal ref="my-modal-5" size="lg" hide-footer title="Novo Destino">
                           <div class="d-block text-center">
                             <new-destinations modal_params="Cadastre"/>
@@ -806,23 +914,6 @@
                   </center>
                   <p class="my-1"> {{ messageModal }} </p>
                 </b-modal>
-
-                <!-- modal de componentes -->
-                <!-- <div class="modal fade"  tabindex="-1" role="dialog">
-                  <div class="d-block text-center">
-                    <new-hardware  v-if="id_modal === 9" modal_params="Cadastre"/>
-                    <new-manufacturer v-if="id_modal === 0" modal_params="Cadastre"></new-manufacturer>
-                    <new-model v-if="id_modal === 1" modal_params="Cadastre" />
-                    <new-damage-type v-if="id_modal === 2" modal_params="Cadastre"/>
-                    <new-destinations v-if="id_modal === 3" modal_params="Cadastre"/>
-                    <new-categories v-if="id_modal === 4" modal_params="Cadastre"/>
-                    <new-processors v-if="id_modal === 5" modal_params="Cadastre"/>
-                    <new-keyboard-types v-if="id_modal === 6" modal_params="Cadastre"/>
-                    <disk-sizes v-if="id_modal === 7" modal_params="Cadastre"/>
-                    <disk-types v-if="id_modal === 8" modal_params="Cadastre"/>
-                  </div>
-                  <b-button class="mt-3" variant="outline-danger" block @click="hideModal"> Fechar </b-button>
-                </div> -->
 
               </div> <!-- === FIM CONTAINER === -->
             </div>
@@ -881,7 +972,8 @@
           bar_code: null,
           vga_card: null,
           biometric_reader: null,
-          color: null
+          color: null,
+          show_ref_to_modal: true
         },
 
         selected: [], // Must be an array reference!
@@ -918,6 +1010,10 @@
 
 
     computed: {
+      getCurrentUser() {
+        return this.$store.state.currentUser
+      },
+
       isLogged() {
         return this.$store.state.logged
       },
@@ -1136,6 +1232,18 @@
       this.getSkus();
 
       this.lotId = this.$route.params.lot_id;
+
+      this.$store.dispatch('getCurrentUser');
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == 'SET_CURRENT_USER') {
+          if(
+            this.getCurrentUser.role == "Operador N2"){
+              this.show_ref_to_modal = false
+          }
+        }
+      })
+
+
     },
 
     methods: {

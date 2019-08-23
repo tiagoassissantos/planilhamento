@@ -12,7 +12,7 @@
               <font-awesome-icon icon="user" class="sub-icon"/> Usuários
             </router-link>
           </li>
-          <li v-if="user_operator_n1 && user_operator_n2 && user_operator_marketing">
+          <li v-if="user_operator_n2 && user_operator_marketing">
             <router-link to="/hardware-types" class="nav-link active text-light">
               <font-awesome-icon icon="microchip" class="sub-icon"/> Tipo de Hardware
             </router-link>

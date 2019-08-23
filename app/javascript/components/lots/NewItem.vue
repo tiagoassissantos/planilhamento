@@ -973,8 +973,9 @@
           vga_card: null,
           biometric_reader: null,
           color: null,
-          show_ref_to_modal: true
         },
+
+        show_ref_to_modal: true,
 
         selected: [], // Must be an array reference!
 

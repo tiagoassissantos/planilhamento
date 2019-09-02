@@ -21,7 +21,7 @@
 
         <div class='row'>
           <div class="col-sm-12">
-            <form @submit.prevent="validationBeforeSubmit">
+            <form @submit.prevent.once="validationBeforeSubmit">
               <div class="form-group row">
                 <label class='col-sm-2 col-form-label'>Número do Pedido:</label>
                 <div class="col-sm-4">

@@ -14,7 +14,7 @@
       </div>
 
       <div class="card-body">
-        <form @submit.prevent="validationBeforeSubmit">
+        <form @submit.prevent.once="validationBeforeSubmit">
           <div class='row'>
             <div class="col-sm-8">
               <div class="form-group">

@@ -13,7 +13,7 @@
       </div>
 
       <div class="card-body">
-        <form @submit.prevent="submit">
+        <form @submit.prevent.once="submit">
           <div class='row'>
 
             <div class="col-sm-4">

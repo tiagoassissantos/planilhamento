@@ -1255,6 +1255,11 @@
 
       async submit() {
         this.lot_item.damage_type_id = []
+        console.log("+++++++++++")
+        console.log(this.value)
+        console.log("+++++++++++")
+        console.log(this.lot_item.damage_type_id)
+        console.log("----------------")
         this.value.forEach(damageType => {
           this.lot_item.damage_type_id.push(damageType.id)
         })

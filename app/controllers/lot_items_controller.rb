@@ -66,16 +66,17 @@ class LotItemsController < ApplicationController
     damage_types_id = params[:damage_types_id]
 
     lot_item_damage_type = LotItemDamageType.where(lot_item_id: lot_item.id)
+
     lot_item_damage_type.delete_all
 
     damage_types_id.each do |id|
       damage = DamageType.find(id)
       lot_item.damage_types << damage
     end
-
     destination_id = params[:destination_id]
     unless destination_id.nil? || destination_id == 'null'
       lot_item.update(:destination_id => destination_id)
+
     end
 
     render json: lot_item, status: 200

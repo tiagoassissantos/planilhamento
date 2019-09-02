@@ -6,7 +6,7 @@
       </div>
 
       <div class="card-body">
-        <form @submit.prevent="submit">
+        <form>
           <div class="mb-3"> Detalhes do Produto </div>
           <div class="table-scroll">
             <table class="table table-hover table-bordered">
@@ -89,7 +89,7 @@
             </div>
           </div>
 
-          <button class="full-width btn btn-success space-top"> Salvar Alterações </button>
+          <button id="submit" class="full-width btn btn-success space-top" @click.prevent.once="submit"> Salvar Alterações </button>
         </form>
 
         <b-modal v-model="showModal" v-if="showModal" hide-footer> <!-- modal -->
@@ -198,6 +198,7 @@
       },
 
       async submit() {
+
         let response = null
         let damages_id = []
 
@@ -249,9 +250,7 @@
           this.messageClass = "danger"
           this.message = "Erro ao carregar os dados."
         }
-
       },
-
     }
   };
 </script>

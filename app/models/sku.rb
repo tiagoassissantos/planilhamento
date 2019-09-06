@@ -15,7 +15,6 @@ class Sku < ApplicationRecord
 
   after_create :generate_sku_code
 
-
   def find_or_create
     code = generate_sku_uid
     sku = Sku.find_by(uid: code)
@@ -115,6 +114,5 @@ class Sku < ApplicationRecord
     if self.hardware_type_id == 8 || self.hardware_type_id == 9
       self.update_attribute(:model_id, nil )
     end
-
   end
 end

@@ -30,10 +30,8 @@ class LotItemsController < ApplicationController
       lot_item.damage_types << damage
     end
 
-    p '-------------------------------------------------+++-'
-    p lot_item.to_json
-
     if lot_item.save
+      lot_item.generate_sku
       render json: lot_item, status: :ok
     end
   end
@@ -65,18 +63,18 @@ class LotItemsController < ApplicationController
     lot_item = LotItem.find( params[:lot_item_id] )
     damage_types_id = params[:damage_types_id]
 
-    lot_item_damage_type = LotItemDamageType.where(lot_item_id: lot_item.id)
-
-    lot_item_damage_type.delete_all
+    lot_item.damage_types.delete_all
 
     damage_types_id.each do |id|
       damage = DamageType.find(id)
       lot_item.damage_types << damage
     end
+
+    lot_item.generate_sku
+
     destination_id = params[:destination_id]
     unless destination_id.nil? || destination_id == 'null'
       lot_item.update(:destination_id => destination_id)
-
     end
 
     render json: lot_item, status: 200

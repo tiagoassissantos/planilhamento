@@ -5,7 +5,8 @@ import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
 import Loading from 'vue-loading-overlay';
 import 'bootstrap';
-import VeeValidate from 'vee-validate';
+import * as VeeValidate from 'vee-validate';
+
 import Vuelidate from 'vuelidate';
 
 import 'jquery';

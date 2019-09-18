@@ -1,30 +1,36 @@
-import "babel-polyfill";
-import Vue from 'vue/dist/vue';
-import VueResource from "vue-resource/dist/vue-resource";
-import VueRouter from 'vue-router';
-import BootstrapVue from 'bootstrap-vue';
+import Vue from 'vue'
+import "babel-polyfill"
+
+//plugins
 import vuetify from './plugins/vuetify'
-
-
-//css
-import 'bootstrap/dist/css/bootstrap.css';
-//import '../../../app/javascript/assets/stylesheets/standarts.scss'
-
-
+import VueRouter from 'vue-router';
+import VueResource from "vue-resource/dist/vue-resource";
+import BootstrapVue from 'bootstrap-vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faKey, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Vuelidate from 'vuelidate';
+
+//store functions
+import store from './store/principal';
+
+//Components
+import App from '../pages/main';
+import sign_in from '../pages/sign_in'
+
+//css
+import 'bootstrap/dist/css/bootstrap.css';
+
+//icons
 library.add(faEnvelope, faKey, faUser);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
-//pages
-import App from '../pages/main';
-import sign_in from '../pages/sign_in';
-//import forgot_password from '../components/landing_pages/forgot_password.vue'
+
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
+Vue.use(Vuelidate)
 
 const router = new VueRouter({
   routes: [
@@ -36,18 +42,15 @@ const router = new VueRouter({
   ]
 })
 
-import store from './store/principal';
-
 document.addEventListener('DOMContentLoaded', () => {
   document.body.appendChild(document.createElement('app'))
   const app = new Vue({
+    render: h => h(App),
     router,
     el: 'app',
     template: '<App/>',
     components: { App },
+    vuetify,
     store,
-    vuetify
-  })
-
-  console.log(app)
+  }).$mount('#app')
 })

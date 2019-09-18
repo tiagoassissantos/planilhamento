@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="main-page background-system">
+<!--   <div id="app" class="main-page background-system">
     <navbar/>
 
     <div class="login-page">
@@ -67,13 +67,47 @@
         </div>
       </form>
     </div>
-  </div>
+  </div> -->
+
+  <v-app>
+    <navbar/>
+     <form>
+      <v-text-field
+        v-model="email"
+        :error-messages="emailErrors"
+        label="E-mail"
+        required
+        @input="$v.email.$touch()"
+        @blur="$v.email.$touch()"
+      ></v-text-field>
+
+      <v-text-field
+        v-model="password"
+        :error-messages="passwordErrors"
+        label="E-mail"
+        required
+        type="password"
+        @input="$v.password.$touch()"
+        @blur="$v.password.$touch()"
+      ></v-text-field>
+
+      <v-btn class="mr-4" @click="submit">submit</v-btn>
+    </form>
+  </v-app>
 </template>
 
 <script>
   import navbar from "../components/navbar.vue";
+  import { validationMixin } from 'vuelidate'
+  import { required, maxLength, email } from 'vuelidate/lib/validators'
 
   export default {
+    mixins: [validationMixin],
+    validations: {
+      email: { required, email },
+      password: { required },
+    },
+
     components: { navbar},
 
     data: () => {
@@ -81,13 +115,31 @@
         email: '',
         password: '',
         error_text: '',
-        error: false
+        error: false,
+
       };
     },
 
-    computed: { },
+    computed: {
+      emailErrors () {
+        const errors = []
+        if (!this.$v.email.$dirty) return errors
+        !this.$v.email.email && errors.push('Must be valid e-mail')
+        !this.$v.email.required && errors.push('E-mail is required')
+        return errors
+      },
 
-    mounted() {},
+      passwordErrors () {
+        const errors = []
+        if (!this.$v.password.$dirty) return errors
+        !this.$v.password.email && errors.push('Must be valid e-mail')
+        !this.$v.password.required && errors.push('E-mail is required')
+        return errors
+      },
+    },
+
+    mounted() {
+    },
 
     methods: {
 
@@ -109,6 +161,8 @@
       },
 
       async submit() {
+        this.$v.$touch()
+
         this.error = false;
 
         let response = null;

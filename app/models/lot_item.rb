@@ -13,13 +13,10 @@ class LotItem < ApplicationRecord
   has_many :lot_item_damage_types
   has_many :damage_types, :through => :lot_item_damage_types
 
-  before_create :generate_sku
-  before_update :change_sku
+  #before_create :generate_sku
+  #before_update :change_sku
 
   def generate_sku
-
-    #return unless self.sku.nil?
-
     sku = nil
 
     case hardware_type.id
@@ -44,6 +41,8 @@ class LotItem < ApplicationRecord
     when 10...+1.0/0.0
       sku = generate_others_sku()
     end
+
+    self.save
   end
 
   def change_sku
@@ -51,6 +50,8 @@ class LotItem < ApplicationRecord
   end
 
   def generate_monitor_sku()
+    p '§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§'
+    p damage_types.to_json
     self.sku = Sku.new(
       hardware_type: hardware_type,
       model: model,

@@ -3,6 +3,8 @@ import Vue from 'vue/dist/vue';
 import VueResource from "vue-resource/dist/vue-resource";
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
+import vuetify from './plugins/vuetify'
+
 
 //css
 import 'bootstrap/dist/css/bootstrap.css';
@@ -43,7 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     el: 'app',
     template: '<App/>',
     components: { App },
-    store
+    store,
+    vuetify
   })
 
   console.log(app)

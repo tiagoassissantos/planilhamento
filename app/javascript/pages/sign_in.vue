@@ -10,6 +10,8 @@
         <div class="container">
           <center>
             <h4 class="name-form">Login</h4>
+                <v-btn>Button</v-btn>
+
           </center>
 
           <b-alert v-if="error" show dismissible variant="danger"> Verifique seu Login e Senha.</b-alert>

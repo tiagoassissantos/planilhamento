@@ -317,15 +317,16 @@ class LotItemsController < ApplicationController
   end
 
   def search_with_bar_code( bar_code, add_item )
+    #Apenas traz itens que estão com o destino em "disponivel para vendas"/"Manutenção"
     if add_item === 'true'
       lot_items = LotItem.where(bar_code: bar_code).where(destination_id: 1)
       return lot_items
     end
 
-    #Apenas traz itens que estão com o destino em "disponivel para vendas"/"Manutenção"
+    #Traz todos os itens com execessão "vendido"/"Manutenção/Reciclagem"
     if add_item == 'false'
       lot_items = []
-      items = LotItem.joins(:lot).where( bar_code: bar_code).where(destination: 1).or(LotItem.joins(:lot).where(bar_code: bar_code).where(destination: 3))
+      items = LotItem.joins(:lot).where( bar_code: bar_code).where.not(destination: [2,3,4])
       return items
     end
 
@@ -336,28 +337,31 @@ class LotItemsController < ApplicationController
   end
 
   def search_with_lot_number( lot_number, add_item )
+    #Apenas traz itens que estão com o destino em "disponivel para vendas"/"Manutenção"
     if add_item == 'true'
       lot_items = LotItem.joins(:lot).where(lots: {order_number: lot_number}).where(destination_id: 1)
       return lot_items
     end
 
+    #Traz todos os itens com execessão "vendido"/"Manutenção/Reciclagem"
     if add_item == 'false'
       lot_items = []
-      items = LotItem.joins(:lot).where(lots: {order_number: lot_number }).where.not(destination: 2)
+      items = LotItem.joins(:lot).where(lots: {order_number: lot_number }).where.not(destination: [2,3,4])
       return items
     end
   end
 
-  #Apenas traz itens que estão com o destino em "disponivel para vendas"/"Manutenção"
   def search_with_serial_number( serial_number, add_item )
+    #Apenas traz itens que estão com o destino em "disponivel para vendas"/"Manutenção"
     if add_item == 'true'
       lot_items = LotItem.where(serial_number: serial_number).where(destination_id: 1)
       return lot_items
     end
 
+    #Traz todos os itens com execessão "vendido"/"Manutenção/Reciclagem"
     if add_item == 'false'
       lot_items = []
-      items = LotItem.joins(:lot).where( serial_number: serial_number).where(destination: 1).or(LotItem.joins(:lot).where( serial_number: serial_number).where(destination: 3))
+      items = LotItem.joins(:lot).where( serial_number: serial_number).where.not(destination: [2,3,4])
       return items
     end
 

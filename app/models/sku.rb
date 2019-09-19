@@ -1,4 +1,6 @@
 class Sku < ApplicationRecord
+  include PgSearch
+
   belongs_to :hardware_type
   #belongs_to :manufacturer
   belongs_to :model
@@ -14,6 +16,39 @@ class Sku < ApplicationRecord
   has_many :damage_types, :through => :sku_damage_types
 
   after_create :generate_sku_code
+
+
+  pg_search_scope(
+    :search,
+    against: %i(
+      code
+      color
+      screen
+      webcam
+      bluetooth
+      bright_keyboard
+      biometric_reader
+      vga_card
+      ram_memory
+    ),
+
+    associated_against: {
+      hardware_type: [:name],
+      model: [:name],
+      damage_types: [:name],
+      category: [:name],
+      processor: [:name],
+      disk_size: [:name],
+      disk_type: [:name],
+      keyboard_type: [:name],
+    },
+
+    using: {
+      trigram: {
+        word_similarity: true
+      },
+    }
+  )
 
   def find_or_create
     code = generate_sku_uid

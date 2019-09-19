@@ -186,6 +186,7 @@
 
     methods: {
       async getSkus() {
+        this.showLoading()
         let response = null;
         await this.$http.get('/skus')
           .then((resp) => {
@@ -204,6 +205,7 @@
           this.message = "Erro ao carregar os dados."
         }
         this.loading = false
+        this.loader.hide()
       },
 
       async deleteArchive( sku_id ) {
@@ -224,12 +226,14 @@
       },
 
       async filter() {
+        this.showLoading()
         this.maxSkus = []
         let response = null
 
         if( this.input == '' || this.input == null ) {
           this.maxSkus = []
           this.getSkus();
+          this.loader.hide()
           return
         }
 
@@ -243,6 +247,7 @@
         if ( response.status == 200 ) {
           this.maxSkus = response.body
         }
+        this.loader.hide()
       },
 
       clearFilter() {
@@ -271,7 +276,17 @@
             this.user_operator_marketing = false
           }
         }
-      }
+      },
+
+      showLoading() {
+        this.loader = this.$loading.show({
+          container: this.fullPage ? null : this.$refs.formContainer,
+          canCancel: false,
+          backgroundColor: '#000',
+          opacity: 0.75
+        });
+      },
+
     }
   };
 </script>

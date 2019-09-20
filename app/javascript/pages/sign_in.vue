@@ -71,28 +71,43 @@
 
   <v-app>
     <navbar/>
-     <form>
-      <v-text-field
-        v-model="email"
-        :error-messages="emailErrors"
-        label="E-mail"
-        required
-        @input="$v.email.$touch()"
-        @blur="$v.email.$touch()"
-      ></v-text-field>
+    <v-container>
+      <v-row no-gutters>
+        <v-col sm="12" md="3"></v-col>
 
-      <v-text-field
-        v-model="password"
-        :error-messages="passwordErrors"
-        label="E-mail"
-        required
-        type="password"
-        @input="$v.password.$touch()"
-        @blur="$v.password.$touch()"
-      ></v-text-field>
+        <v-col sm="12" md="6">
+           <form>
+        <v-text-field
+          v-model="email"
+          :error-messages="emailErrors"
+          label="E-mail"
+          required
+          @input="$v.email.$touch()"
+          @blur="$v.email.$touch()"
+        ></v-text-field>
 
-      <v-btn class="mr-4" @click="submit">submit</v-btn>
-    </form>
+        <v-text-field
+          v-model="password"
+          :error-messages="passwordErrors"
+          label="Senha"
+          required
+          type="password"
+          @input="$v.password.$touch()"
+          @blur="$v.password.$touch()"
+        ></v-text-field>
+
+        <v-btn class="mr-4" @click="validateSubmit">submit</v-btn>
+      </form>
+        </v-col>
+
+        <v-col sm="12" md="3"></v-col>
+      </v-row>
+      <v-col>
+
+      </v-col>
+
+    </v-container>
+
   </v-app>
 </template>
 
@@ -124,16 +139,16 @@
       emailErrors () {
         const errors = []
         if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Must be valid e-mail')
-        !this.$v.email.required && errors.push('E-mail is required')
+        !this.$v.email.email && errors.push('E-mail inválido')
+        !this.$v.email.required && errors.push('E-mail é obrigatório')
         return errors
       },
 
       passwordErrors () {
         const errors = []
         if (!this.$v.password.$dirty) return errors
-        !this.$v.password.email && errors.push('Must be valid e-mail')
-        !this.$v.password.required && errors.push('E-mail is required')
+        !this.$v.password.required && errors.push('Senha é obrigatória')
+
         return errors
       },
     },
@@ -160,14 +175,20 @@
           });
       },
 
-      async submit() {
+      async validateSubmit() {
         this.$v.$touch()
+        if( this.$v.$invalid ) {
+          return
+        } else {
+          this.submit()
+        }
+      },
+
+      async submit () {
 
         this.error = false;
-
         let response = null;
         let data = {user: {email: this.email, password: this.password}}
-
 
         await this.$http
           .post("/users/sign_in", JSON.stringify(data))
@@ -188,6 +209,7 @@
           }
         }
       }
+
     }
   };
 </script>

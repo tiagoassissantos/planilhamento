@@ -19,6 +19,11 @@ class LotItemsController < ApplicationController
       return
     end
 
+    if (( params[:lot_item][:hardware_type_id] == 8 || params[:lot_item][:hardware_type_id] == 9) && (params[:lot_item][:disk_size_id] == nil || params[:lot_item][:disk_type_id] == nil))
+      render json: {'message': "Preencha os campos corretamente"}, status: :internal_server_error
+      return
+    end
+
     damages_types_ids = params[:lot_item][:damage_type_id]
     damages_types = []
 

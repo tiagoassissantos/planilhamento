@@ -6,6 +6,7 @@ class LotItemSerializer < ActiveModel::Serializer
 
   has_one :model
   has_many :damage_types
+  has_one :sku
 
   def hardware_type
     return object.hardware_type.name

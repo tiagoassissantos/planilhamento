@@ -121,7 +121,6 @@ class Sku < ApplicationRecord
     code
   end
 
-
   def generate_base_sku_code
     code = ''
     code += hardware_type.name[0,3]
@@ -132,7 +131,6 @@ class Sku < ApplicationRecord
     end
     code
   end
-
 
   def generate_code_damage
     code = 'DT'

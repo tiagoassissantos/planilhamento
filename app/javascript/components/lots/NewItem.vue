@@ -1441,11 +1441,15 @@
 
       validationHdAndSsd() {
         if(
-            this.lot_item.disk_size_id == null ||
-            this.lot_item.disk_type_id == null ||
+            this.lot_item.disk_size_id == 'null' ||
+            this.lot_item.disk_type_id == 'null' ||
             ( this.lot_item.destination_id != 4 && this.lot_item.bar_code.trim() == '')
           ){
+            this.lot_item.disk_size_id = null
+            this.lot_item.disk_type_id = null
           return true
+        } else {
+          return false
         }
       },
 

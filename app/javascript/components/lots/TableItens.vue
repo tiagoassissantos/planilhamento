@@ -49,10 +49,9 @@
           </td>
 
           <td>
-            <span v-if="lotItem.sku_id != null" >
-              {{ lotItem.sku_id }}
+            <span>
+              {{ lotItem.sku.code }}
             </span>
-            <span v-else> </span>
           </td>
 
           <td>

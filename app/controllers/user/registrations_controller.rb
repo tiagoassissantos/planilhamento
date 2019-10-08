@@ -9,7 +9,7 @@ class User::RegistrationsController < Devise::RegistrationsController
 
 
   def index
-    users = User.all
+    users = User.all.order(role: :asc)
 
     render json: users, status: :ok
   end

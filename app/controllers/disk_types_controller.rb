@@ -4,7 +4,7 @@ class DiskTypesController < ApplicationController
   def index
     return unless user_logged?
 
-    disk_types = DiskType.all
+    disk_types = DiskType.all.order(name: :asc)
 
     render json: disk_types, status: :ok
   end

@@ -4,7 +4,7 @@ class DiskSizesController < ApplicationController
   def index
     return unless user_logged?
 
-    disk_sizes = DiskSize.all
+    disk_sizes = DiskSize.all.order(name: :asc)
 
     render json: disk_sizes, status: :ok
   end

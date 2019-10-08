@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   def index
     return unless user_logged?
 
-    categories = Category.all
+    categories = Category.all.order(name: :asc)
 
     render json: categories, status: :ok
   end

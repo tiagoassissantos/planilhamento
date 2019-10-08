@@ -4,7 +4,7 @@ class DamageTypesController < ApplicationController
   def index
     return unless user_logged?
 
-    damage_types = DamageType.all
+    damage_types = DamageType.all.order(hardware_type_id: :asc, name: :asc)
 
     render json: damage_types, status: :ok
   end
@@ -49,7 +49,7 @@ class DamageTypesController < ApplicationController
 
   def by_hardware_type
     return unless user_logged?
-    damage_types = DamageType.where( hardware_type_id: params[:hardware_type_id] )
+    damage_types = DamageType.where( hardware_type_id: params[:hardware_type_id] ).order(name: :asc)
     render json: damage_types, status: :ok
   end
 

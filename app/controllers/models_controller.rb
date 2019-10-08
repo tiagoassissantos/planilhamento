@@ -3,8 +3,7 @@ class ModelsController < ApplicationController
 
   def index
     return unless user_logged?
-
-    models = Model.all
+    models = Model.all.order(name: :asc)
 
     render json: models, status: :ok
   end
@@ -56,7 +55,7 @@ class ModelsController < ApplicationController
 
   def by_manufacturer
     return unless user_logged?
-    models = Model.where( manufacturer_id: params[:manufacturer_id] )
+    models = Model.where( manufacturer_id: params[:manufacturer_id] ).order(name: :asc)
     render json: models, status: :ok
   end
 

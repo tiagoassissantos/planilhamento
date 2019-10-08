@@ -3,8 +3,7 @@ class HardwareTypesController < ApplicationController
 
   def index
     return unless user_logged?
-
-    hardware_types = HardwareType.all
+    hardware_types = HardwareType.all.order(name: :asc)
 
     render json: hardware_types, status: :ok
   end

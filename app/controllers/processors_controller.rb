@@ -4,7 +4,7 @@ class ProcessorsController < ApplicationController
   def index
     return unless user_logged?
 
-    processors = Processor.all
+    processors = Processor.all.order(name: :asc)
 
     render json: processors, status: :ok
   end

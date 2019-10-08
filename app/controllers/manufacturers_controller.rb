@@ -3,8 +3,7 @@ class ManufacturersController < ApplicationController
 
   def index
     return unless user_logged?
-
-    manufacturers = Manufacturer.all
+    manufacturers = Manufacturer.all.order(name: :asc)
 
     render json: manufacturers, status: :ok
   end

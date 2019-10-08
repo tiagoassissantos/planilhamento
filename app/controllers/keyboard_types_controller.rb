@@ -4,7 +4,7 @@ class KeyboardTypesController < ApplicationController
   def index
     return unless user_logged?
 
-    keyboard_types = KeyboardType.all
+    keyboard_types = KeyboardType.all.order(name: :asc)
 
     render json: keyboard_types, status: :ok
   end

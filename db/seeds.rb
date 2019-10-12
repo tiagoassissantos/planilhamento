@@ -1,5 +1,5 @@
 # Administrator User
-User.create email: 'admin@reciclawag.com.br', name: 'Administrador', cpf: '', role: 'admin', :password => '1234zxcv', :password_confirmation => '1234zxcv'
+User.create email: 'admin@planilhamento.com.br', name: 'Administrador', cpf: '', role: 'admin', :password => '12345678', :password_confirmation => '12345678'
 
 
 ####### Hardware Types #######

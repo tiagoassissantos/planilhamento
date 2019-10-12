@@ -23,15 +23,19 @@
     },
 
     mounted() {
-      this.$store.dispatch('isLogged');
-
-      this.$store.subscribe((mutation, state) => {
-        if (mutation.type == 'SET_LOGGED') {
-          if (this.isLogged) window.location.href = '/user-area';
-        }
-      }),
-
-      this.$store.dispatch('getCurrentUser');
+    //  this.$store.dispatch('isLogged');
+//
+    //  this.$store.subscribe((mutation, state) => {
+    //    if (mutation.type == 'SET_LOGGED') {
+    //      if (this.isLogged) window.location.href = '/user-area';
+    //      console.log("+++++++++++++++++++++=")
+    //      console.log("+++++++++++++++++++++=")
+    //      console.log("+++++++++++++++++++++=")
+    //      console.log("+++++++++++++++++++++=")
+    //    }
+    //  }),
+//
+    //  this.$store.dispatch('getCurrentUser');
     }
 
   }

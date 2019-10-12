@@ -1,111 +1,49 @@
 <template>
-<!--   <div id="app" class="main-page background-system">
-    <navbar/>
-
-    <div class="login-page">
-
-      <div class="header-form"></div>
-      <form class='signin_form' action="/users/sign_in" method="POST" @submit.prevent="submit">
-
-        <div class="container">
-          <center>
-            <h4 class="name-form">Login</h4>
-                <v-btn>Button</v-btn>
-
-          </center>
-
-          <b-alert v-if="error" show dismissible variant="danger"> Verifique seu Login e Senha.</b-alert>
-
-          <div class="form-group">
-            <label class="" for="login-email"> Email </label>
-            <div class="input-group">
-              <div class="input-group-prepend ">
-                <div class="input-group-text icon-input">
-                  <font-awesome-icon icon="envelope"/>
-                </div>
-              </div>
-              <input
-                type="email"
-                name="auth_key"
-                class="form-control input-color"
-                id="login-email"
-                placeholder="E-mail"
-                v-model="email"
-              >
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="" for="login-password">Password</label>
-            <div class="input-group">
-              <div class="input-group-prepend ">
-                <div class="input-group-text icon-input">
-                  <font-awesome-icon icon="key"/>
-                </div>
-              </div>
-              <input
-                type="password"
-                name="password"
-                class="form-control input-color"
-                id="login-password"
-                placeholder="Senha"
-                v-model="password"
-              >
-            </div>
-          </div>
-          <center>
-            <button type="submit" class="btn btn-primary submit-form ">Entrar</button>
-          </center>
-
-          <div class="row">
-            <div class="col-sm-7">
-              <p class="info">
-                <router-link to="forgot_password" class="link-tag text-show">Esqueceu a senha?</router-link>
-              </p>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div> -->
-
   <v-app>
     <navbar/>
+
     <v-container>
       <v-row no-gutters>
         <v-col sm="12" md="3"></v-col>
 
         <v-col sm="12" md="6">
-           <form>
-        <v-text-field
-          v-model="email"
-          :error-messages="emailErrors"
-          label="E-mail"
-          required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
-        ></v-text-field>
+          <form>
+            <v-card class="padding-card">
 
-        <v-text-field
-          v-model="password"
-          :error-messages="passwordErrors"
-          label="Senha"
-          required
-          type="password"
-          @input="$v.password.$touch()"
-          @blur="$v.password.$touch()"
-        ></v-text-field>
+              <h2 class="margin-top">
+                <center> Efetue Login </center>
+              </h2>
 
-        <v-btn class="mr-4" @click="validateSubmit">submit</v-btn>
-      </form>
+              <v-alert type="error" v-if="error">
+                Verifique e-mail ou senha.
+              </v-alert>
+
+              <v-text-field
+                v-model="email"
+                :error-messages="emailErrors"
+                label="E-mail"
+                required
+                @input="$v.email.$touch()"
+                @blur="$v.email.$touch()"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="password"
+                :error-messages="passwordErrors"
+                label="Senha"
+                required
+                type="password"
+                @input="$v.password.$touch()"
+                @blur="$v.password.$touch()"
+              ></v-text-field>
+
+              <v-btn class="mr-4 mt-5 full-width" @click="validateSubmit" color="primary" > Entrar </v-btn>
+            </v-card>
+          </form>
         </v-col>
 
         <v-col sm="12" md="3"></v-col>
       </v-row>
-      <v-col>
-
-      </v-col>
-
     </v-container>
 
   </v-app>
@@ -123,7 +61,7 @@
       password: { required },
     },
 
-    components: { navbar},
+    components: { navbar },
 
     data: () => {
       return {
@@ -131,7 +69,6 @@
         password: '',
         error_text: '',
         error: false,
-
       };
     },
 
@@ -177,7 +114,7 @@
 
       async validateSubmit() {
         this.$v.$touch()
-        if( this.$v.$invalid ) {
+        if ( this.$v.$invalid ) {
           return
         } else {
           this.submit()
@@ -185,28 +122,37 @@
       },
 
       async submit () {
-
         this.error = false;
         let response = null;
-        let data = {user: {email: this.email, password: this.password}}
+        let data = {user: { email: this.email, password: this.password }}
 
         await this.$http
           .post("/users/sign_in", JSON.stringify(data))
           .then(resp => { response = resp })
           .catch(resp => { response = resp });
-        if (response.status == 200) {
-          location.href = "/user-area";
 
-        } else if (response.status == 401) {
-          this.error_text = 'Usuário ou senha estão errados';
+        if ( response.status == 200 ) {
+          this.getCurrentUser()
+
+        } else if ( response.status == 401 ) {
           this.error = true;
+        }
+      },
 
-        } else {
-          if (this.user.password != this.user.passwordConfirmation) {
-            this.error_pwd = true
-          } else {
-            this.error = true;
-          }
+      async getCurrentUser () {
+        let response = null;
+
+        await this.$http.get(`/get_user`)
+        .then((result) => {
+          response = result
+
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.user = response.body
+          location.href = "/user-area";
         }
       }
 
@@ -215,13 +161,24 @@
 </script>
 
 <style scoped>
-  .main-page {
-    /**/
-  }
-
   .login-page {
     margin: 0 auto;
     margin-top: 35px;
     max-width: 500px;
+  }
+
+  .margin-top {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    color: #363636;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .padding-card {
+    padding: 20px;
+    margin-top: 100px;
   }
 </style>

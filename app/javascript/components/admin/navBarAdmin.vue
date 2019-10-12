@@ -8,28 +8,9 @@
       <div class="flex-grow-1"></div>
 
       <v-toolbar-items v-if="!pwa">
-
-        <v-menu offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" text>
-              Registrar
-            </v-btn>
-          </template>
-          <v-list>
-
-            <v-list-item v-if="isAdmin" to="/users" >
-              <v-list-item-title> Usuários </v-list-item-title>
-            </v-list-item>
-
-            <v-list-item to="/customers" >
-              <v-list-item-title> Clientes </v-list-item-title>
-            </v-list-item>
-
-          </v-list>
-        </v-menu>
-
+        <v-btn to="/users" text> Usuários </v-btn>
         <v-btn text>Link 2</v-btn>
-        <v-btn text @click="signOut()"> Sair </v-btn>
+        <v-btn text>Link 3</v-btn>
       </v-toolbar-items>
 
     </v-toolbar>
@@ -79,7 +60,8 @@
           height: 0
         },
         pwa: false,
-        isAdmin: false
+        dropdown_font: ['Arial', 'Calibri', 'Courier', 'Verdana'],
+
       }
     },
 
@@ -90,10 +72,6 @@
 
     destroyed() {
       window.removeEventListener('resize', this.handleResize)
-    },
-
-    mounted() {
-      this.getCurrentUser()
     },
 
     methods: {
@@ -107,36 +85,7 @@
           this.pwa = false;
         }
       },
-
-      async getCurrentUser () {
-        let response = null;
-
-        await this.$http.get(`/get_user`)
-        .then((result) => {
-          response = result
-
-        }).catch((err) => {
-          response = err
-        });
-
-        if ( response.body.role == 'Administrador' ) {
-          this.isAdmin = true
-        }
-      },
-
-      async signOut () {
-        let response = null
-        await this.$http.delete("/users/sign_out")
-        .then(result => {
-          response = result
-        })
-        .catch(err => {});
-
-        if ( response.status == 200 ) {
-          window.location.href = "/";
-        }
-      }
-
     }
+
   }
 </script>

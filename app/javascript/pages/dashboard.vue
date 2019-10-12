@@ -1,24 +1,27 @@
 <template>
+<v-app>
   <div id="app" class='container'>
     <h1>Dashboard</h1>
     {{ isLogged }}
   </div>
+</v-app>
+
 </template>
 
 <script>
-  import navbar from "../components/navBarUser.vue";
+  import navBar from "../components/navBarUser.vue";
 
   export default {
-    components: { navbar },
+    components: { navBar },
 
     computed: {
       isLogged() {
-        return this.$store.state.logged
+        //return this.$store.state.logged
       }
     },
 
     mounted() {
-      this.$store.dispatch('isLogged');
+      //this.$store.dispatch('isLogged');
     },
 
     methods: {

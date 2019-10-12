@@ -1,205 +1,54 @@
-import "babel-polyfill";
-import Vue from 'vue/dist/vue';
-import VueResource from "vue-resource/dist/vue-resource";
-import VueRouter from 'vue-router';
-import BootstrapVue from 'bootstrap-vue';
-import Loading from 'vue-loading-overlay';
-import 'bootstrap';
-import * as VeeValidate from 'vee-validate';
+import Vue from 'vue'
+import "babel-polyfill"
 
+//plugins
+import vuetify from './plugins/vuetify'
+import VueRouter from 'vue-router';
+import VueResource from "vue-resource/dist/vue-resource";
 import Vuelidate from 'vuelidate';
 
-import 'jquery';
-global.jQuery = require('jquery');
-var $ = global.jQuery;
-window.$ = $;
+//store functions
+import store from './store/principal.js';
 
-//css
-import 'bootstrap/dist/css/bootstrap.css';
-//import '../../../app/javascript/assets/stylesheets/standarts.scss'
-import 'vue-loading-overlay/dist/vue-loading.css';
-
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
-  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox, faLaptopCode, faTools
-} from '@fortawesome/free-solid-svg-icons';
-
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-library.add(faEnvelope, faKey, faUser, faHome, faLaptop, faList, faFolderOpen, faChartBar, faCopy, faColumns, faEdit,
-  faMicrochip, faUserCog, faInfoCircle, faIndent, faUnlink, faSimCard, faMemory, faServer, faKeyboard, faPlane, faBox, faLaptopCode, faTools);
-Vue.component('font-awesome-icon', FontAwesomeIcon);
-
-//pages
+//Components
 import App from '../pages/UserArea';
-import dashboard from '../pages/dashboard';
-import ListLots from '../components/lots/ListLots.vue';
-import NewLot from '../components/lots/NewLot.vue';
-import NewLotItem from '../components/lots/NewItem.vue';
-import ShowLot from '../components/lots/ShowLot.vue';
-import Inventory from '../components/lots/Inventory.vue';
-import StockQuery from '../components/lots/StockQuery.vue'
+import dashboard from '../pages/dashboard'
 
-import UsersList from '../components/registrations/Users/UsersList.vue'
-import UsersNew from '../components/registrations/Users/UsersNew.vue'
+import users from '../components/admin/users/UserList.vue'
+import userNew from '../components/admin/users/UserNew.vue'
 
-import HardwareTypeList from '../components/registrations/HardwareTypes/HardwareTypeList.vue'
-import HardwareTypeNew from '../components/registrations/HardwareTypes/HardwareTypeNew.vue'
-
-import ManufacturerList from '../components/registrations/Manufacturers/ManufacturerList.vue'
-import ManufacturerNew from '../components/registrations/Manufacturers/ManufacturerNew.vue'
-
-import ModelsList from '../components/registrations/Models/ModelList.vue'
-import ModelNew from '../components/registrations/Models/ModelNew.vue'
-
-import CategoriesList from '../components/registrations/Categories/CategoriesList.vue'
-import CategoryNew from '../components/registrations/Categories/CategoriesNew.vue'
-
-import DamageTypesList from '../components/registrations/DamageTypes/DamageTypesList.vue'
-import DamageTypeNew from '../components/registrations/DamageTypes/DamageTypesNew.vue'
-
-import ProcessorsList from '../components/registrations/Processors/ProcessorsList.vue'
-import ProcessorsNew from '../components/registrations/Processors/ProcessorsNew.vue'
-
-import KeyboardTypesList from '../components/registrations/KeyboardTypes/KeyboardTypesList.vue'
-import KeyboardTypesNew from '../components/registrations/KeyboardTypes/KeyboardTypesNew.vue'
-
-import DestinationsList from '../components/registrations/Destinations/DestinationsList.vue'
-import DestinationsNew from '../components/registrations/Destinations/DestinationsNew.vue'
-
-import DiskTypesList from '../components/registrations/DiskTypes/DiskTypesList.vue'
-import DiskTypesNew from '../components/registrations/DiskTypes/DiskTypesNew.vue'
-
-import DiskSizesList from '../components/registrations/DiskSizes/DiskSizesList.vue'
-import DiskSizesNew from '../components/registrations/DiskSizes/DiskSizesNew.vue'
-
-import changePassword from '../components/change_password.vue'
-
-import LotTransfer from '../components/movimentations/LotTransfer/LotTransfer.vue'
-
-import ListSalesOrder from '../components/movimentations/SalesOrder/ListSalesOrder.vue'
-import NewSalesOrder from '../components/movimentations/SalesOrder/SalesOrderNew.vue'
-import SalesOrderItemList from '../components/movimentations/SalesOrder/SalesOrderItemList.vue'
-import ItemDevolution from '../components/movimentations/ItemDevolution.vue'
-
-import SkusList from '../components/registrations/skus/SkusList.vue'
-import SkusArchive from '../components/registrations/skus/SkusArchive.vue'
-
-import ItemSearchMaintenance from '../components/maintenance/ItemSearchMaintenance.vue'
-import ItemEditMaintenance from '../components/maintenance/ItemEditMaintenance.vue'
+import customers from '../components/user/customer/CustomersList.vue'
+import customerNew from '../components/user/customer/CustomersNew.vue'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
-Vue.use(BootstrapVue);
-Vue.use(Loading);
-Vue.use(VeeValidate);
-Vue.use(Vuelidate);
-
+Vue.use(Vuelidate)
 
 const router = new VueRouter({
   routes: [
     { path: "/", component: dashboard, props: true },
-    { path: "/lots", component: ListLots, props: true },
-    { path: "/lots/new", component: NewLot, props: true },
-    { path: "/lots/:lot_id/edit", component: NewLot, props: true, name: 'edit-lot' },
-    { path: "/lots/:lot_id/new-item", component: NewLotItem, props: true },
-    { path: "/lots/:lot_id", component: ShowLot, props: true, name: 'lot' },
-    { path: "/stock-query", component: StockQuery, props: true, name: 'stock_query' },
 
-    { path: "/inventory/:status", component: Inventory, props: true, name: 'inventory' },
+    { path: "/users", component: users, props: true },
+    { path: "/user/new", component: userNew, props: true },
+    { path: "/user/:id", component: userNew, props: true, name: 'user_edit' },
 
-    { path: "/users", component: UsersList, props: true },
-    { path: "/users/new", component: UsersNew, props: true },
-    { path: "/users/:user_id", component: UsersNew, props: true, name: 'user' },
+    { path: "/customers", component: customers, props: true },
+    { path: "/customer/new", component: customerNew, props: true },
+    { path: "/customer/:id", component: customerNew, props: true, name: 'customer_edit' },
 
-    { path: "/hardware-types", component: HardwareTypeList, props: true },
-    { path: "/hardware-types/new", component: HardwareTypeNew, props: true },
-    { path: "/hardware-types/:hardware_id", component: HardwareTypeNew, props: true, name: 'hardware-type' },
-
-    { path: "/manufacturers", component: ManufacturerList, props: true },
-    { path: "/manufacturers/new", component: ManufacturerNew, props: true },
-    { path: "/manufacturers/:manufacturer_id", component: ManufacturerNew, props: true, name: 'manufacturer' },
-
-    { path: "/models", component: ModelsList, props: true },
-    { path: "/models/new", component: ModelNew, props: true },
-    { path: "/models/:model_id", component: ModelNew, props: true, name: 'model' },
-
-    { path: "/categories", component: CategoriesList, props: true },
-    { path: "/categories/new", component: CategoryNew, props: true },
-    { path: "/categories/:category_id", component: CategoryNew, props: true, name: 'category' },
-
-    { path: "/damage-types", component: DamageTypesList, props: true },
-    { path: "/damage-types/new", component: DamageTypeNew, props: true },
-    { path: "/damage-types/:damage_id", component: DamageTypeNew, props: true, name: 'damage' },
-
-    { path: "/processors", component: ProcessorsList, props: true },
-    { path: "/processors/new", component: ProcessorsNew, props: true },
-    { path: "/processors/:processor_id", component: ProcessorsNew, props: true, name: 'processor' },
-
-    { path: "/keyboard-types", component: KeyboardTypesList, props: true },
-    { path: "/keyboard-types/new", component: KeyboardTypesNew, props: true },
-    { path: "/keyboard-types/:keyboard_type_id", component: KeyboardTypesNew, props: true, name: 'keyboard_type' },
-
-    { path: "/destinations", component: DestinationsList, props: true },
-    { path: "/destinations/new", component: DestinationsNew, props: true },
-    { path: "/destinations/:destination_id", component: DestinationsNew, props: true, name: 'destination' },
-
-    { path: "/disk-types", component: DiskTypesList, props: true },
-    { path: "/disk-types/new", component: DiskTypesNew, props: true },
-    { path: "/disk-types/:disk_type_id", component: DiskTypesNew, props: true, name: 'disk_type' },
-
-    { path: "/disk-sizes", component: DiskSizesList, props: true },
-    { path: "/disk-sizes/new", component: DiskSizesNew, props: true },
-    { path: "/disk-sizes/:disk_size_id", component: DiskSizesNew, props: true, name: 'disk_size' },
-
-    { path: "/change-password", component: changePassword, props: true, name: 'change_password' },
-
-    { path: "/lots-transfer", component: LotTransfer, props: true, name: 'lot_ransfer' },
-
-    { path: "/sales-order", component: ListSalesOrder, props: true, name: 'list_sales_order' },
-    { path: "/sales-order/new", component: NewSalesOrder, props: true, name: 'sales_order_new' },
-    { path: "/sales-order/:sales_order_id/edit", component: NewSalesOrder, props: true, name: 'sales_order_edit' },
-    { path: "/sales-order/:sales_order_id/item", component: LotTransfer, props: true, name: 'sales_order_item_transfer' },
-    { path: "/sales-order/:sales_order_id/itens", component: SalesOrderItemList, props: true, name: 'sales_order_item_list' },
-
-    { path: "/item-devolution", component: ItemDevolution, props: true, name: 'item_devolution' },
-
-    { path: "/skus", component: SkusList, props: true },
-    { path: "/skus/:sku_id/archive", component: SkusArchive, props: true, name: 'sku_archive' },
-
-    { path: "/maintenance/search-items", component: ItemSearchMaintenance, props: true },
-    { path: "/maintenance/:lot_item_id/edit", component: ItemEditMaintenance, props: true },
   ]
 })
 
-import store from './store/principal';
 
-/*document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   document.body.appendChild(document.createElement('app'))
   const app = new Vue({
+    render: h => h(App),
     router,
     el: 'app',
     template: '<App/>',
     components: { App },
-    store
-  })
-
-  console.log(app)
-})*/
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  let elApp = document.createElement('div')
-  elApp.innerHTML = '<div></div>'
-  elApp.id = 'my-app'
-
-  document.body.appendChild(elApp)
-
-  new Vue({
-    render: h => h(App),
-    el: elApp.firstChild,
-    router,
-    store
-  })
+    vuetify,
+    store,
+  }).$mount('#app')
 })

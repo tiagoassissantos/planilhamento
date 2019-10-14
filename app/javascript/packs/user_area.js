@@ -11,14 +11,17 @@ import Vuelidate from 'vuelidate';
 import store from './store/principal.js';
 
 //Components
-import App from '../pages/UserArea';
-import dashboard from '../pages/dashboard'
+import App from '../components/userArea/UserArea.vue';
+import dashboard from '../components/userArea/dashboard.vue'
 
-import users from '../components/admin/users/UserList.vue'
-import userNew from '../components/admin/users/UserNew.vue'
+import users from '../components/userArea/users/UserList.vue'
+import userNew from '../components/userArea/users/UserNew.vue'
 
-import customers from '../components/user/customer/CustomersList.vue'
-import customerNew from '../components/user/customer/CustomersNew.vue'
+import customers from '../components/userArea/customer/CustomersList.vue'
+import customerNew from '../components/userArea/customer/CustomersNew.vue'
+
+import constructionsNew from '../components/userArea/constructions/ConstructionsNew.vue'
+import constructions from '../components/userArea/constructions/ConstructionsList.vue'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -35,6 +38,9 @@ const router = new VueRouter({
     { path: "/customers", component: customers, props: true },
     { path: "/customer/new", component: customerNew, props: true },
     { path: "/customer/:id", component: customerNew, props: true, name: 'customer_edit' },
+
+    { path: "/constructions", component: constructions, props: true },
+    { path: "/construction/new", component: constructionsNew, props: true },
 
   ]
 })

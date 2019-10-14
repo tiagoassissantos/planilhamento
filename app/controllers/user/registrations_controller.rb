@@ -22,6 +22,7 @@ class User::RegistrationsController < Devise::RegistrationsController
 
     resource.name = params[:user][:name]
     resource.cpf = params[:user][:cpf]
+    resource.role = params[:user][:role][:role]
 
     if User.find_by(email: params[:user][:email])
       render json: {"status": "error", "message": "E-mail informado já está em uso"}, status: 500

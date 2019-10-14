@@ -71,4 +71,5 @@ Rails.application.routes.draw do
   get 'query_sku/:filter' => 'skus#query_sku'
 
   resources :customers, only: [:create, :index, :show, :update]
+  resources :constructions, only: [:index, :create]
 end

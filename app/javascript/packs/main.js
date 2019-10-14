@@ -12,8 +12,8 @@ import Vuelidate from 'vuelidate';
 import store from './store/principal';
 
 //Components
-import App from '../pages/main';
-import sign_in from '../pages/sign_in'
+import App from '../components/externalPages/main.vue';
+import sign_in from '../components/externalPages/sign_in.vue'
 
 
 Vue.use(VueRouter);

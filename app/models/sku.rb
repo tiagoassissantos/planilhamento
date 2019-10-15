@@ -1,5 +1,5 @@
 class Sku < ApplicationRecord
-  include PgSearch
+  #include PgSearch
 
   belongs_to :hardware_type
   #belongs_to :manufacturer
@@ -17,7 +17,7 @@ class Sku < ApplicationRecord
 
   after_create :generate_sku_code
 
-
+=begin
   pg_search_scope(
     :search,
     against: %i(
@@ -49,6 +49,7 @@ class Sku < ApplicationRecord
       },
     }
   )
+=end
 
   def find_or_create
     code = generate_sku_uid

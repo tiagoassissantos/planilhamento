@@ -1,9 +1,9 @@
 class User < ApplicationRecord
-  enum role: [:admin, :operator_n1, :operator_n2, :operator_comercial,:operator_marketing, :operator_warranty]
+  enum role: [:admin, :pro_user, :simple_user]
   after_initialize :set_default_role, :if => :new_record?
 
   def set_default_role
-    self.role ||= :operator
+    self.role ||= :simple_user
   end
 
   # Include default devise modules. Others available are:

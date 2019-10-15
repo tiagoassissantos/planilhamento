@@ -1,0 +1,2 @@
+class StageConstruction < ApplicationRecord
+end

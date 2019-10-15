@@ -34,6 +34,10 @@ class User::SessionsController < Devise::SessionsController
   end
 
   def get_user
+    Rails.logger.info("++++++++++++++++++++++++=")
+    Rails.logger.info("++++++++++++++++++++++++=")
+    Rails.logger.info("++++++++++++++++++++++++=")
+    Rails.logger.info( current_user.to_json )
     render json: current_user, status: 200
   end
 

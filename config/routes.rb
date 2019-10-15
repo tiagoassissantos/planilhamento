@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   end
 
   get 'user-area' => 'user_area#index'
+  get 'admin' => 'admin#index'
 
   get 'hardware_types' => 'hardware_types#index'
   post 'hardware_types' => 'hardware_types#create'
@@ -68,4 +69,9 @@ Rails.application.routes.draw do
   end
 
   get 'query_sku/:filter' => 'skus#query_sku'
+
+  resources :customers, only: [:create, :index, :show, :update]
+  resources :constructions, only: [:index, :create, :show, :update, :destroy]
+  resources :stage_constructions, only: [:index, :create, :destroy, :show]
+  post 'get_stage_by_construction' => 'stage_constructions#get_stage_by_construction'
 end

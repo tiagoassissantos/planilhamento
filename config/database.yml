@@ -6,13 +6,13 @@ default: &default
 
 development:
   <<: *default
-  database: gag_development
+  database: planilhamento_development
   user: "postgres"
   password: "root"
 
 test:
   <<: *default
-  database: gag_test
+  database: planilhamento_test
   user: "postgres"
   password: "root"
 

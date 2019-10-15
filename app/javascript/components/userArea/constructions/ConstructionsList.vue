@@ -35,6 +35,9 @@
                 <v-btn @click="deleteContruction(construction.id)" color="error">
                   Excluir
                 </v-btn>
+                <v-btn :to="{ name: 'construction_show', params: {id: construction.id}}" color="primary">
+                  Planilhar
+                </v-btn>
               </td>
             </tr>
           </tbody>

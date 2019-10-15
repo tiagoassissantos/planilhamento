@@ -21,6 +21,7 @@ import customers from '../components/userArea/customer/CustomersList.vue'
 import customerNew from '../components/userArea/customer/CustomersNew.vue'
 
 import constructionsNew from '../components/userArea/constructions/ConstructionsNew.vue'
+import constructionsShow from '../components/userArea/constructions/ConstructionsShow.vue'
 import constructions from '../components/userArea/constructions/ConstructionsList.vue'
 
 Vue.use(VueRouter);
@@ -41,7 +42,8 @@ const router = new VueRouter({
 
     { path: "/constructions", component: constructions, props: true },
     { path: "/construction/new", component: constructionsNew, props: true },
-    { path: "/construction/:id", component: constructionsNew, props: true, name: 'construction_edit' },
+    { path: "/construction/:id/edit", component: constructionsNew, props: true, name: 'construction_edit' },
+    { path: "/construction/:id", component: constructionsShow, props: true, name: 'construction_show' },
 
   ]
 })

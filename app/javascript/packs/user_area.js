@@ -41,6 +41,7 @@ const router = new VueRouter({
 
     { path: "/constructions", component: constructions, props: true },
     { path: "/construction/new", component: constructionsNew, props: true },
+    { path: "/construction/:id", component: constructionsNew, props: true, name: 'construction_edit' },
 
   ]
 })

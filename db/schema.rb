@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_14_184310) do
+ActiveRecord::Schema.define(version: 2019_10_15_000649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -226,6 +226,16 @@ ActiveRecord::Schema.define(version: 2019_10_14_184310) do
     t.index ["manufacturer_id"], name: "index_skus_on_manufacturer_id"
     t.index ["model_id"], name: "index_skus_on_model_id"
     t.index ["processor_id"], name: "index_skus_on_processor_id"
+  end
+
+  create_table "stage_constructions", force: :cascade do |t|
+    t.string "name"
+    t.string "quantity"
+    t.string "pavement"
+    t.bigint "construction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["construction_id"], name: "index_stage_constructions_on_construction_id"
   end
 
   create_table "users", force: :cascade do |t|

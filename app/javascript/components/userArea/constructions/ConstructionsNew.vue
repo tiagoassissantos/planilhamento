@@ -80,6 +80,101 @@
             ></v-text-field>
           </v-row>
 
+          <v-dialog
+            v-model="dialog"
+            width="500"
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn
+                color="primary"
+                dark
+                v-on="on"
+              >
+                + Cadastrar etapa
+              </v-btn>
+            </template>
+
+            <v-card>
+              <v-card-title
+                class="headline grey lighten-2"
+                primary-title
+              >
+                Cadastro de etapa
+              </v-card-title>
+
+              <v-card-text>
+                <form>
+                  <v-text-field
+                    v-model="stage_construction.name"
+                    label="Nome da Etapa"
+                    required
+                    type="text"
+                    class="ma-1 pa-3"
+                  ></v-text-field>
+
+                  <v-text-field
+                    v-model="stage_construction.quantity"
+                    :error-messages="nameErrors"
+                    label="Quantidade"
+                    required
+                    type="number"
+                    class="ma-1 pa-3"
+                    readonly
+                  ></v-text-field>
+
+                  <v-text-field
+                    v-model="stage_construction.pavement"
+                    :error-messages="nameErrors"
+                    label="Pavimento"
+                    required
+                    type="number"
+                    class="ma-1 pa-3"
+                  ></v-text-field>
+                </form>
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="submitStageConstruction()"
+                >
+                  Cadastrar
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">Name</th>
+                  <th class="text-left">Quantidade</th>
+                  <th class="text-left">Pavimento</th>
+                  <th class="text-left">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="sc in stage_constructions" :key="sc.id">
+                  <td> {{ sc.name }} </td>
+                  <td> {{ sc.quantity }} </td>
+                  <td> {{ sc.pavement }} </td>
+                  <td>
+                    <v-btn color="success"> Editar </v-btn>
+                    <v-btn color="error" @click="deleteStageConstruction(sc.id)"> Excluir </v-btn>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody>
+
+              </tbody>
+            </template>
+          </v-simple-table>
+
           <v-btn class="mr-4 mt-5 full-width" @click="validateSubmit" color="primary" > {{button_text}} </v-btn>
         </v-card>
       </form>
@@ -102,7 +197,7 @@
         contact_number: { required },
         cpf_cnpj: { required }
       },
-      customer_id: { required }
+      customer_id: { required },
     },
 
     data () {
@@ -120,7 +215,18 @@
         edit: false,
         construction_id: null,
         header_text: null,
-        button_text: null
+        button_text: null,
+
+        dialog: false,
+
+        stage_construction:{
+          name: null,
+          quantity: null,
+          pavement: null
+        },
+
+        stage_construction_id: [],
+        stage_constructions: []
       }
     },
 
@@ -129,6 +235,8 @@
 
       this.construction_id = this.$route.params.id
       if ( this.construction_id != null){
+        this.getConstruction()
+        this.getStageConstructionUpdate()
         this.edit = true
         this.header_text = 'Editar Obra'
         this.button_text = 'Editar'
@@ -181,13 +289,16 @@
         if (!this.$v.customer_id.$dirty) return errors
         !this.$v.customer_id.required && errors.push('Cliente é obrigatório')
         return errors
-      }
+      },
+
     },
 
     methods: {
       async validateSubmit() {
         this.$v.$touch()
         if ( this.$v.$invalid ) {
+          console.log("----------------------")
+          console.log("----------------------")
           return
         } else {
           this.submit()
@@ -195,10 +306,16 @@
       },
 
       async submit () {
+        console.log("+++++++++++++++++")
+        console.log("+++++++++++++++++")
+        console.log("+++++++++++++++++")
+        console.log("+++++++++++++++++")
+
         let response = null
 
         if ( this.edit ) {
-          await this.$http.put(`/customers/${this.customer_id}`, {customer: data})
+          await this.$http.put(`/constructions/${this.construction.id}`,
+          { construction: this.construction, customer_id: this.customer_id, stage_construction_id: this.stage_construction_id })
             .then((result) => {
               response = result;
             }).catch((err) => {
@@ -206,7 +323,7 @@
             });
 
         } else {
-          await this.$http.post("/constructions", { construction: this.construction, customer_id: this.customer_id })
+          await this.$http.post("/constructions", { construction: this.construction, customer_id: this.customer_id, stage_construction_id: this.stage_construction_id })
             .then(resp => {
               response = resp;
             })
@@ -233,8 +350,89 @@
         if ( response.status == 200 ) {
           this.customers = response.body
         }
-      }
+      },
 
+      async getConstruction() {
+        let response = null
+
+        await this.$http.get(`/constructions/${this.construction_id}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.construction = response.body
+        }
+      },
+
+      async submitStageConstruction() {
+        let response = null
+
+        await this.$http.post(`/stage_constructions`, { stage_construction: this.stage_construction} )
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.dialog = false
+          this.stage_construction.name = null,
+          this.stage_construction.pavement = null,
+          this.stage_construction_id.push( response.body )
+          this.getStageConstruction()
+        }
+      },
+
+      async getStageConstruction () {
+        let response = null
+
+        await this.$http.post(`/get_stage_by_construction`, {stage_construction_id: this.stage_construction_id })
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.stage_constructions = response.body
+        }
+      },
+
+      async deleteStageConstruction ( id ) {
+        let response = null
+
+        await this.$http.delete(`stage_constructions/${id}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          var index = this.stage_construction_id.indexOf(id)
+          this.stage_construction_id.splice(index, 1)
+          this.stage_construction = []
+          this.getStageConstruction()
+        }
+      },
+
+      async getStageConstructionUpdate () {
+        let response = null
+
+        await this.$http.get(`/stage_constructions/${this.construction_id}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.stage_constructions = response.body
+        }
+      }
 
     }
   }

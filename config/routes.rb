@@ -71,5 +71,7 @@ Rails.application.routes.draw do
   get 'query_sku/:filter' => 'skus#query_sku'
 
   resources :customers, only: [:create, :index, :show, :update]
-  resources :constructions, only: [:index, :create]
+  resources :constructions, only: [:index, :create, :show, :update, :destroy]
+  resources :stage_constructions, only: [:index, :create, :destroy, :show]
+  post 'get_stage_by_construction' => 'stage_constructions#get_stage_by_construction'
 end

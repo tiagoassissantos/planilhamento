@@ -58,12 +58,31 @@
 
         <v-expansion-panel-content>
           <v-row>
-            <v-col cols="8" class="py-1">
-              <v-textarea name="input-7-1" label="Folha" rows="2"></v-textarea>
+            <v-col cols="10" class="py-1">
+              <v-row>
+                <v-col cols="3">
+                  <v-text-field dense label="Nome da Etapa" value='' v-model='stage.name'></v-text-field>
+                </v-col>
+
+                <v-col cols="3">
+                  <v-text-field dense label="Pavimento" value='' v-model='stage.pavement'></v-text-field>
+                </v-col>
+
+                <v-col cols="6">
+                  <v-textarea name="input-7-1" dense label="Folha" rows="3"></v-textarea>
+                </v-col>
+              </v-row>
             </v-col>
 
-            <v-col cols="4" class="py-1">
-              <v-btn> Salvar </v-btn>
+            <v-col cols="2" class="py-1">
+              <v-row>
+                <v-col cols="12">
+                  <v-btn small> Salvar </v-btn>
+                </v-col>
+                <v-col cols="12">
+                  <v-btn small> Excluir </v-btn>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
 
@@ -78,25 +97,25 @@
             </v-col>
           </v-row>
 
-          <v-row class='blue darken-4 mb-3'>
+          <v-row class='mb-3'>
             <v-col cols="3" class="py-1">
-              Nome do Item
+              <span class="subtitle-1">Nome do Item</span>
             </v-col>
 
             <v-col cols="2" class="py-1">
-              Quantidade
+              <span class="subtitle-1">Quantidade</span>
             </v-col>
 
             <v-col cols="2" class="py-1">
-              Abreviação
+              <span class="subtitle-1">Abreviação</span>
             </v-col>
 
             <v-col cols="2" class="py-1">
-              Quantidade
+              <span class="subtitle-1">Quantidade</span>
             </v-col>
 
             <v-col cols="2" class="py-1">
-              Ações
+              <span class="subtitle-1">Ações</span>
             </v-col>
           </v-row>
 

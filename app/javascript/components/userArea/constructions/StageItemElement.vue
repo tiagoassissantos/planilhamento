@@ -1,9 +1,6 @@
 <template>
 
-    <v-dialog
-      v-model="dialog"
-      width="900"
-    >
+    <v-dialog width="900">
       <template v-slot:activator="{ on }">
         <v-btn text icon small color="indigo" v-on="on">
           <v-icon>mdi-settings</v-icon>
@@ -42,7 +39,7 @@
             </v-col>
           </v-row>
 
-          <v-row v-for='element in elements' v-bind:key="element" class='mb-1 blue-grey lighten-4'>
+          <v-row v-for='element in elements' v-bind:key="element.id" class='mb-1 blue-grey lighten-4'>
             <v-col cols="2" class="py-1">
               <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
                 value='Posição' v-model='item.name'></v-text-field>
@@ -97,7 +94,7 @@
             Add Elemento
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog">
+          <v-btn color="primary" text @click="closeElement">
             OK
           </v-btn>
         </v-card-actions>
@@ -146,6 +143,14 @@
     methods: {
       addElement() {
         this.elements.push( {position: 1} )
+      },
+
+      closeElement() {
+
+      },
+
+      editItem() {
+
       }
     }
   }

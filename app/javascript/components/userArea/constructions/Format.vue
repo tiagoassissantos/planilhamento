@@ -1,9 +1,6 @@
 <template>
 
-    <v-dialog
-      v-model="dialog"
-      width="500"
-    >
+    <v-dialog width="500">
       <template v-slot:activator="{ on }">
         <v-btn text icon small color="indigo" v-on="on">
           <v-icon>mdi-settings</v-icon>
@@ -42,7 +39,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog">
+          <v-btn color="primary" text @click="saveFormat">
             Salvar
           </v-btn>
         </v-card-actions>
@@ -86,8 +83,8 @@
     },
 
     methods: {
-      addElement() {
-        this.elements.push( {position: 1} )
+      saveFormat() {
+        
       }
     }
   }

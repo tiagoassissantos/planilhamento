@@ -1,4 +1,4 @@
 class Construction < ApplicationRecord
-  has_one :customer
+  belongs_to :customer
   has_many :stage_constructions
 end

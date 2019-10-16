@@ -13,7 +13,6 @@
 ActiveRecord::Schema.define(version: 2019_10_15_000649) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "citext"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
@@ -38,195 +37,27 @@ ActiveRecord::Schema.define(version: 2019_10_15_000649) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "categories", force: :cascade do |t|
-    t.citext "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "constructions", force: :cascade do |t|
     t.string "name"
     t.string "contact"
     t.string "contact_number"
     t.string "cpf_cnpj"
     t.string "email"
+    t.bigint "customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_constructions_on_customer_id"
   end
 
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.string "email"
-    t.bigint "construction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "salesman"
-    t.string "customer_phone"
+    t.string "phone"
     t.string "cpf_cnpj"
-    t.index ["construction_id"], name: "index_customers_on_construction_id"
-  end
-
-  create_table "damage_types", force: :cascade do |t|
-    t.citext "name"
-    t.bigint "hardware_type_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["hardware_type_id"], name: "index_damage_types_on_hardware_type_id"
-  end
-
-  create_table "destinations", force: :cascade do |t|
-    t.citext "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "can_delete", default: true
-  end
-
-  create_table "disk_sizes", force: :cascade do |t|
-    t.citext "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "disk_types", force: :cascade do |t|
-    t.citext "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "hardware_types", force: :cascade do |t|
-    t.citext "name"
-    t.citext "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "can_delete", default: true
-  end
-
-  create_table "keyboard_types", force: :cascade do |t|
-    t.citext "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "lot_item_damage_types", force: :cascade do |t|
-    t.bigint "lot_item_id"
-    t.bigint "damage_type_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["damage_type_id"], name: "index_lot_item_damage_types_on_damage_type_id"
-    t.index ["lot_item_id"], name: "index_lot_item_damage_types_on_lot_item_id"
-  end
-
-  create_table "lot_items", force: :cascade do |t|
-    t.bigint "hardware_type_id"
-    t.bigint "model_id"
-    t.citext "ram_memory"
-    t.citext "serial_number", null: false
-    t.citext "asset_tag"
-    t.bigint "category_id"
-    t.citext "comments"
-    t.bigint "processor_id"
-    t.bigint "disk_type_id"
-    t.bigint "disk_size_id"
-    t.citext "parent_id"
-    t.citext "screen"
-    t.citext "webcam"
-    t.bigint "keyboard_type_id"
-    t.citext "bluetooth"
-    t.citext "bright_keyboard"
-    t.bigint "destination_id"
-    t.citext "bar_code", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.citext "biometric_reader"
-    t.citext "vga_card"
-    t.integer "lot_id"
-    t.integer "sku_id"
-    t.bigint "sales_order_id"
-    t.citext "color"
-    t.index ["category_id"], name: "index_lot_items_on_category_id"
-    t.index ["destination_id"], name: "index_lot_items_on_destination_id"
-    t.index ["disk_size_id"], name: "index_lot_items_on_disk_size_id"
-    t.index ["disk_type_id"], name: "index_lot_items_on_disk_type_id"
-    t.index ["hardware_type_id"], name: "index_lot_items_on_hardware_type_id"
-    t.index ["keyboard_type_id"], name: "index_lot_items_on_keyboard_type_id"
-    t.index ["model_id"], name: "index_lot_items_on_model_id"
-    t.index ["processor_id"], name: "index_lot_items_on_processor_id"
-    t.index ["sales_order_id"], name: "index_lot_items_on_sales_order_id"
-  end
-
-  create_table "lots", force: :cascade do |t|
-    t.citext "order_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status"
-  end
-
-  create_table "manufacturers", force: :cascade do |t|
-    t.citext "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "models", force: :cascade do |t|
-    t.citext "name"
-    t.bigint "manufacturer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["manufacturer_id"], name: "index_models_on_manufacturer_id"
-  end
-
-  create_table "processors", force: :cascade do |t|
-    t.citext "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "sales_orders", force: :cascade do |t|
-    t.citext "order_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "sku_damage_types", force: :cascade do |t|
-    t.bigint "sku_id"
-    t.bigint "damage_type_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["damage_type_id"], name: "index_sku_damage_types_on_damage_type_id"
-    t.index ["sku_id"], name: "index_sku_damage_types_on_sku_id"
-  end
-
-  create_table "skus", force: :cascade do |t|
-    t.citext "code"
-    t.citext "screen"
-    t.citext "webcam"
-    t.citext "bluetooth"
-    t.citext "bright_keyboard"
-    t.citext "biometric_reader"
-    t.citext "vga_card"
-    t.bigint "hardware_type_id"
-    t.bigint "manufacturer_id"
-    t.bigint "model_id"
-    t.bigint "category_id"
-    t.bigint "damage_type_id"
-    t.bigint "processor_id"
-    t.bigint "disk_size_id"
-    t.bigint "disk_type_id"
-    t.bigint "keyboard_type_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.citext "ram_memory"
-    t.citext "color"
-    t.citext "uid"
-    t.index ["category_id"], name: "index_skus_on_category_id"
-    t.index ["damage_type_id"], name: "index_skus_on_damage_type_id"
-    t.index ["disk_size_id"], name: "index_skus_on_disk_size_id"
-    t.index ["disk_type_id"], name: "index_skus_on_disk_type_id"
-    t.index ["hardware_type_id"], name: "index_skus_on_hardware_type_id"
-    t.index ["keyboard_type_id"], name: "index_skus_on_keyboard_type_id"
-    t.index ["manufacturer_id"], name: "index_skus_on_manufacturer_id"
-    t.index ["model_id"], name: "index_skus_on_model_id"
-    t.index ["processor_id"], name: "index_skus_on_processor_id"
+    t.string "contact"
   end
 
   create_table "stage_constructions", force: :cascade do |t|
@@ -255,24 +86,4 @@ ActiveRecord::Schema.define(version: 2019_10_15_000649) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "damage_types", "hardware_types"
-  add_foreign_key "lot_items", "categories"
-  add_foreign_key "lot_items", "destinations"
-  add_foreign_key "lot_items", "disk_sizes"
-  add_foreign_key "lot_items", "disk_types"
-  add_foreign_key "lot_items", "hardware_types"
-  add_foreign_key "lot_items", "keyboard_types"
-  add_foreign_key "lot_items", "models"
-  add_foreign_key "lot_items", "processors"
-  add_foreign_key "lot_items", "sales_orders"
-  add_foreign_key "models", "manufacturers"
-  add_foreign_key "skus", "categories"
-  add_foreign_key "skus", "damage_types"
-  add_foreign_key "skus", "disk_sizes"
-  add_foreign_key "skus", "disk_types"
-  add_foreign_key "skus", "hardware_types"
-  add_foreign_key "skus", "keyboard_types"
-  add_foreign_key "skus", "manufacturers"
-  add_foreign_key "skus", "models"
-  add_foreign_key "skus", "processors"
 end

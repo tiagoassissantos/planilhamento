@@ -22,7 +22,7 @@
               <td>{{ customer.name }}</td>
               <td>{{ customer.email }}</td>
               <td>{{ customer.cpf_cnpj }}</td>
-              <td>{{ customer.customer_phone }}</td>
+              <td>{{ customer.phone }}</td>
               <td>{{ customer.salesman }}</td>
               <td>
                 <v-btn :to="{ name: 'customer_edit', params: {id: customer.id}}" color="success">

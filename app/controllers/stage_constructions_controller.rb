@@ -1,8 +1,16 @@
 class StageConstructionsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  def index
+    construction_id = params[:construction_id]
+    stage_constructions = StageConstruction.where( construction_id: construction_id )
+
+    render json: stage_constructions, status: :ok
+  end
+
   def create
     stage_construction = StageConstruction.new( stage_construction_params )
+    stage_construction.construction_id = params[:construction_id]
     if stage_construction.save
       render json: stage_construction.id, status: :ok
     else

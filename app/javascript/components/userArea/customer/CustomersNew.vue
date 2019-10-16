@@ -158,7 +158,7 @@
           email: this.email,
           name: this.name,
           salesman: this.salesman,
-          customer_phone: this.customerPhone,
+          phone: this.customerPhone,
           cpf_cnpj: this.cpfCnpj,
         }
 
@@ -199,7 +199,7 @@
           this.name = response.body.name
           this.salesman = response.body.salesman
           this.cpfCnpj = response.body.cpf_cnpj
-          this.customerPhone = response.body.customer_phone
+          this.customerPhone = response.body.phone
         }
       },
 

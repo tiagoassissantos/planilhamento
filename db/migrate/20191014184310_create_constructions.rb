@@ -7,6 +7,7 @@ class CreateConstructions < ActiveRecord::Migration[5.2]
       t.string :contact_number
       t.string :cpf_cnpj
       t.string :email
+      t.belongs_to :customer, index: true
       t.timestamps
     end
   end

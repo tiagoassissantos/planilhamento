@@ -1,189 +1,138 @@
 <template>
   <div id="app">
     <v-container>
-       <v-banner title='true' class='mt-5'>
-          <h2> {{header_text}} </h2>
+      <v-banner title='true' class='mt-5'>
+        <span class='display-1'> Obra: </span> <span class='headline'> {{ construction.name }} </span>
 
-          <template v-slot:actions>
-            <v-btn class="" to="/constructions" color="primary"> Voltar </v-btn>
-          </template>
-        </v-banner>
+        <template v-slot:actions>
+          <v-btn class="" to="/constructions" color="primary"> Voltar </v-btn>
+        </template>
+      </v-banner>
+
+      <v-card class="padding-card">
+        <v-row>
+          <v-col cols='3'> Vendedor </v-col>
+          <v-col cols='3'> Contato </v-col>
+          <v-col cols='3'> Telefone do Contato </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols='3'> {{ construction.customer.salesman }} </v-col>
+          <v-col cols='3'> {{ construction.contact }} </v-col>
+          <v-col cols='3'> {{ construction.contact_number }} </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols='12'> Cliente </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols='12'> {{ construction.customer.name }} </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols='3'> CPF ou CNPJ </v-col>
+          <v-col cols='3'> Contato </v-col>
+          <v-col cols='3'> Telefone Contato </v-col>
+          <v-col cols='3'> E-mail </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols='3'> {{ construction.customer.cpf_cnpj }} </v-col>
+          <v-col cols='3'> {{ construction.customer.contact }} </v-col>
+          <v-col cols='3'> {{ construction.customer.phone }} </v-col>
+          <v-col cols='3'> {{ construction.customer.email }} </v-col>
+        </v-row>
+      </v-card>
       
-      <form>
-        <v-card class="padding-card">
+      
+      <v-card class="padding-card">
+        <!-- <v-btn color="primary" dark @click='addStage'>
+          + Cadastrar etapa
+        </v-btn> -->
 
-          <v-select
-            v-model="customer_id"
-            :items="customers"
-            item-text="name"
-            item-value="id"
-            label="Cliente"
-            persistent-hint
-            return-object
-            single-line
-            required
-            @input="$v.construction.name.$touch()"
-            @blur="$v.construction.name.$touch()"
-            :error-messages="customerErrors"
-          ></v-select>
+        <v-dialog
+          v-model="dialog"
+          width="500"
+        >
+          <template v-slot:activator="{ on }">
+            <h2 class="mb-5">
+              Etapas
+              <v-btn text icon large color="blue" dark v-on="on">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </h2>
+          </template>
+          
+          <v-card>
+            <v-card-title
+              class="headline grey lighten-2"
+              primary-title
+            >
+              Cadastro de etapa
+            </v-card-title>
 
-          <v-row cols-12 justify="space-between">
-            <v-text-field
-              v-model="construction.name"
-              :error-messages="nameErrors"
-              label="Nome da Obra"
-              required
-              type="text"
-              @input="$v.construction.name.$touch()"
-              @blur="$v.construction.name.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
+            <v-card-text>
+              <form>
+                <v-text-field
+                  v-model="stage_construction.name"
+                  label="Nome da Etapa"
+                  required
+                  type="text"
+                  class="ma-1 pa-3"
+                ></v-text-field>
 
-            <v-text-field
-              v-model="construction.email"
-              :error-messages="emailErrors"
-              label="E-mail"
-              required
-              type="email"
-              @input="$v.construction.email.$touch()"
-              @blur="$v.construction.email.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
+                <v-autocomplete v-model="stage_construction.pavement" label="Pavimento"
+                  :items="floorItems" class="ma-1 pa-3" required>
+                </v-autocomplete>
+              </form>
+            </v-card-text>
 
-            <v-text-field
-              v-model="construction.contact"
-              :error-messages="contactErrors"
-              label="Contato"
-              type="text"
-              required
-              @input="$v.construction.contact.$touch()"
-              @blur="$v.construction.contact.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
-          </v-row>
+            <v-divider></v-divider>
 
-          <v-row cols-12 justify="space-between">
-            <v-text-field
-              v-model="construction.contact_number"
-              :error-messages="contactNumberErrors"
-              label="Telefone para contato"
-              required
-              type="number"
-              @input="$v.construction.contact_number.$touch()"
-              @blur="$v.construction.contact_number.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
-
-            <v-text-field
-              v-model="construction.cpf_cnpj"
-              :error-messages="cpfCnpjErrors"
-              label="CPF / CNPJ"
-              required
-              @input="$v.construction.cpf_cnpj.$touch()"
-              @blur="$v.construction.cpf_cnpj.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
-          </v-row>
-
-          <v-dialog
-            v-model="dialog"
-            width="500"
-          >
-            <template v-slot:activator="{ on }">
+            <v-card-actions>
+              <v-spacer></v-spacer>
               <v-btn
                 color="primary"
-                dark
-                v-on="on"
+                text
+                @click="submitStageConstruction()"
               >
-                + Cadastrar etapa
+                Cadastrar
               </v-btn>
-            </template>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
 
-            <v-card>
-              <v-card-title
-                class="headline grey lighten-2"
-                primary-title
-              >
-                Cadastro de etapa
-              </v-card-title>
+        <!-- <v-simple-table>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">Name</th>
+                <th class="text-left">Quantidade</th>
+                <th class="text-left">Pavimento</th>
+                <th class="text-left">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="sc in stage_constructions" :key="sc.id">
+                <td> {{ sc.name }} </td>
+                <td> {{ sc.quantity }} </td>
+                <td> {{ sc.pavement }} </td>
+                <td>
+                  <v-btn color="success"> Editar </v-btn>
+                  <v-btn color="error" @click="deleteStageConstruction(sc.id)"> Excluir </v-btn>
+                </td>
+              </tr>
+            </tbody>
+            <tbody>
 
-              <v-card-text>
-                <form>
-                  <v-text-field
-                    v-model="stage_construction.name"
-                    label="Nome da Etapa"
-                    required
-                    type="text"
-                    class="ma-1 pa-3"
-                  ></v-text-field>
+            </tbody>
+          </template>
+        </v-simple-table> -->
 
-                  <v-text-field
-                    v-model="stage_construction.quantity"
-                    :error-messages="nameErrors"
-                    label="Quantidade"
-                    required
-                    type="number"
-                    class="ma-1 pa-3"
-                    readonly
-                  ></v-text-field>
+        <div v-for='stage in stage_constructions' v-bind:key='stage.id'>
+          <construction-stage :stage='stage'></construction-stage>
+        </div>
 
-                  <v-text-field
-                    v-model="stage_construction.pavement"
-                    :error-messages="nameErrors"
-                    label="Pavimento"
-                    required
-                    type="number"
-                    class="ma-1 pa-3"
-                  ></v-text-field>
-                </form>
-              </v-card-text>
-
-              <v-divider></v-divider>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="primary"
-                  text
-                  @click="submitStageConstruction()"
-                >
-                  Cadastrar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Quantidade</th>
-                  <th class="text-left">Pavimento</th>
-                  <th class="text-left">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="sc in stage_constructions" :key="sc.id">
-                  <td> {{ sc.name }} </td>
-                  <td> {{ sc.quantity }} </td>
-                  <td> {{ sc.pavement }} </td>
-                  <td>
-                    <v-btn color="success"> Editar </v-btn>
-                    <v-btn color="error" @click="deleteStageConstruction(sc.id)"> Excluir </v-btn>
-                  </td>
-                </tr>
-              </tbody>
-              <tbody>
-
-              </tbody>
-            </template>
-          </v-simple-table>
-
-          <v-btn class="mr-4 mt-5 full-width" @click="validateSubmit" color="primary" > {{button_text}} </v-btn>
-        </v-card>
-      </form>
-
+      </v-card>
+      
     </v-container>
   </div>
 </template>
@@ -191,8 +140,11 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
+  import constructionStage from './Stage'
 
   export default {
+    components: {constructionStage},
+
     mixins: [validationMixin],
     validations: {
       construction: {
@@ -212,7 +164,8 @@
           contact: null,
           contact_number: null,
           email: null,
-          cpf_cnpj: null
+          cpf_cnpj: null,
+          customer: {}
         },
         customer_id: null,
 
@@ -224,11 +177,13 @@
 
         dialog: false,
 
-        stage_construction:{
+        stage_construction: {
           name: null,
           quantity: null,
           pavement: null
         },
+
+        stages: [],
 
         stage_construction_id: [],
         stage_constructions: []
@@ -239,17 +194,12 @@
       this.getCustomers()
 
       this.construction_id = this.$route.params.id
-      if ( this.construction_id != null){
-        this.getConstruction()
-        this.getStageConstructionUpdate()
-        this.edit = true
-        this.header_text = 'Editar Obra'
-        this.button_text = 'Editar'
 
-      } else {
-        this.header_text = 'Nova Obra'
-        this.button_text = 'Cadastrar'
-      }
+      this.getConstruction()
+      this.getStageConstructionUpdate()
+      this.edit = true
+      this.header_text = 'Editar Obra'
+      this.button_text = 'Editar'
     },
 
     computed: {
@@ -295,6 +245,14 @@
         !this.$v.customer_id.required && errors.push('Cliente é obrigatório')
         return errors
       },
+
+      floorItems() {
+        let itens = []
+        for (var i = -5; i <= 50; i++) {
+          itens.push( i )
+        }
+        return itens
+      }
 
     },
 
@@ -375,8 +333,11 @@
       async submitStageConstruction() {
         let response = null
 
-        await this.$http.post(`/stage_constructions`, { stage_construction: this.stage_construction} )
-        .then((result) => {
+        await this.$http.post(
+          `/constructions/${this.construction_id}/stage_constructions`, 
+          { stage_construction: this.stage_construction} 
+        
+        ).then((result) => {
           response = result
         }).catch((err) => {
           response = err
@@ -427,7 +388,7 @@
       async getStageConstructionUpdate () {
         let response = null
 
-        await this.$http.get(`/stage_constructions/${this.construction_id}`)
+        await this.$http.get(`/constructions/${this.construction_id}/stage_constructions`)
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -437,6 +398,18 @@
         if ( response.status == 200 ) {
           this.stage_constructions = response.body
         }
+      },
+
+
+
+
+      addStage() {
+        this.stages.push({
+          id: 1,
+          name: 'Etapa 1',
+          quantity: 0,
+          pavement: 1
+        })
       }
 
     }

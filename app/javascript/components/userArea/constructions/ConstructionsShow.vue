@@ -44,14 +44,7 @@
       
       
       <v-card class="padding-card">
-        <!-- <v-btn color="primary" dark @click='addStage'>
-          + Cadastrar etapa
-        </v-btn> -->
-
-        <v-dialog
-          v-model="dialog"
-          width="500"
-        >
+        <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on }">
             <h2 class="mb-5">
               Etapas
@@ -72,14 +65,14 @@
             <v-card-text>
               <form>
                 <v-text-field
-                  v-model="stage_construction.name"
+                  v-model="stage.name"
                   label="Nome da Etapa"
                   required
                   type="text"
                   class="ma-1 pa-3"
                 ></v-text-field>
 
-                <v-autocomplete v-model="stage_construction.pavement" label="Pavimento"
+                <v-autocomplete v-model="stage.pavement" label="Pavimento"
                   :items="floorItems" class="ma-1 pa-3" required>
                 </v-autocomplete>
               </form>
@@ -89,45 +82,14 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                color="primary"
-                text
-                @click="submitStageConstruction()"
-              >
+              <v-btn color="primary" text @click="submitConstructionStage()">
                 Cadastrar
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
 
-        <!-- <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">Name</th>
-                <th class="text-left">Quantidade</th>
-                <th class="text-left">Pavimento</th>
-                <th class="text-left">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="sc in stage_constructions" :key="sc.id">
-                <td> {{ sc.name }} </td>
-                <td> {{ sc.quantity }} </td>
-                <td> {{ sc.pavement }} </td>
-                <td>
-                  <v-btn color="success"> Editar </v-btn>
-                  <v-btn color="error" @click="deleteStageConstruction(sc.id)"> Excluir </v-btn>
-                </td>
-              </tr>
-            </tbody>
-            <tbody>
-
-            </tbody>
-          </template>
-        </v-simple-table> -->
-
-        <div v-for='stage in stage_constructions' v-bind:key='stage.id'>
+        <div v-for='stage in stages' v-bind:key='stage.id'>
           <construction-stage :stage='stage'></construction-stage>
         </div>
 
@@ -169,7 +131,6 @@
         },
         customer_id: null,
 
-        customers: [],
         edit: false,
         construction_id: null,
         header_text: null,
@@ -177,26 +138,20 @@
 
         dialog: false,
 
-        stage_construction: {
+        stage: {
           name: null,
-          quantity: null,
           pavement: null
         },
 
         stages: [],
-
-        stage_construction_id: [],
-        stage_constructions: []
       }
     },
 
     mounted () {
-      this.getCustomers()
-
       this.construction_id = this.$route.params.id
 
       this.getConstruction()
-      this.getStageConstructionUpdate()
+      this.getConstructionStageUpdate()
       this.edit = true
       this.header_text = 'Editar Obra'
       this.button_text = 'Editar'
@@ -247,74 +202,16 @@
       },
 
       floorItems() {
-        let itens = []
+        let items = []
         for (var i = -5; i <= 50; i++) {
-          itens.push( i )
+          items.push( i )
         }
-        return itens
+        return items
       }
 
     },
 
     methods: {
-      async validateSubmit() {
-        this.$v.$touch()
-        if ( this.$v.$invalid ) {
-          console.log("----------------------")
-          console.log("----------------------")
-          return
-        } else {
-          this.submit()
-        }
-      },
-
-      async submit () {
-        console.log("+++++++++++++++++")
-        console.log("+++++++++++++++++")
-        console.log("+++++++++++++++++")
-        console.log("+++++++++++++++++")
-
-        let response = null
-
-        if ( this.edit ) {
-          await this.$http.put(`/constructions/${this.construction.id}`,
-          { construction: this.construction, customer_id: this.customer_id, stage_construction_id: this.stage_construction_id })
-            .then((result) => {
-              response = result;
-            }).catch((err) => {
-              response = err
-            });
-
-        } else {
-          await this.$http.post("/constructions", { construction: this.construction, customer_id: this.customer_id, stage_construction_id: this.stage_construction_id })
-            .then(resp => {
-              response = resp;
-            })
-            .catch(resp => {
-              response = resp;
-            });
-        }
-
-        if ( response.status == 200 ) {
-          this.$router.push('/constructions')
-        }
-      },
-
-      async getCustomers() {
-        let response = null
-
-        await this.$http.get(`/customers`)
-        .then((result) => {
-          response = result
-        }).catch((err) => {
-          response = err
-        });
-
-        if ( response.status == 200 ) {
-          this.customers = response.body
-        }
-      },
-
       async getConstruction() {
         let response = null
 
@@ -330,12 +227,12 @@
         }
       },
 
-      async submitStageConstruction() {
+      async submitConstructionStage() {
         let response = null
 
-        await this.$http.post(
-          `/constructions/${this.construction_id}/stage_constructions`, 
-          { stage_construction: this.stage_construction} 
+        await this.$http.post( 
+          `/constructions/${this.construction_id}/construction_stages`, 
+          { construction_stage: this.stage} 
         
         ).then((result) => {
           response = result
@@ -345,17 +242,18 @@
 
         if ( response.status == 200 ) {
           this.dialog = false
-          this.stage_construction.name = null,
-          this.stage_construction.pavement = null,
-          this.stage_construction_id.push( response.body )
-          this.getStageConstruction()
+          this.stage.name = null,
+          this.stage.pavement = null,
+          
+          console.log( response.body );
+          this.addStage( response.body )
         }
       },
 
-      async getStageConstruction () {
+      /*async deleteConstructionStage ( id ) {
         let response = null
 
-        await this.$http.post(`/get_stage_by_construction`, {stage_construction_id: this.stage_construction_id })
+        await this.$http.delete(`construction_stages/${id}`)
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -363,14 +261,17 @@
         });
 
         if ( response.status == 200 ) {
-          this.stage_constructions = response.body
+          var index = this.construction_stage_id.indexOf(id)
+          this.construction_stage_id.splice(index, 1)
+          this.construction_stage = []
+          this.getConstructionStage()
         }
-      },
+      },*/
 
-      async deleteStageConstruction ( id ) {
+      async getConstructionStageUpdate () {
         let response = null
 
-        await this.$http.delete(`stage_constructions/${id}`)
+        await this.$http.get(`/constructions/${this.construction_id}/construction_stages`)
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -378,38 +279,12 @@
         });
 
         if ( response.status == 200 ) {
-          var index = this.stage_construction_id.indexOf(id)
-          this.stage_construction_id.splice(index, 1)
-          this.stage_construction = []
-          this.getStageConstruction()
+          this.stages = response.body
         }
       },
 
-      async getStageConstructionUpdate () {
-        let response = null
-
-        await this.$http.get(`/constructions/${this.construction_id}/stage_constructions`)
-        .then((result) => {
-          response = result
-        }).catch((err) => {
-          response = err
-        });
-
-        if ( response.status == 200 ) {
-          this.stage_constructions = response.body
-        }
-      },
-
-
-
-
-      addStage() {
-        this.stages.push({
-          id: 1,
-          name: 'Etapa 1',
-          quantity: 0,
-          pavement: 1
-        })
+      addStage( stage ) {
+        this.stages.push( stage )
       }
 
     }

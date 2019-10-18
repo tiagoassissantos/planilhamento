@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_000649) do
+ActiveRecord::Schema.define(version: 2019_10_17_023805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -37,6 +37,16 @@ ActiveRecord::Schema.define(version: 2019_10_15_000649) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "construction_stages", force: :cascade do |t|
+    t.string "name"
+    t.string "quantity"
+    t.string "pavement"
+    t.bigint "construction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["construction_id"], name: "index_construction_stages_on_construction_id"
+  end
+
   create_table "constructions", force: :cascade do |t|
     t.string "name"
     t.string "contact"
@@ -60,14 +70,34 @@ ActiveRecord::Schema.define(version: 2019_10_15_000649) do
     t.string "contact"
   end
 
-  create_table "stage_constructions", force: :cascade do |t|
+  create_table "formats", force: :cascade do |t|
     t.string "name"
-    t.string "quantity"
-    t.string "pavement"
-    t.bigint "construction_id"
+    t.integer "sides"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["construction_id"], name: "index_stage_constructions_on_construction_id"
+  end
+
+  create_table "item_elements", force: :cascade do |t|
+    t.integer "position"
+    t.decimal "gauge"
+    t.integer "quantity"
+    t.jsonb "format_values"
+    t.decimal "weight"
+    t.bigint "stage_item_id"
+    t.bigint "format_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["format_id"], name: "index_item_elements_on_format_id"
+    t.index ["stage_item_id"], name: "index_item_elements_on_stage_item_id"
+  end
+
+  create_table "stage_items", force: :cascade do |t|
+    t.string "name"
+    t.string "abbreviation"
+    t.bigint "construction_stage_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["construction_stage_id"], name: "index_stage_items_on_construction_stage_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -12,7 +12,7 @@
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" text>
-              Registrar
+              Cadastros
             </v-btn>
           </template>
           <v-list>
@@ -23,6 +23,10 @@
 
             <v-list-item to="/customers" >
               <v-list-item-title> Clientes </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item to="/formats" >
+              <v-list-item-title> Formatos </v-list-item-title>
             </v-list-item>
 
           </v-list>

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :stage_construction do
+  factory :construction_stage do
     
   end
 end

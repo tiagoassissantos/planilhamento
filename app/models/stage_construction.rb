@@ -1,2 +1,0 @@
-class StageConstruction < ApplicationRecord
-end

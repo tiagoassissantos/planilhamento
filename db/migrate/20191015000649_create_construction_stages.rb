@@ -1,6 +1,6 @@
-class CreateStageConstructions < ActiveRecord::Migration[5.2]
+class CreateConstructionStages < ActiveRecord::Migration[5.2]
   def change
-    create_table :stage_constructions do |t|
+    create_table :construction_stages do |t|
       t.string :name
       t.string :quantity
       t.string :pavement

@@ -24,6 +24,9 @@ import constructionsNew from '../components/userArea/constructions/Constructions
 import constructionsShow from '../components/userArea/constructions/ConstructionsShow.vue'
 import constructions from '../components/userArea/constructions/ConstructionsList.vue'
 
+import formatsList from '../components/userArea/formats/List'
+import formatNew from '../components/userArea/formats/New'
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(Vuelidate)
@@ -45,6 +48,8 @@ const router = new VueRouter({
     { path: "/construction/:id/edit", component: constructionsNew, props: true, name: 'construction_edit' },
     { path: "/construction/:id", component: constructionsShow, props: true, name: 'construction_show' },
 
+    { path: "/formats", component: formatsList, props: true },
+    { path: "/formats/new", component: formatNew, props: true },
   ]
 })
 

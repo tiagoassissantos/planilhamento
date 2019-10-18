@@ -1,0 +1,2 @@
+class ConstructionStage < ApplicationRecord
+end

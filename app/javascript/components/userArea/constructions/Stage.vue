@@ -119,7 +119,7 @@
             </v-col>
           </v-row>
 
-          <div v-for='item in itens' v-bind:key='item.id'> <stage-item/> </div>
+          <div v-for='item in items' v-bind:key='item.id'> <stage-item :item="item" :stage="stage"/> </div>
           
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -153,21 +153,36 @@
     data () {
       return {
         name: '',
-        itens: []
+        items: []
       }
-    },
-
-    mounted () {
-      
     },
 
     computed: {
       
     },
 
+    mounted () {
+      this.getItems();
+    },
+
     methods: {
+      async getItems() {
+        let response = null
+
+        await this.$http.get(`/construction_stages/${this.stage.id}/stage_items`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.items = response.body
+        }
+      },
+
       addItem() {
-        this.itens.push({id: 0})
+        this.items.push( {id: 0, name: '', abbreviation: ''} )
       }
     }
   }

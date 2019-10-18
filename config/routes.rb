@@ -72,7 +72,17 @@ Rails.application.routes.draw do
 
   resources :customers, only: [:create, :index, :show, :update]
   resources :constructions, only: [:index, :create, :show, :update, :destroy] do
-    resources :stage_constructions, only: [:index, :create, :destroy, :show]
+    resources :construction_stages, only: [:index, :create, :destroy, :show]
   end
-  post 'get_stage_by_construction' => 'stage_constructions#get_stage_by_construction'
+  post 'get_stage_by_construction' => 'construction_stages#get_stage_by_construction'
+
+  resources :construction_stages, only: [] do
+    resources :stage_items, only: [:index, :create, :update]
+  end
+
+  resources :stage_items, only: [] do
+    resources :item_elements, only: [:index, :create, :update]
+  end
+
+  resources :formats, only: [:index, :create]
 end

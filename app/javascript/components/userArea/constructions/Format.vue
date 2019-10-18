@@ -1,28 +1,22 @@
 <template>
 
-    <v-dialog width="500">
-      <template v-slot:activator="{ on }">
-        <v-btn text icon small color="indigo" v-on="on">
-          <v-icon>mdi-settings</v-icon>
-        </v-btn>
-      </template>
-
+    <v-dialog v-model='show' max-width="700">
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>
-          Formato 1
+          {{ format.name }}
         </v-card-title>
 
         <v-card-text>
-          <v-row class=''>
-            <v-col cols="2" class="py-1">
+          <v-row>
+            <v-col cols="2" class="py-1" v-for="side in format.sides" v-bind:key="side"> 
               <v-row>
                 <v-col cols="12">
-                  <span class="subtitle-1">A</span>
+                  <span class="subtitle-1"> {{ fieldLetter( side )  }} </span>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field dense value='300 CM'></v-text-field>
+                  <v-text-field dense v-model="formatData[ fieldLetter( side ) ]"></v-text-field>
                 </v-col>
               </v-row>
             </v-col>
@@ -36,6 +30,8 @@
         </v-card-text>
 
         <v-divider></v-divider>
+
+        {{ formatData }}
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -65,26 +61,60 @@
       customer_id: { required },
     },
 
-    props: ['item'],
+    props: {
+      value: Object
+    },
 
     data () {
       return {
         elements: [],
-        editing: true
+        editing: true,
+        dialog: false,
+        formatData: {}
       }
     },
 
     mounted () {
-      
+
     },
 
     computed: {
-      
+      show: {
+        get () {
+          return this.value.show
+        },
+        set (value) {
+          let newValue = this.value
+          newValue.show = value
+          this.$emit('input', newValue)
+        }
+      },
+
+      format: {
+        get() {
+          return this.value.format
+        },
+        set( format ) {
+          let newValue = this.value
+          newValue.format = format
+          this.$emit('input', newValue)
+        },
+      }
+
     },
 
     methods: {
       saveFormat() {
-        
+        let newValue = this.value
+        newValue.formatDimensions = this.formatData
+        this.$emit('input', newValue)
+        this.show = false
+      },
+
+      fieldLetter( number ) {
+        console.log('---------------')
+        console.log(number)
+        return String.fromCharCode(64 + number)
       }
     }
   }

@@ -129,14 +129,14 @@
 
         dialog: false,
 
-        stage_construction:{
+        construction_stage:{
           name: null,
           quantity: null,
           pavement: null
         },
 
-        stage_construction_id: [],
-        stage_constructions: []
+        construction_stage_id: [],
+        construction_stages: []
       }
     },
 
@@ -146,7 +146,7 @@
       this.construction_id = this.$route.params.id
       if ( this.construction_id != null){
         this.getConstruction()
-        this.getStageConstructionUpdate()
+        this.getConstructionStageUpdate()
         this.edit = true
         this.header_text = 'Editar Obra'
         this.button_text = 'Editar'
@@ -225,7 +225,7 @@
 
         if ( this.edit ) {
           await this.$http.put(`/constructions/${this.construction.id}`,
-          { construction: this.construction, customer_id: this.customer_id, stage_construction_id: this.stage_construction_id })
+          { construction: this.construction, customer_id: this.customer_id, construction_stage_id: this.construction_stage_id })
             .then((result) => {
               response = result;
             }).catch((err) => {
@@ -233,7 +233,7 @@
             });
 
         } else {
-          await this.$http.post("/constructions", { construction: this.construction, customer_id: this.customer_id, stage_construction_id: this.stage_construction_id })
+          await this.$http.post("/constructions", { construction: this.construction, customer_id: this.customer_id, construction_stage_id: this.construction_stage_id })
             .then(resp => {
               response = resp;
             })
@@ -277,10 +277,10 @@
         }
       },
 
-      async submitStageConstruction() {
+      async submitConstructionStage() {
         let response = null
 
-        await this.$http.post(`/stage_constructions`, { stage_construction: this.stage_construction} )
+        await this.$http.post(`/construction_stages`, { construction_stage: this.construction_stage} )
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -289,17 +289,17 @@
 
         if ( response.status == 200 ) {
           this.dialog = false
-          this.stage_construction.name = null,
-          this.stage_construction.pavement = null,
-          this.stage_construction_id.push( response.body )
-          this.getStageConstruction()
+          this.construction_stage.name = null,
+          this.construction_stage.pavement = null,
+          this.construction_stage_id.push( response.body )
+          this.getConstructionStage()
         }
       },
 
-      async getStageConstruction () {
+      async getConstructionStage () {
         let response = null
 
-        await this.$http.post(`/get_stage_by_construction`, {stage_construction_id: this.stage_construction_id })
+        await this.$http.post(`/get_stage_by_construction`, {construction_stage_id: this.construction_stage_id })
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -307,14 +307,14 @@
         });
 
         if ( response.status == 200 ) {
-          this.stage_constructions = response.body
+          this.construction_stages = response.body
         }
       },
 
-      async deleteStageConstruction ( id ) {
+      async deleteConstructionStage ( id ) {
         let response = null
 
-        await this.$http.delete(`stage_constructions/${id}`)
+        await this.$http.delete(`construction_stages/${id}`)
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -322,17 +322,17 @@
         });
 
         if ( response.status == 200 ) {
-          var index = this.stage_construction_id.indexOf(id)
-          this.stage_construction_id.splice(index, 1)
-          this.stage_construction = []
-          this.getStageConstruction()
+          var index = this.construction_stage_id.indexOf(id)
+          this.construction_stage_id.splice(index, 1)
+          this.construction_stage = []
+          this.getConstructionStage()
         }
       },
 
-      async getStageConstructionUpdate () {
+      async getConstructionStageUpdate () {
         let response = null
 
-        await this.$http.get(`/stage_constructions/${this.construction_id}`)
+        await this.$http.get(`/construction_stages/${this.construction_id}`)
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -340,7 +340,7 @@
         });
 
         if ( response.status == 200 ) {
-          this.stage_constructions = response.body
+          this.construction_stages = response.body
         }
       }
 

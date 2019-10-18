@@ -10,15 +10,7 @@ class ConstructionsController < ApplicationController
     customer = Customer.find( params[:customer_id][:id] )
     construction = Construction.new( construction_params )
     construction.customer = customer
-    stage_construction_ids = params[:stage_construction_id]
-
-
-    stage_construction_ids.each do |id|
-      stage = StageConstruction.find( id )
-      construction.stage_constructions << stage
-    end
-
-
+    
     if construction.save
       render json: construction, status: :ok
     else
@@ -35,13 +27,7 @@ class ConstructionsController < ApplicationController
     customer = Customer.find( params[:customer_id][:id] )
     construction = Construction.find( params[:id] )
     construction.customer = customer
-    stage_construction_ids = params[:stage_construction_id]
 
-
-    stage_construction_ids.each do |id|
-      stage = StageConstruction.find( id )
-      construction.stage_constructions << stage
-    end
 
     construction.save
 

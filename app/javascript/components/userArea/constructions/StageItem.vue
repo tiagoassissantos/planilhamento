@@ -4,19 +4,20 @@
     <v-row class='mb-1 blue-grey lighten-4'>
       <v-col cols="3" class="py-1">
         <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
-          value='Nome do Item' v-model='item.name'></v-text-field>
+                      value='Nome do Item' v-model='item.name'></v-text-field>
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense readonly value='11X'></v-text-field>
+        <v-text-field dense disabled></v-text-field>
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense :readonly='!editing' :class='{editable: editing}' value='IT1'></v-text-field>
+        <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
+                      value='IT1' v-model="item.abbreviation"></v-text-field>
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense readonly value='1.200,00 KG'></v-text-field>
+        <v-text-field dense disabled></v-text-field>
       </v-col>
 
 
@@ -24,10 +25,6 @@
         <v-btn text icon small color="blue" v-if='!editing' @click="editItem">
           <v-icon>mdi-pencil-outline</v-icon>
         </v-btn>
-
-        <!-- <v-btn text icon small color="indigo" v-if='!editing'>
-          <v-icon>mdi-settings</v-icon>
-        </v-btn> -->
 
         <stage-item-element :item='item' v-if='!editing'/>
 
@@ -64,28 +61,56 @@
       customer_id: { required },
     },
 
-    props: ['stage'],
+    props: ['stage', 'item'],
 
     data () {
       return {
-        item: {
-          name: '',
-        },
-        editing: true
+        editing: true,
+        edit: false
       }
-    },
-
-    mounted () {
-      
     },
 
     computed: {
       
     },
 
+    mounted () {
+      if (this.item && this.item.id > 0) {
+        this.editing = false
+        this.edit = true
+      }
+    },
+
     methods: {
-      saveItem() {
-        this.editing = false;
+      async saveItem () {
+        let response = null
+
+        if ( this.edit ) {
+          await this.$http.put(`/construction_stages/${this.stage.id}/stage_items/${this.item.id}`,
+            {stage_item: this.item}
+          
+          ).then((result) => {
+              response = result
+            }).catch((err) => {
+              response = err
+            });
+
+        } else {
+          await this.$http.post(`/construction_stages/${this.stage.id}/stage_items`, 
+            {stage_item: this.item}
+
+          ).then(resp => {
+              response = resp;
+            })
+            .catch(resp => {
+              response = resp;
+            });
+        }
+
+        if ( response.status == 200 ) {
+          this.editing = false
+          this.edit = true
+        }
       },
 
       editItem() {

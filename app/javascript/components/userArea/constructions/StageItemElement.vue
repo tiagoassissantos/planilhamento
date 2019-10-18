@@ -39,63 +39,22 @@
             </v-col>
           </v-row>
 
-          <v-row v-for='element in elements' v-bind:key="element.id" class='mb-1 blue-grey lighten-4'>
-            <v-col cols="2" class="py-1">
-              <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
-                value='Posição' v-model='item.name'></v-text-field>
-            </v-col>
 
-            <v-col cols="2" class="py-1">
-              <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
-                value='Bitola' v-model='item.name'></v-text-field>
-            </v-col>
+          <div v-for='element in elements' v-bind:key='element.id'> 
+            <cd-element :element="element" :item="item" /> 
+          </div>
 
-            <v-col cols="2" class="py-1">
-              <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
-                value='Qtde' v-model='item.name'></v-text-field>
-            </v-col>
-
-            <v-col cols="2" class="py-1">
-              <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
-                value='Formato' v-model='item.name'></v-text-field>
-            </v-col>
-
-            <v-col cols="2" class="py-1">
-              <v-text-field dense readonly value='1.200,00 KG'></v-text-field>
-            </v-col>
-
-
-            <v-col cols="2" class="py-1">
-              <v-btn text icon small color="blue" v-if='!editing' @click="editItem">
-                <v-icon>mdi-pencil-outline</v-icon>
-              </v-btn>
-
-              <!-- <v-btn text icon small color="indigo" v-if='!editing'>
-                <v-icon>mdi-settings</v-icon>
-              </v-btn> -->
-
-              <format :item='item' v-if='!editing'/>
-
-              <v-btn text icon small color="red" v-if='!editing'>
-                <v-icon>mdi-delete-forever</v-icon>
-              </v-btn>
-
-              <v-btn text icon small color="green" v-if='editing' @click="saveItem">
-                <v-icon>mdi-check-outline</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
         </v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-btn color="primary" text @click="addElement">
-            Add Elemento
+            + Elemento
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="closeElement">
-            OK
+            Finalizar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -106,10 +65,10 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
-  import format from './Format'
+  import cdElement from './Element'
 
   export default {
-    components: { format },
+    components: { cdElement },
 
     mixins: [validationMixin],
     validations: {
@@ -128,7 +87,8 @@
     data () {
       return {
         elements: [],
-        editing: false
+        editing: false,
+        lastPosition: 0
       }
     },
 
@@ -142,7 +102,9 @@
 
     methods: {
       addElement() {
-        this.elements.push( {position: 1} )
+        let newPosition = this.lastPosition + 1
+        this.lastPosition = newPosition
+        this.elements.push( {id: 0, position: newPosition} )
       },
 
       closeElement() {

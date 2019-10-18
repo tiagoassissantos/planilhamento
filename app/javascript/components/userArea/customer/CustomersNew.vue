@@ -1,62 +1,70 @@
 <template>
   <div id="app">
     <v-container>
-      <h1 class="margin-top mb-5 text-md-center"> {{header_text}} </h1>
-          <v-btn class="mb-5" to="/customers" color="primary" x-large> Voltar </v-btn>
+      <v-card class="mx-auto">
+        <v-card-title class='grey py-1'>
+          <v-row>
+            <v-col cols="10">
+              <span class="display-1 mb-1"> {{header_text}} </span>
+            </v-col>
+            <v-col cols="2">
+              <v-btn to="/customers" color="primary" large> Voltar </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-title>
 
-      <form>
-        <v-card class="padding-card">
+        <v-card-text class="mb-3 mt-3">
+          <form>
+            <v-text-field
+              v-model="name"
+              :error-messages="nameErrors"
+              label="Nome"
+              required
+              type="text"
+              @input="$v.name.$touch()"
+              @blur="$v.name.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="name"
-            :error-messages="nameErrors"
-            label="Nome"
-            required
-            type="text"
-            @input="$v.name.$touch()"
-            @blur="$v.name.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="email"
+              :error-messages="emailErrors"
+              label="E-mail"
+              required
+              @input="$v.email.$touch()"
+              @blur="$v.email.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="email"
-            :error-messages="emailErrors"
-            label="E-mail"
-            required
-            @input="$v.email.$touch()"
-            @blur="$v.email.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="salesman"
+              :error-messages="salesmanErrors"
+              label="Vendedor"
+              required
+              @input="$v.salesman.$touch()"
+              @blur="$v.salesman.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="salesman"
-            :error-messages="salesmanErrors"
-            label="Vendedor"
-            required
-            @input="$v.salesman.$touch()"
-            @blur="$v.salesman.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="customerPhone"
+              :error-messages="customerPhoneErrors"
+              label="Telefone do Cliente"
+              required
+              @input="$v.customerPhone.$touch()"
+              @blur="$v.customerPhone.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="customerPhone"
-            :error-messages="customerPhoneErrors"
-            label="Telefone do Cliente"
-            required
-            @input="$v.customerPhone.$touch()"
-            @blur="$v.customerPhone.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="cpfCnpj"
+              :error-messages="cpfCnpjErrors"
+              label="CPF / CNPJ"
+              required
+              @input="$v.cpfCnpj.$touch()"
+              @blur="$v.cpfCnpj.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="cpfCnpj"
-            :error-messages="cpfCnpjErrors"
-            label="CPF / CNPJ"
-            required
-            @input="$v.cpfCnpj.$touch()"
-            @blur="$v.cpfCnpj.$touch()"
-          ></v-text-field>
-
-          <v-btn class="mr-4 mt-5 full-width" @click="validateSubmit" color="primary" > {{button_text}} </v-btn>
-        </v-card>
-      </form>
-
+            <v-btn class="mr-4 mt-5 full-width" @click="validateSubmit" color="primary" > {{button_text}} </v-btn>
+          </form>
+        </v-card-text>
+      </v-card>
     </v-container>
   </div>
 </template>

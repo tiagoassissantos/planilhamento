@@ -1,82 +1,97 @@
 <template>
   <div id="app">
     <v-container>
-      <h1 class="margin-top mb-5 text-md-center"> {{header_text}} </h1>
-      <v-btn class="mb-5" to="/users" color="primary" x-large> Voltar </v-btn>
+      <v-card class="mx-auto">
+        <v-card-title class='grey py-1'>
+          <v-row>
+            <v-col cols="10">
+              <span class="display-1 mb-1">{{header_text}}</span>
+            </v-col>
+            <v-col cols="2">
+              <v-btn class="float-right" to="/users" color="primary" large> Voltar </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-title>
 
-      <form>
-        <v-alert v-if="error" type="error">
-          {{alertMessage}}
-        </v-alert>
+        <v-card-text class="mb-3 mt-3">
+          <form>
+            <v-alert v-if="error" type="error">
+              {{alertMessage}}
+            </v-alert>
 
-        <v-card class="padding-card">
-          <v-text-field
-            v-model="name"
-            :error-messages="nameErrors"
-            label="Nome"
-            required
-            type="text"
-            @input="$v.name.$touch()"
-            @blur="$v.name.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="name"
+              :error-messages="nameErrors"
+              label="Nome"
+              required
+              type="text"
+              @input="$v.name.$touch()"
+              @blur="$v.name.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="email"
-            :error-messages="emailErrors"
-            label="E-mail"
-            required
-            @input="$v.email.$touch()"
-            @blur="$v.email.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="email"
+              :error-messages="emailErrors"
+              label="E-mail"
+              required
+              @input="$v.email.$touch()"
+              @blur="$v.email.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="password"
-            :error-messages="passwordErrors"
-            label="Senha"
-            required
-            type="password"
-            @input="$v.password.$touch()"
-            @blur="$v.password.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="password"
+              :error-messages="passwordErrors"
+              label="Senha"
+              required
+              type="password"
+              @input="$v.password.$touch()"
+              @blur="$v.password.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="password_confirmation"
-            :error-messages="passwordConfirmationErrors"
-            label="Confirmar Senha"
-            required
-            type="password"
-            @input="$v.password_confirmation.$touch()"
-            @blur="$v.password_confirmation.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="password_confirmation"
+              :error-messages="passwordConfirmationErrors"
+              label="Confirmar Senha"
+              required
+              type="password"
+              @input="$v.password_confirmation.$touch()"
+              @blur="$v.password_confirmation.$touch()"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="cpf"
-            :error-messages="cpfErrors"
-            label="CPF"
-            required
-            type="number"
-            @input="$v.cpf.$touch()"
-            @blur="$v.cpf.$touch()"
-          ></v-text-field>
+            <v-text-field
+              v-model="cpf"
+              :error-messages="cpfErrors"
+              label="CPF"
+              required
+              type="number"
+              @input="$v.cpf.$touch()"
+              @blur="$v.cpf.$touch()"
+            ></v-text-field>
 
-           <v-select
-            v-model="role"
-            :items="clients"
-            item-text="type"
-            item-value="role"
-            persistent-hint
-            return-object
-            single-line
-            @input="$v.role.$touch()"
-            @blur="$v.role.$touch()"
-            :error-messages="roleErrors"
-            label="Tipo de usuário"
-          ></v-select>
+            <v-select
+              v-model="role"
+              :items="clients"
+              item-text="type"
+              item-value="role"
+              persistent-hint
+              return-object
+              single-line
+              @input="$v.role.$touch()"
+              @blur="$v.role.$touch()"
+              :error-messages="roleErrors"
+              label="Tipo de usuário"
+            />
 
-
-          <v-btn class="mr-4 mt-5 full-width" @click="validateSubmit" color="primary" > {{button_text}} </v-btn>
-        </v-card>
-      </form>
+            <v-btn
+              class="mr-4 mt-5 full-width"
+              @click="validateSubmit"
+              color="primary"
+            >
+              {{button_text}}
+            </v-btn>
+          </form>
+        </v-card-text>
+      </v-card>
 
     </v-container>
   </div>

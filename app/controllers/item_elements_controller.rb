@@ -2,6 +2,8 @@ class ItemElementsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
+    elements = ItemElement.where( stage_item_id: params[:stage_item_id] ).order(:position)
+    render json: elements, status: :ok
   end
   
   def create

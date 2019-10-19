@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 2019_10_17_023805) do
 
   create_table "item_elements", force: :cascade do |t|
     t.integer "position"
-    t.decimal "gauge"
+    t.string "gauge"
     t.integer "quantity"
     t.jsonb "format_values"
     t.decimal "weight"

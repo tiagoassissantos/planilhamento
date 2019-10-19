@@ -47,14 +47,6 @@
     </v-row>
 
     <cd-format v-model='dataFormatModal'/>
-
-    {{ dataFormatModal }}
-    <br>
-    editar {{ editar }}
-    <br>
-    editing {{ editing }}
-    <br>
-    element.id {{ element.id }}
     
   </div>
 </template>
@@ -79,41 +71,43 @@
       customer_id: { required },
     },
 
-    props: ['element', 'item'],
+    props: ['item_element', 'item'],
 
     data () {
       return {
-        elements: [],
+        element: {},
         editing: true,
-        edit: false,
-        editar: false,
         formats: [],
-        dataFormatModal: { show: false, format: {}, formatDimensions: {} },
+        dataFormatModal: { show: false, format: {}, formatValues: {} },
         gauges: [
-          { text: "4.2", value: "4.2", weight: "0.109" },
-          { text: "5.0", value: "5.0", weight: "0.154" },
-          { text: "6.3", value: "6.3", weight: "0.245" },
-          { text: "8.0", value: "8.0", weight: "0.395" },
-          { text: "10.0", value: "10.0", weight: "0.617" },
-          { text: "12.5", value: "12.5", weight: "0.963" },
-          { text: "16.0", value: "16.0", weight: "1.578" },
-          { text: "20.0", value: "20.0", weight: "2.466" },
-          { text: "25.0", value: "25.0", weight: "3.853" },
-          { text: "32.0", value: "32.0", weight: "6.313" }
+          { text: "4.2", value: "4_2", weight: "0.109" },
+          { text: "5.0", value: "5_0", weight: "0.154" },
+          { text: "6.3", value: "6_3", weight: "0.245" },
+          { text: "8.0", value: "8_0", weight: "0.395" },
+          { text: "10.0", value: "10_0", weight: "0.617" },
+          { text: "12.5", value: "12_5", weight: "0.963" },
+          { text: "16.0", value: "16_0", weight: "1.578" },
+          { text: "20.0", value: "20_0", weight: "2.466" },
+          { text: "25.0", value: "25_0", weight: "3.853" },
+          { text: "32.0", value: "32_0", weight: "6.313" }
         ]
       }
     },
 
+    computed: {
+
+    },
+
     mounted () {
+      this.element = this.item_element
+
       if (this.element && this.element.id > 0) {
         this.editing = false
-        this.edit = false
+        this.dataFormatModal.format = this.element.format
+        this.dataFormatModal.formatValues = this.element.format_values
       }
 
       this.getFormats()
-    },
-
-    computed: {
     },
 
     methods: {
@@ -133,18 +127,14 @@
       },
 
       async saveItem() {
-        this.editing = false
         let response = null
 
         this.element.format_id = this.dataFormatModal.format.id
-        this.element.format_values = this.dataFormatModal.formatDimensions
-
-        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-        console.log( this.editar )
+        this.element.format_values = this.dataFormatModal.formatValues
 
         if ( this.element.id > 0 ) {
           await this.$http.put(`/stage_items/${this.item.id}/item_elements/${this.element.id}`,
-            {stage_item: this.item}
+            {element: this.element}
           
           ).then((result) => {
               response = result
@@ -166,14 +156,9 @@
 
         console.log( response.status )
 
-        if ( response.status == 201 ) {
-          console.log( '+++++++++++++++++++++++++++++++++++++++++++++++++')
-          this.element.id = response.body.id
-          console.log( '=====> 1')
+        if ( response.status == 200 || response.status == 201 ) {
+          this.element = response.body
           this.editing = false
-          console.log( '=====> 2')
-          this.editar = true;
-          console.log( '=====> 3')
         }
       },
 

@@ -41,7 +41,7 @@
 
 
           <div v-for='element in elements' v-bind:key='element.id'> 
-            <cd-element :element="element" :item="item" /> 
+            <cd-element :item_element="element" :item="item" /> 
           </div>
 
         </v-card-text>
@@ -93,7 +93,7 @@
     },
 
     mounted () {
-      
+      this.getElements();
     },
 
     computed: {
@@ -101,6 +101,28 @@
     },
 
     methods: {
+      async getElements() {
+        let response = null
+
+        await this.$http.get(`/stage_items/${this.item.id}/item_elements`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.elements = response.body
+
+          console.log( '------------------------------------------' )
+          console.log( this.elements.length)
+          if (this.elements.length > 0) {
+            this.lastPosition = this.elements[this.elements.length -1].position
+            console.log( this.lastPosition)
+          }
+        }
+      },
+
       addElement() {
         let newPosition = this.lastPosition + 1
         this.lastPosition = newPosition

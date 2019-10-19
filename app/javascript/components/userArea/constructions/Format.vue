@@ -31,8 +31,6 @@
 
         <v-divider></v-divider>
 
-        {{ formatData }}
-
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="saveFormat">
@@ -106,7 +104,7 @@
     methods: {
       saveFormat() {
         let newValue = this.value
-        newValue.formatDimensions = this.formatData
+        newValue.formatValues = this.formatData
         this.$emit('input', newValue)
         this.show = false
       },

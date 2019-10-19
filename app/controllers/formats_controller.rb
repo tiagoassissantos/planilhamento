@@ -7,9 +7,6 @@ class FormatsController < ApplicationController
   end
 
   def create
-    p '*********************************************'
-    p format_params
-
     format = Format.new format_params
     format.format_image.attach params[:format_image]
 

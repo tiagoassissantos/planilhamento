@@ -2,7 +2,7 @@ class CreateItemElements < ActiveRecord::Migration[5.2]
   def change
     create_table :item_elements do |t|
       t.integer :position
-      t.decimal :gauge
+      t.string :gauge
       t.integer :quantity
       t.jsonb :format_values
       t.decimal :weight

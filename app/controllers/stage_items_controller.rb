@@ -6,9 +6,15 @@ class StageItemsController < ApplicationController
     render json: items, status: :ok
   end
 
+  def show
+    item = StageItem.find( params[:id] )
+    render json: item, status: :ok
+  end
+
   def create
     stage_item = StageItem.new( stage_item_params )
     stage_item.construction_stage_id = params[:construction_stage_id]
+    
     if stage_item.save
       render json: stage_item, status: :ok
     else

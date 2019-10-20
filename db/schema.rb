@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_17_023805) do
+ActiveRecord::Schema.define(version: 2019_10_19_235015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -97,6 +97,8 @@ ActiveRecord::Schema.define(version: 2019_10_17_023805) do
     t.bigint "construction_stage_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity", default: 0
+    t.decimal "weight", default: "0.0"
     t.index ["construction_stage_id"], name: "index_stage_items_on_construction_stage_id"
   end
 

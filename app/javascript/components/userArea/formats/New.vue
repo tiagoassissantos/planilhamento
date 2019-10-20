@@ -78,7 +78,6 @@
           });
 
         } else {
-          console.log( this.format )
           await this.$http.post('/formats', formData,
             { headers: {
             'Content-Type': 'multipart/form-data'

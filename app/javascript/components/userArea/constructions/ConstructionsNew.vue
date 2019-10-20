@@ -207,8 +207,6 @@
       async validateSubmit() {
         this.$v.$touch()
         if ( this.$v.$invalid ) {
-          console.log("----------------------")
-          console.log("----------------------")
           return
         } else {
           this.submit()
@@ -216,11 +214,6 @@
       },
 
       async submit () {
-        console.log("+++++++++++++++++")
-        console.log("+++++++++++++++++")
-        console.log("+++++++++++++++++")
-        console.log("+++++++++++++++++")
-
         let response = null
 
         if ( this.edit ) {

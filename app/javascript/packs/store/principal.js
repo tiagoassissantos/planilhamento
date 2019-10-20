@@ -35,7 +35,6 @@ export default new Vuex.Store({
 
     SET_CURRENT_USER(store, obj) {
       store.currentUser = obj
-      console.log( store.currentUser )
     }
   }
 })

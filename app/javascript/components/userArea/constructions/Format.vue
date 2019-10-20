@@ -110,8 +110,6 @@
       },
 
       fieldLetter( number ) {
-        console.log('---------------')
-        console.log(number)
         return String.fromCharCode(64 + number)
       }
     }

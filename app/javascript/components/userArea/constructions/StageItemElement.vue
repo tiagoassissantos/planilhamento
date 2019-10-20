@@ -1,6 +1,6 @@
 <template>
 
-    <v-dialog width="900">
+    <v-dialog width="900" v-model='showDialog'>
       <template v-slot:activator="{ on }">
         <v-btn text icon small color="indigo" v-on="on">
           <v-icon>mdi-settings</v-icon>
@@ -54,7 +54,7 @@
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="closeElement">
-            Finalizar
+            Fechar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -66,6 +66,7 @@
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
   import cdElement from './Element'
+  import EventBus from '../../../packs/eventBus.js'
 
   export default {
     components: { cdElement },
@@ -82,26 +83,44 @@
       customer_id: { required },
     },
 
-    props: ['item'],
+    //props: ['item'],
+    props: {
+      value: Object
+    },
 
     data () {
       return {
         elements: [],
         editing: false,
-        lastPosition: 0
+        showDialog: false
+      }
+    },
+
+    computed: {
+      item: {
+        get () {
+          return this.value
+        },
+        set (value) {
+          this.$emit('input', value)
+        }
       }
     },
 
     mounted () {
       this.getElements();
-    },
+      let that = this
 
-    computed: {
-      
+      EventBus.$on('cancelItem', function (payload) {
+        delete that.elements.pop()
+      });
+
+      //EventBus.$on( `StageItem-${this.item.id}`, this.getElements )
     },
 
     methods: {
       async getElements() {
+        console.log( '------------------================------------------' )
         let response = null
 
         await this.$http.get(`/stage_items/${this.item.id}/item_elements`)
@@ -113,29 +132,25 @@
 
         if ( response.status == 200 ) {
           this.elements = response.body
-
-          console.log( '------------------------------------------' )
-          console.log( this.elements.length)
-          if (this.elements.length > 0) {
-            this.lastPosition = this.elements[this.elements.length -1].position
-            console.log( this.lastPosition)
-          }
+          //this.updateItem()
         }
       },
 
       addElement() {
-        let newPosition = this.lastPosition + 1
-        this.lastPosition = newPosition
-        this.elements.push( {id: 0, position: newPosition} )
+        this.elements.push( {id: 0} )
       },
 
       closeElement() {
-
+        this.showDialog = false
       },
 
       editItem() {
 
-      }
+      },
+
+      updateItem() {
+        //EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
+      },
     }
   }
 </script>

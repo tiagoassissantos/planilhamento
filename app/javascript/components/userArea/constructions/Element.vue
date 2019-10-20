@@ -3,13 +3,13 @@
     
     <v-row class='mb-1 blue-grey lighten-4'>
       <v-col cols="2" class="py-1">
-        <v-text-field dense disabled v-model='element.position'></v-text-field>
+        <v-text-field dense :readonly='!editing' v-model='element.position' :class='{editable: editing}'>
+        </v-text-field>
       </v-col>
 
       <v-col cols="2" class="py-1">
         <v-select dense v-model="element.gauge" :items="gauges" :readonly='!editing'
-                  :class='{editable: editing}' persistent-hint
-                  single-line required @change="calcWeight()">
+                  :class='{editable: editing}' persistent-hint single-line required>
         </v-select>
       </v-col>
 
@@ -30,19 +30,51 @@
         <v-text-field dense disabled v-model='element.weight'></v-text-field>
       </v-col>
 
-
       <v-col cols="2" class="py-1">
-        <v-btn text icon small color="green" v-if='editing' @click="saveItem">
-          <v-icon>mdi-check-outline</v-icon>
-        </v-btn>
+        <v-tooltip top v-if='editing'>
+          <template v-slot:activator="{ on }">
+            <v-btn text icon small color="green" @click="saveItem" v-on="on">
+              <v-icon>mdi-check-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Salvar</span>
+        </v-tooltip>
 
-        <v-btn text icon small color="blue" v-if='!editing' @click="editItem">
-          <v-icon>mdi-pencil-outline</v-icon>
-        </v-btn>
+        <v-tooltip top v-if='editing && element.id == 0'>
+          <template v-slot:activator="{ on }">
+            <v-btn text icon small color="red" @click="cancelItem" v-on="on">
+              <v-icon>mdi-cancel</v-icon>
+            </v-btn>
+          </template>
+          <span>Descartar</span>
+        </v-tooltip>
 
-        <v-btn text icon small color="red" v-if='!editing'>
-          <v-icon>mdi-delete-forever</v-icon>
-        </v-btn>
+        <v-tooltip top v-if='editing && element.id > 0'>
+          <template v-slot:activator="{ on }">
+            <v-btn text icon small color="red" @click="cancelEditItem" v-on="on">
+              <v-icon>mdi-cancel</v-icon>
+            </v-btn>
+          </template>
+          <span>Cancelar Edição</span>
+        </v-tooltip>
+
+        <v-tooltip top  v-if='!editing'>
+          <template v-slot:activator="{ on }">
+            <v-btn text icon small color="blue" @click="editItem" v-on="on">
+              <v-icon>mdi-pencil-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>Editar</span>
+        </v-tooltip>
+
+        <v-tooltip top v-if='!editing'>
+          <template v-slot:activator="{ on }">
+            <v-btn text icon small color="red" v-on="on">
+              <v-icon>mdi-delete-forever</v-icon>
+            </v-btn>
+          </template>
+          <span>Excluir</span>
+        </v-tooltip>
       </v-col>
     </v-row>
 
@@ -55,6 +87,7 @@
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
   import cdFormat from './Format'
+  import EventBus from '../../../packs/eventBus.js'
 
   export default {
     components: { cdFormat },
@@ -90,7 +123,12 @@
           { text: "20.0", value: "20_0", weight: "2.466" },
           { text: "25.0", value: "25_0", weight: "3.853" },
           { text: "32.0", value: "32_0", weight: "6.313" }
-        ]
+        ],
+
+        oldPosition: null,
+        oldGauge: null,
+        oldQuantity: null,
+        oldFormat: null
       }
     },
 
@@ -154,32 +192,38 @@
             });
         }
 
-        console.log( response.status )
-
         if ( response.status == 200 || response.status == 201 ) {
           this.element = response.body
           this.editing = false
+
+          //EventBus.$emit(`StageItem-${this.item.id}`, this.item)
+          EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
         }
       },
 
       editItem() {
+        this.oldPosition = this.element.position
+        this.oldGauge = this.element.gauge
+        this.oldQuantity = this.element.quantity
+        this.oldFormat = this.element.format
         this.editing = true
       },
 
       openFormat() {
-        console.log( this.element.format )
         this.dataFormatModal.show = true
         this.dataFormatModal.format = this.element.format
       },
 
-      calcWeight() {
-        console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§')
-      }
-    },
+      cancelItem() {
+        EventBus.$emit('cancelItem', this.element)
+      },
 
-    watch: {
-      dataFormatModal: function() {
-        this.calcWeight()
+      cancelEditItem() {
+        this.editing = false
+        this.element.position = this.oldPosition
+        this.element.gauge = this.oldGauge
+        this.element.quantity = this.oldQuantity
+        this.element.format = this.oldFormat
       }
     }
   }

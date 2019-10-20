@@ -8,6 +8,11 @@ class ConstructionStagesController < ApplicationController
     render json: construction_stages, status: :ok
   end
 
+  def show
+    stage = ConstructionStage.find( params[:id] )
+    render json: stage, status: :ok
+  end
+
   def create
     construction_stage = ConstructionStage.new( construction_stage_params )
     construction_stage.construction_id = params[:construction_id]
@@ -35,11 +40,6 @@ class ConstructionStagesController < ApplicationController
       construction_stages << stage
     end
 
-    render json: construction_stages, status: :ok
-  end
-
-  def show
-    construction_stages = ConstructionStage.where(construction_id: params[:id])
     render json: construction_stages, status: :ok
   end
 

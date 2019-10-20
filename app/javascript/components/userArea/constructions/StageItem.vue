@@ -8,7 +8,7 @@
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense disabled></v-text-field>
+        <v-text-field dense disabled v-model="item.quantity"></v-text-field>
       </v-col>
 
       <v-col cols="2" class="py-1">
@@ -17,7 +17,7 @@
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense disabled></v-text-field>
+        <v-text-field dense disabled v-model="item.weight"></v-text-field>
       </v-col>
 
 
@@ -26,7 +26,7 @@
           <v-icon>mdi-pencil-outline</v-icon>
         </v-btn>
 
-        <stage-item-element :item='item' v-if='!editing'/>
+        <stage-item-element v-model='item' v-if='!editing'/>
 
         <v-btn text icon small color="red" v-if='!editing'>
           <v-icon>mdi-delete-forever</v-icon>
@@ -45,6 +45,7 @@
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
   import stageItemElement from './StageItemElement'
+  import EventBus from '../../../packs/eventBus.js'
 
   export default {
     components: { stageItemElement },
@@ -61,12 +62,13 @@
       customer_id: { required },
     },
 
-    props: ['stage', 'item'],
+    props: ['stage', 'stage_item'],
 
     data () {
       return {
+        item: {},
         editing: true,
-        edit: false
+        edit: false,
       }
     },
 
@@ -75,10 +77,15 @@
     },
 
     mounted () {
+      this.item = this.stage_item
+
       if (this.item && this.item.id > 0) {
         this.editing = false
         this.edit = true
+
+        EventBus.$on( `ItemUpdate-${this.item.id}`, this.updateItem )
       }
+      
     },
 
     methods: {
@@ -108,13 +115,32 @@
         }
 
         if ( response.status == 200 ) {
+          this.item = response.body
           this.editing = false
           this.edit = true
+          EventBus.$on( `ItemUpdate-${this.item.id}`, this.updateItem )
         }
       },
 
       editItem() {
         this.editing = true;
+      },
+
+      async updateItem( quantity ) {
+        let response = null
+
+        await this.$http.get(`/stage_items/${this.item.id}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.item = response.body
+        }
+
+        EventBus.$emit( `UpdateItems-${this.stage.id}`, true)
       }
     }
   }

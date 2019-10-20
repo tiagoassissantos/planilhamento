@@ -245,7 +245,6 @@
           this.stage.name = null,
           this.stage.pavement = null,
           
-          console.log( response.body );
           this.addStage( response.body )
         }
       },

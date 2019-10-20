@@ -111,7 +111,7 @@
             </v-col>
 
             <v-col cols="2" class="py-1">
-              <span class="subtitle-1">Quantidade</span>
+              <span class="subtitle-1">Peso</span>
             </v-col>
 
             <v-col cols="2" class="py-1">
@@ -119,7 +119,9 @@
             </v-col>
           </v-row>
 
-          <div v-for='item in items' v-bind:key='item.id'> <stage-item :item="item" :stage="stage"/> </div>
+          <div v-for='item in items' v-bind:key='item.id'> 
+            <stage-item :stage_item="item" :stage="stage"/> 
+          </div>
           
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -132,6 +134,7 @@
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
   import stageItem from './StageItem'
+  import EventBus from '../../../packs/eventBus.js'
 
   export default {
     components: { stageItem },
@@ -163,6 +166,7 @@
 
     mounted () {
       this.getItems();
+      EventBus.$on( `UpdateItems-${this.stage.id}`, this.updateStage )
     },
 
     methods: {
@@ -182,7 +186,22 @@
       },
 
       addItem() {
-        this.items.push( {id: 0, name: '', abbreviation: ''} )
+        this.items.push( {id: 0, name: '', abbreviation: '', quantity: 0} )
+      },
+
+      async updateStage() {
+        let response = null
+
+        await this.$http.get(`/construction_stages/${this.stage.id}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.stage = response.body
+        }
       }
     }
   }

@@ -40,8 +40,8 @@
           </v-row>
 
 
-          <div v-for='element in elements' v-bind:key='element.id'> 
-            <cd-element :item_element="element" :item="item" /> 
+          <div v-for='element in elements' v-bind:key='element.id'>
+            <cd-element :item_element="element" :item="item" />
           </div>
 
         </v-card-text>

@@ -10,6 +10,17 @@ class CustomersController < ApplicationController
 
   def create
     return unless user_logged?
+    customer_validation = Customer.find_by(email: params[:customer][:email] )
+
+
+    unless customer_validation.nil?
+      Rails.logger.info("++++++++++++++++++")
+      Rails.logger.info( customer_validation )
+      Rails.logger.info("++++++++++++++++++")
+
+      render json: {"status": "error", "message": "E-mail informado já está em uso"}, status: 500
+      return
+    end
 
     customer = Customer.new( customer_params )
     if customer.save
@@ -35,6 +46,6 @@ class CustomersController < ApplicationController
 
   private
   def customer_params
-    params.require(:customer).permit(:name, :email, :salesman, :cpf_cnpj, :phone)
+    params.require(:customer).permit(:name, :email, :salesman, :cpf_cnpj, :phone, :contact)
   end
 end

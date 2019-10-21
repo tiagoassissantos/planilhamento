@@ -1,48 +1,119 @@
 <template>
   <div id="app">
     <v-container>
-      <v-banner title='true' class='mt-5'>
-        <span class='display-1'> Obra: </span> <span class='headline'> {{ construction.name }} </span>
+      <v-card class="">
+         <v-card-title class='grey py-1'>
 
-        <template v-slot:actions>
-          <v-btn class="" to="/constructions" color="primary"> Voltar </v-btn>
-        </template>
-      </v-banner>
+          <v-row>
+            <v-col cols="10">
+              <span class='display-1'> Obra: </span> <span class='headline'> {{ construction.name }} </span>
+            </v-col>
+            <v-col cols="2">
+              <v-btn class="float-right" to="/constructions" color="primary"> Voltar </v-btn>
+            </v-col>
+          </v-row>
 
-      <v-card class="padding-card">
-        <v-row>
-          <v-col cols='3'> Vendedor </v-col>
-          <v-col cols='3'> Contato </v-col>
-          <v-col cols='3'> Telefone do Contato </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols='3'> {{ construction.customer.salesman }} </v-col>
-          <v-col cols='3'> {{ construction.contact }} </v-col>
-          <v-col cols='3'> {{ construction.contact_number }} </v-col>
-        </v-row>
+         </v-card-title>
 
-        <v-row>
-          <v-col cols='12'> Cliente </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols='12'> {{ construction.customer.name }} </v-col>
-        </v-row>
+         <v-card-text class="mt-1 padding-card">
+           <v-row justify="space-between">
+            <v-col cols="3">
+              <v-card>
+                <v-card-title>
+                  <span class="title-card"> Vendedor </span>
+                </v-card-title>
+                <v-card-text>
+                 {{ construction.customer.salesman }}
+                </v-card-text>
+              </v-card>
+            </v-col>
 
-        <v-row>
-          <v-col cols='3'> CPF ou CNPJ </v-col>
-          <v-col cols='3'> Contato </v-col>
-          <v-col cols='3'> Telefone Contato </v-col>
-          <v-col cols='3'> E-mail </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols='3'> {{ construction.customer.cpf_cnpj }} </v-col>
-          <v-col cols='3'> {{ construction.customer.contact }} </v-col>
-          <v-col cols='3'> {{ construction.customer.phone }} </v-col>
-          <v-col cols='3'> {{ construction.customer.email }} </v-col>
-        </v-row>
+            <v-col cols="3">
+              <v-card>
+                <v-card-title>
+                  <span class="title-card"> Contato </span>
+                </v-card-title>
+                <v-card-text>
+                 {{ construction.customer.contact }}
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="3">
+              <v-card>
+                <v-card-title>
+                  <span class="title-card"> Telefone Do Contato </span>
+                </v-card-title>
+                <v-card-text>
+                 {{ construction.contact_number }}
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+           </v-row>
+
+           <v-row>
+             <v-col cols="12" class='pt-2 pb-2'>
+               <v-card class="grey py-1 pl-2">
+                <span class="title-card">
+                  <strong> Cliente: </strong>
+                  {{ construction.customer.name }}
+                </span>
+               </v-card>
+
+             </v-col>
+           </v-row>
+
+          <v-row>
+
+           <v-col cols="3">
+              <v-card>
+                <v-card-title>
+                  <span class="title-card">  CPF ou CNPJ </span>
+                </v-card-title>
+                <v-card-text>
+                 {{ construction.customer.cpf_cnpj }}
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="3">
+              <v-card>
+                <v-card-title>
+                  <span class="title-card"> Contato </span>
+                </v-card-title>
+                <v-card-text>
+                 {{ construction.customer.contact }}
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="3">
+              <v-card>
+                <v-card-title>
+                  <span class="title-card"> Telefone Contato </span>
+                </v-card-title>
+                <v-card-text>
+                 {{ construction.customer.phone }}
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="3">
+              <v-card>
+                <v-card-title>
+                  <span class="title-card"> E-mail </span>
+                </v-card-title>
+                <v-card-text>
+                 {{ construction.customer.email }}
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+           </v-row>
+        </v-card-text>
       </v-card>
-      
-      
+
       <v-card class="padding-card">
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on }">
@@ -53,7 +124,7 @@
               </v-btn>
             </h2>
           </template>
-          
+
           <v-card>
             <v-card-title
               class="headline grey lighten-2"
@@ -70,10 +141,21 @@
                   required
                   type="text"
                   class="ma-1 pa-3"
+                  :error-messages="nameStageErrors"
+                  @input="$v.stage.name.$touch()"
+                  @blur="$v.stage.name.$touch()"
                 ></v-text-field>
 
-                <v-autocomplete v-model="stage.pavement" label="Pavimento"
-                  :items="floorItems" class="ma-1 pa-3" required>
+                <v-autocomplete
+                  v-model="stage.pavement"
+                  label="Pavimento"
+                  :items="floorItems"
+                  class="ma-1 pa-3"
+                  required
+                  :error-messages="pavementErrors"
+                  @input="$v.stage.pavement.$touch()"
+                  @blur="$v.stage.pavement.$touch()"
+                >
                 </v-autocomplete>
               </form>
             </v-card-text>
@@ -82,7 +164,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="submitConstructionStage()">
+              <v-btn color="primary" text @click="validationConstructionStage()">
                 Cadastrar
               </v-btn>
             </v-card-actions>
@@ -94,7 +176,7 @@
         </div>
 
       </v-card>
-      
+
     </v-container>
   </div>
 </template>
@@ -110,14 +192,10 @@
 
     mixins: [validationMixin],
     validations: {
-      construction: {
-        email: { required, email },
+      stage: {
         name: { required },
-        contact: { required },
-        contact_number: { required },
-        cpf_cnpj: { required }
-      },
-      customer_id: { required },
+        pavement: { required }
+      }
     },
 
     data () {
@@ -161,46 +239,17 @@
     },
 
     computed: {
-      emailErrors () {
+      nameStageErrors () {
         const errors = []
-        if (!this.$v.construction.email.$dirty) return errors
-        !this.$v.construction.email.email && errors.push('E-mail inválido')
-        !this.$v.construction.email.required && errors.push('E-mail é obrigatório')
+        if (!this.$v.stage.name.$dirty) return errors
+        !this.$v.stage.name.required && errors.push('Nome da etapa é obrigatório')
         return errors
       },
 
-      nameErrors () {
+      pavementErrors () {
         const errors = []
-        if (!this.$v.construction.name.$dirty) return errors
-        !this.$v.construction.name.required && errors.push('Nome é obrigatório')
-        return errors
-      },
-
-      contactErrors () {
-        const errors = []
-        if (!this.$v.construction.contact.$dirty) return errors
-        !this.$v.construction.contact.required && errors.push('Contato é obrigatório')
-        return errors
-      },
-
-      contactNumberErrors () {
-        const errors = []
-        if (!this.$v.construction.contact_number.$dirty) return errors
-        !this.$v.construction.contact_number.required && errors.push('Telefone para contato é obrigatório')
-        return errors
-      },
-
-      cpfCnpjErrors () {
-        const errors = []
-        if (!this.$v.construction.cpf_cnpj.$dirty) return errors
-        !this.$v.construction.cpf_cnpj.required && errors.push('Dado é obrigatório')
-        return errors
-      },
-
-      customerErrors () {
-        const errors = []
-        if (!this.$v.customer_id.$dirty) return errors
-        !this.$v.customer_id.required && errors.push('Cliente é obrigatório')
+        if (!this.$v.stage.pavement.$dirty) return errors
+        !this.$v.stage.pavement.required && errors.push('Pavimento é obrigatório')
         return errors
       },
 
@@ -227,16 +276,28 @@
 
         if ( response.status == 200 ) {
           this.construction = response.body
+          console.log("+++++++++++++++=")
+          console.log( this.construction )
+          console.log("+++++++++++++++=")
+        }
+      },
+
+      validationConstructionStage () {
+        this.$v.$touch()
+        if ( this.$v.$invalid ) {
+          return
+        } else {
+          this.submitConstructionStage()
         }
       },
 
       async submitConstructionStage() {
         let response = null
 
-        await this.$http.post( 
-          `/constructions/${this.construction_id}/construction_stages`, 
-          { construction_stage: this.stage} 
-        
+        await this.$http.post(
+          `/constructions/${this.construction_id}/construction_stages`,
+          { construction_stage: this.stage}
+
         ).then((result) => {
           response = result
         }).catch((err) => {
@@ -245,9 +306,10 @@
 
         if ( response.status == 200 ) {
           this.dialog = false
+          console.log("++++++++++++++++++++++++++++++++++++++++++++++=")
           this.stage.name = null,
           this.stage.pavement = null,
-          
+
           this.addStage( response.body )
         }
       },
@@ -306,6 +368,10 @@
 
   .padding-card {
     padding: 20px;
+  }
+
+  .title-card {
+    font-size: 18px;
   }
 
 </style>

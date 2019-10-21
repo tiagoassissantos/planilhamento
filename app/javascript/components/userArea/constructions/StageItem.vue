@@ -3,8 +3,9 @@
 
     <v-row class='mb-1 blue-grey lighten-4'>
       <v-col cols="3" class="py-1">
-        <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
-                      value='Nome do Item' v-model='item.name'></v-text-field>
+        <v-text-field dense :readonly='!editing' :class='{editable: editing}'
+                      value='Nome do Item' v-model='item.name'>
+                      </v-text-field>
       </v-col>
 
       <v-col cols="2" class="py-1">
@@ -12,7 +13,7 @@
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
+        <v-text-field dense :readonly='!editing' :class='{editable: editing}'
                       value='IT1' v-model="item.abbreviation"></v-text-field>
       </v-col>
 
@@ -69,11 +70,12 @@
         item: {},
         editing: true,
         edit: false,
+        error: true
       }
     },
 
     computed: {
-      
+
     },
 
     mounted () {
@@ -85,17 +87,25 @@
 
         EventBus.$on( `ItemUpdate-${this.item.id}`, this.updateItem )
       }
-      
+
     },
 
     methods: {
       async saveItem () {
         let response = null
 
+        if ( this.item.name == '') {
+          EventBus.$emit( `ErrorName-${this.stage.id}`, this.error )
+          return
+        } else if ( this.item.abbreviation == '' ) {
+          EventBus.$emit( `ErrorAbbreviation-${this.stage.id}`, this.error )
+          return
+        }
+
         if ( this.edit ) {
           await this.$http.put(`/construction_stages/${this.stage.id}/stage_items/${this.item.id}`,
             {stage_item: this.item}
-          
+
           ).then((result) => {
               response = result
             }).catch((err) => {
@@ -103,7 +113,7 @@
             });
 
         } else {
-          await this.$http.post(`/construction_stages/${this.stage.id}/stage_items`, 
+          await this.$http.post(`/construction_stages/${this.stage.id}/stage_items`,
             {stage_item: this.item}
 
           ).then(resp => {
@@ -119,6 +129,7 @@
           this.editing = false
           this.edit = true
           EventBus.$on( `ItemUpdate-${this.item.id}`, this.updateItem )
+          EventBus.$emit( `SuccesSubmit-${this.stage.id}`, this.error )
         }
       },
 
@@ -155,7 +166,8 @@
         });
 
         if ( response.status == 200 ) {
-          EventBus.$emit( `DeleteItem-${this.stage.id}`, true) 
+          EventBus.$emit( `DeleteItem-${this.stage.id}`, true)
+
         }
 
       }

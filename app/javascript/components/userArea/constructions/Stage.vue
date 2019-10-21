@@ -18,7 +18,7 @@
                   </v-col>
                 </v-row>
               </v-col>
-              
+
               <v-col cols="3">
                 <v-row>
                   <v-col cols='12' class='py-0'>
@@ -89,7 +89,7 @@
           <v-row>
             <v-col cols="8" class="py-1">
               <h3>
-                Items 
+                Itens
                 <v-btn text icon color="blue" @click='addItem'>
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
@@ -119,10 +119,14 @@
             </v-col>
           </v-row>
 
-          <div v-for='item in items' v-bind:key='item.id'> 
-            <stage-item :stage_item="item" :stage="localStage"/> 
+          <div v-for='item in items' v-bind:key='item.id'>
+            <stage-item :stage_item="item" :stage="localStage"/>
           </div>
-          
+
+          <v-alert dense v-if="error" type="error" >
+            {{ errorStageItemText }}
+          </v-alert>
+
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -138,7 +142,7 @@
 
   export default {
     components: { stageItem },
-    
+
     mixins: [validationMixin],
     validations: {
       construction: {
@@ -157,12 +161,14 @@
       return {
         localStage: {},
         name: '',
-        items: []
+        items: [],
+        errorStageItemText: null,
+        error: false
       }
     },
 
     computed: {
-      
+
     },
 
     mounted () {
@@ -170,6 +176,9 @@
       this.getItems();
       EventBus.$on( `UpdateItems-${this.localStage.id}`, this.updateStage )
       EventBus.$on( `DeleteItem-${this.localStage.id}`, this.getItems )
+      EventBus.$on( `ErrorName-${this.localStage.id}`, this.errorName )
+      EventBus.$on( `ErrorAbbreviation-${this.localStage.id}`, this.errorAbbreviation )
+      EventBus.$on( `SuccesSubmit-${this.stage.id}`, this.succesSubmit )
     },
 
     methods: {
@@ -220,7 +229,22 @@
         if ( response.status == 200 ) {
           EventBus.$emit( `DeleteStage`, true )
         }
+      },
+
+      errorName( error ) {
+        this.error = true
+        this.errorStageItemText = "Nome do item da etapa não pode ser nulo"
+      },
+
+      errorAbbreviation( error ) {
+        this.error = true
+        this.errorStageItemText = "Abreviação do item da etapa não pode ser nulo"
+      },
+
+      succesSubmit ( error ) {
+        this.error = false
       }
+
     }
   }
 </script>

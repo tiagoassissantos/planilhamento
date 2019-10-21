@@ -206,6 +206,13 @@
       },
 
       async submit () {
+
+        if (this.password != this.password_confirmation ) {
+          this.error = true
+          this.alertMessage = 'Confirmação de senha Falhou'
+          return
+        }
+
         let response = null
         let data = {
           email: this.email,

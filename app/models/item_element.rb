@@ -20,11 +20,20 @@ class ItemElement < ApplicationRecord
   after_save :calculate_item_weight
 
   def calculate_quantity_weight
-    gauge_weight = GAUGES[gauge]
+    Rails.logger.info("+++++++++++")
+    Rails.logger.info( gauge )
+    Rails.logger.info("+++++++++++")
+    gauge_weight = GAUGES['5_0']
     weight_tmp = 0
 
     format_values.each do |key, value|
+      Rails.logger.info("+++++++++++")
+      Rails.logger.info( value.to_f )
+      Rails.logger.info( gauge_weight )
+      Rails.logger.info("+++++++++++")
       weight_tmp = weight_tmp + ( value.to_f * gauge_weight )
+      Rails.logger.info("?????????????????")
+      Rails.logger.info("?????????????????")
     end
 
     self.weight = BigDecimal( (weight_tmp * quantity * 0.01).to_s ).round(2)
@@ -34,5 +43,5 @@ class ItemElement < ApplicationRecord
     StageItem.find(self.stage_item_id).update_quantity_weight
   end
 
-  
+
 end

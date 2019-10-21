@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+
     <v-row class='mb-1 blue-grey lighten-4'>
       <v-col cols="2" class="py-1">
         <v-text-field dense :readonly='!editing' v-model='element.position' :class='{editable: editing}'>
@@ -14,14 +14,14 @@
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense :readonly='!editing' :class='{editable: editing}' 
+        <v-text-field dense :readonly='!editing' :class='{editable: editing}'
                       value='Qtde' v-model='element.quantity' type="number">
         </v-text-field>
       </v-col>
 
       <v-col cols="2" class="py-1">
         <v-select dense v-model="element.format" :items="formats" :readonly='!editing'
-                  item-text="name" item-value="id" persistent-hint return-object single-line 
+                  item-text="name" item-value="id" persistent-hint return-object single-line
                   required :class='{editable: editing}' @change="openFormat()">
         </v-select>
       </v-col>
@@ -79,7 +79,7 @@
     </v-row>
 
     <cd-format v-model='dataFormatModal'/>
-    
+
   </div>
 </template>
 
@@ -173,7 +173,7 @@
         if ( this.element.id > 0 ) {
           await this.$http.put(`/stage_items/${this.item.id}/item_elements/${this.element.id}`,
             {element: this.element}
-          
+
           ).then((result) => {
               response = result
             }).catch((err) => {
@@ -224,7 +224,7 @@
         this.element.gauge = this.oldGauge
         this.element.quantity = this.oldQuantity
         this.element.format = this.oldFormat
-      }
+      },
     }
   }
 </script>

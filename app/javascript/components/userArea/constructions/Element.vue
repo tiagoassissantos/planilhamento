@@ -69,7 +69,7 @@
 
         <v-tooltip top v-if='!editing'>
           <template v-slot:activator="{ on }">
-            <v-btn text icon small color="red" v-on="on">
+            <v-btn text icon small color="red" v-on="on" @click="destroyItem">
               <v-icon>mdi-delete-forever</v-icon>
             </v-btn>
           </template>
@@ -224,7 +224,17 @@
         this.element.gauge = this.oldGauge
         this.element.quantity = this.oldQuantity
         this.element.format = this.oldFormat
+      },
+
+      async destroyItem() {
+        // /stage_items/:stage_item_id/item_elements/:id
+        console.log("++++++++++++++++++")
+        console.log(this.item_element)
+        console.log(this.item)
+        console.log("++++++++++++++++++")
       }
+
+
     }
   }
 </script>

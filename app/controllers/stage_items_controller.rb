@@ -32,6 +32,13 @@ class StageItemsController < ApplicationController
     end
   end
 
+  def destroy
+    stage_item = StageItem.find(params[:id])
+    if stage_item.destroy
+      render json: { 'message': 'ok' }, status: :ok
+    end
+  end
+
   private
   def stage_item_params
     params.require(:stage_item).permit(:name, :abbreviation)

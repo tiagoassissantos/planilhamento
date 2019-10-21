@@ -14,7 +14,7 @@
                 </v-row>
                 <v-row>
                   <v-col cols='12' class='py-1'>
-                    <span>{{ stage.name }}</span>
+                    <span>{{ localStage.name }}</span>
                   </v-col>
                 </v-row>
               </v-col>
@@ -30,7 +30,7 @@
                 <v-row>
                   <v-col cols='12' class='py-1'>
                     <v-fade-transition leave-absolute>
-                      <span>{{ stage.quantity }}</span>
+                      <span>{{ localStage.quantity }}</span>
                     </v-fade-transition>
                   </v-col>
                 </v-row>
@@ -47,7 +47,7 @@
                 <v-row>
                   <v-col cols='12' class='py-1'>
                     <v-fade-transition leave-absolute>
-                      <span>{{ stage.pavement }}</span>
+                      <span>{{ localStage.pavement }}</span>
                     </v-fade-transition>
                   </v-col>
                 </v-row>
@@ -61,11 +61,11 @@
             <v-col cols="10" class="py-1">
               <v-row>
                 <v-col cols="3">
-                  <v-text-field dense label="Nome da Etapa" value='' v-model='stage.name'></v-text-field>
+                  <v-text-field dense label="Nome da Etapa" value='' v-model='localStage.name'></v-text-field>
                 </v-col>
 
                 <v-col cols="3">
-                  <v-text-field dense label="Pavimento" value='' v-model='stage.pavement'></v-text-field>
+                  <v-text-field dense label="Pavimento" value='' v-model='localStage.pavement'></v-text-field>
                 </v-col>
 
                 <v-col cols="6">
@@ -77,10 +77,10 @@
             <v-col cols="2" class="py-1">
               <v-row>
                 <v-col cols="12">
-                  <v-btn small> Salvar </v-btn>
+                  <v-btn small color="primary"> Salvar </v-btn>
                 </v-col>
                 <v-col cols="12">
-                  <v-btn small> Excluir </v-btn>
+                  <v-btn small color="error" @click="deleteStage"> Excluir </v-btn>
                 </v-col>
               </v-row>
             </v-col>
@@ -120,7 +120,7 @@
           </v-row>
 
           <div v-for='item in items' v-bind:key='item.id'> 
-            <stage-item :stage_item="item" :stage="stage"/> 
+            <stage-item :stage_item="item" :stage="localStage"/> 
           </div>
           
         </v-expansion-panel-content>
@@ -155,6 +155,7 @@
 
     data () {
       return {
+        localStage: {},
         name: '',
         items: []
       }
@@ -165,15 +166,17 @@
     },
 
     mounted () {
+      this.localStage = this.stage;
       this.getItems();
-      EventBus.$on( `UpdateItems-${this.stage.id}`, this.updateStage )
+      EventBus.$on( `UpdateItems-${this.localStage.id}`, this.updateStage )
+      EventBus.$on( `DeleteItem-${this.localStage.id}`, this.getItems )
     },
 
     methods: {
       async getItems() {
         let response = null
 
-        await this.$http.get(`/construction_stages/${this.stage.id}/stage_items`)
+        await this.$http.get(`/construction_stages/${this.localStage.id}/stage_items`)
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -192,7 +195,7 @@
       async updateStage() {
         let response = null
 
-        await this.$http.get(`/construction_stages/${this.stage.id}`)
+        await this.$http.get(`/construction_stages/${this.localStage.id}`)
         .then((result) => {
           response = result
         }).catch((err) => {
@@ -200,7 +203,22 @@
         });
 
         if ( response.status == 200 ) {
-          this.stage = response.body
+          this.localStage = response.body
+        }
+      },
+
+      async deleteStage() {
+        let response = null
+
+        await this.$http.delete(`/construction_stages/${this.localStage.id}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          EventBus.$emit( `DeleteStage`, true )
         }
       }
     }

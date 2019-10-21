@@ -103,6 +103,7 @@
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
   import constructionStage from './Stage'
+  import EventBus from '../../../packs/eventBus.js'
 
   export default {
     components: {constructionStage},
@@ -155,6 +156,8 @@
       this.edit = true
       this.header_text = 'Editar Obra'
       this.button_text = 'Editar'
+
+      EventBus.$on( `DeleteStage`, this.getConstructionStageUpdate )
     },
 
     computed: {

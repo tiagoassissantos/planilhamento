@@ -1,5 +1,5 @@
 class ConstructionStage < ApplicationRecord
-  has_many :stage_items
+  has_many :stage_items, dependent: :destroy
 
   def update_quantity
     stage_weight = 0

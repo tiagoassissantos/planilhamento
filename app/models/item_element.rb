@@ -34,5 +34,4 @@ class ItemElement < ApplicationRecord
     StageItem.find(self.stage_item_id).update_quantity_weight
   end
 
-  
 end

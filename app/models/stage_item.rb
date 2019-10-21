@@ -1,8 +1,8 @@
 class StageItem < ApplicationRecord
-  has_many :item_elements
-  belongs_to :construction_stage, optional: true
+  has_many :item_elements, dependent: :destroy
 
   after_save :calculate_stage_weight
+  after_destroy :calculate_stage_weight
 
   def update_quantity_weight
     self.quantity = self.item_elements.size

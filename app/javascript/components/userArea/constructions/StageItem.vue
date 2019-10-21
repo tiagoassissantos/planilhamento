@@ -155,7 +155,7 @@
         });
 
         if ( response.status == 200 ) {
-          EventBus.$emit( `DeleteItem-${this.stage.id}`, true) 
+          EventBus.$emit( `UpdateItems-${this.stage.id}`, true) 
         }
 
       }

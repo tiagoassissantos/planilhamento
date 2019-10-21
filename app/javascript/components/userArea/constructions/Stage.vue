@@ -169,7 +169,6 @@
       this.localStage = this.stage;
       this.getItems();
       EventBus.$on( `UpdateItems-${this.localStage.id}`, this.updateStage )
-      EventBus.$on( `DeleteItem-${this.localStage.id}`, this.getItems )
     },
 
     methods: {
@@ -204,6 +203,7 @@
 
         if ( response.status == 200 ) {
           this.localStage = response.body
+          this.getItems()
         }
       },
 

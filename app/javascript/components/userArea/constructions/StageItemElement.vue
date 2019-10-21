@@ -113,7 +113,6 @@
 
       EventBus.$on('cancelItem', function (payload) {
         delete that.elements.pop()
-        console.log("+++++++++++ teste ++++++ ")
       });
 
       //EventBus.$on( `StageItem-${this.item.id}`, this.getElements )
@@ -152,13 +151,6 @@
       updateItem() {
         //EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
       },
-
-      async deleteElement() {
-        ///stage_items/:stage_item_id/item_elements/:id
-        console.log("+++++++++++++= item:" + this.item_element)
-        console.log("+++++++++++++= elemento:" + this.element.id)
-      }
-
     }
   }
 </script>

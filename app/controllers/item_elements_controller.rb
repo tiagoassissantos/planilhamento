@@ -27,14 +27,6 @@ class ItemElementsController < ApplicationController
     end
   end
 
-  def destroy
-    Rails.logger.info("++++++++++++++++++++++++")
-    Rails.logger.info("++++++++++++++++++++++++")
-    Rails.logger.info("++++++++++++++++++++++++")
-    Rails.logger.info("++++++++++++++++++++++++")
-    Rails.logger.info("++++++++++++++++++++++++")
-  end
-
   private
 
   def element_params

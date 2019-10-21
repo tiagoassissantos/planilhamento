@@ -224,7 +224,7 @@
         this.element.gauge = this.oldGauge
         this.element.quantity = this.oldQuantity
         this.element.format = this.oldFormat
-      },
+      }
     }
   }
 </script>

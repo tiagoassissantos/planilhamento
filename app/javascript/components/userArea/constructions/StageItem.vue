@@ -157,7 +157,6 @@
         if ( response.status == 200 ) {
           EventBus.$emit( `UpdateItems-${this.stage.id}`, true) 
         }
-
       }
     }
   }

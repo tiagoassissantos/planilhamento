@@ -81,8 +81,10 @@ Rails.application.routes.draw do
   end
 
   resources :stage_items, only: [:show, :destroy] do
-    resources :item_elements, only: [:index, :create, :update, :destroy]
+    resources :item_elements, only: [:index, :create, :update]
   end
+
+  resources :item_elements, only: [:destroy]
 
   resources :formats, only: [:index, :create]
 end

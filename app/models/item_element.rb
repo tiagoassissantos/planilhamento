@@ -18,6 +18,7 @@ class ItemElement < ApplicationRecord
 
   before_save :calculate_quantity_weight
   after_save :calculate_item_weight
+  after_destroy :calculate_item_weight
 
   def calculate_quantity_weight
     gauge_weight = GAUGES[gauge]

@@ -26,7 +26,7 @@ class ConstructionStagesController < ApplicationController
 
   def destroy
     construction_stage = ConstructionStage.find(params[:id])
-    if construction_stage.delete
+    if construction_stage.destroy
       render json: { 'message': 'ok' }, status: :ok
     end
   end

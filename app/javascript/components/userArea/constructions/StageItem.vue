@@ -28,7 +28,7 @@
 
         <stage-item-element v-model='item' v-if='!editing'/>
 
-        <v-btn text icon small color="red" v-if='!editing'>
+        <v-btn text icon small color="red" v-if='!editing' @click="deleteItem">
           <v-icon>mdi-delete-forever</v-icon>
         </v-btn>
 
@@ -141,6 +141,23 @@
         }
 
         EventBus.$emit( `UpdateItems-${this.stage.id}`, true)
+      },
+
+
+      async deleteItem() {
+        let response = null
+
+        await this.$http.delete(`/stage_items/${this.item.id}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          EventBus.$emit( `DeleteItem-${this.stage.id}`, true) 
+        }
+
       }
     }
   }

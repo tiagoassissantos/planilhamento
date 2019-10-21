@@ -28,10 +28,10 @@ class ItemElementsController < ApplicationController
   end
 
   def destroy
-    Rails.logger.info("++++++++++++++++")
-    Rails.logger.info("++++++++++++++++")
-    Rails.logger.info("++++++++++++++++")
-    Rails.logger.info("++++++++++++++++")
+    element = ItemElement.find(params[:id])
+    if element.destroy
+      render json: { 'message': 'ok' }, status: :ok
+    end
   end
 
   private

@@ -115,7 +115,7 @@
         delete that.elements.pop()
       });
 
-      //EventBus.$on( `StageItem-${this.item.id}`, this.getElements )
+      EventBus.$on( `UpdateElements-${this.item.id}`, this.updateElements )
     },
 
     methods: {
@@ -132,7 +132,6 @@
 
         if ( response.status == 200 ) {
           this.elements = response.body
-          //this.updateItem()
         }
       },
 
@@ -148,8 +147,9 @@
 
       },
 
-      updateItem() {
-        //EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
+      updateElements() {
+        this.getElements()
+        EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
       },
     }
   }

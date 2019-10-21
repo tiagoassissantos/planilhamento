@@ -69,7 +69,7 @@
 
         <v-tooltip top v-if='!editing'>
           <template v-slot:activator="{ on }">
-            <v-btn text icon small color="red" v-on="on" @click="destroyItem">
+            <v-btn text icon small color="red" v-on="on" @click="deleteElement">
               <v-icon>mdi-delete-forever</v-icon>
             </v-btn>
           </template>
@@ -226,12 +226,19 @@
         this.element.format = this.oldFormat
       },
 
-      async destroyItem() {
-        // /stage_items/:stage_item_id/item_elements/:id
-        console.log("++++++++++++++++++")
-        console.log(this.item_element)
-        console.log(this.item)
-        console.log("++++++++++++++++++")
+      async deleteElement() {
+        let response = null
+
+        await this.$http.delete(`/item_elements/${this.element.id}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          EventBus.$emit( `UpdateElements-${this.item.id}`, true) 
+        }
       }
 
 

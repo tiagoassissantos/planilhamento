@@ -18,7 +18,7 @@
                   </v-col>
                 </v-row>
               </v-col>
-
+              
               <v-col cols="3">
                 <v-row>
                   <v-col cols='12' class='py-0'>
@@ -213,6 +213,7 @@
 
         if ( response.status == 200 ) {
           this.localStage = response.body
+          this.getItems()
         }
       },
 

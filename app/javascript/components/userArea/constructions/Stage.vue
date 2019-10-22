@@ -186,7 +186,7 @@
     },
 
     computed: {
-      
+
     },
 
     mounted () {
@@ -252,12 +252,12 @@
         }
       },
 
-      errorName ( error ) {
+      errorName( error ) {
         this.error = true
         this.errorStageItemText = "Nome do item da etapa não pode ser nulo"
       },
 
-      errorAbbreviation ( error ) {
+      errorAbbreviation( error ) {
         this.error = true
         this.errorStageItemText = "Abreviação do item da etapa não pode ser nulo"
       },

@@ -9,7 +9,8 @@
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense disabled v-model="item.quantity"></v-text-field>
+        <v-text-field dense :readonly='!editing' :class='{editable: editing}' v-model="item.quantity">
+        </v-text-field>
       </v-col>
 
       <v-col cols="2" class="py-1">
@@ -149,6 +150,7 @@
           this.edit = true
           EventBus.$on( `ItemUpdate-${this.item.id}`, this.updateItem )
           EventBus.$emit( `SuccesSubmit-${this.stage.id}`, this.error )
+          EventBus.$emit( `UpdateItems-${this.stage.id}`, true )
         }
       },
 
@@ -186,9 +188,9 @@
 
         if ( response.status == 200 ) {
           EventBus.$emit( `UpdateItems-${this.stage.id}`, true)
+          EventBus.$emit( `DeleteItem-${this.stage.id}`, true)
           this.dialog = true
         }
-
       }
     }
   }

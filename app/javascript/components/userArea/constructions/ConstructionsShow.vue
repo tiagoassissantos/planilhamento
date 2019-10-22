@@ -15,7 +15,7 @@
 
          </v-card-title>
 
-         <v-card-text class="mt-1 padding-card">
+         <v-card-text class="mt-1 padding-card blue-grey lighten-5">
            <v-row justify="space-between">
             <v-col cols="3">
               <v-card>
@@ -69,7 +69,7 @@
            <v-col cols="3">
               <v-card>
                 <v-card-title>
-                  <span class="title-card">  CPF ou CNPJ </span>
+                  <span class="title-card"> CPF ou CNPJ </span>
                 </v-card-title>
                 <v-card-text>
                  {{ construction.customer.cpf_cnpj }}
@@ -114,15 +114,23 @@
         </v-card-text>
       </v-card>
 
-      <v-card class="padding-card">
+      <v-card class="padding-card blue-grey lighten-5">
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on }">
-            <h2 class="mb-5">
-              Etapas
-              <v-btn text icon large color="blue" dark v-on="on">
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </h2>
+            <v-row>
+              <v-col cols="6">
+                <h2 class="mb-5">
+                  Etapas
+                  <v-btn text icon large color="blue" dark v-on="on">
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                </h2>
+              </v-col>
+
+              <v-col cols="6">
+                <h4 class="float-right"> Peso total da Obra: {{totalConstructionWeight}} Kg </h4>
+              </v-col>
+            </v-row>
           </template>
 
           <v-card>
@@ -273,6 +281,17 @@
           items.push( i )
         }
         return items
+      },
+
+      totalConstructionWeight() {
+        let totalWeight = 0
+        
+        for ( let i = 0; i < this.stages.length; i++ ) {
+          if ( !this.stages[i].quantity ) continue
+          totalWeight += parseFloat( this.stages[i].quantity )
+        }
+
+        return totalWeight.toFixed(2)
       }
 
     },
@@ -323,24 +342,6 @@
           this.addStage( response.body )
         }
       },
-
-      /*async deleteConstructionStage ( id ) {
-        let response = null
-
-        await this.$http.delete(`construction_stages/${id}`)
-        .then((result) => {
-          response = result
-        }).catch((err) => {
-          response = err
-        });
-
-        if ( response.status == 200 ) {
-          var index = this.construction_stage_id.indexOf(id)
-          this.construction_stage_id.splice(index, 1)
-          this.construction_stage = []
-          this.getConstructionStage()
-        }
-      },*/
 
       async getConstructionStageUpdate () {
         let response = null

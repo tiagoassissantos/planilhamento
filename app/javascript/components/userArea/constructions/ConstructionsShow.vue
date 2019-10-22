@@ -171,6 +171,14 @@
           </v-card>
         </v-dialog>
 
+        <v-alert v-if="successAlert" type="success">
+          Etapa editada com sucesso.
+        </v-alert>
+
+        <v-alert v-if="errorAlert" type="error">
+          Erro ao editar etapa, verifique os campos.
+        </v-alert>
+
         <div v-for='stage in stages' v-bind:key='stage.id'>
           <construction-stage :stage='stage'></construction-stage>
         </div>
@@ -219,10 +227,13 @@
 
         stage: {
           name: null,
-          pavement: null
+          pavement: null,
+          sheet: null
         },
 
         stages: [],
+        successAlert: false,
+        errorAlert: false
       }
     },
 
@@ -235,7 +246,10 @@
       this.header_text = 'Editar Obra'
       this.button_text = 'Editar'
 
-      EventBus.$on( `DeleteStage`, this.getConstructionStageUpdate )
+      EventBus.$on( `DeleteStage`, this.getConstructionStageDelete )
+      EventBus.$on( `UpdateStage`, this.getConstructionStageUpdateEvent )
+      EventBus.$on( `ErrorUpdateStage`, this.errorUpdateConstructionStage )
+
     },
 
     computed: {
@@ -276,9 +290,6 @@
 
         if ( response.status == 200 ) {
           this.construction = response.body
-          console.log("+++++++++++++++=")
-          console.log( this.construction )
-          console.log("+++++++++++++++=")
         }
       },
 
@@ -306,7 +317,6 @@
 
         if ( response.status == 200 ) {
           this.dialog = false
-          console.log("++++++++++++++++++++++++++++++++++++++++++++++=")
           this.stage.name = null,
           this.stage.pavement = null,
 
@@ -345,6 +355,32 @@
         if ( response.status == 200 ) {
           this.stages = response.body
         }
+      },
+
+      async getConstructionStageUpdateEvent () {
+        let response = null
+
+        await this.$http.get(`/constructions/${this.construction_id}/construction_stages`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.stages = response.body
+          this.successAlert = true
+          setTimeout(() => {
+            this.successAlert = false
+          }, 3000);
+        }
+      },
+
+      errorUpdateConstructionStage () {
+        this.errorAlert = true
+        setTimeout(() => {
+          this.errorAlert = false
+        }, 3000);
       },
 
       addStage( stage ) {

@@ -69,7 +69,7 @@
                 </v-col>
 
                 <v-col cols="6">
-                  <v-textarea name="input-7-1" dense label="Folha" rows="3"></v-textarea>
+                  <v-textarea name="input-7-1" v-model="localStage.sheet" dense label="Folha" rows="3"></v-textarea>
                 </v-col>
               </v-row>
             </v-col>
@@ -77,7 +77,7 @@
             <v-col cols="2" class="py-1">
               <v-row>
                 <v-col cols="12">
-                  <v-btn small color="primary"> Salvar </v-btn>
+                  <v-btn small color="primary" @click="editStage"> Salvar</v-btn>
                 </v-col>
                 <v-col cols="12">
                   <v-btn small color="error" @click="dialog = true"> Excluir </v-btn>
@@ -250,18 +250,53 @@
         }
       },
 
-      errorName( error ) {
+      errorName ( error ) {
         this.error = true
         this.errorStageItemText = "Nome do item da etapa não pode ser nulo"
       },
 
-      errorAbbreviation( error ) {
+      errorAbbreviation ( error ) {
         this.error = true
         this.errorStageItemText = "Abreviação do item da etapa não pode ser nulo"
       },
 
       succesSubmit ( error ) {
         this.error = false
+      },
+
+      async editStage () {
+        let response = null
+
+        let hasEmptyValue = this.emptyValue()
+
+        if ( hasEmptyValue ) {
+          EventBus.$emit( `ErrorUpdateStage`, true )
+          return
+        }
+
+        await this.$http.patch(`/construction_stages/${this.localStage.id}`, { construction_stage: this.localStage })
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          EventBus.$emit( `UpdateStage`, true )
+        } else {
+          EventBus.$emit( `ErrorUpdateStage`, true )
+        }
+      },
+
+      emptyValue () {
+        let empty = false
+
+        if ( this.localStage.name == '' ) {
+          empty = true
+        } else if ( this.localStage.pavement == '') {
+          empty = true
+        }
+        return empty
       }
 
     }

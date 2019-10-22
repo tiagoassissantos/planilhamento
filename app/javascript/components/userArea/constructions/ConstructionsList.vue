@@ -18,6 +18,10 @@
             Obra excluida com sucesso.
           </v-alert>
 
+          <v-alert type="error" v-if="errorAlert" class="mb-3 mt-3">
+            Erro ao excluir obra.
+          </v-alert>
+
           <v-simple-table class="mt-5">
             <template v-slot:default>
               <thead>
@@ -64,7 +68,8 @@ export default {
   data() {
     return {
       constructions: [],
-      alert: false
+      alert: false,
+      errorAlert: false
     }
   },
 
@@ -104,6 +109,8 @@ export default {
         this.getConstructions(),
         this.alert = true
 
+      } else {
+        this.errorAlert = true
       }
     }
   }

@@ -10,7 +10,7 @@ class ConstructionsController < ApplicationController
     customer = Customer.find( params[:customer_id][:id] )
     construction = Construction.new( construction_params )
     construction.customer = customer
-    
+
     if construction.save
       render json: construction, status: :ok
     else
@@ -45,6 +45,8 @@ class ConstructionsController < ApplicationController
 
     if construction.destroy
       render json: {'message': 'ok'}, status: :ok
+    else
+      render json: {'message': construction.errors.full_message}, status: :internal_server_error
     end
   end
 

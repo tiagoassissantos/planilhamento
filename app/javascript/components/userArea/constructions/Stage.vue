@@ -18,7 +18,7 @@
                   </v-col>
                 </v-row>
               </v-col>
-              
+
               <v-col cols="3">
                 <v-row>
                   <v-col cols='12' class='py-0'>
@@ -80,11 +80,28 @@
                   <v-btn small color="primary"> Salvar </v-btn>
                 </v-col>
                 <v-col cols="12">
-                  <v-btn small color="error" @click="deleteStage"> Excluir </v-btn>
+                  <v-btn small color="error" @click="dialog = true"> Excluir </v-btn>
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
+
+          <v-dialog v-model="dialog" width="350">
+            <v-card>
+              <v-card-title primary-title>
+                Deseja excluir a etapa?
+              </v-card-title>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="error" @click="deleteStage" class="full-width">
+                  Excluir
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
           <v-row>
             <v-col cols="8" class="py-1">
@@ -163,7 +180,8 @@
         name: '',
         items: [],
         errorStageItemText: null,
-        error: false
+        error: false,
+        dialog: false
       }
     },
 
@@ -251,5 +269,7 @@
 </script>
 
 <style scoped>
-
+  .full-width {
+    width: 100%;
+  }
 </style>

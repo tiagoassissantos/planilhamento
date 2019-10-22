@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-row class='mb-1 blue-grey lighten-4'>
       <v-col cols="2" class="py-1">
         <v-text-field dense :readonly='!editing' v-model='element.position' :class='{editable: editing}'>
@@ -69,7 +68,7 @@
 
         <v-tooltip top v-if='!editing'>
           <template v-slot:activator="{ on }">
-            <v-btn text icon small color="red" v-on="on" @click="deleteElement">
+            <v-btn text icon small color="red" v-on="on" @click="dialog = true">
               <v-icon>mdi-delete-forever</v-icon>
             </v-btn>
           </template>
@@ -77,6 +76,23 @@
         </v-tooltip>
       </v-col>
     </v-row>
+
+    <v-dialog v-model="dialog" width="480">
+      <v-card>
+        <v-card-title primary-title>
+          Deseja excluir o elemento do item da etapa?
+        </v-card-title>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" @click="deleteElement" class="full-width">
+            Excluir
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <cd-format v-model='dataFormatModal'/>
 
@@ -128,7 +144,8 @@
         oldPosition: null,
         oldGauge: null,
         oldQuantity: null,
-        oldFormat: null
+        oldFormat: null,
+        dialog: false
       }
     },
 
@@ -166,9 +183,18 @@
 
       async saveItem() {
         let response = null
-
         this.element.format_id = this.dataFormatModal.format.id
         this.element.format_values = this.dataFormatModal.formatValues
+
+        let hasEmptyValue = this.validationSaveItem ( this.element )
+
+        if( hasEmptyValue ) {
+          EventBus.$emit( `ErrorElements-${this.item.id}`, true )
+          return
+
+        } else {
+          EventBus.$emit( `SuccessElements-${this.item.id}`, true )
+        }
 
         if ( this.element.id > 0 ) {
           await this.$http.put(`/stage_items/${this.item.id}/item_elements/${this.element.id}`,
@@ -195,11 +221,31 @@
         if ( response.status == 200 || response.status == 201 ) {
           this.element = response.body
           this.editing = false
-
           //EventBus.$emit(`StageItem-${this.item.id}`, this.item)
           EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
         }
       },
+
+      validationSaveItem( element ) {
+        let errorSave = false
+
+        if ( element.position == undefined ) {
+          errorSave = true
+
+        } else if ( element.gauge == undefined ) {
+          errorSave = true
+
+        } else if ( element.quantity == undefined ) {
+          errorSave = true
+
+        } else if ( element.format_id == undefined ) {
+          errorSave = true
+
+        }
+        return errorSave
+      },
+
+
 
       editItem() {
         this.oldPosition = this.element.position
@@ -237,7 +283,7 @@
         });
 
         if ( response.status == 200 ) {
-          EventBus.$emit( `UpdateElements-${this.item.id}`, true) 
+          EventBus.$emit( `UpdateElements-${this.item.id}`, true)
         }
       }
 
@@ -249,5 +295,9 @@
 <style scoped>
   .editable {
     background-color: white !important;
+  }
+
+  .full-width {
+    width: 100%;
   }
 </style>

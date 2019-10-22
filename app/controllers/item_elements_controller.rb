@@ -35,7 +35,6 @@ class ItemElementsController < ApplicationController
   end
 
   private
-
   def element_params
     params.require(:element).permit(:position, :gauge, :quantity, :format_id, format_values: {})
   end

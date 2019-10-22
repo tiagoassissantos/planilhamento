@@ -29,7 +29,7 @@
 
         <stage-item-element v-model='item' v-if='!editing'/>
 
-        <v-btn text icon small color="red" v-if='!editing' @click="deleteItem">
+        <v-btn text icon small color="red" v-if='!editing' @click="dialog = true">
           <v-icon>mdi-delete-forever</v-icon>
         </v-btn>
 
@@ -38,6 +38,24 @@
         </v-btn>
       </v-col>
     </v-row>
+
+    <v-dialog v-model="dialog" width="350">
+      <v-card>
+        <v-card-title primary-title>
+          Deseja excluir o item da etapa?
+        </v-card-title>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" @click="deleteItem" class="full-width">
+            Excluir
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
 
   </div>
 </template>
@@ -70,12 +88,13 @@
         item: {},
         editing: true,
         edit: false,
-        error: true
+        error: true,
+        dialog: false
       }
     },
 
     computed: {
-      
+
     },
 
     mounted () {
@@ -154,7 +173,6 @@
         EventBus.$emit( `UpdateItems-${this.stage.id}`, true)
       },
 
-
       async deleteItem() {
         let response = null
 
@@ -166,7 +184,8 @@
         });
 
         if ( response.status == 200 ) {
-          EventBus.$emit( `UpdateItems-${this.stage.id}`, true) 
+          EventBus.$emit( `UpdateItems-${this.stage.id}`, true)
+          this.dialog = true
         }
 
       }
@@ -177,5 +196,9 @@
 <style scoped>
   .editable {
     background-color: white !important;
+  }
+
+  .full-width {
+    width: 100%;
   }
 </style>

@@ -1,93 +1,100 @@
 <template>
   <div id="app">
     <v-container>
-       <v-banner title='true' class='mt-5'>
-          <h2> {{header_text}} </h2>
+      <v-card>
+        <v-card-title class='grey py-1'>
+          <v-row>
+            <v-col cols="10">
+              <h4> {{header_text}} </h4>
+            </v-col>
+            <v-col cols="2">
+              <v-btn class="float-right" to="/constructions" color="primary"> Voltar </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-title>
 
-          <template v-slot:actions>
-            <v-btn class="" to="/constructions" color="primary"> Voltar </v-btn>
-          </template>
-        </v-banner>
-      
-      <form>
-        <v-card class="padding-card">
+        <v-card-text class="mt-3 mb-3 padding-card">
+          <form>
 
-          <v-select
-            v-model="customer_id"
-            :items="customers"
-            item-text="name"
-            item-value="id"
-            label="Cliente"
-            persistent-hint
-            return-object
-            single-line
-            required
-            @input="$v.construction.name.$touch()"
-            @blur="$v.construction.name.$touch()"
-            :error-messages="customerErrors"
-          ></v-select>
-
-          <v-row cols-12 justify="space-between">
-            <v-text-field
-              v-model="construction.name"
-              :error-messages="nameErrors"
-              label="Nome da Obra"
+            <v-select
+              v-model="customer_id"
+              :items="customers"
+              item-text="name"
+              item-value="id"
+              label="Cliente"
+              persistent-hint
+              return-object
+              single-line
               required
-              type="text"
               @input="$v.construction.name.$touch()"
               @blur="$v.construction.name.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
+              :error-messages="customerErrors"
+            ></v-select>
 
-            <v-text-field
-              v-model="construction.email"
-              :error-messages="emailErrors"
-              label="E-mail"
-              required
-              type="email"
-              @input="$v.construction.email.$touch()"
-              @blur="$v.construction.email.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
+            <v-row cols-12 justify="space-between">
+              <v-text-field
+                v-model="construction.name"
+                :error-messages="nameErrors"
+                label="Nome da Obra"
+                required
+                type="text"
+                @input="$v.construction.name.$touch()"
+                @blur="$v.construction.name.$touch()"
+                class="ma-1 pa-3"
+              ></v-text-field>
 
-            <v-text-field
-              v-model="construction.contact"
-              :error-messages="contactErrors"
-              label="Contato"
-              type="text"
-              required
-              @input="$v.construction.contact.$touch()"
-              @blur="$v.construction.contact.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
-          </v-row>
+              <v-text-field
+                v-model="construction.email"
+                :error-messages="emailErrors"
+                label="E-mail"
+                required
+                type="email"
+                @input="$v.construction.email.$touch()"
+                @blur="$v.construction.email.$touch()"
+                class="ma-1 pa-3"
+              ></v-text-field>
 
-          <v-row cols-12 justify="space-between">
-            <v-text-field
-              v-model="construction.contact_number"
-              :error-messages="contactNumberErrors"
-              label="Telefone para contato"
-              required
-              type="number"
-              @input="$v.construction.contact_number.$touch()"
-              @blur="$v.construction.contact_number.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
+              <v-text-field
+                v-model="construction.contact"
+                :error-messages="contactErrors"
+                label="Contato"
+                type="text"
+                required
+                @input="$v.construction.contact.$touch()"
+                @blur="$v.construction.contact.$touch()"
+                class="ma-1 pa-3"
+              ></v-text-field>
+            </v-row>
 
-            <v-text-field
-              v-model="construction.cpf_cnpj"
-              :error-messages="cpfCnpjErrors"
-              label="CPF / CNPJ"
-              required
-              @input="$v.construction.cpf_cnpj.$touch()"
-              @blur="$v.construction.cpf_cnpj.$touch()"
-              class="ma-1 pa-3"
-            ></v-text-field>
-          </v-row>
-          
-          <v-btn class="mr-4 mt-5 full-width" @click="validateSubmit" color="primary" > {{button_text}} </v-btn>
-        </v-card>
-      </form>
+            <v-row cols-12 justify="space-between">
+              <v-text-field
+                v-model="construction.contact_number"
+                :error-messages="contactNumberErrors"
+                label="Telefone para contato"
+                required
+                type="number"
+                @input="$v.construction.contact_number.$touch()"
+                @blur="$v.construction.contact_number.$touch()"
+                class="ma-1 pa-3"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="construction.cpf_cnpj"
+                :error-messages="cpfCnpjErrors"
+                label="CPF / CNPJ"
+                required
+                @input="$v.construction.cpf_cnpj.$touch()"
+                @blur="$v.construction.cpf_cnpj.$touch()"
+                class="ma-1 pa-3"
+              ></v-text-field>
+            </v-row>
+
+            <v-btn class="mr-4 mt-5 full-width" @click="validateSubmit" color="primary" > {{button_text}} </v-btn>
+          </form>
+        </v-card-text>
+      </v-card>
+
+
 
     </v-container>
   </div>

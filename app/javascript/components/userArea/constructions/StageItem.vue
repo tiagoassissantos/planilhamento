@@ -9,7 +9,8 @@
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense disabled v-model="item.quantity"></v-text-field>
+        <v-text-field dense :readonly='!editing' :class='{editable: editing}' v-model="item.quantity">
+        </v-text-field>
       </v-col>
 
       <v-col cols="2" class="py-1">

@@ -37,7 +37,7 @@ class LogSerializer < ActiveModel::Serializer
       return "Cliente"
 
     elsif  object.registry == 'registrations'
-      return "usuário"
+      return "Usuário"
     end
   end
 

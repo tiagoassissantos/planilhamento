@@ -1,3 +1,42 @@
 {
-  "dependencies": {}
+  "name": "mescladora-gag",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-brands-svg-icons": "^5.8.1",
+    "@fortawesome/free-regular-svg-icons": "^5.8.1",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
+    "@rails/webpacker": "^4.0.2",
+    "babel-polyfill": "^6.26.0",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.0-rc.25",
+    "core-js": "2",
+    "jquery": "^3.4.1",
+    "material-design-icons": "^3.0.1",
+    "moment": "^2.24.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.0",
+    "vee-validate": "^3.0.6",
+    "vue": "^2.6.10",
+    "vue-bootstrap-typeahead": "^0.2.6",
+    "vue-loader": "^15.7.0",
+    "vue-loading-overlay": "^3.2.0",
+    "vue-multiselect": "^2.1.6",
+    "vue-resource": "^1.5.1",
+    "vue-router": "^3.0.6",
+    "vue-sidebar-menu": "^3.8.0",
+    "vue-template-compiler": "^2.6.10",
+    "vuelidate": "^0.7.4",
+    "vuetify": "^2.0.18",
+    "vuex": "^3.1.0"
+  },
+  "devDependencies": {
+    "@mdi/font": "^4.5.95",
+    "deepmerge": "^4.0.0",
+    "fibers": "^4.0.1",
+    "sass": "^1.22.12",
+    "sass-loader": "^8.0.0",
+    "webpack-dev-server": "^3.3.1"
+  }
 }

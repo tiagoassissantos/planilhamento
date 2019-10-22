@@ -30,7 +30,7 @@
                   <td> {{ log.action }} </td>
                   <td> {{ log.registry }} </td>
                   <td> {{ log.description }} </td>
-                  <td> {{ log.created_at }} </td>
+                  <td> {{ formatData(log.created_at) }} </td>
                 </tr>
               </tbody>
             </template>
@@ -43,16 +43,21 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
+
   data() {
     return {
       logs: [],
       alert: false,
-      errorAlert: false
+      errorAlert: false,
+      isAdmin: false
     }
   },
 
   mounted() {
+    this.getAdmin()
     this.getLogs()
   },
 
@@ -73,7 +78,27 @@ export default {
         console.log( response.body )
         console.log(':::::::')
       }
-    }
+    },
+
+    formatData( data ) {
+      return moment(data).format('DD/MM HH:mm')
+    },
+
+    async getAdmin () {
+      let response = null;
+
+      await this.$http.get(`/get_user`)
+      .then((result) => {
+        response = result
+
+      }).catch((err) => {
+        response = err
+      });
+
+      if ( response.body.role != 'Administrador' ) {
+        this.$router.push('/')
+      }
+    },
   }
 }
 </script>

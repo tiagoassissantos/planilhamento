@@ -34,7 +34,7 @@
 
         <v-btn text to="/constructions"> Obras </v-btn>
 
-        <v-btn text to="/logs"> Logs </v-btn>
+        <v-btn text to="/logs" v-if="isAdmin"> Logs </v-btn>
 
         <v-btn text @click="signOut()"> Sair </v-btn>
       </v-toolbar-items>

@@ -18,7 +18,7 @@
                   </v-col>
                 </v-row>
               </v-col>
-              
+
               <v-col cols="3">
                 <v-row>
                   <v-col cols='12' class='py-0'>
@@ -69,7 +69,7 @@
                 </v-col>
 
                 <v-col cols="6">
-                  <v-textarea name="input-7-1" dense label="Folha" rows="3"></v-textarea>
+                  <v-textarea name="input-7-1" v-model="localStage.sheet" dense label="Folha" rows="3"></v-textarea>
                 </v-col>
               </v-row>
             </v-col>
@@ -77,14 +77,31 @@
             <v-col cols="2" class="py-1">
               <v-row>
                 <v-col cols="12">
-                  <v-btn small color="primary"> Salvar </v-btn>
+                  <v-btn small color="primary" @click="editStage"> Salvar</v-btn>
                 </v-col>
                 <v-col cols="12">
-                  <v-btn small color="error" @click="deleteStage"> Excluir </v-btn>
+                  <v-btn small color="error" @click="dialog = true"> Excluir </v-btn>
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
+
+          <v-dialog v-model="dialog" width="350">
+            <v-card>
+              <v-card-title primary-title>
+                Deseja excluir a etapa?
+              </v-card-title>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="error" @click="deleteStage" class="full-width">
+                  Excluir
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
           <v-row>
             <v-col cols="8" class="py-1">
@@ -142,7 +159,7 @@
 
   export default {
     components: { stageItem },
-    
+
     mixins: [validationMixin],
     validations: {
       construction: {
@@ -163,12 +180,13 @@
         name: '',
         items: [],
         errorStageItemText: null,
-        error: false
+        error: false,
+        dialog: false
       }
     },
 
     computed: {
-      
+
     },
 
     mounted () {
@@ -244,6 +262,41 @@
 
       succesSubmit ( error ) {
         this.error = false
+      },
+
+      async editStage () {
+        let response = null
+
+        let hasEmptyValue = this.emptyValue()
+
+        if ( hasEmptyValue ) {
+          EventBus.$emit( `ErrorUpdateStage`, true )
+          return
+        }
+
+        await this.$http.patch(`/construction_stages/${this.localStage.id}`, { construction_stage: this.localStage })
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          EventBus.$emit( `UpdateStage`, true )
+        } else {
+          EventBus.$emit( `ErrorUpdateStage`, true )
+        }
+      },
+
+      emptyValue () {
+        let empty = false
+
+        if ( this.localStage.name == '' ) {
+          empty = true
+        } else if ( this.localStage.pavement == '') {
+          empty = true
+        }
+        return empty
       }
 
     }
@@ -251,5 +304,7 @@
 </script>
 
 <style scoped>
-
+  .full-width {
+    width: 100%;
+  }
 </style>

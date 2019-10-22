@@ -57,6 +57,9 @@
           <div v-for='element in elements' v-bind:key='element.id'>
             <cd-element :item_element="element" :item="item" />
           </div>
+          <v-alert dense v-if="error" type="error" >
+            {{ errorStageItemText }}
+          </v-alert>
 
         </v-card-text>
 
@@ -106,7 +109,9 @@
       return {
         elements: [],
         editing: false,
-        showDialog: false
+        showDialog: false,
+        error: false,
+        errorStageItemText: null
       }
     },
 
@@ -141,6 +146,8 @@
       });
 
       EventBus.$on( `UpdateElements-${this.item.id}`, this.updateElements )
+      EventBus.$on( `ErrorElements-${this.item.id}`, this.errorElements )
+      EventBus.$on( `SuccessElements-${this.item.id}`, this.successElements )
     },
 
     methods: {
@@ -174,6 +181,16 @@
       updateElements() {
         this.getElements()
         EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
+        this.error = false
+      },
+
+      errorElements () {
+        this.error = true
+        this.errorStageItemText = 'Preencha os campos corretamente'
+      },
+
+      successElements () {
+        this.error = false
       }
     }
   }

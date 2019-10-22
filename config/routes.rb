@@ -76,7 +76,7 @@ Rails.application.routes.draw do
   end
   #post 'get_stage_by_construction' => 'construction_stages#get_stage_by_construction'
 
-  resources :construction_stages, only: [:show, :destroy] do
+  resources :construction_stages, only: [:show, :destroy, :update] do
     resources :stage_items, only: [:index, :create, :update]
   end
 

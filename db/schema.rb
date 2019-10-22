@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2019_10_22_191559) do
     t.bigint "construction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "sheet"
     t.index ["construction_id"], name: "index_construction_stages_on_construction_id"
   end
 

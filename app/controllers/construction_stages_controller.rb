@@ -25,6 +25,15 @@ class ConstructionStagesController < ApplicationController
     end
   end
 
+  def update
+    construction_stage = ConstructionStage.find(params[:id])
+    if construction_stage.update( construction_stage_params )
+      render json: construction_stage, status: :ok
+    else
+      render json: { 'message': construction_stage.errors.full_message }, status: :internal_server_error
+    end
+  end
+
   def destroy
     construction_stage = ConstructionStage.find(params[:id])
     @registry = construction_stage.to_log
@@ -47,7 +56,7 @@ class ConstructionStagesController < ApplicationController
 
   private
   def construction_stage_params
-    params.require(:construction_stage).permit(:name, :quantity, :pavement)
+    params.require(:construction_stage).permit(:name, :quantity, :pavement, :sheet)
   end
 
 end

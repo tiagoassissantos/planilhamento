@@ -131,6 +131,7 @@
           this.edit = true
           EventBus.$on( `ItemUpdate-${this.item.id}`, this.updateItem )
           EventBus.$emit( `SuccesSubmit-${this.stage.id}`, this.error )
+          EventBus.$emit( `UpdateItems-${this.stage.id}`, true )
         }
       },
 

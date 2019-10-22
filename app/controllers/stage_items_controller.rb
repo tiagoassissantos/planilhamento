@@ -27,7 +27,7 @@ class StageItemsController < ApplicationController
     item = StageItem.find( params[:id] )
     
     if item.update( stage_item_params )
-      @registry = stage_item.to_log
+      @registry = item.to_log
       render json: item, status: :ok
     else
       render json: {'message': item.errors.full_message}, status: :internal_server_error
@@ -44,6 +44,6 @@ class StageItemsController < ApplicationController
 
   private
   def stage_item_params
-    params.require(:stage_item).permit(:name, :abbreviation)
+    params.require(:stage_item).permit(:name, :abbreviation, :quantity)
   end
 end

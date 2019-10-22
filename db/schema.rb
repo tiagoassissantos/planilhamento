@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_21_201115) do
+ActiveRecord::Schema.define(version: 2019_10_22_191559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2019_10_21_201115) do
     t.bigint "format_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sequential"
     t.index ["format_id"], name: "index_item_elements_on_format_id"
     t.index ["stage_item_id"], name: "index_item_elements_on_stage_item_id"
   end

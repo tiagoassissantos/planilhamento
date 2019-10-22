@@ -13,10 +13,6 @@ class ApplicationController < ActionController::Base
 
 
   def registry_log
-    p '+++++++++++++=============++++++++++++++++++++++'
-    p action_name
-    p controller_name
-
     Log.create( 
       user: current_user, 
       action: action_name, 

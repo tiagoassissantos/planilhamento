@@ -1,4 +1,5 @@
 class ConstructionStage < ApplicationRecord
+  belongs_to :construction
   has_many :stage_items, dependent: :destroy
 
   def update_quantity
@@ -6,7 +7,6 @@ class ConstructionStage < ApplicationRecord
     
     items = StageItem.where( construction_stage_id: self.id )
     items.each do |item|
-      p item.to_json
       stage_weight += item.weight
     end
 

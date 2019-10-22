@@ -2,6 +2,10 @@
   <div>
 
     <v-row class='mb-1 blue-grey lighten-4'>
+      <v-col cols="1" class="py-1">
+        <v-text-field dense disabled v-model='element.sequential'></v-text-field>
+      </v-col>
+
       <v-col cols="2" class="py-1">
         <v-text-field dense :readonly='!editing' v-model='element.position' :class='{editable: editing}'>
         </v-text-field>
@@ -30,7 +34,7 @@
         <v-text-field dense disabled v-model='element.weight'></v-text-field>
       </v-col>
 
-      <v-col cols="2" class="py-1">
+      <v-col cols="1" class="py-1">
         <v-tooltip top v-if='editing'>
           <template v-slot:activator="{ on }">
             <v-btn text icon small color="green" @click="saveItem" v-on="on">
@@ -198,6 +202,7 @@
 
           //EventBus.$emit(`StageItem-${this.item.id}`, this.item)
           EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
+          EventBus.$emit( `UpdateElements-${this.item.id}`, true) 
         }
       },
 
@@ -240,7 +245,6 @@
           EventBus.$emit( `UpdateElements-${this.item.id}`, true) 
         }
       }
-
 
     }
   }

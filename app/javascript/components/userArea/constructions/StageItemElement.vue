@@ -1,6 +1,6 @@
 <template>
 
-    <v-dialog width="900" v-model='showDialog'>
+    <v-dialog max-width="1100" v-model='showDialog'>
       <template v-slot:activator="{ on }">
         <v-btn text icon small color="indigo" v-on="on">
           <v-icon>mdi-settings</v-icon>
@@ -9,11 +9,25 @@
 
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>
-          {{ item.name }}
+          <v-row>
+            <v-col cols="6">
+              {{ item.name }}
+            </v-col>
+
+            <v-col cols="6">
+              <div class='float-right'>
+                Total do Item: {{ totalItemsWeight }} Kg
+              </div>
+            </v-col>
+          </v-row>
         </v-card-title>
 
         <v-card-text>
           <v-row class=''>
+            <v-col cols="1" class="py-1">
+              <span class="subtitle-1">Seq.</span>
+            </v-col>
+
             <v-col cols="2" class="py-1">
               <span class="subtitle-1">Posição</span>
             </v-col>
@@ -34,7 +48,7 @@
               <span class="subtitle-1">Peso</span>
             </v-col>
 
-            <v-col cols="2" class="py-1">
+            <v-col cols="1" class="py-1">
               <span class="subtitle-1">Ações</span>
             </v-col>
           </v-row>
@@ -104,6 +118,17 @@
         set (value) {
           this.$emit('input', value)
         }
+      },
+
+      totalItemsWeight() {
+        let totalWeight = 0
+        
+        for ( let i = 0; i < this.elements.length; i++ ) {
+          if ( !this.elements[i].weight ) continue
+          totalWeight += parseFloat( this.elements[i].weight )
+        }
+
+        return totalWeight.toFixed(2)
       }
     },
 
@@ -120,7 +145,6 @@
 
     methods: {
       async getElements() {
-        console.log( '------------------================------------------' )
         let response = null
 
         await this.$http.get(`/stage_items/${this.item.id}/item_elements`)
@@ -150,7 +174,7 @@
       updateElements() {
         this.getElements()
         EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
-      },
+      }
     }
   }
 </script>

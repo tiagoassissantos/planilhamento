@@ -45,12 +45,17 @@
         format: {},
         alert: false,
         button_text: 'Salvar',
-        edit: false
+        edit: false,
+        format_id: null
       }
     },
 
     mounted() {
-      
+      this.format_id = this.$route.params.id
+      if ( this.format_id != null ) {
+        this.edit = true
+        this.getFormat()
+      }
     },
 
     methods: {
@@ -93,6 +98,21 @@
 
         if ( response.status == 200 ) {
           this.$router.push("/formats")
+        }
+      },
+
+      async getFormat () {
+        let response = null
+
+        await this.$http.get(`/formats/${this.format_id}`)
+        .then((result) => {
+          response = result
+        }).catch((err) => {
+          response = err
+        });
+
+        if ( response.status == 200 ) {
+          this.format = response.body
         }
       }
     }

@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   end
 
   resources :item_elements, only: [:destroy]
+  resources :formats, only: [:index, :create, :destroy, :show, :update]
+  resources :logs, only: [:index]
 
-  resources :formats, only: [:index, :create]
 end

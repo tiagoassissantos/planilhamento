@@ -33,6 +33,7 @@ class User::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
+        @registry = resource.to_log
         render json: {"status": "success", "message": "Usuário cadastrado com sucesso."}, status: 200
       else
         expire_data_after_sign_in!
@@ -63,6 +64,7 @@ class User::RegistrationsController < Devise::RegistrationsController
     user.password = params[:user][:password]
 
     if user.save
+      @registry = user.to_log
       render json: {"status": "success", "message": "Usuário cadastrado com sucesso."}, status: 200
     else
       render json: {"status": "error", "message": "Não foi possível atualizar dados."}, status: 400

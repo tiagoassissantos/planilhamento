@@ -35,7 +35,7 @@
                     <v-btn :to="{ name: 'format_edit', params: {id: format.id}}" color="success">
                       Editar
                     </v-btn>
-                    <v-btn @click="deleteContruction(format.id)" color="error">
+                    <v-btn @click="deleteFormat(format.id)" color="error">
                       Excluir
                     </v-btn>
                   </td>
@@ -92,7 +92,7 @@ export default {
 
       if ( response.status == 200 ) {
         this.formats = [],
-        this.getformats(),
+        this.getFormats(),
         this.alert = true
       }
     }

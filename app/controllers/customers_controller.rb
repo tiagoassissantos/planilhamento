@@ -14,16 +14,13 @@ class CustomersController < ApplicationController
 
 
     unless customer_validation.nil?
-      Rails.logger.info("++++++++++++++++++")
-      Rails.logger.info( customer_validation )
-      Rails.logger.info("++++++++++++++++++")
-
       render json: {"status": "error", "message": "E-mail informado já está em uso"}, status: 500
       return
     end
 
     customer = Customer.new( customer_params )
     if customer.save
+      @registry = customer.to_log
       render json: customer, status: :ok
     end
   end
@@ -40,6 +37,7 @@ class CustomersController < ApplicationController
 
     customer = Customer.find(params[:id])
     if customer.update( customer_params )
+      @registry = customer.to_log
       render json: customer, status: :ok
     end
   end

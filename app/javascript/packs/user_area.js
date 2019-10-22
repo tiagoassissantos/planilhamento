@@ -27,6 +27,8 @@ import constructions from '../components/userArea/constructions/ConstructionsLis
 import formatsList from '../components/userArea/formats/List'
 import formatNew from '../components/userArea/formats/New'
 
+import logs from '../components/userArea/logs/LogsList'
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(Vuelidate)
@@ -50,6 +52,9 @@ const router = new VueRouter({
 
     { path: "/formats", component: formatsList, props: true },
     { path: "/formats/new", component: formatNew, props: true },
+    { path: "/formats/:id/edit", component: formatNew, name:'format_edit', props: true },
+
+    { path: "/logs", component: logs, props: true },
   ]
 })
 

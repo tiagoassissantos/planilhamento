@@ -15,6 +15,11 @@
 
         <v-card-text class="mb-3 mt-3">
           <form>
+
+            <v-alert v-if="error" type="error">
+              {{alertMessage}}
+            </v-alert>
+
             <v-text-field
               v-model="name"
               :error-messages="nameErrors"
@@ -61,6 +66,15 @@
               @blur="$v.cpfCnpj.$touch()"
             ></v-text-field>
 
+            <v-text-field
+              v-model="contact"
+              :error-messages="contactErrors"
+              label="Contato"
+              required
+              @input="$v.contact.$touch()"
+              @blur="$v.contact.$touch()"
+            ></v-text-field>
+
             <v-btn class="mr-4 mt-5 full-width" @click="validateSubmit" color="primary" > {{button_text}} </v-btn>
           </form>
         </v-card-text>
@@ -81,6 +95,7 @@
       salesman: { required },
       customerPhone: { required },
       cpfCnpj: { required },
+      contact: { required }
     },
 
     data () {
@@ -90,11 +105,14 @@
         salesman: null,
         customerPhone: null,
         cpfCnpj: null,
+        contact: null,
 
         edit: false,
         customer_id: null,
         header_text: null,
-        button_text: null
+        button_text: null,
+        error: false,
+        alertMessage: null
       }
     },
 
@@ -148,6 +166,13 @@
         !this.$v.cpfCnpj.required && errors.push('Dado é obrigatório')
         return errors
       },
+
+      contactErrors () {
+        const errors = []
+        if (!this.$v.contact.$dirty) return errors
+        !this.$v.contact.required && errors.push('Contato é obrigatório')
+        return errors
+      },
     },
 
     methods: {
@@ -168,7 +193,9 @@
           salesman: this.salesman,
           phone: this.customerPhone,
           cpf_cnpj: this.cpfCnpj,
+          contact: this.contact
         }
+
 
         if ( this.edit ) {
           await this.$http.put(`/customers/${this.customer_id}`, {customer: data})
@@ -190,6 +217,10 @@
 
         if ( response.status == 200 ) {
           this.$router.push('/customers')
+        } else {
+          console.log("??????????")
+          this.error = true
+          this.alertMessage = response.body.message
         }
       },
 
@@ -202,12 +233,15 @@
           response = err
         });
 
+
+
         if ( response.status == 200 ) {
           this.email = response.body.email
           this.name = response.body.name
           this.salesman = response.body.salesman
           this.cpfCnpj = response.body.cpf_cnpj
           this.customerPhone = response.body.phone
+          this.contact = response.body.contact
         }
       },
 

@@ -14,7 +14,7 @@
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense :readonly='!editing' :class='{editable: editing}'
+        <v-text-field dense :readonly='!editing' :class='{ editable: editing }'
                       value='Qtde' v-model='element.quantity' type="number">
         </v-text-field>
       </v-col>

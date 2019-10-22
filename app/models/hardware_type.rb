@@ -1,2 +1,0 @@
-class HardwareType < ApplicationRecord
-end

@@ -12,6 +12,7 @@ class ConstructionsController < ApplicationController
     construction.customer = customer
     
     if construction.save
+      @registry = construction.to_log
       render json: construction, status: :ok
     else
       render json: {'message': construction.errors.full_message}, status: :internal_server_error
@@ -28,10 +29,10 @@ class ConstructionsController < ApplicationController
     construction = Construction.find( params[:id] )
     construction.customer = customer
 
-
     construction.save
 
     if construction.update( construction_params )
+      @registry = construction.to_log
       render json: construction, status: :ok
     else
       render json: {'message': construction.errors.full_message}, status: :internal_server_error
@@ -40,9 +41,8 @@ class ConstructionsController < ApplicationController
 
   def destroy
     construction = Construction.find( params[:id])
-    construction.customer = nil
-    construction.save
-
+    @registry = construction.to_log
+    
     if construction.destroy
       render json: {'message': 'ok'}, status: :ok
     end

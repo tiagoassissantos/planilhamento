@@ -35,4 +35,8 @@ class ItemElement < ApplicationRecord
     StageItem.find(self.stage_item_id).update_quantity_weight
   end
 
+  def to_log
+    { id: id, position: position, gauge: gauge, format_id: format_id }
+  end
+
 end

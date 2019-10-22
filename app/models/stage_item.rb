@@ -20,4 +20,8 @@ class StageItem < ApplicationRecord
   def calculate_stage_weight
     ConstructionStage.find(self.construction_stage_id).update_quantity
   end
+
+  def to_log
+    { id: id, name: name, construction_stage_id: construction_stage_id }
+  end
 end

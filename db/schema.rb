@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_19_235015) do
+ActiveRecord::Schema.define(version: 2019_10_21_201115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -91,6 +91,16 @@ ActiveRecord::Schema.define(version: 2019_10_19_235015) do
     t.index ["stage_item_id"], name: "index_item_elements_on_stage_item_id"
   end
 
+  create_table "logs", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "action"
+    t.string "registry"
+    t.jsonb "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_logs_on_user_id"
+  end
+
   create_table "stage_items", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
@@ -118,4 +128,5 @@ ActiveRecord::Schema.define(version: 2019_10_19_235015) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "logs", "users"
 end

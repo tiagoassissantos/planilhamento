@@ -1,2 +1,0 @@
-class KeyboardType < ApplicationRecord
-end

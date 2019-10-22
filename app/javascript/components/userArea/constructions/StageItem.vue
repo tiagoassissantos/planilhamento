@@ -173,6 +173,7 @@
         EventBus.$emit( `UpdateItems-${this.stage.id}`, true)
       },
 
+
       async deleteItem() {
         let response = null
 

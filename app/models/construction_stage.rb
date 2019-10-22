@@ -13,4 +13,8 @@ class ConstructionStage < ApplicationRecord
     self.quantity = stage_weight
     self.save
   end
+
+  def to_log
+    { id: id, name: name, construction_id: construction_id }
+  end
 end

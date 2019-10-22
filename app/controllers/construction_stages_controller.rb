@@ -18,6 +18,7 @@ class ConstructionStagesController < ApplicationController
     construction_stage.construction_id = params[:construction_id]
 
     if construction_stage.save
+      @registry = construction_stage.to_log
       render json: construction_stage, status: :ok
     else
       render json: {'message': construction_stage.errors.full_message}, status: :internal_server_error
@@ -35,6 +36,7 @@ class ConstructionStagesController < ApplicationController
 
   def destroy
     construction_stage = ConstructionStage.find(params[:id])
+    @registry = construction_stage.to_log
     if construction_stage.destroy
       render json: { 'message': 'ok' }, status: :ok
     end

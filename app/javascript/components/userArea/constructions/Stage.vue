@@ -186,17 +186,19 @@
     },
 
     computed: {
-
+      
     },
 
     mounted () {
       this.localStage = this.stage;
       this.getItems();
       EventBus.$on( `UpdateItems-${this.localStage.id}`, this.updateStage )
+
       EventBus.$on( `DeleteItem-${this.localStage.id}`, this.getItems )
       EventBus.$on( `ErrorName-${this.localStage.id}`, this.errorName )
       EventBus.$on( `ErrorAbbreviation-${this.localStage.id}`, this.errorAbbreviation )
       EventBus.$on( `SuccesSubmit-${this.stage.id}`, this.succesSubmit )
+
     },
 
     methods: {

@@ -11,6 +11,7 @@ class ItemElementsController < ApplicationController
     element.stage_item_id = params[:stage_item_id]
 
     if element.save
+      @registry = element.to_log
       render json: element, status: :created
     else
       render json: {'message': element.errors.full_message}, status: :internal_server_error
@@ -21,6 +22,7 @@ class ItemElementsController < ApplicationController
     element = ItemElement.find( params[:id] )
 
     if element.update( element_params )
+      @registry = element.to_log
       render json: element, status: :ok
     else
       render json: {'message': element.errors.full_message}, status: :internal_server_error
@@ -29,6 +31,7 @@ class ItemElementsController < ApplicationController
 
   def destroy
     element = ItemElement.find(params[:id])
+    @registry = element.to_log
     if element.destroy
       render json: { 'message': 'ok' }, status: :ok
     end

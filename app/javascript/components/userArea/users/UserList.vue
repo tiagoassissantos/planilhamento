@@ -21,8 +21,8 @@
                   <th class="text-left">Nome</th>
                   <th class="text-left">E-mail</th>
                   <th class="text-left">CPF</th>
-                  <th class="text-left">Ação</th>
                   <th class="text-left">Tipo</th>
+                  <th class="text-left">Ação</th>
                 </tr>
               </thead>
               <tbody>

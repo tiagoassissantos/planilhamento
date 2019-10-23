@@ -62,6 +62,7 @@ class User::RegistrationsController < Devise::RegistrationsController
     user = User.find_by(id: params[:id])
     user.update( user_params )
     user.password = params[:user][:password]
+    user.role = params[:user][:role][:role]
 
     if user.save
       @registry = user.to_log

@@ -14,7 +14,7 @@ class StageItemsController < ApplicationController
   def create
     stage_item = StageItem.new( stage_item_params )
     stage_item.construction_stage_id = params[:construction_stage_id]
-    
+
     if stage_item.save
       @registry = stage_item.to_log
       render json: stage_item, status: :ok
@@ -25,7 +25,7 @@ class StageItemsController < ApplicationController
 
   def update
     item = StageItem.find( params[:id] )
-    
+
     if item.update( stage_item_params )
       @registry = item.to_log
       render json: item, status: :ok

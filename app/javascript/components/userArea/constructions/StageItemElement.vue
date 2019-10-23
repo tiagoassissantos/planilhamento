@@ -127,7 +127,7 @@
 
       totalItemsWeight() {
         let totalWeight = 0
-        
+
         for ( let i = 0; i < this.elements.length; i++ ) {
           if ( !this.elements[i].weight ) continue
           totalWeight += parseFloat( this.elements[i].weight )

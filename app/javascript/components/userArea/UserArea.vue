@@ -22,9 +22,6 @@
     },
 
     mounted() {
-      console.log("+++++++++++")
-      console.log( this.isLogged )
-      console.log("+++++++++++")
     }
   }
 </script>

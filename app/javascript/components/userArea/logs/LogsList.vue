@@ -74,9 +74,6 @@ export default {
 
       if ( response.status == 200 ) {
         this.logs = response.body
-        console.log(':::::::')
-        console.log( response.body )
-        console.log(':::::::')
       }
     },
 

@@ -218,7 +218,6 @@
         if ( response.status == 200 ) {
           this.$router.push('/customers')
         } else {
-          console.log("??????????")
           this.error = true
           this.alertMessage = response.body.message
         }

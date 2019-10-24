@@ -87,4 +87,6 @@ Rails.application.routes.draw do
   resources :item_elements, only: [:destroy]
 
   resources :formats, only: [:index, :create]
+
+  get 'reports/tags/:construction_id' => 'reports#tags'
 end

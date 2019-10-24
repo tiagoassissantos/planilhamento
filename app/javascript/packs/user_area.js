@@ -27,6 +27,8 @@ import constructions from '../components/userArea/constructions/ConstructionsLis
 import formatsList from '../components/userArea/formats/List'
 import formatNew from '../components/userArea/formats/New'
 
+import tags from '../components/userArea/reports/Tags'
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(Vuelidate)
@@ -50,6 +52,8 @@ const router = new VueRouter({
 
     { path: "/formats", component: formatsList, props: true },
     { path: "/formats/new", component: formatNew, props: true },
+
+    { path: "/reports/tags", component: tags, props: true },
   ]
 })
 

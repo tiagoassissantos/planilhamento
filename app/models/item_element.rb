@@ -1,16 +1,16 @@
 class ItemElement < ApplicationRecord
 
   GAUGES = {
-    "4_2" => 0.109,
-    "5_0" => 0.154,
-    "6_3" => 0.245,
-    "8_0" => 0.395,
-    "10_0" => 0.617,
-    "12_5" => 0.963,
-    "16_0" => 1.578,
-    "20_0" => 2.466,
-    "25_0" => 3.853,
-    "32_0" => 6.313,
+    "4_2" =>  {'text': '4.2', 'weight': 0.109, 'steel': 'CA60'},
+    "5_0" =>  {'text': '5.0', 'weight': 0.154, 'steel': 'CA60'},
+    "6_3" =>  {'text': '6.3', 'weight': 0.245, 'steel': 'CA50'},
+    "8_0" =>  {'text': '8.0', 'weight': 0.395, 'steel': 'CA50'},
+    "10_0" => {'text': '10.0', 'weight': 0.617, 'steel': 'CA50'},
+    "12_5" => {'text': '12.5', 'weight': 0.963, 'steel': 'CA50'},
+    "16_0" => {'text': '16.0', 'weight': 1.578, 'steel': 'CA50'},
+    "20_0" => {'text': '20.0', 'weight': 2.466, 'steel': 'CA50'},
+    "25_0" => {'text': '25.0', 'weight': 3.853, 'steel': 'CA50'},
+    "32_0" => {'text': '32.0', 'weight': 6.313, 'steel': 'CA50'},
   }
 
   belongs_to :format
@@ -25,7 +25,7 @@ class ItemElement < ApplicationRecord
     weight_tmp = 0
 
     format_values.each do |key, value|
-      weight_tmp = weight_tmp + ( value.to_f * gauge_weight )
+      weight_tmp = weight_tmp + ( value.to_f * gauge_weight[:weight] )
     end
 
     self.weight = BigDecimal( (weight_tmp * quantity * 0.01).to_s ).round(2)
@@ -58,4 +58,11 @@ class ItemElement < ApplicationRecord
     end
   end
 
+  def steel_type
+    GAUGES[self.gauge][:steel]
+  end
+
+  def gauge_text
+    GAUGES[self.gauge][:text]
+  end
 end

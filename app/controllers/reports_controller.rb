@@ -82,6 +82,40 @@ class ReportsController < ApplicationController
 
       pdf.draw_text stage.name, at: [3, 160]
 
+      pdf.image Rails.root.join('app', 'assets', 'images', "#{element.format.image_name}-tag.png"), 
+                :width => 220, :position => :center, :vposition => 230
+
+      if element.format.image_name.eql? 'Format-1'
+        pdf.draw_text element.format_values['l1']['size'], at: [100, 80], style: :bold, size: 12
+
+      elsif element.format.image_name.eql? 'Format-3'
+        pdf.draw_text element.format_values['l1']['size'], at: [115, 65], style: :bold, size: 12
+        pdf.draw_text element.format_values['l2']['size'], at: [20, 80], style: :bold, size: 12
+
+      elsif element.format.image_name.eql? 'Format-4'
+        pdf.draw_text element.format_values['l1']['size'], at: [105, 65], style: :bold, size: 12
+        pdf.draw_text element.format_values['l2']['size'], at: [15, 75], style: :bold, size: 12
+        pdf.draw_text element.format_values['l3']['size'], at: [190, 75], style: :bold, size: 12
+        
+      elsif element.format.image_name.eql? 'Format-8'
+        pdf.draw_text element.format_values['l1']['size'], at: [100, 40], style: :bold, size: 12
+        pdf.draw_text element.format_values['l2']['size'], at: [140, 75], style: :bold, size: 12
+        pdf.draw_text element.format_values['l3']['size'], at: [98, 80], style: :bold, size: 10
+
+      elsif element.format.image_name.eql? 'Format-58'
+        pdf.draw_text element.format_values['l1']['size'], at: [105, 50], style: :bold, size: 12
+        pdf.draw_text element.format_values['l2']['size'], at: [150, 90], style: :bold, size: 12
+
+      elsif element.format.image_name.eql? 'Format-122'
+        pdf.draw_text element.format_values['l1']['size'], at: [30, 80], style: :bold, size: 12
+
+      elsif element.format.image_name.eql? 'Format-245'
+        pdf.draw_text element.format_values['l1']['size'], at: [145, 75], style: :bold, size: 12
+        pdf.draw_text element.format_values['l2']['size'], at: [105, 35], style: :bold, size: 12
+        pdf.draw_text element.format_values['l3']['size'], at: [65,  75], style: :bold, size: 12
+        pdf.draw_text element.format_values['l4']['size'], at: [107, 80], style: :bold, size: 10
+      end
+
       pdf.start_new_page if cont < records_array.ntuples
     end
 

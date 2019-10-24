@@ -77,6 +77,7 @@ import { async } from 'q'
       value: Object
     },
 
+
     data () {
       return {
         elements: [],
@@ -86,25 +87,10 @@ import { async } from 'q'
         fieldName: ['L1', 'L2', 'L3', 'L4'],
         format_image: null,
         dataValue: {
-          l1: {
-            size: null,
-            qnt: null
-          },
-
-          l2: {
-            size: null,
-            qnt: null
-          },
-
-          l3: {
-            size: null,
-            qnt: null
-          },
-
-          l4: {
-            size: null,
-            qnt: null
-          }
+          l1: { size: null, qnt: null },
+          l2: { size: null, qnt: null },
+          l3: { size: null, qnt: null },
+          l4: { size: null, qnt: null }
         },
         formatL1: null,
         formatL2: null,
@@ -112,9 +98,7 @@ import { async } from 'q'
         formatL4: null
       }
     },
-
-    mounted () {
-    },
+  
 
     computed: {
       show: {
@@ -166,14 +150,58 @@ import { async } from 'q'
 
     },
 
+
+    mounted () {
+      if (this.format.image_name == 'Format-1') {
+        this.dataValue = {
+          l1: { size: null, qnt: 1 }
+        }
+
+      } else if (this.format.image_name == 'Format-3') {
+        this.dataValue = {
+          l1: { size: null, qnt: 1 },
+          l2: { size: null, qnt: 1 }
+        }
+
+      } else if (this.format.image_name == 'Format-4') {
+        this.dataValue = {
+          l1: { size: null, qnt: 1 },
+          l2: { size: null, qnt: 1 },
+          l3: { size: null, qnt: 1 }
+        }
+
+      } else if (this.format.image_name == 'Format-8') {
+        this.dataValue = {
+          l1: { size: null, qnt: 2 },
+          l2: { size: null, qnt: 2 },
+          l3: { size: null, qnt: 1 }
+        }
+
+      } else if (this.format.image_name == 'Format-58') {
+        this.dataValue = {
+          l1: { size: null, qnt: 1 },
+          l2: { size: null, qnt: 1 }
+        }
+
+      } else if (this.format.image_name == 'Format-122') {
+        this.dataValue = {
+          l1: { size: null, qnt: 1 }
+        }
+
+      } else if (this.format.image_name == 'Format-245') {
+        this.dataValue = {
+          l1: { size: null, qnt: 1 },
+          l2: { size: null, qnt: 1 },
+          l3: { size: null, qnt: 1 },
+          l4: { size: null, qnt: 1 }
+        }
+      }
+    },
+
+
     methods: {
       saveFormat() {
         let newValue = this.value
-
-        this.dataValue.l1.qnt = 1
-        this.dataValue.l2.qnt = 1
-        this.dataValue.l3.qnt = 1
-        this.dataValue.l4.qnt = 1
 
         newValue.formatValues = this.dataValue
         this.$emit('input', newValue)

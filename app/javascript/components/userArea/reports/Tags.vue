@@ -5,7 +5,7 @@
         <v-card-title class='grey py-1'>
           <v-row>
             <v-col cols="10">
-              <span class="display-1 mb-1">Obras Cadastradas</span>
+              <span class="display-1 mb-1">Etiquetas - Obras Cadastradas</span>
             </v-col>
           </v-row>
         </v-card-title>

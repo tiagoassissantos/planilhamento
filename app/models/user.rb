@@ -6,6 +6,10 @@ class User < ApplicationRecord
     self.role ||= :simple_user
   end
 
+  def to_log
+    { id: id, name: name }
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

@@ -25,7 +25,9 @@ class ItemElement < ApplicationRecord
     weight_tmp = 0
 
     format_values.each do |key, value|
-      weight_tmp = weight_tmp + ( value.to_f * gauge_weight[:weight] )
+      unless value['size'] == nil
+        weight_tmp = weight_tmp + ( value['size'].to_f * gauge_weight[:weight] )
+      end
     end
 
     self.weight = BigDecimal( (weight_tmp * quantity * 0.01).to_s ).round(2)
@@ -43,11 +45,11 @@ class ItemElement < ApplicationRecord
   def define_sequential
     construction = self.stage_item.construction_stage.construction
 
-    sql = "select sequential from item_elements 
-          where stage_item_id in ( 
-            select id from stage_items where construction_stage_id in ( 
+    sql = "select sequential from item_elements
+          where stage_item_id in (
+            select id from stage_items where construction_stage_id in (
               select id from construction_stages where construction_id = #{construction.id}
-            ) 
+            )
           ) order by sequential desc"
     records_array = ActiveRecord::Base.connection.execute(sql)
 

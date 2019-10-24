@@ -20,6 +20,7 @@ class CustomersController < ApplicationController
 
     customer = Customer.new( customer_params )
     if customer.save
+      @registry = customer.to_log
       render json: customer, status: :ok
     end
   end
@@ -36,6 +37,7 @@ class CustomersController < ApplicationController
 
     customer = Customer.find(params[:id])
     if customer.update( customer_params )
+      @registry = customer.to_log
       render json: customer, status: :ok
     end
   end

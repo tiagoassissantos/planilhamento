@@ -24,13 +24,21 @@
 
       <v-col cols="2" class="py-1">
         <v-select dense v-model="element.format" :items="formats" :readonly='!editing'
-                  item-text="name" item-value="id" persistent-hint return-object single-line
+                  item-text="name" item-value="image_name" persistent-hint return-object single-line
                   required :class='{editable: editing}' @change="openFormat()">
         </v-select>
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense disabled v-model='element.weight'></v-text-field>
+        <v-row>
+          <v-col cols="9" class="position-input">
+            <v-text-field dense disabled v-model='element.weight' ></v-text-field>
+          </v-col>
+          <v-col cols="3" class="position-weight-value">
+            Kg
+          </v-col>
+        </v-row>
+
       </v-col>
 
       <v-col cols="1" class="py-1">
@@ -149,7 +157,8 @@
         oldGauge: null,
         oldQuantity: null,
         oldFormat: null,
-        dialog: false
+        dialog: false,
+        format_image: null
       }
     },
 
@@ -227,7 +236,7 @@
           this.editing = false
           //EventBus.$emit(`StageItem-${this.item.id}`, this.item)
           EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
-          EventBus.$emit( `UpdateElements-${this.item.id}`, true) 
+          EventBus.$emit( `UpdateElements-${this.item.id}`, true)
         }
       },
 
@@ -303,5 +312,14 @@
 
   .full-width {
     width: 100%;
+  }
+
+  .position-input {
+    margin-top: -10px;
+  }
+
+  .position-weight-value {
+    position: relative;
+    left: -50px;
   }
 </style>

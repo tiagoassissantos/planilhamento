@@ -19,7 +19,14 @@
       </v-col>
 
       <v-col cols="2" class="py-1">
-        <v-text-field dense disabled v-model="item.weight"></v-text-field>
+        <v-row>
+          <v-col cols="9" class="position-input">
+            <v-text-field dense disabled v-model="item.weight"></v-text-field>
+          </v-col>
+          <v-col cols='3'>
+            <span class="position-weight-value"> Kg </span>
+          </v-col>
+        </v-row>
       </v-col>
 
 
@@ -99,8 +106,8 @@
     },
 
     mounted () {
-      this.item = this.stage_item
 
+      this.item = this.stage_item
       if (this.item && this.item.id > 0) {
         this.editing = false
         this.edit = true
@@ -203,5 +210,14 @@
 
   .full-width {
     width: 100%;
+  }
+
+  .position-input {
+    margin-top: -10px;
+  }
+
+  .position-weight-value {
+    position: relative;
+    left: -50px;
   }
 </style>

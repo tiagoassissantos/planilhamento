@@ -34,6 +34,8 @@
 
         <v-btn text to="/constructions"> Obras </v-btn>
 
+        <v-btn text to="/logs" v-if="isAdmin"> Logs </v-btn>
+
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" text>

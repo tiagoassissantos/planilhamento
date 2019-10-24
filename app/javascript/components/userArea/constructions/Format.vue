@@ -8,23 +8,36 @@
 
         <v-card-text>
           <v-row>
-            <v-col cols="2" class="py-1" v-for="side in format.sides" v-bind:key="side"> 
+            <v-col cols="2" class="py-1" v-for="(side,index) in format.sides" v-bind:key="index">
               <v-row>
                 <v-col cols="12">
-                  <span class="subtitle-1"> {{ fieldLetter( side )  }} </span>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field dense v-model="formatData[ fieldLetter( side ) ]"></v-text-field>
+                  <span class="subtitle-1"> {{ fieldName[index] }} </span>
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
 
           <v-row>
+            <v-col cols="2">
+              <v-text-field dense v-model="dataValue.l1.size"></v-text-field>
+            </v-col>
+
+            <v-col cols="2" v-if="showFormat2">
+              <v-text-field dense v-model="dataValue.l2.size"></v-text-field>
+            </v-col>
+
+            <v-col cols="2" v-if="showFormat3">
+              <v-text-field dense v-model="dataValue.l3.size"></v-text-field>
+            </v-col>
+
+            <v-col cols="2" v-if="showFormat4">
+              <v-text-field dense v-model="dataValue.l4.size"></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
             <v-col cols="12" class="py-1">
-              <v-img :src="require('../../../../assets/images/formatA.png')" width="200"></v-img>
+              <v-img :src="require(`../../../../assets/images/${format.image_name}.png`)" class="width-image"></v-img>
             </v-col>
           </v-row>
         </v-card-text>
@@ -45,6 +58,7 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
+import { async } from 'q'
 
   export default {
     mixins: [validationMixin],
@@ -68,12 +82,38 @@
         elements: [],
         editing: true,
         dialog: false,
-        formatData: {}
+        formatData: {},
+        fieldName: ['L1', 'L2', 'L3', 'L4'],
+        format_image: null,
+        dataValue: {
+          l1: {
+            size: null,
+            qnt: null
+          },
+
+          l2: {
+            size: null,
+            qnt: null
+          },
+
+          l3: {
+            size: null,
+            qnt: null
+          },
+
+          l4: {
+            size: null,
+            qnt: null
+          }
+        },
+        formatL1: null,
+        formatL2: null,
+        formatL3: null,
+        formatL4: null
       }
     },
 
     mounted () {
-
     },
 
     computed: {
@@ -97,6 +137,31 @@
           newValue.format = format
           this.$emit('input', newValue)
         },
+      },
+
+
+      showFormat2() {
+        if ( this.format.sides == 1) {
+          return false
+        } else {
+          return true
+        }
+      },
+
+      showFormat3() {
+        if ( this.format.sides == 1 || this.format.sides == 2) {
+          return false
+        } else {
+          return true
+        }
+      },
+
+      showFormat4() {
+        if ( this.format.sides == 1 || this.format.sides == 2 || this.format.sides == 3 ) {
+          return false
+        } else {
+          return true
+        }
       }
 
     },
@@ -104,14 +169,22 @@
     methods: {
       saveFormat() {
         let newValue = this.value
-        newValue.formatValues = this.formatData
+
+        this.dataValue.l1.qnt = 1
+        this.dataValue.l2.qnt = 1
+        this.dataValue.l3.qnt = 1
+        this.dataValue.l4.qnt = 1
+
+        newValue.formatValues = this.dataValue
         this.$emit('input', newValue)
         this.show = false
       },
 
       fieldLetter( number ) {
-        return String.fromCharCode(64 + number)
-      }
+        let n = parseInt(number)
+        return
+      },
+
     }
   }
 </script>
@@ -119,5 +192,11 @@
 <style scoped>
   .editable {
     background-color: white !important;
+  }
+
+  .width-image {
+    width: 400px;
+    height: 200px;
+    margin-left: 20%;
   }
 </style>

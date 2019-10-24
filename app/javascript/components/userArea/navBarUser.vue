@@ -25,10 +25,6 @@
               <v-list-item-title> Clientes </v-list-item-title>
             </v-list-item>
 
-            <v-list-item to="/formats" >
-              <v-list-item-title> Formatos </v-list-item-title>
-            </v-list-item>
-
           </v-list>
         </v-menu>
 

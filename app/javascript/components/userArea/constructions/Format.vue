@@ -170,8 +170,14 @@ import { async } from 'q'
       saveFormat() {
         let newValue = this.value
 
-        this.dataValue.l1.qnt = 1
-        this.dataValue.l2.qnt = 1
+        if ( this.format.name == 'Formarto 8') {
+          this.dataValue.l1.qnt = 2
+          this.dataValue.l2.qnt = 2
+        } else {
+          this.dataValue.l1.qnt = 1
+          this.dataValue.l2.qnt = 1
+        }
+
         this.dataValue.l3.qnt = 1
         this.dataValue.l4.qnt = 1
 

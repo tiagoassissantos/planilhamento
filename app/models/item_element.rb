@@ -26,7 +26,7 @@ class ItemElement < ApplicationRecord
 
     format_values.each do |key, value|
       unless value['size'] == nil
-        weight_tmp = weight_tmp + ( value['size'].to_f * gauge_weight )
+        weight_tmp = weight_tmp + ( ( value['size'].to_f * gauge_weight ) * value['qnt'].to_f)
       end
     end
 

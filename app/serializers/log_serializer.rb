@@ -38,12 +38,20 @@ class LogSerializer < ActiveModel::Serializer
 
     elsif  object.registry == 'registrations'
       return "Usuário"
+
+    elsif  object.registry == 'sessions'
+      return "Início de sessão"
     end
   end
 
   def description
+    if object.registry == 'sessions'
+      return ''
+    end
+
     if object.registry == 'item_elements'
       return "Bitola: #{object.description['gauge']}"
+
     else
       return "Nome: #{object.description['name']}"
     end

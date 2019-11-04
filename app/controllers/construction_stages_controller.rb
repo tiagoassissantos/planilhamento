@@ -27,6 +27,7 @@ class ConstructionStagesController < ApplicationController
 
   def update
     construction_stage = ConstructionStage.find(params[:id])
+    @registry = construction_stage.to_log
     if construction_stage.update( construction_stage_params )
       render json: construction_stage, status: :ok
     else

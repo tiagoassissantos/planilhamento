@@ -248,6 +248,7 @@
         });
 
         if ( response.status == 200 ) {
+          this.dialog = false
           EventBus.$emit( `DeleteStage`, true )
         }
       },

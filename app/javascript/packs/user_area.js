@@ -28,6 +28,7 @@ import formatsList from '../components/userArea/formats/List'
 import formatNew from '../components/userArea/formats/New'
 
 import logs from '../components/userArea/logs/LogsList'
+import tags from '../components/userArea/reports/Tags'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -55,6 +56,7 @@ const router = new VueRouter({
     { path: "/formats/:id/edit", component: formatNew, name:'format_edit', props: true },
 
     { path: "/logs", component: logs, props: true },
+    { path: "/reports/tags", component: tags, props: true },
   ]
 })
 

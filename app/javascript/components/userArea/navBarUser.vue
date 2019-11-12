@@ -32,6 +32,20 @@
 
         <v-btn text to="/logs" v-if="isAdmin"> Logs </v-btn>
 
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" text>
+              Relatórios
+            </v-btn>
+          </template>
+          <v-list>
+
+            <v-list-item v-if="isAdmin" to="/reports/tags" >
+              <v-list-item-title> Etiquetas </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
         <v-btn text @click="signOut()"> Sair </v-btn>
       </v-toolbar-items>
 

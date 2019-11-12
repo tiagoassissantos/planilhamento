@@ -88,4 +88,5 @@ Rails.application.routes.draw do
   resources :formats, only: [:index, :create, :destroy, :show, :update]
   resources :logs, only: [:index]
 
+  get 'reports/tags/:construction_id' => 'reports#tags'
 end

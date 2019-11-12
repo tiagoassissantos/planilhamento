@@ -5,10 +5,10 @@ User.create email: 'admin@planilhamento.com.br', name: 'Administrador', cpf: '',
 
 #FORMATS
 
-Format.create name: 'Formato 1', sides: 1, image_name: '1'
-Format.create name: 'Formato 3', sides: 2, image_name: '3'
-Format.create name: 'Formato 4', sides: 3, image_name: '4'
-Format.create name: 'Formato 8', sides: 3, image_name: '8'
-Format.create name: 'Formato 58', sides: 2, image_name: '58'
-Format.create name: 'Formato 122', sides: 1, image_name: '122'
-Format.create name: 'Formato 245', sides: 4, image_name: '245'
+Format.create name: 'Formato 1', sides: 1, image_name: 'Format-1'
+Format.create name: 'Formato 3', sides: 2, image_name: 'Format-3'
+Format.create name: 'Formato 4', sides: 3, image_name: 'Format-4'
+Format.create name: 'Formato 8', sides: 3, image_name: 'Format-8'
+Format.create name: 'Formato 58', sides: 2, image_name: 'Format-58'
+Format.create name: 'Formato 122', sides: 1, image_name: 'Format-122'
+Format.create name: 'Formato 245', sides: 4, image_name: 'Format-245'

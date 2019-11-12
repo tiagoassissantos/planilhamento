@@ -106,7 +106,7 @@
       </v-card>
     </v-dialog>
 
-    <cd-format v-model='dataFormatModal'/>
+    <cd-format v-if="dataFormatModal.format" v-model='dataFormatModal'/>
 
   </div>
 </template>
@@ -139,7 +139,7 @@
         element: {},
         editing: true,
         formats: [],
-        dataFormatModal: { show: false, format: {}, formatValues: {} },
+        dataFormatModal: { show: false, format: null, formatValues: {} },
         gauges: [
           { text: "4.2", value: "4_2", weight: "0.109" },
           { text: "5.0", value: "5_0", weight: "0.154" },

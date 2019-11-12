@@ -43,6 +43,7 @@
             <v-list-item v-if="isAdmin" to="/reports/tags" >
               <v-list-item-title> Etiquetas </v-list-item-title>
             </v-list-item>
+
           </v-list>
         </v-menu>
 

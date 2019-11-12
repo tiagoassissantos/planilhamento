@@ -66,9 +66,6 @@
         <v-divider></v-divider>
 
         <v-card-actions>
-          <v-btn color="primary" text @click="addElement">
-            + Elemento
-          </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="closeElement">
             Fechar
@@ -107,7 +104,7 @@
 
     data () {
       return {
-        elements: [],
+        elements: [{id: 0}],
         editing: false,
         showDialog: false,
         error: false,
@@ -138,7 +135,7 @@
     },
 
     mounted () {
-      this.getElements();
+      this.getElements("create");
       let that = this
 
       EventBus.$on('cancelItem', function (payload) {
@@ -148,10 +145,11 @@
       EventBus.$on( `UpdateElements-${this.item.id}`, this.updateElements )
       EventBus.$on( `ErrorElements-${this.item.id}`, this.errorElements )
       EventBus.$on( `SuccessElements-${this.item.id}`, this.successElements )
+
     },
 
     methods: {
-      async getElements() {
+      async getElements( status ) {
         let response = null
 
         await this.$http.get(`/stage_items/${this.item.id}/item_elements`)
@@ -163,25 +161,28 @@
 
         if ( response.status == 200 ) {
           this.elements = response.body
+          if ( status == 'create') {
+            this.elements.push( {id: 0} )
+          }
         }
-      },
-
-      addElement() {
-        this.elements.push( {id: 0} )
       },
 
       closeElement() {
         this.showDialog = false
       },
 
-      editItem() {
-
+      editElement() {
+        this.elements.pop()
       },
 
       updateElements() {
-        this.getElements()
+        this.getElements( "update" )
         EventBus.$emit( `ItemUpdate-${this.item.id}`, true)
         this.error = false
+        setTimeout(() => {
+          this.elements.push( { id: 0} )
+        }, 1000);
+
       },
 
       errorElements () {

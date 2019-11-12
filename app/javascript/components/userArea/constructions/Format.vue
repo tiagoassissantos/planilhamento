@@ -59,7 +59,7 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, maxLength, email } from 'vuelidate/lib/validators'
-import { async } from 'q'
+  import EventBus from '../../../packs/eventBus.js'
 
   export default {
     mixins: [validationMixin],
@@ -99,7 +99,7 @@ import { async } from 'q'
         formatL4: null
       }
     },
-  
+
 
     computed: {
       show: {
@@ -175,7 +175,7 @@ import { async } from 'q'
         this.dataValue = {
           l1: { size: null, qnt: 2 },
           l2: { size: null, qnt: 2 },
-          l3: { size: null, qnt: 1 }
+          l3: { size: null, qnt: 2 }
         }
 
       } else if (this.format.image_name == 'Format-58') {
@@ -194,7 +194,7 @@ import { async } from 'q'
           l1: { size: null, qnt: 1 },
           l2: { size: null, qnt: 1 },
           l3: { size: null, qnt: 1 },
-          l4: { size: null, qnt: 1 }
+          l4: { size: null, qnt: 2 }
         }
       }
     },
@@ -207,6 +207,8 @@ import { async } from 'q'
         newValue.formatValues = this.dataValue
         this.$emit('input', newValue)
         this.show = false
+        this.$emit('saveNewItem')
+
       },
 
       fieldLetter( number ) {

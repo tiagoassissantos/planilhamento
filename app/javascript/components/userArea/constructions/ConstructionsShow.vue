@@ -193,6 +193,46 @@
 
       </v-card>
 
+       <v-card class="padding-card blue-grey lighten-5">
+        <v-row >
+          <v-col cols="6">
+            <h2 class="mb-5">
+              Relatórios
+            </h2>
+          </v-col>
+        </v-row>
+
+        <v-card>
+          <v-row class="padding-card" justify="space-between">
+            <v-col cols="3">
+              <v-btn :href="`/reports/tags/${construction_id}`" color="success">
+                Gerar Etiquetas
+              </v-btn>
+            </v-col>
+
+            <v-col cols="3">
+              <v-btn :href="`/reports/elements/${construction_id}`" color="info">
+                Relatório de Elemento
+              </v-btn>
+            </v-col>
+
+            <v-col cols="3">
+              <v-btn :href="`/reports/tags/${construction_id}`" color="warning">
+                Relatório de Etapa
+              </v-btn>
+            </v-col>
+
+            <v-col cols="3">
+              <v-btn :href="`/reports/tags/${construction_id}`" color="error">
+                Relatório de Sequência
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+
+      </v-card>
+
+
     </v-container>
   </div>
 </template>
@@ -285,7 +325,7 @@
 
       totalConstructionWeight() {
         let totalWeight = 0
-        
+
         for ( let i = 0; i < this.stages.length; i++ ) {
           if ( !this.stages[i].quantity ) continue
           totalWeight += parseFloat( this.stages[i].quantity )

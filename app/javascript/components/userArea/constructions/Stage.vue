@@ -30,7 +30,7 @@
                 <v-row>
                   <v-col cols='12' class='py-1'>
                     <v-fade-transition leave-absolute>
-                      <span>{{ localStage.quantity }}</span>
+                      <span>{{ localStage.quantity }} </span>
                     </v-fade-transition>
                   </v-col>
                 </v-row>
@@ -234,6 +234,7 @@
         if ( response.status == 200 ) {
           this.localStage = response.body
           this.getItems()
+          EventBus.$emit( `UpdateStage`, true )
         }
       },
 

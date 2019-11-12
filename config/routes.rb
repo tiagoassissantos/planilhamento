@@ -89,4 +89,5 @@ Rails.application.routes.draw do
   resources :logs, only: [:index]
 
   get 'reports/tags/:construction_id' => 'reports#tags'
+  get 'reports/elements/:construction_id' => 'reports#elements'
 end

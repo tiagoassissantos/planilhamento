@@ -42,22 +42,13 @@
       </v-col>
 
       <v-col cols="1" class="py-1">
-        <v-tooltip top v-if='editing'>
+        <v-tooltip top v-if='editing && element.id > 0'>
           <template v-slot:activator="{ on }">
             <v-btn text icon small color="green" @click="saveItem" v-on="on">
               <v-icon>mdi-check-outline</v-icon>
             </v-btn>
           </template>
           <span>Salvar</span>
-        </v-tooltip>
-
-        <v-tooltip top v-if='editing && element.id == 0'>
-          <template v-slot:activator="{ on }">
-            <v-btn text icon small color="red" @click="cancelItem" v-on="on">
-              <v-icon>mdi-cancel</v-icon>
-            </v-btn>
-          </template>
-          <span>Descartar</span>
         </v-tooltip>
 
         <v-tooltip top v-if='editing && element.id > 0'>
@@ -69,7 +60,7 @@
           <span>Cancelar Edição</span>
         </v-tooltip>
 
-        <v-tooltip top  v-if='!editing'>
+        <v-tooltip top v-if='!editing && element.id > 0'>
           <template v-slot:activator="{ on }">
             <v-btn text icon small color="blue" @click="editItem" v-on="on">
               <v-icon>mdi-pencil-outline</v-icon>
@@ -78,7 +69,7 @@
           <span>Editar</span>
         </v-tooltip>
 
-        <v-tooltip top v-if='!editing'>
+        <v-tooltip top v-if='!editing && element.id > 0'>
           <template v-slot:activator="{ on }">
             <v-btn text icon small color="red" v-on="on" @click="dialog = true">
               <v-icon>mdi-delete-forever</v-icon>
@@ -106,7 +97,7 @@
       </v-card>
     </v-dialog>
 
-    <cd-format v-if="dataFormatModal.format" v-model='dataFormatModal'/>
+    <cd-format v-if="dataFormatModal.format" v-model='dataFormatModal' v-on:saveNewItem="savedItem"/>
 
   </div>
 </template>
@@ -137,7 +128,7 @@
     data () {
       return {
         element: {},
-        editing: true,
+        editing: false,
         formats: [],
         dataFormatModal: { show: false, format: null, formatValues: {} },
         gauges: [
@@ -163,7 +154,6 @@
     },
 
     computed: {
-
     },
 
     mounted () {
@@ -173,6 +163,8 @@
         this.editing = false
         this.dataFormatModal.format = this.element.format
         this.dataFormatModal.formatValues = this.element.format_values
+      } else {
+        this.editing = true
       }
 
       this.getFormats()
@@ -299,6 +291,10 @@
         if ( response.status == 200 ) {
           EventBus.$emit( `UpdateElements-${this.item.id}`, true)
         }
+      },
+
+      savedItem () {
+        this.saveItem()
       }
 
     }

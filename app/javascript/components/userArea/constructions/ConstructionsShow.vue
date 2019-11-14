@@ -211,7 +211,7 @@
             </v-col>
 
             <v-col cols="3">
-              <v-btn :href="`/reports/elements/${construction_id}`" color="info">
+              <v-btn :href="`/reports/elements/${construction_id}`" color="info" target="_blank">
                 Relatório de Elemento
               </v-btn>
             </v-col>

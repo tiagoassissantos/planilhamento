@@ -130,9 +130,7 @@ class ReportsController < ApplicationController
     pdf = Prawn::Document.new( @tags_pdf_options )
 
     construction = Construction.find( params[:construction_id] )
-    Rails.logger.info("++++++++++++++++")
-    Rails.logger.info( construction.customer.to_json )
-    Rails.logger.info("++++++++++++++++")
+
     pdf.fill_color "909090"
     pdf.rectangle [0, 360], 226.7, 15
     pdf.fill
@@ -159,11 +157,13 @@ class ReportsController < ApplicationController
     pdf.rectangle [0, 305], 226.7, 10
     pdf.fill
 
+    total_weight = get_total_weight( construction.construction_stages )
+
     pdf.move_down 12
     pdf.fill_color "000000"
     pdf.text "PESO TOTAL DA OBRA", size: 5, :align => :center
     pdf.move_up 6
-    pdf.text "1000kg", size: 5, :align => :right
+    pdf.text "#{total_weight} KG", size: 5, :align => :right
 
     pdf.horizontal_line 0, 226.7, :at => 295
     pdf.horizontal_line 0, 226.7, :at => 285
@@ -206,127 +206,310 @@ class ReportsController < ApplicationController
     pdf.vertical_line 285, 275, :at => 226.70
     pdf.stroke
 
-    pdf.draw_text " 0 ", at: [1 , 278],  size: 5
-    pdf.draw_text " 0 ", at: [26 , 278],  size: 5
-    pdf.draw_text " 0 ", at: [51 , 278],  size: 5
-    pdf.draw_text " 0 ", at: [76 , 278],  size: 5
-    pdf.draw_text " 0 ", at: [101.50 , 278],  size: 5
-    pdf.draw_text " 0 ", at: [127 , 278],  size: 5
-    pdf.draw_text " 0 ", at: [152 , 278],  size: 5
-    pdf.draw_text " 0 ", at: [177 , 278],  size: 5
-    pdf.draw_text " 0 ", at: [202 , 278],  size: 5
+    gauge_type_weight = get_gauge_type_weight( construction )
+    pdf.draw_text "#{gauge_type_weight['4_2']} KG", at: [1 , 278],  size: 5
+    pdf.draw_text "#{gauge_type_weight['5_0']} KG", at: [26 , 278],  size: 5
+    pdf.draw_text "#{gauge_type_weight['6_3']} KG", at: [51 , 278],  size: 5
+    pdf.draw_text "#{gauge_type_weight['8_0']} KG", at: [76 , 278],  size: 5
+    pdf.draw_text "#{gauge_type_weight['10_0']} KG", at: [101.50 , 278],  size: 5
+    pdf.draw_text "#{gauge_type_weight['12_5']} KG", at: [127 , 278],  size: 5
+    pdf.draw_text "#{gauge_type_weight['16_0']} KG", at: [152 , 278],  size: 5
+    pdf.draw_text "#{gauge_type_weight['20_0']} KG", at: [177 , 278],  size: 5
+    pdf.draw_text "#{gauge_type_weight['25_0']} KG", at: [202 , 278],  size: 5
 
+    top_stage = 270
+    text_stage = 252
+    vertical_line = 260
     pdf.fill_color "909090"
-    pdf.rectangle [0, 270], 80, 10
+    pdf.rectangle [0, top_stage], 80, 10
     pdf.fill
 
-    construction_stages = ConstructionStage.where(construction_id: construction.id)
+    top_stage = top_stage - 7
+    pdf.fill_color "000000"
+    pdf.draw_text "ETAPA 1", at: [1 , top_stage],  size: 5
+    pdf.draw_text " 100KG ", at: [55 , top_stage],  size: 5
 
+    top_stage = top_stage - 3
+    pdf.horizontal_line 20, 80, :at => top_stage
+    top_stage = top_stage - 10
 
-    top_stage = 263
-    construction_stages.each do |construction|
+    pdf.horizontal_line 20, 80, :at => 250
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
-      stage_items = StageItem.where(construction_stage_id: construction.id)
-      stage_items.each do |stage_item|
-        item_elements = ItemElement.where(stage_item_id: stage_item.id)
-        Rails.logger.info("+++++++++++++++++++++++++++++===")
-        Rails.logger.info("+++++++++++++++++++++++++++++===")
-        Rails.logger.info("+++++++++++++++++++++++++++++=== pegando os elementos do item daetapa ")
-        Rails.logger.info( item_elements.to_json )
-        Rails.logger.info("+++++++++++++++++++++++++++++===")
-        Rails.logger.info("+++++++++++++++++++++++++++++===")
-      end
+    top_stage = top_stage -10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
-      #pdf.fill_color "000000"
-      #pdf.draw_text "ETAPA 1", at: [1 , top_stage],  size: 5
-      #pdf.draw_text " 100KG ", at: [55 , top_stage],  size: 5
+    top_stage = top_stage -10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
-      #top_stage = top_stage - 3
-      #pdf.horizontal_line 20, 80, :at => top_stage
-      #top_stage = top_stage - 10
-      #pdf.horizontal_line 20, 80, :at => 250
-      #pdf.vertical_line top_stage + 10, top_stage, :at => 20
-      #pdf.vertical_line top_stage + 10, top_stage, :at => 50
-      #pdf.vertical_line top_stage + 10, top_stage, :at => 80
-    end
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
-=begin
-    pdf.horizontal_line 20, 80, :at => 240
-    pdf.vertical_line 260, 240, :at => 20
-    pdf.vertical_line 260, 240, :at => 50
-    pdf.vertical_line 260, 240, :at => 80
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
-    pdf.horizontal_line 20, 80, :at => 230
-    pdf.vertical_line 260, 230, :at => 20
-    pdf.vertical_line 260, 230, :at => 50
-    pdf.vertical_line 260, 230, :at => 80
-
-    pdf.horizontal_line 20, 80, :at => 220
-    pdf.vertical_line 260, 220, :at => 20
-    pdf.vertical_line 260, 220, :at => 50
-    pdf.vertical_line 260, 220, :at => 80
-
-    pdf.horizontal_line 20, 80, :at => 210
-    pdf.vertical_line 260, 210, :at => 20
-    pdf.vertical_line 260, 210, :at => 50
-    pdf.vertical_line 260, 210, :at => 80
-
-    pdf.horizontal_line 20, 80, :at => 200
-    pdf.vertical_line 260, 200, :at => 20
-    pdf.vertical_line 260, 200, :at => 50
-    pdf.vertical_line 260, 200, :at => 80
-
-    pdf.horizontal_line 20, 80, :at => 190
-    pdf.vertical_line 260, 190, :at => 20
-    pdf.vertical_line 260, 190, :at => 50
-    pdf.vertical_line 260, 190, :at => 80
-
-    pdf.horizontal_line 20, 80, :at => 180
-    pdf.vertical_line 260, 180, :at => 20
-    pdf.vertical_line 260, 180, :at => 50
-    pdf.vertical_line 260, 180, :at => 80
-
-    pdf.horizontal_line 20, 80, :at => 170
-    pdf.vertical_line 260, 170, :at => 20
-    pdf.vertical_line 260, 170, :at => 50
-    pdf.vertical_line 260, 170, :at => 80
-
-    pdf.horizontal_line 20, 80, :at => 160
-    pdf.vertical_line 260, 160, :at => 20
-    pdf.vertical_line 260, 160, :at => 50
-    pdf.vertical_line 260, 160, :at => 80
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
 
     pdf.stroke
 
-    pdf.draw_text "Elemento 1", at: [22, 252],  size: 5
-    pdf.draw_text "Ø 4,2", at: [22, 242],  size: 5
-    pdf.draw_text "Ø 5,0", at: [22 , 232],  size: 5
-    pdf.draw_text "Ø 6,3", at: [22 , 222],  size: 5
-    pdf.draw_text "Ø 8,0", at: [22 , 212],  size: 5
-    pdf.draw_text "Ø 10,0", at: [22 , 202],  size: 5
-    pdf.draw_text "Ø 12,5", at: [22 , 192],  size: 5
-    pdf.draw_text "Ø 16,0", at: [22 , 182],  size: 5
-    pdf.draw_text "Ø 20,0", at: [22 , 172],  size: 5
-    pdf.draw_text "Ø 25,0", at: [22 , 162],  size: 5
+    pdf.draw_text "Elemento 1", at: [22, text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52, text_stage],  size: 5
 
-    pdf.draw_text "200 KG", at: [52, 252],  size: 5
-    pdf.draw_text "200 KG", at: [52, 242],  size: 5
-    pdf.draw_text "200 KG", at: [52 , 232],  size: 5
-    pdf.draw_text "200 KG", at: [52 , 222],  size: 5
-    pdf.draw_text "200 KG", at: [52 , 212],  size: 5
-    pdf.draw_text "200 KG", at: [52 , 202],  size: 5
-    pdf.draw_text "200 KG", at: [52 , 192],  size: 5
-    pdf.draw_text "200 KG", at: [52 , 182],  size: 5
-    pdf.draw_text "200 KG", at: [52 , 172],  size: 5
-    pdf.draw_text "200 kg", at: [52 , 162],  size: 5
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 4,2", at: [22, text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52, text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 5,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 6,3", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 8,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 10,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 12,5", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 16,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 20,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 25,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 kg", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 30
+    top_stage = top_stage - 10
+    vertical_line = vertical_line - 50
+    pdf.fill_color "909090"
+    pdf.rectangle [0, top_stage], 80, 10
+    pdf.fill
+
+    top_stage = top_stage - 7
+    pdf.fill_color "000000"
+    pdf.draw_text "ETAPA 1", at: [1 , top_stage],  size: 5
+    pdf.draw_text " 100KG ", at: [55 , top_stage],  size: 5
+
+    top_stage = top_stage - 3
+    pdf.horizontal_line 20, 80, :at => top_stage
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => 250
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+=begin
+    top_stage = top_stage -10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+
+    top_stage = top_stage -10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+
+    top_stage = top_stage - 10
+    pdf.horizontal_line 20, 80, :at => top_stage
+    pdf.vertical_line vertical_line, top_stage, :at => 20
+    pdf.vertical_line vertical_line, top_stage, :at => 50
+    pdf.vertical_line vertical_line, top_stage, :at => 80
+
+    top_stage = top_stage - 20
+    pdf.stroke
+
+    text_stage = text_stage - 30
+    pdf.draw_text "Elemento 1", at: [22, text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52, text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 4,2", at: [22, text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52, text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 5,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 6,3", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 8,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 10,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 12,5", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 16,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 20,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 KG", at: [52 , text_stage],  size: 5
+
+    text_stage = text_stage - 10
+    pdf.draw_text "Ø 25,0", at: [22 , text_stage],  size: 5
+    pdf.draw_text "200 kg", at: [52 , text_stage],  size: 5
 =end
+    text_stage = text_stage - 30
 
     pdf.render_file locale_file.path
-    send_file locale_file.path , type: 'application/pdf', filename: "Relatório_compromisso.pdf"
+    send_file locale_file.path , type: 'application/pdf', filename: "Relatório_elementos.pdf"
   end
 
+  private
+  def get_total_weight( construction_stages )
+    total = 0
+    construction_stages.each do |construction_stage|
+      total = total + construction_stage.quantity.to_f
+    end
+
+    return total
+  end
+
+  def get_gauge_type_weight ( construction )
+    gauge = {
+      "4_2" =>  0,
+      "5_0" =>  0,
+      "6_3" =>  0,
+      "8_0" =>  0,
+      "10_0" => 0,
+      "12_5" => 0,
+      "16_0" => 0,
+      "20_0" => 0,
+      "25_0" => 0,
+      "32_0" => 0
+    }
+
+    construction.construction_stages.each do |construction_stage|
+      construction_stage.stage_items.each do |stage_item|
+        stage_item.item_elements.each do |element|
+          case element.gauge
+            when "4_2"
+              gauge['4_2'] = gauge['4_2'] + element.weight * stage_item.quantity
+            when "5_0"
+              gauge['5_0'] = gauge['5_0'] + element.weight * stage_item.quantity
+            when "6_3"
+              gauge['6_3'] = gauge['6_3'] + element.weight * stage_item.quantity
+            when "8_0"
+              gauge['8_0'] = gauge['8_0'] + element.weight * stage_item.quantity
+            when "10_0"
+              gauge['10_0'] = gauge['10_0'] + element.weight * stage_item.quantity
+            when "12_5"
+              gauge['12_5'] = gauge['12_5'] + element.weight * stage_item.quantity
+            when "16_0"
+              gauge['16_0'] = gauge['16_0'] + element.weight * stage_item.quantity
+            when "20_0"
+              gauge['20_0'] = gauge['20_0'] + element.weight * stage_item.quantity
+            when "25_0"
+              gauge['25_0'] = gauge['25_0'] + element.weight * stage_item.quantity
+            when "32_0"
+              gauge['32_0'] = gauge['32_0'] + element.weight * stage_item.quantity
+          end
+        end
+      end
+    end
+
+    return gauge
+  end
 end
+

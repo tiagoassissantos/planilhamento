@@ -1,0 +1,175 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+  body {
+    /*border: 1px solid black;*/
+  }
+  * {
+    -webkit-box-sizing: border-box;
+  }
+  .header {
+    font-size: 18px;
+  }
+  .flexrow {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .flexrow > div {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+  }
+  .flexrow > div:last-child {
+    margin-right: 0;
+  }
+  .total-weight {
+    font-size: 22px
+  }
+  .gauge-table {
+    margin-bottom: 30px;
+  }
+  table th {
+    width: 120px;
+  }
+  table, th, td {
+    border: 2px #2b2b2b solid;
+    color: #2b2b2b;
+  }
+
+  .stage-col {
+    width: 400px;
+    border: 1px #2b2b2b solid;
+    float: left;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    padding: 2px
+  }
+</style>
+
+
+<div>
+  <h1 class='text-center'>Detalhes da Obra</h1>
+
+  <div class='header'>
+    <div class='flexrow'>
+      <div class='col-sm-4'> 
+        <strong>Nome da Obra: </strong> <br>
+        <%= @construction.name %> 
+      </div>
+      <div class='col-sm-4'>
+        <strong>Vendedor: </strong> <br>
+        <%= @construction.customer.salesman %>
+      </div>
+      <div class='col-sm-4'>
+        <strong>Telefone do Vendedor: </strong> <br>
+        <%= @construction.contact_number %>
+      </div>
+    </div>
+
+    <div class='flexrow'>
+      <div class='col-sm-4'> 
+        <strong>Nome da Cliente: </strong> <br>
+        <%= @construction.customer.name %> 
+      </div>
+      <div class='col-sm-4'>
+        <strong>Telefone para Contato: </strong> <br>
+        <%= @construction.customer.phone %>
+      </div>
+      <div class='col-sm-4'>
+        <strong>E-mail: </strong> <br>
+        <%= @construction.customer.email %>
+      </div>
+    </div>
+  </div>
+
+  <div class='flexrow bg-secondary total-weight'>
+    <div class='col-sm-12'>
+      <strong>PESO TOTAL DA OBRA: </strong>
+    </div>
+    <div class='col-sm-12'>
+      <strong> </strong>
+    </div>
+    <div class='col-sm-12'>
+      <strong> <%= @total_weight %> KG </strong>
+    </div>
+  </div>
+
+  <div class='flexrow gauge-table'>
+    <table>
+      <thead class='bg-secondary'>
+        <tr>
+          <th>&Oslash; 4,2</th>
+          <th>&Oslash; 5,0</th>
+          <th>&Oslash; 6,3</th>
+          <th>&Oslash; 8,0</th>
+          <th>&Oslash; 10,0</th>
+          <th>&Oslash; 12,5</th>
+          <th>&Oslash; 16,0</th>
+          <th>&Oslash; 20,0</th>
+          <th>&Oslash; 25,0</th>
+        </tr>
+      </thead>
+
+      <tbody class='bg-light'>
+        <tr>
+          <td> <%= @gauge_type_weight['4_2'] %>% KG</td>
+          <td> <%= @gauge_type_weight['5_0'] %>% KG</td>
+          <td> <%= @gauge_type_weight['6_3'] %>% KG</td>
+          <td> <%= @gauge_type_weight['8_0'] %>% KG</td>
+          <td> <%= @gauge_type_weight['10_0'] %>% KG</td>
+          <td> <%= @gauge_type_weight['12_5'] %>% KG</td>
+          <td> <%= @gauge_type_weight['16_0'] %>% KG</td>
+          <td> <%= @gauge_type_weight['20_0'] %>% KG</td>
+          <td> <%= @gauge_type_weight['25_0'] %>% KG</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+
+  <% @construction.construction_stages.each do |stage| %>
+    <div class='stage-col'>
+      <div class='flexrow bg-secondary'>
+        <div class='flexrow'>
+          <%= stage.name %>
+        </div>
+        <div class='flexrow'>
+          
+        </div>
+        <div class='flexrow'>
+          <%= stage.quantity %> KG
+        </div>
+      </div>
+    
+      <% stage.stage_items.each do |item| %>
+        <div class='flexrow bg-secondary'>
+          <div class='flexrow'>
+            
+          </div>
+          <div class='flexrow'>
+            <%= item.name %>
+          </div>
+          <div class='flexrow'>
+            <%= item.weight %> KG
+          </div>
+        </div>
+
+        <% item.item_elements.each do |element| %>
+          <div class='flexrow bg-light'>
+            <div class='flexrow'>
+              Elemento <%= element.position %>
+            </div>
+            <div class='flexrow'>
+              <%= element.gauge_text %>
+            </div>
+            <div class='flexrow'>
+              <%= element.weight %> KG
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -125,45 +125,85 @@ class ReportsController < ApplicationController
     send_file filename, type: 'application/pdf', filename: "Etiquetas-#{construction.name}.pdf"
   end
 
+
   def elements
+    @construction = Construction.find( params[:construction_id] )
+    @total_weight = get_total_weight( @construction.construction_stages )
+    @gauge_type_weight = get_gauge_type_weight( @construction )
+
+    render pdf: 'elements_report'
+  end
+
+
+  def elementos
+    pdf_options = {
+      page_size:   "A4",
+      page_layout: :portrait,
+      margin:      [50, 50]
+    }
+
     locale_file = Tempfile.open('report.pdf')
-    pdf = Prawn::Document.new( @tags_pdf_options )
-
+    pdf = Prawn::Document.new( pdf_options )
+    
     construction = Construction.find( params[:construction_id] )
+    
+    ##### CABEÇALHO DO RELATÒRIO #####
 
-    pdf.fill_color "909090"
-    pdf.rectangle [0, 360], 226.7, 15
-    pdf.fill
+    pdf.font_size 15
+    
 
     pdf.fill_color "000000"
     pdf.move_down 13
-    pdf.text "Detalhes da Obra", size: 7, :align => :center
+    pdf.text "Detalhes da Obra", :align => :center
+
+    pdf.font_size 10
 
     pdf.move_down 10
-    pdf.text "Nome da Obra: #{construction.name}", size: 5, :align => :left
+    pdf.text "Nome da Obra: #{construction.name}", :align => :left
     pdf.move_up 5.5
-    pdf.text "Vendedor: #{construction.customer.salesman}", size: 5, :align => :center
+    pdf.text "Vendedor: #{construction.customer.salesman}", :align => :center
     pdf.move_up 5
-    pdf.text "Telefone de Contato: #{construction.contact_number}", size: 5, :align => :right
+    pdf.text "Telefone de Contato: #{construction.contact_number}", :align => :right
 
     pdf.move_down 10
-    pdf.text "Nome do Cliente: #{construction.customer.name}", size: 5, :align => :left
+    pdf.text "Nome do Cliente: #{construction.customer.name}", :align => :left
     pdf.move_up 5.5
-    pdf.text "Telefone para Contato: #{construction.customer.phone}", size: 5, :align => :center
+    pdf.text "Telefone para Contato: #{construction.customer.phone}", :align => :center
     pdf.move_up 5
-    pdf.text "E-mail: #{construction.customer.email}", size: 5, :align => :right
+    pdf.text "E-mail: #{construction.customer.email}", :align => :right
 
-    pdf.fill_color "909090"
-    pdf.rectangle [0, 305], 226.7, 10
-    pdf.fill
+    #pdf.fill_color "909090"
+    #pdf.rectangle [0, 305], 226.7, 10
+    #pdf.fill
+
+    ##### FIM DO CABEÇALHO #####
+
+    ##### PESO TOTAL DA OBRA #####
 
     total_weight = get_total_weight( construction.construction_stages )
 
-    pdf.move_down 12
+      #pdf.rectangle [0, 330], 226.7, 40
+      #pdf.fill
+
+      #romaneio = "#{Date.current.year}#{construction.id}"
+      #margin_left = 115 - ( romaneio.size * 8 )
+
+      #pdf.fill_color "ffffff"
+      #pdf.draw_text romaneio, at: [margin_left , 300], size: 30
+
+      #pdf.fill_color "000000"
+
+    pdf.fill_color "909090"
+    pdf.rectangle [0, 635], 500, 20
+    pdf.fill
+
+    pdf.move_down 14
     pdf.fill_color "000000"
-    pdf.text "PESO TOTAL DA OBRA", size: 5, :align => :center
-    pdf.move_up 6
-    pdf.text "#{total_weight} KG", size: 5, :align => :right
+    pdf.text "PESO TOTAL DA OBRA", :align => :center
+    pdf.move_up 12
+    pdf.text "#{total_weight} KG", :align => :right
+
+    ##### FIM PESO TOTAL DA OBRA #####
 
     pdf.horizontal_line 0, 226.7, :at => 295
     pdf.horizontal_line 0, 226.7, :at => 285

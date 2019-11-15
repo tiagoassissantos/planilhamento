@@ -134,37 +134,37 @@
   <% @items_weight_by_gauge.each do |stage| %>
     <% count += 1 %>
     <div class='stage-col'>
-      <div class='flexrow bg-secondary'>
-        <div class='flexrow'>
+      <div class='flexrow bg-secondary mb-1'>
+        <div class='flexrow mb-1'>
           <strong><%= stage[:name] %></strong>
         </div>
-        <div class='flexrow'>
+        <div class='flexrow mb-1'>
           
         </div>
-        <div class='flexrow'>
+        <div class='flexrow mb-1'>
           <%= stage[:quantity] %> KG
         </div>
       </div>
     
       <% stage[:items].each do |item| %>
-        <div class='flexrow bg-secondary'>
-          <div class='flexrow'></div>
-          <div class='flexrow'>
+        <div class='flexrow bg-secondary mb-1'>
+          <div class='flexrow mb-1'></div>
+          <div class='flexrow mb-1'>
             <strong><%= item[:name] %></strong>
           </div>
-          <div class='flexrow'>
+          <div class='flexrow mb-1'>
             <%= item[:weight] %> KG
           </div>
         </div>
 
         <% item[:gauges].each do |key, value| %>
-          <div class='flexrow bg-light'>
-            <div class='flexrow'></div>
-            <div class='flexrow'>
-              <strong><%= value[:label] %></strong>
+          <div class='flexrow bg-light mb-1'>
+            <div class='flexrow mb-1'></div>
+            <div class='flexrow mb-1'>
+              <strong class='float-right'>&Oslash; <%= value[:label] %></strong>
             </div>
-            <div class='flexrow'>
-              <%= value[:weight] %> KG
+            <div class='flexrow float-left mb-1'>
+              <span class='float-left'><%= value[:weight] %> KG</span>
             </div>
           </div>
         <% end %>

@@ -38,7 +38,6 @@
     border: 2px #2b2b2b solid;
     color: #2b2b2b;
   }
-
   .stage-col {
     width: 400px;
     border: 1px #2b2b2b solid;
@@ -134,7 +133,7 @@
   <% @stages_weight_by_gauge.each do |stage| %>
     <% count += 1 %>
     <div class='stage-col'>
-      <div class='flexrow bg-secondary'>
+      <div class='flexrow bg-secondary mb-1'>
         <div class='flexrow'>
           <strong><%= stage[:name] %></strong>
         </div>
@@ -145,13 +144,13 @@
       </div>
     
       <% stage[:gauges].each do |key, value| %>
-        <div class='flexrow bg-light'>
-          <div class='flexrow'></div>
-          <div class='flexrow'>
-            <strong><%= value[:label] %></strong>
+        <div class='flexrow bg-light mb-1'>
+          <div class='flexrow mb-1'></div>
+          <div class='flexrow text-center mb-1'>
+            <strong class='float-right'>&Oslash; <%= value[:label] %></strong>
           </div>
-          <div class='flexrow'>
-            <%= value[:weight] %> KG
+          <div class='flexrow text-center mb-1'>
+            <span class='float-left'><%= value[:weight] %> KG</span>
           </div>
         </div>
       <% end %>

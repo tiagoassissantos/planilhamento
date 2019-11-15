@@ -46,6 +46,11 @@
     margin-bottom: 30px;
     padding: 2px
   }
+  .stage-col table, td {
+    border: none;
+    border-bottom: 2px #fff solid;
+    height: 35px;
+  }
 </style>
 
 
@@ -144,15 +149,19 @@
       </div>
     
       <% stage[:gauges].each do |key, value| %>
-        <div class='flexrow bg-light mb-1'>
-          <div class='flexrow mb-1'></div>
-          <div class='flexrow mb-1'>
-            <strong style='width: 50px;'>&Oslash; <%= value[:label] %></strong>
-          </div>
-          <div class='flexrow mb-1'>
-            <span><%= value[:weight] %> KG</span>
-          </div>
-        </div>
+        <table>
+          <tbody class='bg-light'>
+            <tr>
+              <td style='width: 133px'></td>
+              <td style='width: 133px'>
+                <strong style='width: 50px;'>&Oslash; <%= value[:label] %></strong>
+              </td>
+              <td style='width: 133px'>
+                <span><%= value[:weight] %> KG</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       <% end %>
     </div>
 

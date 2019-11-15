@@ -31,20 +31,25 @@
   .gauge-table {
     margin-bottom: 30px;
   }
-  table th {
+  .gauge-table table th {
     width: 120px;
   }
-  table, th, td {
+  .gauge-table table, th, td {
     border: 2px #2b2b2b solid;
     color: #2b2b2b;
   }
   .stage-col {
-    width: 450px;
+    width: 400px;
     border: 1px #2b2b2b solid;
     float: left;
     margin-right: 30px;
     margin-bottom: 30px;
     padding: 2px
+  }
+  .stage-col table, td {
+    border: none;
+    border-bottom: 2px #fff solid;
+    height: 35px;
   }
 
   .floatleft { float: left }
@@ -160,15 +165,19 @@
         </div>
 
         <% item[:gauges].each do |key, value| %>
-          <div class='flexrow bg-light mb-1'>
-            <div class='flexrow mb-1'></div>
-            <div class='flexrow mb-1'>
-              <strong style='width: 50px;'>&Oslash; <%= value[:label] %></strong>
-            </div>
-            <div class='flexrow mb-1'>
-              <span><%= value[:weight] %> KG</span>
-            </div>
-          </div>
+          <table>
+            <tbody class='bg-light'>
+              <tr>
+                <td style='width: 133px'></td>
+                <td style='width: 133px'>
+                  <strong style='width: 50px;'>&Oslash; <%= value[:label] %></strong>
+                </td>
+                <td style='width: 133px'>
+                  <span><%= value[:weight] %> KG</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         <% end %>
       <% end %>
     </div>

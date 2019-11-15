@@ -128,49 +128,36 @@
       </tbody>
     </table>
   </div>
-  
-  <% count = 0 %>
 
-  <% @items_weight_by_gauge.each do |stage| %>
+  <% count = 0 %>
+  
+  <% @stages_weight_by_gauge.each do |stage| %>
     <% count += 1 %>
     <div class='stage-col'>
       <div class='flexrow bg-secondary'>
         <div class='flexrow'>
           <strong><%= stage[:name] %></strong>
         </div>
-        <div class='flexrow'>
-          
-        </div>
+        <div class='flexrow'></div>
         <div class='flexrow'>
           <%= stage[:quantity] %> KG
         </div>
       </div>
     
-      <% stage[:items].each do |item| %>
-        <div class='flexrow bg-secondary'>
+      <% stage[:gauges].each do |key, value| %>
+        <div class='flexrow bg-light'>
           <div class='flexrow'></div>
           <div class='flexrow'>
-            <strong><%= item[:name] %></strong>
+            <strong><%= value[:label] %></strong>
           </div>
           <div class='flexrow'>
-            <%= item[:weight] %> KG
+            <%= value[:weight] %> KG
           </div>
         </div>
-
-        <% item[:gauges].each do |key, value| %>
-          <div class='flexrow bg-light'>
-            <div class='flexrow'></div>
-            <div class='flexrow'>
-              <strong><%= value[:label] %></strong>
-            </div>
-            <div class='flexrow'>
-              <%= value[:weight] %> KG
-            </div>
-          </div>
-        <% end %>
       <% end %>
     </div>
-    <% if count.even? %>
+
+    <% if count > 4 && count%4 > 0 %>
       <div class='alwaysbreak'></div>
     <% end %>
   <% end %>

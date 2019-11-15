@@ -90,4 +90,5 @@ Rails.application.routes.draw do
 
   get 'reports/tags/:construction_id' => 'reports#tags'
   get 'reports/elements/:construction_id' => 'reports#elements'
+  get 'reports/stages/:construction_id' => 'reports#stages'
 end

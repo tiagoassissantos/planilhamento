@@ -217,7 +217,7 @@
             </v-col>
 
             <v-col cols="3">
-              <v-btn :href="`/reports/tags/${construction_id}`" color="warning">
+              <v-btn :href="`/reports/stages/${construction_id}`" color="warning" target="_blank">
                 Relatório de Etapa
               </v-btn>
             </v-col>

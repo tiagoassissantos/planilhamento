@@ -131,7 +131,7 @@ class ReportsController < ApplicationController
     @total_weight = get_total_weight( @construction.construction_stages )
     @gauge_type_weight = get_gauge_type_weight( @construction )
 
-    render pdf: 'elements_report', page_size: 'A4,
+    render pdf: 'elements_report', page_size: 'A4'
   end
 
 

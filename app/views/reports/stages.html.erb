@@ -31,12 +31,19 @@
   .gauge-table {
     margin-bottom: 30px;
   }
-  table th {
+  .gauge-table > table th {
     width: 120px;
   }
-  table, th, td {
+  .gauge-table > table, th, td {
     border: 2px #2b2b2b solid;
     color: #2b2b2b;
+  }
+  .gauge-table > tbody {
+    border: 2px #2b2b2b solid;
+    color: #2b2b2b;
+  }
+  .gauge-td {
+    border: 2px #2b2b2b solid;
   }
   .stage-col {
     width: 400px;
@@ -46,7 +53,7 @@
     margin-bottom: 30px;
     padding: 2px
   }
-  .stage-col table, td {
+  .stage-col > table, td {
     border: none;
     border-bottom: 2px #fff solid;
     height: 35px;
@@ -119,15 +126,15 @@
 
       <tbody class='bg-light'>
         <tr>
-          <td> <%= @gauge_type_weight['4_2'] %> KG</td>
-          <td> <%= @gauge_type_weight['5_0'] %> KG</td>
-          <td> <%= @gauge_type_weight['6_3'] %> KG</td>
-          <td> <%= @gauge_type_weight['8_0'] %> KG</td>
-          <td> <%= @gauge_type_weight['10_0'] %> KG</td>
-          <td> <%= @gauge_type_weight['12_5'] %> KG</td>
-          <td> <%= @gauge_type_weight['16_0'] %> KG</td>
-          <td> <%= @gauge_type_weight['20_0'] %> KG</td>
-          <td> <%= @gauge_type_weight['25_0'] %> KG</td>
+          <td class='gauge-td'> <%= @gauge_type_weight['4_2'] %> KG</td>
+          <td class='gauge-td'> <%= @gauge_type_weight['5_0'] %> KG</td>
+          <td class='gauge-td'> <%= @gauge_type_weight['6_3'] %> KG</td>
+          <td class='gauge-td'> <%= @gauge_type_weight['8_0'] %> KG</td>
+          <td class='gauge-td'> <%= @gauge_type_weight['10_0'] %> KG</td>
+          <td class='gauge-td'> <%= @gauge_type_weight['12_5'] %> KG</td>
+          <td class='gauge-td'> <%= @gauge_type_weight['16_0'] %> KG</td>
+          <td class='gauge-td'> <%= @gauge_type_weight['20_0'] %> KG</td>
+          <td class='gauge-td'> <%= @gauge_type_weight['25_0'] %> KG</td>
         </tr>
       </tbody>
     </table>

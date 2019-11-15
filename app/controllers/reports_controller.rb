@@ -142,7 +142,7 @@ class ReportsController < ApplicationController
     @gauge_type_weight = get_gauge_type_weight( @construction )
     @stages_weight_by_gauge = stages_weight_by_gauge( @construction )
 
-    render pdf: 'stepss_report', page_size: 'A4', encoding: "UTF-8"
+    #render pdf: 'stepss_report', page_size: 'A4', encoding: "UTF-8"
   end
 
   

@@ -146,11 +146,11 @@
       <% stage[:gauges].each do |key, value| %>
         <div class='flexrow bg-light mb-1'>
           <div class='flexrow mb-1'></div>
-          <div class='flexrow text-center mb-1'>
-            <strong class='float-right'>&Oslash; <%= value[:label] %></strong>
+          <div class='flexrow mb-1'>
+            <strong>&Oslash; <%= value[:label] %></strong>
           </div>
-          <div class='flexrow text-center mb-1'>
-            <span class='float-left'><%= value[:weight] %> KG</span>
+          <div class='flexrow mb-1'>
+            <span><%= value[:weight] %> KG</span>
           </div>
         </div>
       <% end %>

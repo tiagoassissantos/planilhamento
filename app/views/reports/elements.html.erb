@@ -38,7 +38,6 @@
     border: 2px #2b2b2b solid;
     color: #2b2b2b;
   }
-
   .stage-col {
     width: 400px;
     border: 1px #2b2b2b solid;
@@ -47,6 +46,9 @@
     margin-bottom: 30px;
     padding: 2px
   }
+
+  .floatleft { float: left }
+  .floatright {float: right }
 </style>
 
 
@@ -161,10 +163,10 @@
           <div class='flexrow bg-light mb-1'>
             <div class='flexrow mb-1'></div>
             <div class='flexrow mb-1'>
-              <strong class='float-right'>&Oslash; <%= value[:label] %></strong>
+              <strong>&Oslash; <%= value[:label] %></strong>
             </div>
-            <div class='flexrow float-left mb-1'>
-              <span class='float-left'><%= value[:weight] %> KG</span>
+            <div class='flexrow mb-1'>
+              <span><%= value[:weight] %> KG</span>
             </div>
           </div>
         <% end %>

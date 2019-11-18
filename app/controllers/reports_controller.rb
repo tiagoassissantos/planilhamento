@@ -166,8 +166,7 @@ class ReportsController < ApplicationController
       "12_5" => 0,
       "16_0" => 0,
       "20_0" => 0,
-      "25_0" => 0,
-      "32_0" => 0
+      "25_0" => 0
     }
 
     construction.construction_stages.each do |construction_stage|
@@ -192,8 +191,6 @@ class ReportsController < ApplicationController
               gauge['20_0'] = gauge['20_0'] + element.weight * stage_item.quantity
             when "25_0"
               gauge['25_0'] = gauge['25_0'] + element.weight * stage_item.quantity
-            when "32_0"
-              gauge['32_0'] = gauge['32_0'] + element.weight * stage_item.quantity
           end
         end
       end
@@ -216,8 +213,7 @@ class ReportsController < ApplicationController
         "12_5" => {label: '12,5', weight: 0},
         "16_0" => {label: '16,0', weight: 0},
         "20_0" => {label: '20,0', weight: 0},
-        "25_0" => {label: '25,0', weight: 0},
-        "32_0" => {label: '32,0', weight: 0}
+        "25_0" => {label: '25,0', weight: 0}
       }
 
       construction_stage.stage_items.each do |stage_item|
@@ -251,7 +247,6 @@ class ReportsController < ApplicationController
           "16_0" => {label: '16,0', weight: 0},
           "20_0" => {label: '20,0', weight: 0},
           "25_0" => {label: '25,0', weight: 0},
-          "32_0" => {label: '32,0', weight: 0}
         }
 
         gauges = proccess_gauge( gauges, stage_item )
@@ -295,8 +290,6 @@ class ReportsController < ApplicationController
           gauges['20_0'][:weight] = gauges['20_0'][:weight] + element.weight * stage_item.quantity
         when "25_0"
           gauges['25_0'][:weight] = gauges['25_0'][:weight] + element.weight * stage_item.quantity
-        when "32_0"
-          gauges['32_0'][:weight] = gauges['32_0'][:weight] + element.weight * stage_item.quantity
       end
     end
 
